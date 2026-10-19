@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+
+/**
+ * Renders a real image when `src` is provided, otherwise a flat, clearly
+ * labelled placeholder block. `src` may be an imported asset
+ * (`import img from '~/assets/x.jpg'`) or a string path under /public.
+ */
+interface Props {
+  src?: ImageMetadata | string | null;
+  alt: string;
+  label?: string;
+  /** Tailwind aspect utility, e.g. 'aspect-[4/3]' */
+  ratio?: string;
+  tone?: 'sage' | 'warm' | 'teal';
+  class?: string;
+  eager?: boolean;
+}
+const {
+  src = null,
+  alt,
+  label = 'Image placeholder',
+  ratio = 'aspect-[4/3]',
+  tone = 'sage',
+  class: className = '',
+  eager = false,
+} = Astro.props;
+
+const tones = {
+  sage: 'bg-sage text-ink',
+  warm: 'bg-warm text-ink',
+  teal: 'bg-teal text-paper',
+};
+---
+<div class:list={['relative overflow-hidden', ratio, className]}>
+  {src && typeof src !== 'string' && (
+    <Image src={src} alt={alt} class="h-full w-full object-cover" loading={eager ? 'eager' : 'lazy'} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 60vw, 100vw" />
+  )}
+  {src && typeof src === 'string' && (
+    <img src={src} alt={alt} class="h-full w-full object-cover" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  )}
+  {!src && (
+    <div class:list={['absolute inset-0 flex flex-col justify-between p-4 sm:p-5', tones[tone]]} role="img" aria-label={`${alt} (placeholder)`}>
+      <span class="text-[0.6875rem] font-medium uppercase tracking-[0.16em] opacity-80">Placeholder</span>
+      <span class="max-w-[22ch] font-display text-lg leading-snug opacity-90 sm:text-xl">{label}</span>
+      <span class="pointer-events-none absolute inset-3 border border-dashed border-current opacity-30 sm:inset-4"></span>
+    </div>
+  )}
+</div>
