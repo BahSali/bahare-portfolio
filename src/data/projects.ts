@@ -49,7 +49,19 @@ export interface ProjectStory {
   overviewMedia?: { src: string; still: string; width: number; height: number; alt: string; caption: string };
   facts: { value: string; label: string }[];
   /** Stages of one research project, shown as a compact timeline. `publications` are publication slugs. */
-  journey: { title: string; text: string; scale: string; publications: string[]; status?: 'ongoing' }[];
+  journey: {
+    title: string;
+    text: string;
+    /** Secondary details such as case studies. */
+    details: { label: string; text: string }[];
+    /** Related publications: `slug` links to the Research page. */
+    papers: { label: string; slug: string }[];
+    /** Short feature list, shown as plain text. */
+    features?: string;
+    /** Topics under active investigation (stage still in progress). */
+    topics?: string[];
+    status?: 'ongoing';
+  }[];
   methodology: string;
   dataAreas: { title: string; points: string[]; tools?: string }[];
   /** Scope statement shown under the data areas. */
@@ -167,34 +179,39 @@ export const projects: Project[] = [
       ],
       journey: [
         {
-          title: 'Missing traffic data imputation',
-          text: 'Investigating GCNN architectures and spatiotemporal missing-value estimation.',
-          scale: 'Case studies in Rotterdam, Thessaloniki, San Francisco Bay Area and Brussels',
-          publications: ['icdew-2024'],
+          title: 'Missing Traffic Data Imputation',
+          text: 'Investigating different spatiotemporal models and NN architectures to recover missing traffic observations.',
+          details: [{ label: 'Case studies', text: 'Brussels bus network, Rotterdam highways, Thessaloniki urban network, and San Francisco Bay Area.' }],
+          papers: [{ label: "ICDEW '24", slug: 'icdew-2024' }],
         },
         {
-          title: 'Buses as traffic probes',
-          text: 'Formulating and evaluating the relationship between bus-derived speeds and general traffic conditions.',
-          scale: 'Neighbourhood scale: 74 road segments in Ixelles and Etterbeek',
-          publications: ['sigspatial-2025'],
+          title: 'Buses as Traffic Probes',
+          text: 'Introducing and evaluating the use of public transit buses as moving sensors for estimating general road traffic speeds.',
+          details: [{ label: 'Case study', text: '74 road segments in Ixelles and Etterbeek, Brussels.' }],
+          papers: [{ label: "ACM SIGSPATIAL '25", slug: 'sigspatial-2025' }],
         },
         {
-          title: 'Citywide traffic estimation',
-          text: 'Scaling the study to 1,366 road segments and developing the attention-enhanced gated dual-branch GCNN.',
-          scale: 'Citywide scale: 1,366 road segments',
-          publications: ['sigspatial-2026', 'urban-ai-2026'],
+          title: 'Citywide Traffic Estimation',
+          text: 'Scaling traffic estimation to an entire urban network by developing an attention-enhanced GCNN with a dual-branch decoder. Trend–residual decomposition is incorporated to help the model better learn the multi-level relationships between bus-derived speeds and general traffic conditions.',
+          details: [{ label: 'Case study', text: 'Brussels transportation network including 1,366 road segments.' }],
+          papers: [
+            { label: "ACM SIGSPATIAL '26", slug: 'sigspatial-2026' },
+            { label: "UrbanAI '26", slug: 'urban-ai-2026' },
+          ],
         },
         {
-          title: 'Interactive analytics',
-          text: 'Building a Streamlit application to visualize, compare, and evaluate traffic estimates.',
-          scale: 'Streamlit application',
-          publications: [],
+          title: 'Interactive Traffic Analytics',
+          text: 'Developing a real-time application to estimate and visualize current traffic conditions using live bus observations and a machine learning model trained on historical data.',
+          details: [],
+          papers: [],
+          features: 'Interactive maps · Model comparison · Travel-time analysis',
         },
         {
-          title: 'Ongoing research',
-          text: 'Frequency-domain modeling and foundation models for traffic estimation.',
-          scale: 'Active and exploratory, not yet published',
-          publications: [],
+          title: 'Transferability & Model Adaptation',
+          text: 'Investigating how learned traffic patterns can be transferred to other cities and how existing models can be updated with less dependence on newly collected reference data.',
+          details: [],
+          papers: [],
+          topics: ['Frequency-domain modeling', 'Foundation models', 'Cross-city generalization'],
           status: 'ongoing',
         },
       ],

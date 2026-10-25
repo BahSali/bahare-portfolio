@@ -16,10 +16,9 @@ const shots = (app?.screenshots ?? []).filter((x) => x.src);
 const refs = publications
   .filter((p) => project.publications.includes(p.slug))
   .sort((a, b) => b.year - a.year);
-const pubLabel = (slug: string) => publications.find((p) => p.slug === slug);
 
-const band = 'scroll-mt-28';
-const tint = 'bg-paper-deep/45';
+const band = 'scroll-mt-28 border-t border-warm/70';
+const tint = 'bg-paper-deep/60';
 const pad = 'py-8 sm:py-12';
 const h2 = 'font-display-tight mb-5 text-3xl font-light sm:mb-6 sm:text-4xl';
 const h3 = 'font-display text-xl';
@@ -66,26 +65,36 @@ const toggle = 'group/d border-t border-warm/70 py-3 [&>summary]:flex [&>summary
 <!-- Research journey -->
 <section id="journey" class:list={[band, tint]}>
   <Container class={pad}>
-    <h2 class={h2}>Research journey</h2>
-    <p class="-mt-3 mb-8 max-w-xl text-ink-soft">Connected stages of one doctoral research project, up to the work in progress.</p>
-    <ol class="grid gap-8 lg:grid-cols-5 lg:gap-0">
-      {story.journey.map((s, i) => (
-        <li class:list={['relative border-l pl-6 lg:border-l-0 lg:border-t lg:pl-0 lg:pr-5 lg:pt-6', s.status === 'ongoing' ? 'border-dashed border-clay' : 'border-ink']}>
-          <span aria-hidden="true" class:list={['absolute -left-[5px] top-1.5 size-[9px] rounded-full lg:left-0 lg:-top-[5px]', s.status === 'ongoing' ? 'border border-clay bg-paper' : 'bg-clay']}></span>
-          <p class="font-display text-sm text-clay">0{i + 1}{s.status === 'ongoing' && ' · In progress'}</p>
-          <h3 class={`${h3} mt-1`} style="line-height:1.2">{s.title}</h3>
-          <p class="mt-2 text-sm text-ink-soft">{s.text}</p>
-          <p class="mt-3 text-sm">{s.scale}</p>
-          <p class="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm">
-            {s.publications.map((slug) => {
-              const p = pubLabel(slug);
-              return p && <a href={`/research#pub-${slug}`} class="link-line">{p.venue.split(',')[0]}</a>;
-            })}
-            {s.title === 'Interactive analytics' && app && <a href="#application" class="link-line">See the application ↓</a>}
-            {s.status === 'ongoing' && <a href="#current-research" class="link-line">Current research ↓</a>}
-          </p>
-        </li>
-      ))}
+    <h2 class={h2}>Research Journey</h2>
+    <ol class="grid gap-9 lg:grid-cols-3 lg:gap-x-0 lg:gap-y-12">
+      {story.journey.map((s, i) => {
+        const ongoing = s.status === 'ongoing';
+        return (
+          <li class:list={['relative border-l pl-6 lg:border-l-0 lg:border-t lg:pl-0 lg:pr-10 lg:pt-6', ongoing ? 'border-dashed border-ink/50 lg:col-span-2' : 'border-ink']}>
+            <span aria-hidden="true" class:list={['absolute -left-[5px] top-1.5 size-[9px] rounded-full lg:left-0 lg:-top-[5px]', ongoing ? 'border border-ink/60 bg-paper' : 'bg-clay']}></span>
+            <p class="font-display text-sm text-clay">
+              0{i + 1}
+              {ongoing && <span class="ml-2 font-sans text-xs italic text-ink-soft">Status: In progress</span>}
+            </p>
+            <h3 class="font-display mt-1 text-2xl" style="line-height:1.15">{s.title}</h3>
+            <p class="mt-3 max-w-xl text-[0.95rem] text-ink-soft">{s.text}</p>
+            {s.topics && <p class="mt-3 text-sm">{s.topics.join(' · ')}</p>}
+            {(s.details.length > 0 || s.papers.length > 0 || s.features) && (
+              <div class="mt-4 space-y-1.5 border-t border-warm/60 pt-3 text-sm text-ink-soft">
+                {s.details.map((d) => <p><span class="eyebrow mr-2">{d.label}</span>{d.text}</p>)}
+                {s.features && <p><span class="eyebrow mr-2">Features</span>{s.features}{app && <> · <a href="#application" class="link-line">See the application ↓</a></>}</p>}
+                {s.papers.length > 0 && (
+                  <p>
+                    <span class="eyebrow mr-2">{s.papers.length > 1 ? 'Publications' : 'Publication'}</span>
+                    {s.papers.map((pp, k) => <>{k > 0 && ' · '}<a href={`/research#pub-${pp.slug}`} class="link-line">{pp.label}</a></>)}
+                  </p>
+                )}
+              </div>
+            )}
+            {ongoing && <p class="mt-3 text-sm"><a href="#current-research" class="link-line">Current research ↓</a></p>}
+          </li>
+        );
+      })}
     </ol>
 
     <div id="current-research" class="mt-10 scroll-mt-28 border-t border-dashed border-clay/70 pt-6">
