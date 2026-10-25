@@ -11,6 +11,8 @@ import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import modelArchitecture from '~/assets/phd/model-architecture.png';
 import maeDistribution from '~/assets/phd/mae-distribution.png';
 import spatialError from '~/assets/phd/spatial-error.jpg';
+import speedSeriesCard from '~/assets/phd/speed-series-card.png';
+import speedSeriesFrequency from '~/assets/phd/speed-series-frequency.png';
 
 export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
 export type ProjectTier = 'lead' | 'standard';
@@ -30,8 +32,10 @@ export interface ProjectApplication {
   summary: string;
   /** Shown only when an accessible URL is provided. */
   demoUrl: string | null;
+  /** Demonstration video; place the file under /public/media and set `src` (e.g. '/media/app-demo.mp4'). */
+  video: { src: string; poster: ImageMetadata | string | null; type: string; label: string } | null;
   features: { title: string; text: string }[];
-  /** First entry is the large screenshot; the second is an optional secondary one. */
+  /** Screenshots are shown only when `src` is set; with no video, the first is the large main visual. */
   screenshots: ImageRef[];
 }
 
@@ -43,11 +47,15 @@ export interface ProjectStory {
   overview: string[];
   facts: { value: string; label: string }[];
   /** Stages of one research project, shown as a compact timeline. `publications` are publication slugs. */
-  journey: { title: string; text: string; scale: string; publications: string[] }[];
+  journey: { title: string; text: string; scale: string; publications: string[]; status?: 'ongoing' }[];
   methodology: string;
-  dataGroups: { title: string; items: { name: string; context: string }[] }[];
+  dataAreas: { title: string; points: string[]; tools?: string }[];
+  /** Scope statement shown under the data areas. */
+  dataNote: string;
   networkFigure: Figure;
   architectureFigure: Figure;
+  /** Active or exploratory work: never presented as completed or published. */
+  currentResearch: { title: string; status: string; points: string[]; example?: Figure }[];
   /** Each finding comes from a different experiment; `scope` states which one. */
   findings: { value: string; claim: string; scope: string }[];
   errorFigures: Figure[];
@@ -80,6 +88,8 @@ export interface Project {
   headline?: string;
   subtitle?: string;
   story?: ProjectStory;
+  /** Image for overview cards (Home); falls back to `image`. */
+  cardImage?: ImageRef;
   application?: ProjectApplication;
 }
 
@@ -119,17 +129,18 @@ export const projects: Project[] = [
       'An open-access citywide dataset of GTFS-derived bus speeds at the road-segment level.',
     ],
     technologies: ['Python', 'PyTorch', 'GTFS-Realtime', 'Google Routes API', 'Streamlit'],
-    links: [
-      {
-        label: 'Code on GitHub',
-        href: 'https://github.com/BahSali/citywide-bus-probe-traffic-estimation',
-      },
-    ],
+    // Add a { label, href } code link here only once a public repository has been approved.
+    links: [],
     publications: ['icdew-2024', 'sigspatial-2025', 'sigspatial-2026', 'urban-ai-2026'],
     image: {
       src: citywideNetwork,
       alt: 'Map of the 1,366 road segments of the Brussels study network',
       placeholderLabel: 'Project image',
+    },
+    cardImage: {
+      src: speedSeriesCard,
+      alt: 'Bus-derived and Google-derived reference speeds over time for one road segment, with frequency and low-pass views',
+      placeholderLabel: 'Card image',
     },
     story: {
       overview: [
@@ -167,41 +178,68 @@ export const projects: Project[] = [
           scale: 'Streamlit application',
           publications: [],
         },
+        {
+          title: 'Ongoing research',
+          text: 'Frequency-domain modeling and foundation models for traffic estimation.',
+          scale: 'Active and exploratory, not yet published',
+          publications: [],
+          status: 'ongoing',
+        },
       ],
       methodology:
         'The task is framed as a spatiotemporal mapping from bus-derived speed series to overall traffic speeds on the road graph. An encoder combines temporal convolution and attention with attention-weighted graph convolution across neighbouring segments, and a gated dual-branch decoder separates the broader traffic pattern from local deviations.',
-      dataGroups: [
+      dataAreas: [
         {
-          title: 'Real-world data',
-          items: [
-            { name: 'STIB-MIVB GTFS-Realtime', context: 'bus positions and speeds from the Brussels transit operator, used as probe observations' },
-            { name: 'Brussels Mobility Twin', context: 'the platform through which the feed was accessed' },
-            { name: 'Google Routes API', context: 'traffic-aware speeds used as reference data for training and evaluation, not as ground truth' },
-            { name: 'Road-network data', context: 'road segments between consecutive bus stops, forming the graph' },
-            { name: 'Data preparation', context: 'matching observations to segments and aggregating them into 15-minute intervals' },
+          title: 'Historical traffic & temporal patterns',
+          points: [
+            'Historical traffic datasets from several regions (Rotterdam, Thessaloniki, San Francisco Bay Area, Brussels), used for missing-data recovery.',
+            'Temporal pattern analysis: recent history, daily and weekly patterns, and similar historical days as model inputs.',
           ],
+          tools: 'Python',
         },
         {
-          title: 'Machine learning',
-          items: [
-            { name: 'Spatiotemporal modeling', context: 'mapping bus-derived speeds to overall traffic speeds over time and space' },
-            { name: 'GCNNs', context: 'graph convolution across connected road segments' },
-            { name: 'Attention mechanisms', context: 'temporal and spatial attention within the encoder' },
-            { name: 'Model comparison', context: 'against LSTM, temporal CNN, DCRNN and Graph WaveNet baselines' },
-            { name: 'Evaluation', context: 'MAE, RMSE and DTW against the reference series' },
+          title: 'Real-time feeds & timestamped data',
+          points: [
+            'STIB-MIVB GTFS-Realtime bus positions and speeds, accessed through the Brussels Mobility Twin platform.',
+            'Timestamped observations collected and processed as research data.',
           ],
+          tools: 'GTFS-Realtime',
         },
         {
-          title: 'Geospatial tools and applications',
-          items: [
-            { name: 'Python', context: 'data processing and model implementation' },
-            { name: 'SQL / PostGIS', context: 'storing and querying spatial data' },
-            { name: 'QGIS', context: 'inspecting road networks and results on maps' },
-            { name: 'GeoJSON', context: 'exchanging road geometries' },
-            { name: 'Streamlit', context: 'the interactive analytics application' },
+          title: 'Geospatial data & road networks',
+          points: [
+            'A road graph built from the bus network: 1,366 segments between consecutive bus stops.',
+            'Spatial matching of bus observations to road segments, and inspection of networks and results on maps.',
           ],
+          tools: 'QGIS · GeoJSON · SQL/PostGIS',
+        },
+        {
+          title: 'Collection, cleaning & alignment',
+          points: [
+            'Aggregating observations into 15-minute intervals and aligning bus-derived and reference series on the same windows.',
+            'Integrating the sources into one segment-level dataset with chronological training, validation and test splits.',
+          ],
+          tools: 'Python',
+        },
+        {
+          title: 'Reference data & API constraints',
+          points: [
+            'Google Routes API integration: traffic-aware travel times (driving mode) for each segment, with waypoints keeping routes on the bus roadway. Used as reference data, not ground truth.',
+            'Usage-based pricing limited collection, so sampling was a decision: six weeks, weekdays 07:00 to 13:00, every 15 minutes.',
+          ],
+          tools: 'Google Routes API',
+        },
+        {
+          title: 'Modeling, evaluation & applications',
+          points: [
+            'Spatiotemporal GCNN with temporal and spatial attention, compared against LSTM, temporal CNN, DCRNN and Graph WaveNet baselines and evaluated with MAE, RMSE and DTW.',
+            'An interactive application for exploring and evaluating the estimates.',
+          ],
+          tools: 'Python · PyTorch · Streamlit',
         },
       ],
+      dataNote:
+        'Working with real-time feeds here means collecting and processing timestamped observations for research. It is not a production real-time monitoring service.',
       networkFigure: {
         src: citywideNetwork,
         alt: 'Map of the Brussels study network of 1,366 road segments, with a zoomed inset',
@@ -214,6 +252,31 @@ export const projects: Project[] = [
         caption: 'Model overview: historical feature construction, a spatiotemporal block (temporal CNN with attention, then attention and GCNN over the road graph), and a decoder with base and residual branches.',
         placeholderLabel: 'Figure: model architecture',
       },
+      currentResearch: [
+        {
+          title: 'Frequency-domain modeling',
+          status: 'Active research',
+          points: [
+            'Investigating how bus-derived and reference traffic speeds relate across temporal frequencies.',
+            'Exploring spectral decomposition and frequency-aware model architectures.',
+            'Early experiments with an evolving decoder formulation. Results are preliminary and not published.',
+          ],
+          example: {
+            src: speedSeriesFrequency,
+            alt: 'Bus-derived and Google-derived speeds for one road segment: time series, FFT amplitude and low-pass view',
+            caption: 'Example road segment, from the 2026 annual presentation: bus-derived and Google-derived speeds over time (top), their FFT amplitudes (middle) and a low-pass view (bottom). In this example the series align more closely once fast fluctuations are removed.',
+            placeholderLabel: 'Figure: frequency-domain example',
+          },
+        },
+        {
+          title: 'Foundation models',
+          status: 'Exploratory',
+          points: [
+            'Exploring whether pretrained and foundation models can support traffic estimation.',
+            'Early-stage, with no results reported here.',
+          ],
+        },
+      ],
       findings: [
         {
           value: '1,366 segments',
@@ -253,20 +316,20 @@ export const projects: Project[] = [
       nextSteps: [
         'Monitoring model performance and updating the model without full-city reference data (open challenge).',
         'Waze jam data as an additional source: spatial coverage is high but observations are sparse (exploratory).',
-        'Frequency-domain (wavelet) decomposition of speed series as a possible refinement (exploratory).',
       ],
     },
     application: {
       title: 'Interactive Traffic Analytics Platform',
       summary: 'A Streamlit application for exploring and evaluating citywide traffic estimates.',
       demoUrl: null,
+      video: null,
       features: [
         { title: 'Map-based comparison', text: 'Compare traffic estimates across road segments on a map.' },
         { title: 'Model evaluation', text: 'Evaluate estimates against the reference data.' },
         { title: 'Travel-time analysis', text: 'Analyse travel times derived from the estimates.' },
       ],
       screenshots: [
-        { src: null, alt: 'Main view of the Streamlit analytics platform', placeholderLabel: 'Large screenshot: main application view' },
+        { src: null, alt: 'Main view of the Streamlit analytics platform', placeholderLabel: 'Demo video: application walkthrough' },
         { src: null, alt: 'Secondary view of the Streamlit analytics platform', placeholderLabel: 'Optional second screenshot' },
       ],
     },
@@ -333,5 +396,5 @@ export const projectCard = (p: Project): CardItem => ({
   label: categoryLabels[p.category],
   title: p.title,
   summary: p.summary,
-  image: p.image,
+  image: p.cardImage ?? p.image,
 });

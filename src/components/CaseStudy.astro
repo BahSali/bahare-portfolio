@@ -10,6 +10,7 @@ import ImagePlaceholder from './ImagePlaceholder.astro';
 interface Props { project: Project; story: ProjectStory }
 const { project, story } = Astro.props;
 const app = project.application;
+const shots = (app?.screenshots ?? []).filter((x) => x.src);
 
 const refs = publications
   .filter((p) => project.publications.includes(p.slug))
@@ -51,12 +52,12 @@ const label = 'eyebrow mb-4';
   <!-- Research journey -->
   <section id="journey" class={row}>
     <h2 class={label}>Research journey</h2>
-    <p class="mb-8 max-w-xl text-ink-soft">Four connected stages of one doctoral research project.</p>
-    <ol class="grid gap-8 md:grid-cols-4 md:gap-0">
+    <p class="mb-8 max-w-xl text-ink-soft">Connected stages of one doctoral research project, up to the work in progress.</p>
+    <ol class="grid gap-8 lg:grid-cols-5 lg:gap-0">
       {story.journey.map((s, i) => (
-        <li class="relative border-l border-ink pl-6 md:border-l-0 md:border-t md:pl-0 md:pr-6 md:pt-6">
-          <span aria-hidden="true" class="absolute -left-[5px] top-1.5 size-[9px] rounded-full bg-clay md:left-0 md:-top-[5px]"></span>
-          <p class="font-display text-sm text-clay">0{i + 1}</p>
+        <li class:list={['relative border-l pl-6 lg:border-l-0 lg:border-t lg:pl-0 lg:pr-5 lg:pt-6', s.status === 'ongoing' ? 'border-dashed border-clay' : 'border-ink']}>
+          <span aria-hidden="true" class:list={['absolute -left-[5px] top-1.5 size-[9px] rounded-full lg:left-0 lg:-top-[5px]', s.status === 'ongoing' ? 'border border-clay bg-paper' : 'bg-clay']}></span>
+          <p class="font-display text-sm text-clay">0{i + 1}{s.status === 'ongoing' && ' · In progress'}</p>
           <h3 class="font-display mt-1 text-xl" style="line-height:1.2">{s.title}</h3>
           <p class="mt-2 text-sm text-ink-soft">{s.text}</p>
           <p class="mt-3 text-sm">{s.scale}</p>
@@ -65,27 +66,51 @@ const label = 'eyebrow mb-4';
               const p = pubLabel(slug);
               return p && <a href={`/research#pub-${slug}`} class="link-line">{p.venue.split(',')[0]}</a>;
             })}
-            {i === story.journey.length - 1 && app && <a href="#application" class="link-line">See the application ↓</a>}
+            {s.title === 'Interactive analytics' && app && <a href="#application" class="link-line">See the application ↓</a>}
+            {s.status === 'ongoing' && <a href="#current-research" class="link-line">Current research ↓</a>}
           </p>
         </li>
       ))}
     </ol>
+
+    <div id="current-research" class="mt-10 scroll-mt-28 border-t border-dashed border-clay/70 pt-6">
+      <h3 class="eyebrow mb-5">Current research · active and exploratory, not yet published</h3>
+      <div class="grid gap-8 md:grid-cols-2 md:gap-10">
+        {story.currentResearch.map((c) => (
+          <div>
+            <p class="flex flex-wrap items-baseline gap-x-3">
+              <span class="font-display text-xl">{c.title}</span>
+              <span class="border border-clay/60 px-2 py-0.5 text-xs text-clay">{c.status}</span>
+            </p>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-ink-soft">{c.points.map((pt) => <li>{pt}</li>)}</ul>
+            {c.example && (
+              <details class="group/d mt-4 border-t border-warm/70 py-3 [&>summary]:flex [&>summary]:cursor-pointer [&>summary]:list-none [&>summary]:items-center [&>summary]:justify-between [&>summary::-webkit-details-marker]:hidden">
+                <summary class="text-sm"><span class="eyebrow">Show an example</span><span aria-hidden="true" class="text-ink-soft transition-transform group-open/d:rotate-45">+</span></summary>
+                <Figure figure={c.example} format="png" class="mt-4 max-w-md" />
+              </details>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   </section>
 
   <!-- Data & methodology -->
   <section id="methodology" class={row}>
     <h2 class={label}>Data &amp; methodology</h2>
     <p class="mb-8 max-w-2xl text-lg">{story.methodology}</p>
-    <div class="grid gap-8 md:grid-cols-3 md:gap-8">
-      {story.dataGroups.map((g) => (
+    <div class="grid gap-x-8 gap-y-7 md:grid-cols-2 lg:grid-cols-3">
+      {story.dataAreas.map((g) => (
         <div class="border-t border-ink pt-3">
-          <h3 class="font-display text-xl">{g.title}</h3>
-          <ul class="mt-3 space-y-3 text-sm">
-            {g.items.map((it) => <li><span class="font-medium">{it.name}</span><span class="text-ink-soft"> · {it.context}</span></li>)}
+          <h3 class="font-display text-lg" style="line-height:1.25">{g.title}</h3>
+          <ul class="mt-2 space-y-2 text-sm text-ink-soft">
+            {g.points.map((pt) => <li>{pt}</li>)}
           </ul>
+          {g.tools && <p class="mt-3 text-sm">{g.tools}</p>}
         </div>
       ))}
     </div>
+    <p class="mt-6 max-w-2xl border-l-2 border-clay pl-4 text-sm text-ink-soft">{story.dataNote}</p>
     <div class="mt-10 grid items-start gap-8 md:grid-cols-2">
       <Figure figure={story.networkFigure} />
       <Figure figure={story.architectureFigure} format="png" />
@@ -146,10 +171,29 @@ const label = 'eyebrow mb-4';
             )}
           </div>
           <div class="lg:col-span-8">
-            <ImagePlaceholder src={app.screenshots[0]?.src ?? null} alt={app.screenshots[0]?.alt ?? ''} label={app.screenshots[0]?.placeholderLabel} tone="teal" ratio="aspect-[16/10]" />
-            {app.screenshots[1] && (
-              <ImagePlaceholder src={app.screenshots[1].src} alt={app.screenshots[1].alt} label={app.screenshots[1].placeholderLabel} tone="sage" ratio="aspect-[16/6]" class="mt-4 md:w-2/3" />
-            )}
+            {app.video
+              ? (
+                <figure>
+                  <video
+                    controls
+                    preload="metadata"
+                    playsinline
+                    poster={app.video.poster ? (typeof app.video.poster === 'string' ? app.video.poster : app.video.poster.src) : undefined}
+                    class="aspect-video w-full bg-ink"
+                    aria-label={app.video.label}
+                  >
+                    <source src={app.video.src} type={app.video.type} />
+                    Your browser cannot play this video.
+                  </video>
+                  <figcaption class="mt-2 text-sm text-ink-soft">{app.video.label}</figcaption>
+                </figure>
+              )
+              : (shots[0]
+                ? <ImagePlaceholder src={shots[0].src} alt={shots[0].alt} label={shots[0].placeholderLabel} tone="teal" ratio="aspect-[16/10]" />
+                : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
+            {(app.video ? shots : shots.slice(1)).map((sh) => (
+              <ImagePlaceholder src={sh.src} alt={sh.alt} label={sh.placeholderLabel} tone="sage" ratio="aspect-[16/7]" class="mt-4 md:w-2/3" />
+            ))}
           </div>
         </div>
       </div>
