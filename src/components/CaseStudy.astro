@@ -4,8 +4,6 @@ import { publications } from '~/data/publications';
 import { emeralds } from '~/data/emeralds';
 import Container from './Container.astro';
 import { Image } from 'astro:assets';
-import Figure from './Figure.astro';
-import Placeholder from './Placeholder.astro';
 import ImagePlaceholder from './ImagePlaceholder.astro';
 
 /** Long-form layout for a project with a `story` (see ProjectStory in data/projects.ts). */
@@ -23,7 +21,6 @@ const tint = 'bg-[#dbe2d3]';
 const pad = 'py-8 sm:py-12';
 const h2 = 'font-display-tight mb-5 text-3xl font-light sm:mb-6 sm:text-4xl';
 const h3 = 'font-display text-xl';
-const sub = 'mt-8 border-t border-warm/70 pt-5';
 ---
 <!-- Overview -->
 <section id="overview" class={band}>
@@ -101,89 +98,89 @@ const sub = 'mt-8 border-t border-warm/70 pt-5';
   </Container>
 </section>
 
-<!-- Data & methodology -->
-<section id="methodology" class={band}>
+<!-- Data -->
+<section id="data" class={band}>
   <Container class={pad}>
-    <h2 class={h2}>Data &amp; methodology</h2>
-    <p class="mb-8 max-w-[38rem] text-[1.0625rem] leading-[1.75] text-justify hyphens-auto">{story.methodology}</p>
-    <div class="grid gap-x-8 gap-y-7 md:grid-cols-2 lg:grid-cols-3">
-      {story.dataAreas.map((g) => (
-        <div class="border-t border-ink pt-3">
-          <h3 class="font-display text-lg" style="line-height:1.25">{g.title}</h3>
-          <ul class="mt-2 space-y-2 text-sm leading-relaxed text-ink-soft text-justify hyphens-auto">
-            {g.points.map((pt) => <li>{pt}</li>)}
+    <h2 class={h2}>Data</h2>
+    <p class="mb-8 max-w-[38rem] text-[1.0625rem] leading-[1.7]">{story.dataIntro}</p>
+    <div class="space-y-10">
+      {story.dataGroups.map((g, gi) => (
+        <div class:list={[gi > 0 && 'border-t border-warm/70 pt-6']}>
+          <h3 class={h3}>{g.title}</h3>
+          {g.note && <p class="mb-5 mt-1 max-w-[38rem] text-sm leading-relaxed text-ink-soft">{g.note}</p>}
+          <ul class:list={['grid gap-x-6 gap-y-8 sm:grid-cols-2', g.items.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3']}>
+            {g.items.map((it) => (
+              <li>
+                <div class="flex aspect-[4/3] items-center justify-center overflow-hidden border border-warm/60 bg-white">
+                  {it.src
+                    ? <Image src={it.src} alt={it.alt} format={it.src.src.endsWith('.png') ? 'png' : 'webp'} width={640} class:list={['h-full w-full', it.fit ? 'object-contain p-2' : 'object-cover']} loading="lazy" />
+                    : <ImagePlaceholder src={null} alt={it.alt} label="Figure" ratio="aspect-[4/3]" tone="warm" class="w-full" />}
+                </div>
+                <h4 class="font-display mt-3 text-lg" style="line-height:1.25">{it.title}</h4>
+                <p class="mt-1 text-sm leading-relaxed text-ink-soft">{it.text}</p>
+                <p class="mt-2 text-xs tracking-wide text-ink">{it.meta}</p>
+              </li>
+            ))}
           </ul>
-          {g.tools && <p class="mt-3 text-sm">{g.tools}</p>}
         </div>
       ))}
-    </div>
-    <p class="mt-6 max-w-[38rem] border-l-2 border-clay pl-4 text-sm leading-relaxed text-ink-soft text-justify hyphens-auto">{story.dataNote}</p>
-
-    <div class={sub}>
-      <h3 class={`${h3} mb-5`}>Study network and model</h3>
-      <div class="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
-        <div class="lg:col-span-7"><Figure figure={story.networkFigure} /></div>
-        <figure class="lg:col-span-5">
-          {story.architectureFigure.src && (
-            <>
-              <button type="button" data-zoom="arch-dialog" class="group relative block w-full max-w-sm cursor-zoom-in text-left" aria-label="View the model architecture diagram at full size">
-                <Image src={story.architectureFigure.src} alt={story.architectureFigure.alt} format="png" width={520} class="h-auto w-full border border-warm/60 bg-white transition-opacity group-hover:opacity-90" loading="lazy" />
-                <span class="mt-2 block text-sm text-clay">View full size ↗</span>
-              </button>
-              <dialog id="arch-dialog" class="m-auto max-h-[92vh] max-w-[min(96vw,64rem)] bg-white p-3 backdrop:bg-ink/60">
-                <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
-                <Image src={story.architectureFigure.src} alt={story.architectureFigure.alt} format="png" width={story.architectureFigure.src.width} class="h-auto max-h-[78vh] w-full object-contain" loading="lazy" />
-              </dialog>
-            </>
-          )}
-          <figcaption class="mt-1 max-w-sm text-sm text-ink-soft">{story.architectureFigure.caption}</figcaption>
-        </figure>
-      </div>
-      {project.links.length > 0 && (
-        <p class="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm">
-          {project.links.map((l) => <a href={l.href} class="link-line">{l.label} →</a>)}
-        </p>
-      )}
-    </div>
-
-    <div id="current-research" class={`${sub} scroll-mt-28`}>
-      <h3 class={h3}>Current research</h3>
-      <p class="mb-5 mt-1 text-sm text-ink-soft">Active and exploratory, not yet published.</p>
-      <ul class="grid gap-6 md:grid-cols-3 md:gap-10">
-        {story.currentResearch.map((c) => (
-          <li class="border-t border-ink/30 pt-3">
-            <p class="font-display text-lg" style="line-height:1.25">{c.title}</p>
-            <p class="mt-2 max-w-prose text-sm text-ink-soft">{c.text}</p>
-          </li>
-        ))}
-      </ul>
     </div>
   </Container>
 </section>
 
-<!-- Technologies -->
-<section id="technologies" class:list={[band, tint]}>
+<!-- Methods & technologies -->
+<section id="methods" class:list={[band, tint]}>
   <Container class={pad}>
-    <h2 class={h2}>Technologies &amp; tools</h2>
-    <div class="hidden border-b border-ink pb-2 md:grid md:grid-cols-12 md:gap-6">
-      <span class="md:col-span-3"></span>
-      <p class="eyebrow md:col-span-4">Core · used extensively in the research</p>
-      <p class="eyebrow md:col-span-5">Also worked with or explored</p>
-    </div>
-    <dl class="divide-y divide-warm/70 border-b border-warm/70 md:border-b-0">
-      {story.toolkit.map((t) => (
-        <div class="grid gap-x-6 gap-y-1 py-3 md:grid-cols-12">
-          <dt class="font-display text-lg md:col-span-3" style="line-height:1.25">{t.category}</dt>
-          <dd class="text-sm md:col-span-4">
-            <span class="eyebrow mr-2 md:hidden">Core</span>{t.core.join(' · ')}
-          </dd>
-          <dd class="text-sm text-ink-soft md:col-span-5">
-            <span class="eyebrow mr-2 md:hidden">Also</span>
-            {t.additional.length ? t.additional.join(' · ') : t.todo ? <Placeholder>{t.todo}</Placeholder> : '—'}
-          </dd>
-        </div>
+    <h2 class={h2}>Methods &amp; Technologies</h2>
+    <ol class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {story.workflow.map((w, i) => (
+        <li class="border-t border-ink pt-4">
+          <p class="font-display text-sm text-clay">0{i + 1}</p>
+          <h3 class="font-display mt-1 text-xl" style="line-height:1.2">{w.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-soft">{w.text}</p>
+          <p class="mt-4 text-sm"><span class="eyebrow mb-1 block">Core</span>{w.core.join(' · ')}</p>
+          {w.explored.length > 0 && <p class="mt-3 text-sm text-ink-soft"><span class="eyebrow mb-1 block">Also explored</span>{w.explored.join(' · ')}</p>}
+        </li>
       ))}
-    </dl>
+    </ol>
+    <p class="mt-6 max-w-[40rem] border-l-2 border-clay pl-4 text-sm leading-relaxed text-ink-soft">{story.workflowNote}</p>
+
+    <div class="mt-10 grid items-start gap-10 border-t border-ink/25 pt-6 lg:grid-cols-12 lg:gap-12">
+      <figure class="lg:col-span-5">
+        <h3 class={`${h3} mb-4`}>The model</h3>
+        {story.architectureFigure.src && (
+          <>
+            <button type="button" data-zoom="arch-dialog" class="group relative block w-full max-w-sm cursor-zoom-in text-left" aria-label="View the model architecture diagram at full size">
+              <Image src={story.architectureFigure.src} alt={story.architectureFigure.alt} format="png" width={520} class="h-auto w-full border border-warm/60 bg-white transition-opacity group-hover:opacity-90" loading="lazy" />
+              <span class="mt-2 block text-sm text-clay">View full size ↗</span>
+            </button>
+            <dialog id="arch-dialog" class="m-auto max-h-[92vh] max-w-[min(96vw,64rem)] bg-white p-3 backdrop:bg-ink/60">
+              <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
+              <Image src={story.architectureFigure.src} alt={story.architectureFigure.alt} format="png" width={story.architectureFigure.src.width} class="h-auto max-h-[78vh] w-full object-contain" loading="lazy" />
+            </dialog>
+          </>
+        )}
+        <figcaption class="mt-1 max-w-sm text-sm leading-relaxed text-ink-soft">{story.architectureFigure.caption}</figcaption>
+      </figure>
+
+      <div id="current-research" class="scroll-mt-28 lg:col-span-7">
+        <h3 class={h3}>Current research</h3>
+        <p class="mb-4 mt-1 text-sm text-ink-soft">Active and exploratory, not yet published.</p>
+        <ul class="divide-y divide-ink/20 border-y border-ink/20">
+          {story.currentResearch.map((c) => (
+            <li class="py-3">
+              <p class="font-display text-lg" style="line-height:1.25">{c.title}</p>
+              <p class="mt-1 max-w-[36rem] text-sm leading-relaxed text-ink-soft">{c.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    {project.links.length > 0 && (
+      <p class="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+        {project.links.map((l) => <a href={l.href} class="link-line">{l.label} →</a>)}
+      </p>
+    )}
   </Container>
 </section>
 
@@ -192,73 +189,74 @@ const sub = 'mt-8 border-t border-warm/70 pt-5';
   <section id="application" class={band}>
     <Container class={pad}>
       <p class="eyebrow mb-3">Interactive application</p>
-      <div class="grid items-end gap-4 lg:grid-cols-12 lg:gap-10">
-        <h2 class="font-display-tight text-3xl font-light sm:text-4xl lg:col-span-7" style="line-height:1.1">{app.title}</h2>
-        <p class="max-w-[34rem] leading-relaxed text-ink-soft lg:col-span-5">{app.summary}</p>
-      </div>
-      <div class="mt-6 bg-ink p-2 sm:p-3">
-        {app.video
-          ? (
-            <video
-              controls
-              preload="metadata"
-              playsinline
-              poster={app.video.poster ? (typeof app.video.poster === 'string' ? app.video.poster : app.video.poster.src) : undefined}
-              class="aspect-video w-full bg-ink"
-              aria-label={app.video.label}
-            >
-              <source src={app.video.src} type={app.video.type} />
-              Your browser cannot play this video.
-            </video>
-          )
-          : (shots[0]
-            ? <ImagePlaceholder src={shots[0].src} alt={shots[0].alt} label={shots[0].placeholderLabel} tone="teal" ratio="aspect-video" />
-            : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
-      </div>
-      {app.video && <p class="mt-2 text-sm text-ink-soft">{app.video.label}</p>}
-      <ul class="mt-6 grid gap-x-8 gap-y-4 border-t border-ink/30 pt-4 md:grid-cols-3">
-        {app.features.map((f) => (
-          <li><p class="font-display text-lg">{f.title}</p><p class="mt-1 text-sm leading-relaxed text-ink-soft">{f.text}</p></li>
+      <h2 class="font-display-tight text-3xl font-light sm:text-4xl" style="line-height:1.1">{app.title}</h2>
+      <p class="mb-6 mt-3 max-w-[34rem] leading-relaxed text-ink-soft">{app.summary}</p>
+      <div class="max-w-[880px]">
+        <div class="bg-ink p-2 sm:p-3">
+          {app.video
+            ? (
+              <video
+                controls
+                preload="metadata"
+                playsinline
+                poster={app.video.poster ? (typeof app.video.poster === 'string' ? app.video.poster : app.video.poster.src) : undefined}
+                class="aspect-video w-full bg-ink"
+                aria-label={app.video.label}
+              >
+                <source src={app.video.src} type={app.video.type} />
+                Your browser cannot play this video.
+              </video>
+            )
+            : (shots[0]
+              ? <ImagePlaceholder src={shots[0].src} alt={shots[0].alt} label={shots[0].placeholderLabel} tone="teal" ratio="aspect-video" />
+              : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
+        </div>
+        {app.video && <p class="mt-2 text-sm text-ink-soft">{app.video.label}</p>}
+        <ul class="mt-6 grid gap-x-8 gap-y-4 border-t border-ink/30 pt-4 md:grid-cols-3">
+          {app.features.map((f) => (
+            <li><p class="font-display text-lg">{f.title}</p><p class="mt-1 text-sm leading-relaxed text-ink-soft">{f.text}</p></li>
+          ))}
+        </ul>
+        {(app.video ? shots : shots.slice(1)).map((sh) => (
+          <ImagePlaceholder src={sh.src} alt={sh.alt} label={sh.placeholderLabel} tone="sage" ratio="aspect-[16/7]" class="mt-6 md:w-2/3" />
         ))}
-      </ul>
-      {(app.video ? shots : shots.slice(1)).map((sh) => (
-        <ImagePlaceholder src={sh.src} alt={sh.alt} label={sh.placeholderLabel} tone="sage" ratio="aspect-[16/7]" class="mt-6 md:w-2/3" />
-      ))}
-      {app.demoUrl && (
-        <p class="mt-6"><a href={app.demoUrl} class="inline-block border border-teal bg-teal px-6 py-3 text-[0.9375rem] text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Open live demo →</a></p>
-      )}
+        {app.demoUrl && (
+          <p class="mt-6"><a href={app.demoUrl} class="inline-block border border-teal bg-teal px-6 py-3 text-[0.9375rem] text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Open live demo →</a></p>
+        )}
+      </div>
     </Container>
   </section>
 )}
 
-<!-- Publications & EMERALDS -->
+<!-- Publications -->
 <section id="publications" class:list={[band, tint]}>
   <Container class={pad}>
-    <h2 class={h2}>Publications &amp; EMERALDS</h2>
-    <div class="grid gap-10 lg:grid-cols-12">
-      <div class="lg:col-span-7">
-        <h3 class={`${h3} mb-3`}>Related publications</h3>
-        <ul class="divide-y divide-warm/70 border-y border-warm/70">
-          {refs.map((p) => (
-            <li>
-              <a href={`/research#pub-${p.slug}`} class="group grid gap-1 py-4 transition-colors hover:text-teal sm:grid-cols-[4.5rem_1fr] sm:gap-4">
-                <span class="font-display text-clay">{p.year}</span>
-                <span>
-                  <span class="eyebrow block">{p.venue.split(',')[0]}</span>
-                  <span class="font-display mt-1 block text-lg" style="line-height:1.25">{p.title}</span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">All publications on the Research page →</a></p>
-      </div>
-      <div id="emeralds-link" class="lg:col-span-4 lg:col-start-9">
-        <h3 class={`${h3} mb-3`}>EMERALDS</h3>
-        <p class="text-justify hyphens-auto">This doctoral research also contributed to the EU Horizon Europe EMERALDS project. {emeralds.relation}</p>
-        <p class="mt-4 text-sm"><a href={emeralds.href} class="link-line">EMERALDS on the Experience page →</a></p>
-      </div>
+    <h2 class={h2}>Publications</h2>
+    <div class="max-w-3xl">
+      <ul class="divide-y divide-warm/70 border-y border-warm/70">
+        {refs.map((p) => (
+          <li>
+            <a href={`/research#pub-${p.slug}`} class="group grid gap-1 py-4 transition-colors hover:text-teal sm:grid-cols-[4.5rem_1fr] sm:gap-4">
+              <span class="font-display text-clay">{p.year}</span>
+              <span>
+                <span class="eyebrow block">{p.venue.split(',')[0]}</span>
+                <span class="font-display mt-1 block text-lg" style="line-height:1.25">{p.title}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">All publications on the Research page →</a></p>
     </div>
+  </Container>
+</section>
+
+<!-- Funding -->
+<section id="funding" class={band}>
+  <Container class={pad}>
+    <h2 class={h2}>Funding</h2>
+    <p class="max-w-[38rem] text-[1.0625rem] leading-[1.7]">This research is supported through the EMERALDS project, funded by the European Union's Horizon Europe programme. Related research has also been developed and evaluated within the project's collaborative activities.</p>
+    <p class="mt-4 text-sm"><a href={emeralds.href} class="link-line">Learn more about my work on EMERALDS →</a></p>
   </Container>
 </section>
 

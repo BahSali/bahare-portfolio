@@ -10,6 +10,13 @@
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import modelArchitecture from '~/assets/phd/model-architecture.png';
 import networkCard from '~/assets/phd/network-card.jpg';
+import dataRotterdam from '~/assets/phd/data-rotterdam.jpg';
+import dataThessaloniki from '~/assets/phd/data-thessaloniki.jpg';
+import dataSanFrancisco from '~/assets/phd/data-sanfrancisco.jpg';
+import dataBrusselsEarly from '~/assets/phd/data-brussels-early.jpg';
+import dataStudyArea from '~/assets/phd/data-study-area.jpg';
+import dataStibSample from '~/assets/phd/data-stib-sample.png';
+import dataBusVsReference from '~/assets/phd/data-bus-vs-reference.png';
 
 export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
 export type ProjectTier = 'lead' | 'standard';
@@ -39,6 +46,18 @@ export interface ProjectApplication {
 /** A figure taken from the research material, with its caption. `src: null` renders a placeholder. */
 export interface Figure { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string }
 
+/** A figure in the Data section. `meta` is a short factual line (size, period, resolution). */
+export interface DataFigure {
+  title: string;
+  src: ImageMetadata | null;
+  alt: string;
+  /** What the data represents and why it matters, in plain language. */
+  text: string;
+  meta: string;
+  /** Show the whole image on white (tables, charts) rather than cropped to fill. */
+  fit?: boolean;
+}
+
 /** Optional long-form case study; when present the detail page uses the case-study layout. */
 export interface ProjectStory {
   overview: string[];
@@ -61,13 +80,14 @@ export interface ProjectStory {
     topics?: string[];
     status?: 'ongoing';
   }[];
-  methodology: string;
-  dataAreas: { title: string; points: string[]; tools?: string }[];
-  /** Scope statement shown under the data areas. */
-  dataNote: string;
-  /** Technologies by category: `core` is used extensively, `additional` was worked with or explored. */
-  toolkit: { category: string; core: string[]; additional: string[]; todo?: string }[];
-  networkFigure: Figure;
+  /** Introductory sentence for the Data section. */
+  dataIntro: string;
+  /** Data section groups; each item is a real figure with a plain-language explanation. */
+  dataGroups: { title: string; note?: string; items: DataFigure[] }[];
+  /** Methods & Technologies: the actual workflow. `core` = used extensively, `explored` = worked with or explored. */
+  workflow: { title: string; text: string; core: string[]; explored: string[] }[];
+  /** Short scope note shown under the workflow. */
+  workflowNote: string;
   architectureFigure: Figure;
   /** Active or exploratory work, never presented as completed or published. */
   currentResearch: { title: string; text: string }[];
@@ -214,112 +234,102 @@ export const projects: Project[] = [
           status: 'ongoing',
         },
       ],
-      methodology:
-        'The task is framed as a spatiotemporal mapping from bus-derived speed series to overall traffic speeds on the road graph. An encoder combines temporal convolution and attention with attention-weighted graph convolution across neighbouring segments, and a gated dual-branch decoder separates the broader traffic pattern from local deviations.',
-      dataAreas: [
+      dataIntro:
+        'Real traffic data from four regions, plus open bus data and a commercial traffic service used as a reference.',
+      dataGroups: [
         {
-          title: 'Historical traffic & temporal patterns',
-          points: [
-            'Historical traffic datasets from several regions (Rotterdam, Thessaloniki, San Francisco Bay Area, Brussels), used for missing-data recovery.',
-            'Temporal pattern analysis: recent history, daily and weekly patterns, and similar historical days as model inputs.',
+          title: 'Historical traffic datasets',
+          note: 'Road sensors record how fast vehicles move. Where records have gaps, the research tests how well the missing values can be recovered.',
+          items: [
+            {
+              title: 'Rotterdam highways',
+              src: dataRotterdam,
+              alt: 'Map of loop-detector locations along the Rotterdam highways',
+              text: 'Sensors in the road count vehicles and measure speed every minute. Some detectors have almost no history, which makes gaps hard to fill.',
+              meta: '206 detectors · Apr 2022 – May 2023',
+            },
+            {
+              title: 'Thessaloniki',
+              src: dataThessaloniki,
+              alt: 'Map of the Thessaloniki road network with the study segments highlighted',
+              text: 'An urban network where patterns over time matter more than neighbouring roads when estimating missing values.',
+              meta: '189 road segments · Jan – Jun 2023',
+              fit: true,
+            },
+            {
+              title: 'San Francisco Bay Area',
+              src: dataSanFrancisco,
+              alt: 'Map of highway sensor locations in the San Francisco Bay Area',
+              text: 'PeMSD4, a public benchmark from the California Department of Transportation that researchers widely use to compare methods.',
+              meta: '307 sensors · Jan – Feb 2018',
+            },
+            {
+              title: 'Brussels bus network',
+              src: dataBrusselsEarly,
+              alt: 'Map of the Brussels bus-line road network used in the early study',
+              text: 'Bus trajectories instead of fixed sensors: can moving vehicles replace point measurements? Data from the Brussels Mobility Twin platform.',
+              meta: '1,146 road segments · June 2023 mornings',
+            },
           ],
-          tools: 'Python',
         },
         {
-          title: 'Real-time feeds & timestamped data',
-          points: [
-            'STIB-MIVB GTFS-Realtime bus positions and speeds, accessed through the Brussels Mobility Twin platform.',
-            'Timestamped observations collected and processed as research data.',
+          title: 'Buses and reference data in Brussels',
+          note: 'The citywide network of 1,366 road segments is the map shown in the Overview.',
+          items: [
+            {
+              title: 'Neighbourhood study area',
+              src: dataStudyArea,
+              alt: 'Map of the 74 road segments studied in Ixelles and Etterbeek, Brussels',
+              text: 'A first test of whether bus speeds reflect general traffic, on streets that mix residential areas and busy junctions.',
+              meta: '74 road segments · Ixelles and Etterbeek',
+            },
+            {
+              title: 'Bus observations (STIB-MIVB)',
+              src: dataStibSample,
+              alt: 'Sample table of processed bus observations with line, direction, point, speed, count and time',
+              text: 'Public transit buses publish their live position and speed as open data. Each row averages the observations for one point and time interval.',
+              meta: 'GTFS-Realtime · 15-minute intervals',
+              fit: true,
+            },
+            {
+              title: 'Google Routes reference data',
+              src: dataBusVsReference,
+              alt: 'Line chart of bus-derived and Google-derived average speed over one day',
+              text: 'Traffic-aware travel times serve as a reference for general traffic. Bus speeds (blue) follow the same daily rhythm as the reference (orange) but are noisier. The reference is a proxy, not ground truth.',
+              meta: 'Usage-based pricing limits how much can be collected',
+              fit: true,
+            },
           ],
-          tools: 'GTFS-Realtime',
-        },
-        {
-          title: 'Geospatial data & road networks',
-          points: [
-            'A road graph built from the bus network: 1,366 segments between consecutive bus stops.',
-            'Spatial matching of bus observations to road segments, and inspection of networks and results on maps.',
-          ],
-          tools: 'QGIS · GeoJSON · SQL/PostGIS',
-        },
-        {
-          title: 'Collection, cleaning & alignment',
-          points: [
-            'Aggregating observations into 15-minute intervals and aligning bus-derived and reference series on the same windows.',
-            'Integrating the sources into one segment-level dataset with chronological training, validation and test splits.',
-          ],
-          tools: 'Python',
-        },
-        {
-          title: 'Reference data & API constraints',
-          points: [
-            'Google Routes API integration: traffic-aware travel times (driving mode) for each segment, with waypoints keeping routes on the bus roadway. Used as reference data, not ground truth.',
-            'Usage-based pricing limited collection, so sampling was a decision: six weeks, weekdays 07:00 to 13:00, every 15 minutes.',
-          ],
-          tools: 'Google Routes API',
-        },
-        {
-          title: 'Modeling, evaluation & applications',
-          points: [
-            'Spatiotemporal GCNN with temporal and spatial attention, compared against LSTM, temporal CNN, DCRNN and Graph WaveNet baselines and evaluated with MAE, RMSE and DTW.',
-            'An interactive application for exploring and evaluating the estimates.',
-          ],
-          tools: 'Python · PyTorch · Streamlit',
         },
       ],
-      dataNote:
-        'Working with real-time feeds here means collecting and processing timestamped observations for research. It is not a production real-time monitoring service.',
-      toolkit: [
+      workflow: [
         {
-          category: 'Programming & Data Processing',
-          core: ['Python'],
-          additional: ['NumPy', 'SciPy', 'PyWavelets (spectral analysis, exploratory)'],
+          title: 'Data preparation and alignment',
+          text: 'Bus observations, reference speeds and historical records are cleaned, matched in time and put on a shared 15-minute grid.',
+          core: ['Python', 'GTFS-Realtime', 'Google Routes API'],
+          explored: ['Parquet', 'Waze jam data'],
         },
         {
-          category: 'Machine Learning & Deep Learning',
+          title: 'Geospatial processing',
+          text: 'Road segments between bus stops form a network. Observations are matched to segments and checked on maps.',
+          core: ['QGIS', 'GeoJSON', 'SQL', 'PostGIS'],
+          explored: ['OpenStreetMap basemaps'],
+        },
+        {
+          title: 'Machine learning and model development',
+          text: 'A graph neural network learns how bus speeds relate to general traffic, using attention to focus on the most informative times and roads.',
           core: ['PyTorch'],
-          additional: [
-            'TensorFlow',
-            'MXNet',
-            'Benchmarked: ARIMA, LSTM, temporal CNN, DCRNN, Graph WaveNet',
-            'Pretrained and foundation models (exploratory)',
-          ],
+          explored: ['TensorFlow', 'MXNet', 'NumPy', 'SciPy', 'PyWavelets', 'Foundation models'],
         },
         {
-          category: 'Databases & Data Systems',
-          core: ['SQL', 'PostGIS'],
-          additional: ['Parquet'],
-        },
-        {
-          category: 'Geospatial Analysis',
-          core: ['QGIS', 'GeoJSON', 'Road-network graphs and spatial matching'],
-          additional: [],
-        },
-        {
-          category: 'Data Sources & APIs',
-          core: ['STIB-MIVB GTFS-Realtime', 'Brussels Mobility Twin', 'Google Routes API'],
-          additional: [
-            'Waze jam data (exploratory)',
-            'Historical loop-detector and road-segment datasets (Rotterdam, Thessaloniki, San Francisco Bay Area)',
-          ],
-        },
-        {
-          category: 'Visualization & Applications',
+          title: 'Evaluation and visualization',
+          text: 'Estimates are compared with the reference and with baseline models (LSTM, CNN, DCRNN, Graph WaveNet), then explored in an interactive app.',
           core: ['Streamlit'],
-          additional: ['Tableau', 'OpenStreetMap basemaps'],
-        },
-        {
-          category: 'Development Tools',
-          core: ['GitHub'],
-          additional: [],
-          todo: 'Other development tools to be added',
+          explored: ['Tableau'],
         },
       ],
-      networkFigure: {
-        src: citywideNetwork,
-        alt: 'Map of the Brussels study network of 1,366 road segments, with a zoomed inset',
-        caption: 'The citywide study network: 1,366 road segments between consecutive bus stops across Brussels. Map data © OpenStreetMap contributors.',
-        placeholderLabel: 'Figure: study network map',
-      },
+      workflowNote:
+        'Working with real-time feeds here means collecting and processing timestamped observations for research. It is not a production monitoring service. Throughout: Python and GitHub.',
       architectureFigure: {
         src: modelArchitecture,
         alt: 'Model architecture: spatiotemporal encoder followed by a dual-branch decoder',
