@@ -3,5 +3,5 @@ export const nav = [
   { label: 'Projects', href: '/projects' },
   { label: 'Research', href: '/research' },
   { label: 'Experience', href: '/experience' },
-  { label: 'About & Contact', href: '/about' },
+  { label: 'About', href: '/about' },
 ] as const;

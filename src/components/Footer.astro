@@ -12,6 +12,7 @@ import Container from './Container.astro';
     <nav aria-label="Footer">
       <ul class="flex flex-wrap gap-x-6 gap-y-2">
         {nav.map((n) => <li><a href={n.href} class="link-line">{n.label}</a></li>)}
+        <li><a href="/#contact" class="link-line">Contact</a></li>
       </ul>
     </nav>
     <p>© {new Date().getFullYear()} {site.name}</p>

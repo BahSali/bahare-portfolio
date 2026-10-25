@@ -8,9 +8,9 @@ export const site = {
   name: 'Bahare Salehi',
   role: 'Data Scientist',
   subtitle: 'Machine Learning · Applied Research · Data Systems',
-  affiliation: 'PhD researcher, Université libre de Bruxelles',
+  affiliation: 'PhD Researcher, Université libre de Bruxelles',
   intro:
-    'I build learning and optimization methods for data that moves through space and time, and I bring a practical understanding of how enterprise data is actually stored, governed and used. My aim is research that holds up in real-world applications.',
+    'I work with machine learning, data analysis, and optimization, combining academic research with hands-on experience in enterprise databases and real-world data systems.',
 
   // While true, pages carry <meta name="robots" content="noindex">.
   // Remember to also replace public/robots.txt when launching.
