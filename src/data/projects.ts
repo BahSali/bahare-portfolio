@@ -9,10 +9,7 @@
  */
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import modelArchitecture from '~/assets/phd/model-architecture.png';
-import maeDistribution from '~/assets/phd/mae-distribution.png';
-import spatialError from '~/assets/phd/spatial-error.jpg';
 import networkCard from '~/assets/phd/network-card.jpg';
-import speedSeriesFrequency from '~/assets/phd/speed-series-frequency.png';
 
 export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
 export type ProjectTier = 'lead' | 'standard';
@@ -72,14 +69,8 @@ export interface ProjectStory {
   toolkit: { category: string; core: string[]; additional: string[]; todo?: string }[];
   networkFigure: Figure;
   architectureFigure: Figure;
-  /** Active or exploratory work: never presented as completed or published. */
-  currentResearch: { title: string; status: string; points: string[]; example?: Figure }[];
-  /** Each finding comes from a different experiment; `scope` states which one. */
-  findings: { value: string; claim: string; scope: string }[];
-  errorFigures: Figure[];
-  limitations: string[];
-  /** Exploratory or in-progress work, not yet results. */
-  nextSteps: string[];
+  /** Active or exploratory work, never presented as completed or published. */
+  currentResearch: { title: string; text: string }[];
 }
 
 export interface Project {
@@ -337,68 +328,17 @@ export const projects: Project[] = [
       },
       currentResearch: [
         {
+          title: 'Transferability',
+          text: 'Investigating how learned traffic patterns can be transferred to other cities.',
+        },
+        {
           title: 'Frequency-domain modeling',
-          status: 'Active research',
-          points: [
-            'Investigating how bus-derived and reference traffic speeds relate across temporal frequencies.',
-            'Exploring spectral decomposition and frequency-aware model architectures.',
-            'Early experiments with an evolving decoder formulation. Results are preliminary and not published.',
-          ],
-          example: {
-            src: speedSeriesFrequency,
-            alt: 'Bus-derived and Google-derived speeds for one road segment: time series, FFT amplitude and low-pass view',
-            caption: 'Example road segment, from the 2026 annual presentation: bus-derived and Google-derived speeds over time (top), their FFT amplitudes (middle) and a low-pass view (bottom). In this example the series align more closely once fast fluctuations are removed.',
-            placeholderLabel: 'Figure: frequency-domain example',
-          },
+          text: 'Relating bus-derived and reference speeds across temporal frequencies, with spectral decomposition and frequency-aware architectures. Early experiments, not yet published.',
         },
         {
-          title: 'Foundation models',
-          status: 'Exploratory',
-          points: [
-            'Exploring whether pretrained and foundation models can support traffic estimation.',
-            'Early-stage, with no results reported here.',
-          ],
+          title: 'Less new reference data',
+          text: 'Updating existing models with less dependence on newly collected reference data.',
         },
-      ],
-      findings: [
-        {
-          value: '1,366 segments',
-          claim: 'The city-scale Brussels study covers 1,366 road segments, using six weeks of bus and reference data.',
-          scope: 'Citywide study',
-        },
-        {
-          value: '4.43 → 2.44 km/h',
-          claim: 'Mean absolute error (MAE) of raw bus-derived speeds versus model estimates, relative to the Google-derived reference.',
-          scope: 'Earlier neighbourhood-scale study, 74 segments. A separate experiment: it does not describe the citywide network.',
-        },
-        {
-          value: '50 segments',
-          claim: 'A separate evaluation on road segments without any direct bus observations, relying on temporal patterns and neighbouring bus-covered roads (MAE 1.79 km/h).',
-          scope: 'Reported in the 2026 annual presentation',
-        },
-      ],
-      errorFigures: [
-        {
-          src: maeDistribution,
-          alt: 'Histogram of segment-level MAE for model estimates and raw bus-derived speeds',
-          caption: 'Citywide study: segment-level MAE of model estimates versus raw bus-derived speeds, both evaluated against the Google-derived reference.',
-          placeholderLabel: 'Figure: error distribution',
-        },
-        {
-          src: spatialError,
-          alt: 'Map of segment-level estimation error across Brussels with three circled higher-error clusters',
-          caption: 'Citywide study: spatial distribution of estimation error. Warmer colours mean higher deviation from the reference; circled areas mark higher-error clusters (1: Schuman/EU quarter, dense intersections; 2: northern access corridors; 3: southern access corridors).',
-          placeholderLabel: 'Figure: spatial error map',
-        },
-      ],
-      limitations: [
-        'Google Routes API speeds are a reference proxy for general traffic conditions, not ground truth.',
-        'Errors are not uniform across the city: they tend to be higher in complex, highly variable traffic environments such as dense intersections.',
-        'Reference data was collected on weekdays from 07:00 to 13:00, so other times of day are not evaluated.',
-      ],
-      nextSteps: [
-        'Monitoring model performance and updating the model without full-city reference data (open challenge).',
-        'Waze jam data as an additional source: spatial coverage is high but observations are sparse (exploratory).',
       ],
     },
     application: {
