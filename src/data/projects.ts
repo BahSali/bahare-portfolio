@@ -52,6 +52,8 @@ export interface ProjectStory {
   dataAreas: { title: string; points: string[]; tools?: string }[];
   /** Scope statement shown under the data areas. */
   dataNote: string;
+  /** Technologies by category: `core` is used extensively, `additional` was worked with or explored. */
+  toolkit: { category: string; core: string[]; additional: string[]; todo?: string }[];
   networkFigure: Figure;
   architectureFigure: Figure;
   /** Active or exploratory work: never presented as completed or published. */
@@ -240,6 +242,52 @@ export const projects: Project[] = [
       ],
       dataNote:
         'Working with real-time feeds here means collecting and processing timestamped observations for research. It is not a production real-time monitoring service.',
+      toolkit: [
+        {
+          category: 'Programming & Data Processing',
+          core: ['Python'],
+          additional: ['NumPy', 'SciPy', 'PyWavelets (spectral analysis, exploratory)'],
+        },
+        {
+          category: 'Machine Learning & Deep Learning',
+          core: ['PyTorch'],
+          additional: [
+            'TensorFlow',
+            'MXNet',
+            'Benchmarked: ARIMA, LSTM, temporal CNN, DCRNN, Graph WaveNet',
+            'Pretrained and foundation models (exploratory)',
+          ],
+        },
+        {
+          category: 'Databases & Data Systems',
+          core: ['SQL', 'PostGIS'],
+          additional: ['Parquet'],
+        },
+        {
+          category: 'Geospatial Analysis',
+          core: ['QGIS', 'GeoJSON', 'Road-network graphs and spatial matching'],
+          additional: [],
+        },
+        {
+          category: 'Data Sources & APIs',
+          core: ['STIB-MIVB GTFS-Realtime', 'Brussels Mobility Twin', 'Google Routes API'],
+          additional: [
+            'Waze jam data (exploratory)',
+            'Historical loop-detector and road-segment datasets (Rotterdam, Thessaloniki, San Francisco Bay Area)',
+          ],
+        },
+        {
+          category: 'Visualization & Applications',
+          core: ['Streamlit'],
+          additional: ['Tableau', 'OpenStreetMap basemaps'],
+        },
+        {
+          category: 'Development Tools',
+          core: ['GitHub'],
+          additional: [],
+          todo: 'Other development tools to be added',
+        },
+      ],
       networkFigure: {
         src: citywideNetwork,
         alt: 'Map of the Brussels study network of 1,366 road segments, with a zoomed inset',
