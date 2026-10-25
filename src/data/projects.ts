@@ -45,6 +45,8 @@ export interface Figure { src: ImageMetadata | null; alt: string; caption: strin
 /** Optional long-form case study; when present the detail page uses the case-study layout. */
 export interface ProjectStory {
   overview: string[];
+  /** Silent looping animation shown beside the overview (files in /public/media). */
+  overviewMedia?: { src: string; still: string; width: number; height: number; alt: string; caption: string };
   facts: { value: string; label: string }[];
   /** Stages of one research project, shown as a compact timeline. `publications` are publication slugs. */
   journey: { title: string; text: string; scale: string; publications: string[]; status?: 'ongoing' }[];
@@ -150,6 +152,14 @@ export const projects: Project[] = [
         "This research explores how existing, accessible data sources can support citywide traffic monitoring. It begins by recovering missing observations from incomplete traffic datasets and extends to estimating conditions on roads without direct measurements, using spatial and temporal relationships across the network.",
         "Working with real-world transportation datasets, the research investigates how machine learning can transform publicly available bus observations, particularly from Brussels' STIB network, into estimates of general road traffic speeds.",
       ],
+      overviewMedia: {
+        src: '/media/overview-network.gif',
+        still: '/media/overview-network-still.jpg',
+        width: 480,
+        height: 320,
+        alt: 'Animated map zooming from the whole Brussels bus network down to individual roads',
+        caption: 'Zooming through the Brussels bus network used in the study, from the whole network to individual roads. Map data © OpenStreetMap contributors.',
+      },
       facts: [
         { value: 'Brussels', label: 'Belgium · Urban road network' },
         { value: '≈110 km²', label: 'Study area coverage' },

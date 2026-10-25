@@ -30,8 +30,27 @@ const toggle = 'group/d border-t border-warm/70 py-3 [&>summary]:flex [&>summary
 <section id="overview" class={band}>
   <Container class={pad}>
     <h2 class={h2}>Overview</h2>
-    <div class="max-w-2xl space-y-4 text-lg">
-      {story.overview.map((p) => <p>{p}</p>)}
+    <div class="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
+      <div class="max-w-2xl space-y-4 text-lg lg:col-span-7">
+        {story.overview.map((p) => <p>{p}</p>)}
+      </div>
+      {story.overviewMedia && (
+        <figure class="lg:col-span-5">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset={story.overviewMedia.still} />
+            <img
+              src={story.overviewMedia.src}
+              alt={story.overviewMedia.alt}
+              width={story.overviewMedia.width}
+              height={story.overviewMedia.height}
+              loading="lazy"
+              decoding="async"
+              class="h-auto w-full border border-warm/60"
+            />
+          </picture>
+          <figcaption class="mt-2 text-sm text-ink-soft">{story.overviewMedia.caption}</figcaption>
+        </figure>
+      )}
     </div>
     <dl class="mt-8 grid gap-6 border-y border-warm/70 py-6 sm:grid-cols-3 sm:gap-8">
       {story.facts.map((f) => (
