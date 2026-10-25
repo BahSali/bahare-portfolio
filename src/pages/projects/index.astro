@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/Container.astro';
-import PageHeader from '~/components/PageHeader.astro';
-import ProjectFeature from '~/components/ProjectFeature.astro';
+import ProjectTile from '~/components/ProjectTile.astro';
 import ProjectMedium from '~/components/ProjectMedium.astro';
 import ProjectRow from '~/components/ProjectRow.astro';
 import { projects } from '~/data/projects';
@@ -10,31 +9,37 @@ import { projects } from '~/data/projects';
 const lead = projects.filter((p) => p.tier === 'lead');
 const standard = projects.filter((p) => p.tier === 'standard');
 const minor = projects.filter((p) => p.tier === 'minor');
-const tones = ['warm', 'sage', 'teal'] as const;
+const tones = ['sage', 'warm', 'teal'] as const;
 ---
 <BaseLayout title="Projects" description="Technical and research projects in machine learning, spatiotemporal modeling, optimization and data systems.">
-  <PageHeader eyebrow="Projects" title="Technical and research projects">
-    <p>Research and applied work in machine learning, spatiotemporal modeling, optimization and data systems.</p>
-  </PageHeader>
+  <Container class="pt-10 sm:pt-14">
+    <div class="grid items-end gap-4 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-7">
+        <p class="eyebrow mb-3">Projects</p>
+        <h1 class="font-display-tight text-[clamp(2rem,4.5vw,3.25rem)] font-light" style="line-height:1.08">Technical and research projects</h1>
+      </div>
+      <p class="max-w-md text-ink-soft lg:col-span-5 lg:col-start-8">Research and applied work in machine learning, spatiotemporal modeling, optimization and data systems.</p>
+    </div>
+  </Container>
 
-  <Container class="pt-section-sm">
-    <div class="space-y-20 sm:space-y-28 lg:space-y-32">
-      {lead.map((p, i) => <ProjectFeature project={p} index={i} reversed={i % 2 === 1} />)}
+  <Container class="pt-8 sm:pt-10">
+    <div class="grid gap-8 md:grid-cols-2 md:gap-10">
+      {lead.map((p, i) => <ProjectTile project={p} variant="lead" tone={tones[i % tones.length]} />)}
     </div>
   </Container>
 
   {standard.length > 0 && (
-    <Container class="pt-section-sm">
-      <p class="eyebrow mb-8 border-t border-warm/70 pt-6">Further work</p>
-      <div class="space-y-14">
-        {standard.map((p, i) => <ProjectMedium project={p} tone={tones[i % tones.length]} />)}
+    <Container class="pt-10 sm:pt-12">
+      <p class="eyebrow mb-6 border-t border-warm/70 pt-5">Further work</p>
+      <div class="space-y-8">
+        {standard.map((p) => <ProjectMedium project={p} tone="teal" />)}
       </div>
     </Container>
   )}
 
   {minor.length > 0 && (
-    <Container class="pt-section-sm">
-      <p class="eyebrow mb-2 border-t border-warm/70 pt-6">Earlier and smaller projects</p>
+    <Container class="pt-10 sm:pt-12">
+      <p class="eyebrow mb-3 border-t border-warm/70 pt-5">Earlier and smaller projects</p>
       <ul class="border-t border-warm/70">
         {minor.map((p) => <ProjectRow project={p} />)}
       </ul>
