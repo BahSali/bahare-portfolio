@@ -10,17 +10,18 @@ import { education } from '~/data/education';
 import { publications } from '~/data/publications';
 import { talks } from '~/data/talks';
 import { collaborations } from '~/data/collaborations';
-import { getProject } from '~/data/projects';
+import { getProject, projects, categoryLabels } from '~/data/projects';
 
 const byYear = [...publications].sort((a, b) => b.year - a.year);
 const years = [...new Set(byYear.map((p) => p.year))];
 const summaries = education.filter((e) => e.projects.length > 0).reverse();
+const earlier = projects.filter((p) => p.category === 'collaboration' || p.category === 'applied');
 const anchors = [
   ['Interests', '#interests'],
   ['Academic research', '#academic'],
   ['Publications', '#publications'],
   ['Talks & posters', '#talks'],
-  ['Collaborations', '#collaborations'],
+  ['Earlier research & collaborations', '#collaborations'],
 ];
 ---
 <BaseLayout title="Research" description="Research interests, academic background, publications, talks and collaborations.">
@@ -93,21 +94,23 @@ const anchors = [
       )}
   </PageSection>
 
-  <PageSection id="collaborations" eyebrow="Collaborations" title="Research collaborations" class="pb-0">
-    <p class="mb-6 text-ink-soft">
-      Participation in the EU Horizon Europe EMERALDS project. <a href="/experience#emeralds" class="link-line">See on the timeline →</a>
-    </p>
-    {collaborations.length === 0
-      ? <PlaceholderBlock>Further research collaborations to be added</PlaceholderBlock>
-      : (
-        <ul class="divide-y divide-warm/70 border-y border-warm/70">
-          {collaborations.map((c) => (
-            <li class="py-4">
-              <p class="font-display text-lg">{c.link ? <a href={c.link} class="link-line">{c.name}</a> : c.name}</p>
-              {c.description && <p class="text-sm text-ink-soft">{c.description}</p>}
-            </li>
-          ))}
-        </ul>
-      )}
+  <PageSection id="collaborations" eyebrow="Earlier research" title="Earlier research and collaborations" class="pb-0">
+    <ul class="divide-y divide-warm/70 border-y border-warm/70">
+      {earlier.map((p) => (
+        <li class="py-4">
+          <p class="eyebrow mb-1">{categoryLabels[p.category]}</p>
+          <p class="font-display text-lg"><a href={`/projects/${p.slug}`} class="link-line">{p.title}</a></p>
+          <p class="text-sm text-ink-soft">{p.summary}</p>
+        </li>
+      ))}
+      {collaborations.map((c) => (
+        <li class="py-4">
+          <p class="eyebrow mb-1">Research collaboration</p>
+          <p class="font-display text-lg"><a href={c.href} class="link-line">{c.name}</a></p>
+          {c.description && <p class="text-sm text-ink-soft">{c.description}</p>}
+          <p class="mt-2 text-sm"><a href={c.href} class="link-line">{c.cta} →</a></p>
+        </li>
+      ))}
+    </ul>
   </PageSection>
 </BaseLayout>

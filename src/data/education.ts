@@ -39,7 +39,7 @@ export const education: EducationEntry[] = [
     end: null,
     summary: null,
     topics: ['Optimization', 'Graph algorithms'],
-    projects: ['network-optimization'],
+    projects: ['network-design-optimization'],
   },
   {
     id: 'phd',

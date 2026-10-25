@@ -22,6 +22,10 @@ export interface TimelineBase {
   /** Project slugs related to this entry. */
   projects: string[];
   highlight?: boolean;
+  /** Anchor id for the timeline entry itself (defaults to `id`). */
+  anchor?: string;
+  /** Link to a dedicated section with more detail. */
+  href?: string;
 }
 
 export interface TimelineItem extends TimelineBase {

@@ -1,36 +1,35 @@
 ---
-import type { Project } from '~/data/projects';
-import { categoryLabels } from '~/data/projects';
+import type { CardItem } from '~/data/projects';
 import ImagePlaceholder from './ImagePlaceholder.astro';
 
-/** Compact, fully clickable project card for overview grids (e.g. Home). */
-interface Props { project: Project; tone?: 'sage' | 'warm' | 'teal'; variant?: 'compact' | 'lead' }
-const { project, tone = 'sage', variant = 'compact' } = Astro.props;
+/** Compact, fully clickable card for overview grids (projects or experience items). */
+interface Props { item: CardItem; tone?: 'sage' | 'warm' | 'teal'; variant?: 'compact' | 'lead' }
+const { item, tone = 'sage', variant = 'compact' } = Astro.props;
 const lead = variant === 'lead';
 ---
 <a
-  href={`/projects/${project.slug}`}
+  href={item.href}
   class:list={['group flex transition-colors', lead ? 'flex-col gap-4' : 'gap-4 md:flex-col md:gap-5']}
 >
   <div class:list={['overflow-hidden', lead ? 'w-full' : 'w-[40%] shrink-0 md:w-full']}>
     <div class:list={['transition-transform duration-500 ease-out group-hover:scale-[1.03]', lead ? '[&_span.font-display]:text-base' : 'max-md:[&_span.font-display]:hidden md:[&_span.font-display]:text-base']}>
       <ImagePlaceholder
-        src={project.image.src}
-        alt={project.image.alt}
-        label={project.image.placeholderLabel}
+        src={item.image.src}
+        alt={item.image.alt}
+        label={item.image.placeholderLabel}
         tone={tone}
         ratio={lead ? 'aspect-[16/10]' : 'aspect-[4/3]'}
       />
     </div>
   </div>
   <div class="min-w-0 self-center md:self-auto">
-    <p class="eyebrow">{categoryLabels[project.category]}</p>
+    <p class="eyebrow">{item.label}</p>
     <h3 class:list={['font-display mt-2 leading-snug transition-colors group-hover:text-teal group-focus-visible:text-teal', lead ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl']}>
-      {project.title}
+      {item.title}
     </h3>
-    {lead && <p class="mt-2 max-w-[34rem] text-sm text-ink-soft">{project.summary}</p>}
+    {lead && <p class="mt-2 max-w-[34rem] text-sm text-ink-soft">{item.summary}</p>}
     <p class="mt-3 text-sm text-ink-soft transition-colors group-hover:text-clay">
-      View project <span aria-hidden="true" class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+      {item.cta ?? 'View project'} <span aria-hidden="true" class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
     </p>
   </div>
 </a>

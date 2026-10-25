@@ -1,22 +1,31 @@
 /**
- * Projects. Add, remove or reorder entries freely; pages are generated from this list.
+ * Research projects. Add, remove or reorder entries freely; pages are generated from this list.
  *
- * - `tier` sets visual weight on /projects: 'lead' (large), 'standard' (medium), 'minor' (compact row).
- * - `homeFeatured` selects the 2–3 projects shown on the Home page.
- * - Any field left `null` / `[]` renders as a clearly marked placeholder on the detail page.
+ * - `tier`: 'lead' gets the prominent block on /projects; 'standard' entries form the gallery below it.
+ * - `homeFeatured` selects entries for the Home "Selected Work" cards (EMERALDS is added from emeralds.ts).
+ * - Fields left `null` / `[]` render as clearly marked placeholders on the detail page.
  * - `publications` lists publication slugs (see publications.ts) for cross-linking.
+ * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
-export type ProjectCategory = 'phd' | 'application' | 'thesis' | 'earlier';
-export type ProjectTier = 'lead' | 'standard' | 'minor';
+export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
+export type ProjectTier = 'lead' | 'standard';
 
 export const categoryLabels: Record<ProjectCategory, string> = {
   phd: 'PhD research',
-  application: 'Applied analytics',
+  collaboration: 'University of Passau',
   thesis: "Master's thesis",
-  earlier: 'Earlier research',
+  applied: 'Earlier applied research',
 };
 
 export interface Link { label: string; href: string }
+export interface ImageRef { src: ImageMetadata | string | null; alt: string; placeholderLabel: string }
+
+export interface ProjectApplication {
+  title: string;
+  summary: string;
+  demoUrl: string | null;
+  screenshots: ImageRef[];
+}
 
 export interface Project {
   slug: string;
@@ -28,24 +37,25 @@ export interface Project {
   summary: string;
   period: string | null;
   role: string | null;
-  problem: string | null;
-  approach: string | null;
+  overview: string | null;
+  methodology: string | null;
   contribution: string | null;
   technologies: string[];
   results: string | null;
   publications: string[];
   links: Link[];
-  image: { src: ImageMetadata | string | null; alt: string; placeholderLabel: string };
+  image: ImageRef;
+  application?: ProjectApplication;
 }
 
 const empty: Pick<
   Project,
-  'period' | 'role' | 'problem' | 'approach' | 'contribution' | 'technologies' | 'results' | 'publications' | 'links'
+  'period' | 'role' | 'overview' | 'methodology' | 'contribution' | 'technologies' | 'results' | 'publications' | 'links'
 > = {
   period: null,
   role: null,
-  problem: null,
-  approach: null,
+  overview: null,
+  methodology: null,
   contribution: null,
   technologies: [],
   results: null,
@@ -57,7 +67,7 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'traffic-speed-estimation',
-    title: 'Citywide Traffic Speed Estimation using public transit observations',
+    title: 'Citywide Traffic Speed Estimation',
     category: 'phd',
     tier: 'lead',
     homeFeatured: true,
@@ -68,49 +78,78 @@ export const projects: Project[] = [
       alt: 'Illustration for the traffic speed estimation project',
       placeholderLabel: 'Project image: speed estimation map or figure',
     },
-  },
-  {
-    ...empty,
-    slug: 'traffic-analytics-platform',
-    title: 'Interactive Traffic Analytics Platform',
-    category: 'application',
-    tier: 'lead',
-    homeFeatured: true,
-    summary: 'An interactive application for exploring and analysing traffic data.',
-    image: {
-      src: null,
-      alt: 'Screenshot of the interactive traffic analytics platform',
-      placeholderLabel: 'Project image: platform screenshot',
+    application: {
+      title: 'Interactive Traffic Analytics Platform',
+      summary: 'An interactive application for exploring and analysing traffic data.',
+      demoUrl: null,
+      screenshots: [
+        { src: null, alt: 'Main view of the analytics platform', placeholderLabel: 'Screenshot: main view' },
+        { src: null, alt: 'Second view of the analytics platform', placeholderLabel: 'Screenshot: detail view' },
+        { src: null, alt: 'Third view of the analytics platform', placeholderLabel: 'Screenshot: analysis view' },
+      ],
     },
   },
   {
     ...empty,
-    slug: 'network-optimization',
-    title: 'Network Optimization and Graph Algorithms',
-    category: 'thesis',
+    slug: 'evolutionary-multi-objective-optimization',
+    title: 'Evolutionary Multi-Objective Optimization',
+    category: 'collaboration',
     tier: 'standard',
     homeFeatured: true,
-    summary: "Master's thesis work on optimization and graph algorithms for network problems.",
+    summary: 'Research with the University of Passau on evolutionary multi-objective optimization, including NSGA-II.',
     image: {
       src: null,
-      alt: 'Figure from the network optimization project',
+      alt: 'Figure from the evolutionary multi-objective optimization research',
+      placeholderLabel: 'Project image: figure',
+    },
+  },
+  {
+    ...empty,
+    slug: 'network-design-optimization',
+    title: 'Network Design Optimization',
+    category: 'thesis',
+    tier: 'standard',
+    homeFeatured: false,
+    summary: "Master's thesis research on network design, graph algorithms and optimization.",
+    image: {
+      src: null,
+      alt: 'Figure from the network design optimization thesis',
       placeholderLabel: 'Project image: network or graph figure',
     },
   },
   {
     ...empty,
-    slug: 'genetic-algorithms-artificial-wells',
-    title: 'Genetic Algorithms and Artificial Well Problems',
-    category: 'earlier',
-    tier: 'minor',
+    slug: 'artificial-well-hydrocarbon-research',
+    title: 'Artificial Well / Hydrocarbon Research',
+    category: 'applied',
+    tier: 'standard',
     homeFeatured: false,
-    summary: 'Earlier research involving genetic algorithms and artificial well problems.',
+    summary: 'Earlier applied research involving computational methods and optimization.',
     image: {
       src: null,
-      alt: 'Figure from the genetic algorithms research',
+      alt: 'Figure from the artificial well and hydrocarbon research',
       placeholderLabel: 'Project image: figure',
     },
   },
 ];
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
+
+/** Shape shared by every overview card (projects and experience items). */
+export interface CardItem {
+  href: string;
+  label: string;
+  title: string;
+  summary: string;
+  image: ImageRef;
+  /** Link text, defaults to 'View project'. */
+  cta?: string;
+}
+
+export const projectCard = (p: Project): CardItem => ({
+  href: `/projects/${p.slug}`,
+  label: categoryLabels[p.category],
+  title: p.title,
+  summary: p.summary,
+  image: p.image,
+});

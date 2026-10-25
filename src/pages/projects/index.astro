@@ -1,48 +1,54 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/Container.astro';
+import ImagePlaceholder from '~/components/ImagePlaceholder.astro';
 import ProjectTile from '~/components/ProjectTile.astro';
-import ProjectMedium from '~/components/ProjectMedium.astro';
-import ProjectRow from '~/components/ProjectRow.astro';
-import { projects } from '~/data/projects';
+import { projects, projectCard, categoryLabels } from '~/data/projects';
 
 const lead = projects.filter((p) => p.tier === 'lead');
-const standard = projects.filter((p) => p.tier === 'standard');
-const minor = projects.filter((p) => p.tier === 'minor');
-const tones = ['sage', 'warm', 'teal'] as const;
+const others = projects.filter((p) => p.tier !== 'lead');
+const tones = ['warm', 'teal', 'sage'] as const;
 ---
-<BaseLayout title="Projects" description="Technical and research projects in machine learning, spatiotemporal modeling, optimization and data systems.">
+<BaseLayout title="Projects" description="Four research projects in machine learning, spatiotemporal modeling and optimization.">
   <Container class="pt-10 sm:pt-14">
     <div class="grid items-end gap-4 lg:grid-cols-12 lg:gap-10">
       <div class="lg:col-span-7">
         <p class="eyebrow mb-3">Projects</p>
-        <h1 class="font-display-tight text-[clamp(2rem,4.5vw,3.25rem)] font-light" style="line-height:1.08">Technical and research projects</h1>
+        <h1 class="font-display-tight text-[clamp(2rem,4.5vw,3.25rem)] font-light" style="line-height:1.08">Research projects</h1>
       </div>
-      <p class="max-w-md text-ink-soft lg:col-span-5 lg:col-start-8">Research and applied work in machine learning, spatiotemporal modeling, optimization and data systems.</p>
+      <p class="max-w-md text-ink-soft lg:col-span-5 lg:col-start-8">Four research projects across machine learning, spatiotemporal modeling and optimization. Professional work is under <a href="/experience" class="link-line">Experience</a>.</p>
     </div>
   </Container>
 
-  <Container class="pt-8 sm:pt-10">
-    <div class="grid gap-8 md:grid-cols-2 md:gap-10">
-      {lead.map((p, i) => <ProjectTile project={p} variant="lead" tone={tones[i % tones.length]} />)}
+  {lead.map((p) => (
+    <Container class="pt-8 sm:pt-10">
+      <a href={`/projects/${p.slug}`} class="group grid items-center gap-6 bg-paper-deep p-4 sm:p-6 lg:grid-cols-12 lg:gap-10">
+        <div class="overflow-hidden lg:col-span-7">
+          <div class="transition-transform duration-500 ease-out group-hover:scale-[1.02] [&_span.font-display]:text-base">
+            <ImagePlaceholder src={p.image.src} alt={p.image.alt} label={p.image.placeholderLabel} tone="sage" ratio="aspect-[16/10]" />
+          </div>
+        </div>
+        <div class="lg:col-span-5">
+          <p class="eyebrow">{categoryLabels[p.category]}</p>
+          <h2 class="font-display-tight mt-3 text-3xl font-light transition-colors group-hover:text-teal sm:text-4xl" style="line-height:1.1">{p.title}</h2>
+          <p class="mt-3 max-w-md text-ink-soft">{p.summary}</p>
+          {p.application && (
+            <p class="mt-4 border-t border-warm/70 pt-3 text-sm">
+              <span class="eyebrow mr-2">Includes</span>{p.application.title}
+            </p>
+          )}
+          <p class="mt-4 text-sm text-ink-soft transition-colors group-hover:text-clay">
+            View project <span aria-hidden="true" class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </p>
+        </div>
+      </a>
+    </Container>
+  ))}
+
+  <Container class="pt-10 sm:pt-12">
+    <p class="eyebrow mb-6 border-t border-warm/70 pt-5">Further research</p>
+    <div class="grid gap-8 md:grid-cols-3 md:gap-8">
+      {others.map((p, i) => <ProjectTile item={projectCard(p)} tone={tones[i % tones.length]} />)}
     </div>
   </Container>
-
-  {standard.length > 0 && (
-    <Container class="pt-10 sm:pt-12">
-      <p class="eyebrow mb-6 border-t border-warm/70 pt-5">Further work</p>
-      <div class="space-y-8">
-        {standard.map((p) => <ProjectMedium project={p} tone="teal" />)}
-      </div>
-    </Container>
-  )}
-
-  {minor.length > 0 && (
-    <Container class="pt-10 sm:pt-12">
-      <p class="eyebrow mb-3 border-t border-warm/70 pt-5">Earlier and smaller projects</p>
-      <ul class="border-t border-warm/70">
-        {minor.map((p) => <ProjectRow project={p} />)}
-      </ul>
-    </Container>
-  )}
 </BaseLayout>

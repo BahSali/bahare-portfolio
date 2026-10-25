@@ -8,12 +8,22 @@ import PublicationRow from '~/components/PublicationRow.astro';
 import PublicationPlaceholders from '~/components/PublicationPlaceholders.astro';
 import ContactLinks from '~/components/ContactLinks.astro';
 import { site } from '~/data/site';
-import { projects } from '~/data/projects';
+import { projects, projectCard } from '~/data/projects';
 import { emeralds } from '~/data/emeralds';
 import { expertise } from '~/data/expertise';
 import { publications } from '~/data/publications';
 
-const featuredProjects = projects.filter((p) => p.homeFeatured).slice(0, 3);
+const workItems = [
+  ...projects.filter((p) => p.homeFeatured).slice(0, 2).map(projectCard),
+  {
+    href: emeralds.href,
+    label: emeralds.homeLabel,
+    title: emeralds.title,
+    summary: emeralds.body,
+    image: emeralds.image,
+    cta: 'View experience',
+  },
+];
 const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
 ---
 <BaseLayout title="Home">
@@ -52,38 +62,19 @@ const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
     </div>
   </Container>
 
-  <!-- Selected projects -->
-  <section id="projects" aria-labelledby="projects-h" class="pt-section-sm">
+  <!-- Selected work -->
+  <section id="work" aria-labelledby="work-h" class="pt-section-sm">
     <Container>
       <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p class="eyebrow mb-3">Selected projects</p>
-          <h2 id="projects-h" class="font-display-tight text-3xl font-light sm:text-4xl">From research to real-world applications</h2>
+          <p class="eyebrow mb-3">From research to real-world applications</p>
+          <h2 id="work-h" class="font-display-tight text-3xl font-light sm:text-4xl">Selected Work</h2>
         </div>
         <a href="/projects" class="link-line shrink-0 text-sm">All projects →</a>
       </div>
       <div class="mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10">
-        {featuredProjects.map((p, i) => <ProjectTile project={p} tone={(['sage', 'warm', 'teal'] as const)[i % 3]} />)}
+        {workItems.map((item, i) => <ProjectTile item={item} tone={(['sage', 'warm', 'teal'] as const)[i % 3]} />)}
       </div>
-    </Container>
-  </section>
-
-  <!-- EMERALDS -->
-  <section aria-labelledby="emeralds-h" class="mt-section bg-teal text-paper">
-    <Container class="grid gap-8 py-16 sm:py-20 lg:grid-cols-12 lg:gap-10">
-      <p class="eyebrow !text-sage lg:col-span-3">{emeralds.eyebrow}</p>
-      <div class="lg:col-span-6">
-        <h2 id="emeralds-h" class="font-display-tight text-4xl font-light sm:text-5xl">{emeralds.title}</h2>
-        <p class="mt-6 max-w-xl text-lg text-paper/85">{emeralds.body}</p>
-        <p class="mt-4 text-sm text-paper/75">
-          {emeralds.contribution
-            ?? '[Specific contribution to be added]'}
-        </p>
-      </div>
-      <p class="text-sm lg:col-span-3 lg:text-right">
-        <a href={emeralds.more.href} class="link-line hover:!text-sage">{emeralds.more.label} →</a>
-        {emeralds.link && <a href={emeralds.link.href} class="link-line mt-2 block hover:!text-sage">{emeralds.link.label}</a>}
-      </p>
     </Container>
   </section>
 
