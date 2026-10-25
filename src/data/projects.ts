@@ -54,6 +54,8 @@ export interface DataFigure {
   /** What the data represents and why it matters, in plain language. */
   text: string;
   meta: string;
+  /** One-line difficulty this dataset brings. */
+  challenge?: string;
   /** Show the whole image on white (tables, charts) rather than cropped to fill. */
   fit?: boolean;
 }
@@ -235,40 +237,43 @@ export const projects: Project[] = [
         },
       ],
       dataIntro:
-        'Real traffic data from four regions, plus open bus data and a commercial traffic service used as a reference.',
+        'The research draws on traffic data from four regions, open bus data from Brussels, and a commercial traffic service used as a reference.',
       dataGroups: [
         {
           title: 'Historical traffic datasets',
-          note: 'Road sensors record how fast vehicles move. Where records have gaps, the research tests how well the missing values can be recovered.',
+          note: 'Road sensors record how fast vehicles move, but their records often have gaps. These four datasets test how well missing values can be recovered in very different settings.',
           items: [
             {
               title: 'Rotterdam highways',
               src: dataRotterdam,
               alt: 'Map of loop-detector locations along the Rotterdam highways',
-              text: 'Sensors in the road count vehicles and measure speed every minute. Some detectors have almost no history, which makes gaps hard to fill.',
-              meta: '206 detectors · Apr 2022 – May 2023',
+              text: 'Detectors in the road record vehicle speeds every minute. The data come from the EMERALDS project and cover more than a year.',
+              challenge: 'Some detectors have almost no historical data.',
+              meta: '206 detectors · Apr 2022 – May 2023 · 1-minute intervals',
             },
             {
               title: 'Thessaloniki',
               src: dataThessaloniki,
-              alt: 'Map of the Thessaloniki road network with the study segments highlighted',
-              text: 'An urban network where patterns over time matter more than neighbouring roads when estimating missing values.',
-              meta: '189 road segments · Jan – Jun 2023',
-              fit: true,
+              alt: 'Map of the Thessaloniki street network with the study segments highlighted',
+              text: 'Average speeds on city streets, provided by a partner of the MobiSpace project, another Horizon Europe project. Green lines show how the streets connect.',
+              challenge: 'Neighbouring streets can follow different speed trends, so timing matters as much as location.',
+              meta: '189 road segments · Jan – Jun 2023 · 15-minute intervals',
             },
             {
               title: 'San Francisco Bay Area',
               src: dataSanFrancisco,
               alt: 'Map of highway sensor locations in the San Francisco Bay Area',
-              text: 'PeMSD4, a public benchmark from the California Department of Transportation that researchers widely use to compare methods.',
-              meta: '307 sensors · Jan – Feb 2018',
+              text: 'PeMSD4: highway sensors operated by the California Department of Transportation, a public benchmark that researchers use to compare methods.',
+              challenge: 'A large, dense sensor network across highways.',
+              meta: '307 sensors · Jan – Feb 2018 · 15-minute intervals',
             },
             {
               title: 'Brussels bus network',
               src: dataBrusselsEarly,
               alt: 'Map of the Brussels bus-line road network used in the early study',
-              text: 'Bus trajectories instead of fixed sensors: can moving vehicles replace point measurements? Data from the Brussels Mobility Twin platform.',
-              meta: '1,146 road segments · June 2023 mornings',
+              text: 'Instead of fixed sensors, speeds come from buses driving the city. Data from the Brussels Mobility Twin platform.',
+              challenge: 'A complex network of roads and intersections.',
+              meta: '1,146 road segments · June 2023 mornings · 10-minute intervals',
             },
           ],
         },
@@ -280,15 +285,15 @@ export const projects: Project[] = [
               title: 'Neighbourhood study area',
               src: dataStudyArea,
               alt: 'Map of the 74 road segments studied in Ixelles and Etterbeek, Brussels',
-              text: 'A first test of whether bus speeds reflect general traffic, on streets that mix residential areas and busy junctions.',
+              text: 'A first test of whether bus speeds reflect general traffic, on streets that mix residential areas and busy junctions. Each segment lies between two consecutive bus stops.',
               meta: '74 road segments · Ixelles and Etterbeek',
             },
             {
               title: 'Bus observations (STIB-MIVB)',
               src: dataStibSample,
-              alt: 'Sample table of processed bus observations with line, direction, point, speed, count and time',
-              text: 'Public transit buses publish their live position and speed as open data. Each row averages the observations for one point and time interval.',
-              meta: 'GTFS-Realtime · 15-minute intervals',
+              alt: 'Sample tables: average bus speed per road segment and 15-minute interval, and the stops bounding each segment',
+              text: 'Buses publish their live position and speed as open data. Top: average speed per segment and 15-minute interval, with blanks where no bus passed. Below: the stops that bound each segment.',
+              meta: 'GTFS-Realtime · Brussels Mobility Twin',
               fit: true,
             },
             {
@@ -296,7 +301,8 @@ export const projects: Project[] = [
               src: dataBusVsReference,
               alt: 'Line chart of bus-derived and Google-derived average speed over one day',
               text: 'Traffic-aware travel times serve as a reference for general traffic. Bus speeds (blue) follow the same daily rhythm as the reference (orange) but are noisier. The reference is a proxy, not ground truth.',
-              meta: 'Usage-based pricing limits how much can be collected',
+              challenge: 'Usage-based pricing limits how much can be collected.',
+              meta: 'Google Routes API',
               fit: true,
             },
           ],
