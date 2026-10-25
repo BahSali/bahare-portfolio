@@ -3,8 +3,9 @@ import { site } from '~/data/site';
 import Placeholder from './Placeholder.astro';
 
 const c = site.contact;
+const emailRows = c.emails.map((e) => ({ label: 'Email', href: `mailto:${e}`, text: e }));
 const links = [
-  { label: 'Email', href: c.email ? `mailto:${c.email}` : null, text: c.email },
+  ...(emailRows.length ? emailRows : [{ label: 'Email', href: null, text: null }]),
   { label: 'CV', href: c.cvUrl, text: 'Download CV (PDF)' },
   { label: 'LinkedIn', href: c.linkedin, text: 'LinkedIn' },
   { label: 'GitHub', href: c.github, text: 'GitHub' },
@@ -13,9 +14,9 @@ const links = [
 ];
 ---
 <dl class="divide-y divide-warm/70 border-y border-warm/70">
-  {links.map((l) => (
+  {links.map((l, i) => (
     <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 py-3.5 sm:grid-cols-[11rem_1fr]">
-      <dt class="eyebrow">{l.label}</dt>
+      <dt class="eyebrow">{i > 0 && l.label === links[i - 1].label ? '' : l.label}</dt>
       <dd>
         {l.href
           ? <a href={l.href} class="link-line">{l.text}</a>

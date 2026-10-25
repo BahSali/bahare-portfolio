@@ -16,16 +16,16 @@ const placeholderPubs = [1, 2, 3];
 ---
 <BaseLayout title="Home">
   <!-- Hero -->
-  <Container class="pt-10 sm:pt-14 lg:pt-20">
+  <Container class="pt-8 sm:pt-12 lg:pt-14">
     <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-10">
       <div class="lg:col-span-7">
-        <p class="eyebrow">{site.affiliation}</p>
+        <p class="text-sm text-ink-soft">{site.affiliation}</p>
         <h1 class="font-display-tight mt-5 text-[clamp(2.75rem,8.2vw,6.5rem)] font-light">
           Bahare <span class="italic text-teal">Salehi</span>
         </h1>
         <p class="mt-5 font-display text-2xl text-ink sm:text-3xl">{site.role}</p>
         <p class="mt-1.5 text-balance text-base text-ink-soft">{site.subtitle}</p>
-        <p class="mt-6 max-w-[34rem] text-lg text-ink-soft">{site.intro}</p>
+        <p class="mt-6 max-w-[34rem] text-[1.05rem] leading-[1.6] text-ink-soft">{site.intro}</p>
         <ul class="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
           <li>
             <a href="/projects" class="inline-block border border-teal bg-teal px-6 py-3 text-[0.9375rem] text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Explore my work</a>
@@ -51,7 +51,7 @@ const placeholderPubs = [1, 2, 3];
   </Container>
 
   <!-- Selected projects -->
-  <section id="projects" aria-labelledby="projects-h" class="pt-section">
+  <section id="projects" aria-labelledby="projects-h" class="pt-section-sm">
     <Container>
       <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading eyebrow="Selected projects" title="Work at the intersection of <em class='text-teal'>data</em> and decisions" />
