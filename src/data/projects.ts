@@ -52,6 +52,8 @@ export interface ProjectStory {
   journey: {
     title: string;
     text: string;
+    /** Condensed text used when the journey is laid out in a single row. */
+    short: string;
     /** Secondary details such as case studies. */
     details: { label: string; text: string }[];
     /** Related publications: `slug` links to the Research page. */
@@ -137,6 +139,7 @@ export const projects: Project[] = [
     homeFeatured: true,
     summary:
       'Estimating traffic speeds across a whole city from observations collected by public transit vehicles.',
+    period: 'April 2023 – present',
     role: 'PhD researcher',
     contributions: [
       'Enriching incomplete traffic observations through spatiotemporal patterns across multiple cities and varying levels of data availability.',
@@ -170,7 +173,7 @@ export const projects: Project[] = [
         width: 480,
         height: 320,
         alt: 'Animated map zooming from the whole Brussels bus network down to individual roads',
-        caption: 'Zooming through the Brussels bus network used in the study, from the whole network to individual roads. Map data © OpenStreetMap contributors.',
+        caption: 'Case study of Brussels: road segments are shown as dark lines and bus stops as red points.',
       },
       facts: [
         { value: 'Brussels', label: 'Belgium · Urban road network' },
@@ -180,18 +183,21 @@ export const projects: Project[] = [
       journey: [
         {
           title: 'Missing Traffic Data Imputation',
+          short: 'Recovering missing traffic observations with spatiotemporal models and neural architectures.',
           text: 'Investigating different spatiotemporal models and NN architectures to recover missing traffic observations.',
           details: [{ label: 'Case studies', text: 'Brussels bus network, Rotterdam highways, Thessaloniki urban network, and San Francisco Bay Area.' }],
           papers: [{ label: "ICDEW '24", slug: 'icdew-2024' }],
         },
         {
           title: 'Buses as Traffic Probes',
+          short: 'Evaluating public transit buses as moving sensors of general road traffic speeds.',
           text: 'Introducing and evaluating the use of public transit buses as moving sensors for estimating general road traffic speeds.',
           details: [{ label: 'Case study', text: '74 road segments in Ixelles and Etterbeek, Brussels.' }],
           papers: [{ label: "ACM SIGSPATIAL '25", slug: 'sigspatial-2025' }],
         },
         {
           title: 'Citywide Traffic Estimation',
+          short: 'Scaling to a whole urban network with an attention-enhanced GCNN, a dual-branch decoder and trend–residual decomposition.',
           text: 'Scaling traffic estimation to an entire urban network by developing an attention-enhanced GCNN with a dual-branch decoder. Trend–residual decomposition is incorporated to help the model better learn the multi-level relationships between bus-derived speeds and general traffic conditions.',
           details: [{ label: 'Case study', text: 'Brussels transportation network including 1,366 road segments.' }],
           papers: [
@@ -201,6 +207,7 @@ export const projects: Project[] = [
         },
         {
           title: 'Interactive Traffic Analytics',
+          short: 'A real-time application that estimates and visualizes current traffic from live bus observations and a model trained on historical data.',
           text: 'Developing a real-time application to estimate and visualize current traffic conditions using live bus observations and a machine learning model trained on historical data.',
           details: [],
           papers: [],
@@ -208,6 +215,7 @@ export const projects: Project[] = [
         },
         {
           title: 'Transferability & Model Adaptation',
+          short: 'Transferring learned patterns to other cities and updating models with less new reference data.',
           text: 'Investigating how learned traffic patterns can be transferred to other cities and how existing models can be updated with less dependence on newly collected reference data.',
           details: [],
           papers: [],
@@ -397,7 +405,12 @@ export const projects: Project[] = [
       title: 'Interactive Traffic Analytics Platform',
       summary: 'A Streamlit application for exploring and evaluating citywide traffic estimates.',
       demoUrl: null,
-      video: null,
+      video: {
+        src: '/media/app-demo.mp4',
+        poster: '/media/app-demo-poster.jpg',
+        type: 'video/mp4',
+        label: 'Narrated walkthrough of the application',
+      },
       features: [
         { title: 'Map-based comparison', text: 'Compare traffic estimates across road segments on a map.' },
         { title: 'Model evaluation', text: 'Evaluate estimates against the reference data.' },

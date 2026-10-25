@@ -58,17 +58,17 @@ const toggle =
       <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.subtitle ?? project.summary}</p>
     </div>
 
-    <dl class="mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm sm:grid-cols-3">
+    <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
       <div><dt class="eyebrow mb-1">Period</dt><dd>{project.period ?? <Placeholder>Period to be added</Placeholder>}</dd></div>
       <div><dt class="eyebrow mb-1">Role</dt><dd>{project.role ?? <Placeholder>Role to be added</Placeholder>}</dd></div>
-      <div>
+      {!story && <div>
         <dt class="eyebrow mb-1">Context</dt>
         <dd>
           {context.length
             ? context.map((c, i) => <>{i > 0 && ', '}<a href={c.href ?? `/experience#${c.id}`} class="link-line">{c.title}</a></>)
             : <Placeholder>Context to be added</Placeholder>}
         </dd>
-      </div>
+      </div>}
     </dl>
 
     {!story && <ImagePlaceholder src={project.image.src} alt={project.image.alt} label={project.image.placeholderLabel} tone="sage" ratio="aspect-[16/7]" eager class="mt-6" />}

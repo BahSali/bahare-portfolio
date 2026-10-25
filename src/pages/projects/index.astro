@@ -25,7 +25,7 @@ const tones = ['warm', 'teal', 'sage'] as const;
       <a href={`/projects/${p.slug}`} class="group grid items-center gap-6 bg-paper-deep p-4 sm:p-6 lg:grid-cols-12 lg:gap-10">
         <div class="overflow-hidden lg:col-span-7">
           <div class="transition-transform duration-500 ease-out group-hover:scale-[1.02] [&_span.font-display]:text-base">
-            <ImagePlaceholder src={p.image.src} alt={p.image.alt} label={p.image.placeholderLabel} tone="sage" ratio="aspect-[16/10]" />
+            <ImagePlaceholder src={(p.cardImage ?? p.image).src} alt={(p.cardImage ?? p.image).alt} label={(p.cardImage ?? p.image).placeholderLabel} tone="sage" ratio="aspect-[16/10]" />
           </div>
         </div>
         <div class="lg:col-span-5">
