@@ -15,6 +15,8 @@ interface Props {
   tone?: 'sage' | 'warm' | 'teal';
   class?: string;
   eager?: boolean;
+  /** CSS object-position, e.g. 'center 20%' */
+  position?: string;
 }
 const {
   src = null,
@@ -24,6 +26,7 @@ const {
   tone = 'sage',
   class: className = '',
   eager = false,
+  position = 'center',
 } = Astro.props;
 
 const tones = {
@@ -34,10 +37,10 @@ const tones = {
 ---
 <div class:list={['relative overflow-hidden', ratio, className]}>
   {src && typeof src !== 'string' && (
-    <Image src={src} alt={alt} class="h-full w-full object-cover" loading={eager ? 'eager' : 'lazy'} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 60vw, 100vw" />
+    <Image src={src} alt={alt} class="h-full w-full object-cover" style={`object-position:${position}`} loading={eager ? 'eager' : 'lazy'} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 60vw, 100vw" />
   )}
   {src && typeof src === 'string' && (
-    <img src={src} alt={alt} class="h-full w-full object-cover" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    <img src={src} alt={alt} class="h-full w-full object-cover" style={`object-position:${position}`} loading={eager ? 'eager' : 'lazy'} decoding="async" />
   )}
   {!src && (
     <div class:list={['absolute inset-0 flex flex-col justify-between p-4 sm:p-5', tones[tone]]} role="img" aria-label={`${alt} (placeholder)`}>

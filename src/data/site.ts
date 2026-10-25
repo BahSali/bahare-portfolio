@@ -1,3 +1,5 @@
+import portrait from '~/assets/bahare-portrait.jpg';
+
 /**
  * Site-wide content. Anything set to `null` is rendered as a clearly marked
  * placeholder (or hidden) until the real value is added here.
@@ -26,7 +28,7 @@ export const site = {
 
   // Portrait shown in the hero. Set `src` (a file in /src/assets or /public) to replace the placeholder.
   portrait: {
-    src: null as string | null,
+    src: portrait as ImageMetadata | string | null,
     alt: 'Portrait of Bahare Salehi',
     placeholderLabel: 'Portrait',
   },
