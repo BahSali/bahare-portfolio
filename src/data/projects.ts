@@ -14,6 +14,7 @@ import dataRotterdam from '~/assets/phd/data-rotterdam.jpg';
 import dataThessaloniki from '~/assets/phd/data-thessaloniki.jpg';
 import dataSanFrancisco from '~/assets/phd/data-sanfrancisco.jpg';
 import dataBrusselsEarly from '~/assets/phd/data-brussels-early.jpg';
+import dataYork from '~/assets/phd/data-york.jpg';
 import dataStudyArea from '~/assets/phd/data-study-area.jpg';
 import dataStibSample from '~/assets/phd/data-stib-sample.png';
 import dataBusVsReference from '~/assets/phd/data-bus-vs-reference.png';
@@ -58,6 +59,8 @@ export interface DataFigure {
   challenge?: string;
   /** Show the whole image on white (tables, charts) rather than cropped to fill. */
   fit?: boolean;
+  /** CSS object-position when the image is cropped to fill. */
+  position?: string;
 }
 
 /** Optional long-form case study; when present the detail page uses the case-study layout. */
@@ -237,7 +240,7 @@ export const projects: Project[] = [
         },
       ],
       dataIntro:
-        'The research draws on traffic data from four regions, open bus data from Brussels, and a commercial traffic service used as a reference.',
+        'The research draws on traffic data from five regions, open bus data from Brussels, and a commercial traffic service used as a reference.',
       dataGroups: [
         {
           title: 'Historical traffic datasets',
@@ -278,8 +281,8 @@ export const projects: Project[] = [
           ],
         },
         {
-          title: 'Buses and reference data in Brussels',
-          note: 'The citywide network of 1,366 road segments is the map shown in the Overview.',
+          title: 'Bus data, reference data and York',
+          note: 'The citywide network of 1,366 road segments is the map shown in the Overview. York comes from the EMERALDS project.',
           items: [
             {
               title: 'Neighbourhood study area',
@@ -304,6 +307,15 @@ export const projects: Project[] = [
               challenge: 'Usage-based pricing limits how much can be collected.',
               meta: 'Google Routes API',
               fit: true,
+            },
+            {
+              title: 'York',
+              src: dataYork,
+              alt: 'Map of the York streets used in the EMERALDS case study',
+              text: 'The approach applied to another city within EMERALDS, with connected-vehicle data from more than 25,000 devices (Cariad) as the reference instead of Google.',
+              challenge: 'A different reference source and a different city.',
+              meta: '638 road segments · 22 Jul – 12 Aug 2025 · 214 buses, 63 lines',
+              position: 'center 30%',
             },
           ],
         },
