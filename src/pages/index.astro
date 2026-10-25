@@ -1,0 +1,130 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Container from '~/components/Container.astro';
+import ImagePlaceholder from '~/components/ImagePlaceholder.astro';
+import SectionHeading from '~/components/SectionHeading.astro';
+import ProjectTile from '~/components/ProjectTile.astro';
+import PublicationRow from '~/components/PublicationRow.astro';
+import PublicationPlaceholders from '~/components/PublicationPlaceholders.astro';
+import ContactLinks from '~/components/ContactLinks.astro';
+import { site } from '~/data/site';
+import { projects, projectCard } from '~/data/projects';
+import { emeralds } from '~/data/emeralds';
+import { expertise } from '~/data/expertise';
+import { publications } from '~/data/publications';
+
+const workItems = [
+  ...projects.filter((p) => p.homeFeatured).slice(0, 2).map(projectCard),
+  {
+    href: emeralds.href,
+    label: emeralds.homeLabel,
+    title: emeralds.title,
+    summary: emeralds.body,
+    image: emeralds.image,
+    cta: 'View experience',
+  },
+];
+const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
+---
+<BaseLayout title="Home">
+  <!-- Hero -->
+  <Container class="pt-8 sm:pt-12 lg:pt-14">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-10">
+      <div class="lg:col-span-7">
+        <p class="text-sm text-ink-soft">{site.affiliation}</p>
+        <h1 class="font-display-tight mt-5 text-[clamp(2.75rem,8.2vw,6.5rem)] font-light">
+          Bahare <span class="italic text-teal">Salehi</span>
+        </h1>
+        <p class="mt-5 font-display text-2xl text-ink sm:text-3xl">{site.role}</p>
+        <p class="mt-1.5 text-balance text-base text-ink-soft">{site.subtitle}</p>
+        <p class="mt-6 max-w-[34rem] text-[1.05rem] leading-[1.6] text-ink-soft">{site.intro}</p>
+        <ul class="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+          <li>
+            <a href="/projects" class="inline-block border border-teal bg-teal px-6 py-3 text-[0.9375rem] text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Explore my work</a>
+          </li>
+          <li>
+            <a href="#contact" class="inline-block border border-teal px-6 py-3 text-[0.9375rem] text-teal transition-colors hover:bg-teal hover:text-paper">Get in touch</a>
+          </li>
+        </ul>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9">
+        <ImagePlaceholder
+          src={site.portrait.src}
+          alt={site.portrait.alt}
+          label={site.portrait.placeholderLabel}
+          ratio="aspect-[4/5]"
+          tone="sage"
+          eager
+          position="center 20%"
+          class="max-w-[17rem] rounded-[3px] sm:max-w-[20rem] lg:ml-auto lg:max-w-[22rem]"
+        />
+      </div>
+    </div>
+  </Container>
+
+  <!-- Selected work -->
+  <section id="work" aria-labelledby="work-h" class="pt-section-sm">
+    <Container>
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="eyebrow mb-3">From research to real-world applications</p>
+          <h2 id="work-h" class="font-display-tight text-3xl font-light sm:text-4xl">Selected Work</h2>
+        </div>
+        <a href="/projects" class="link-line shrink-0 text-sm">All projects →</a>
+      </div>
+      <div class="mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10">
+        {workItems.map((item, i) => <ProjectTile item={item} tone={(['sage', 'warm', 'teal'] as const)[i % 3]} />)}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Expertise -->
+  <section aria-labelledby="expertise-h" class="pt-section">
+    <Container>
+      <SectionHeading eyebrow="Expertise" title="Three areas of professional strength" />
+      <h2 id="expertise-h" class="sr-only">Expertise</h2>
+      <ol class="mt-14 grid border-t border-ink md:grid-cols-3 md:gap-10">
+        {expertise.map((e, i) => (
+          <li class:list={['border-b border-warm/70 py-8 md:border-b-0', i === 1 && 'md:mt-10', i === 2 && 'md:mt-20']}>
+            <p class="font-display text-sm text-clay" aria-hidden="true">0{i + 1}</p>
+            <h3 class="font-display-tight mt-3 text-2xl font-normal sm:text-[1.7rem]" style="line-height:1.15">{e.title}</h3>
+            <p class="mt-4 text-ink-soft">{e.description}</p>
+            <p class="mt-5 text-sm text-ink">{e.topics.join(' · ')}</p>
+            <p class="mt-4 text-sm"><a href={e.href} class="link-line">{e.hrefLabel} →</a></p>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  </section>
+
+  <!-- Publications -->
+  <section aria-labelledby="pubs-h" class="pt-section">
+    <Container class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <SectionHeading eyebrow="Research" title="Selected publications" />
+        <h2 id="pubs-h" class="sr-only">Selected publications</h2>
+        <p class="mt-6 text-sm"><a href="/research#publications" class="link-line">All publications →</a></p>
+      </div>
+      <ol class="lg:col-span-8 lg:col-start-6 divide-y divide-warm/70 border-y border-warm/70">
+        {featuredPubs.length
+          ? featuredPubs.map((p) => <PublicationRow publication={p} />)
+          : <PublicationPlaceholders count={3} />}
+      </ol>
+    </Container>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-h" class="pt-section">
+    <Container class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <SectionHeading eyebrow="Contact" title="Get in touch" />
+        <h2 id="contact-h" class="sr-only">Contact</h2>
+        <p class="mt-6 max-w-sm text-ink-soft">For research collaboration, roles in machine learning and data science, or questions about the work above.</p>
+        <p class="mt-6 text-sm"><a href="/about#contact" class="link-line">All contact details and CV →</a></p>
+      </div>
+      <div class="lg:col-span-6 lg:col-start-7">
+        <ContactLinks compact />
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

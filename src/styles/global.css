@@ -1,0 +1,93 @@
+@import '@fontsource-variable/fraunces/wght.css';
+@import '@fontsource-variable/fraunces/wght-italic.css';
+@import '@fontsource-variable/inter/wght.css';
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --spacing-section: clamp(5rem, 11vw, 10rem);
+  --spacing-section-sm: clamp(3.5rem, 7vw, 6rem);
+
+  /* Palette: muted sage, warm gray, deep teal, charcoal, subtle terracotta */
+  --color-paper: #ebe7de;      /* page background, light warm gray */
+  --color-paper-deep: #dfdad0; /* subtle surface */
+  --color-warm: #b9b2a5;       /* warm gray, rules and placeholders */
+  --color-sage: #a8b5a0;       /* muted sage */
+  --color-sage-deep: #8d9d86;
+  --color-teal: #1f4e52;       /* deep teal */
+  --color-teal-deep: #173b3f;
+  --color-ink: #272a29;        /* charcoal */
+  --color-ink-soft: #4d514f;   /* secondary text, AA on paper */
+  --color-clay: #a2502f;       /* terracotta, AA for text on paper */
+  --color-clay-soft: #c87a5a;  /* terracotta for non-text accents */
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    min-height: 100vh;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    font-feature-settings: 'ss01', 'cv11';
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-sage);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-clay);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .font-display-tight {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 144;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+  /* Understated underline link */
+  .link-line {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+    transition: text-decoration-color 0.2s ease, color 0.2s ease, text-underline-offset 0.25s ease;
+  }
+  .link-line:hover {
+    color: var(--color-clay);
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.42em;
+  }
+
+  /* Marks any text that still needs real content */
+  .todo {
+    border-bottom: 1px dashed var(--color-clay);
+    color: var(--color-ink-soft);
+    font-style: italic;
+  }
+}

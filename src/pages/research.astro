@@ -1,0 +1,116 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHeader from '~/components/PageHeader.astro';
+import PageSection from '~/components/PageSection.astro';
+import PlaceholderBlock from '~/components/PlaceholderBlock.astro';
+import Placeholder from '~/components/Placeholder.astro';
+import PublicationRow from '~/components/PublicationRow.astro';
+import { research } from '~/data/research';
+import { education } from '~/data/education';
+import { publications } from '~/data/publications';
+import { talks } from '~/data/talks';
+import { collaborations } from '~/data/collaborations';
+import { getProject, projects, categoryLabels } from '~/data/projects';
+
+const byYear = [...publications].sort((a, b) => b.year - a.year);
+const years = [...new Set(byYear.map((p) => p.year))];
+const summaries = education.filter((e) => e.projects.length > 0).reverse();
+const earlier = projects.filter((p) => p.category === 'collaboration' || p.category === 'applied');
+const anchors = [
+  ['Interests', '#interests'],
+  ['Academic research', '#academic'],
+  ['Publications', '#publications'],
+  ['Talks & posters', '#talks'],
+  ['Earlier research & collaborations', '#collaborations'],
+];
+---
+<BaseLayout title="Research" description="Research interests, academic background, publications, talks and collaborations.">
+  <PageHeader eyebrow="Research" title="Research">
+    <p>Research interests, academic work and publications across machine learning, spatiotemporal modeling and optimization.</p>
+    <nav aria-label="On this page" class="mt-8 text-sm">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        {anchors.map(([l, h]) => <li><a href={h} class="link-line">{l}</a></li>)}
+      </ul>
+    </nav>
+  </PageHeader>
+
+  <PageSection id="interests" eyebrow="Interests" title="What I work on">
+    <ul class="divide-y divide-warm/70 border-y border-warm/70">
+      {research.interests.map((t) => <li class="font-display py-4 text-2xl sm:text-3xl" style="line-height:1.2">{t}</li>)}
+    </ul>
+    <p class="mt-6 max-w-xl text-ink-soft">{research.statement ?? <Placeholder>Research statement to be added</Placeholder>}</p>
+  </PageSection>
+
+  <PageSection id="academic" eyebrow="Academic research" title="PhD and master's research">
+    <div class="space-y-10">
+      {summaries.map((e) => (
+        <article>
+          <h3 class="font-display text-2xl" style="line-height:1.2">{e.title}</h3>
+          <p class="mt-1 text-sm text-ink-soft">
+            {e.institution ?? <Placeholder>Institution to be added</Placeholder>}
+            {e.thesis && <> · {e.thesis}</>}
+          </p>
+          <p class="mt-3 text-ink-soft">{e.summary ?? <Placeholder>Research summary to be added</Placeholder>}</p>
+          <p class="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            {e.projects.flatMap((s) => { const p = getProject(s); return p ? [p] : []; }).map((p) => (
+              <a href={`/projects/${p.slug}`} class="link-line">{p.title} →</a>
+            ))}
+          </p>
+        </article>
+      ))}
+    </div>
+    <p class="mt-8 text-sm"><a href="/experience" class="link-line">Full academic and professional timeline →</a></p>
+  </PageSection>
+
+  <PageSection id="publications" eyebrow="Publications" title="Publications">
+    {publications.length === 0
+      ? <PlaceholderBlock>Publication list to be added in src/data/publications.ts, grouped by year, with links to papers where available</PlaceholderBlock>
+      : years.map((y) => (
+          <div>
+            <h3 class="eyebrow border-b border-ink pb-2 pt-4">{y}</h3>
+            <ol class="divide-y divide-warm/70">
+              {byYear.filter((p) => p.year === y).map((p) => <PublicationRow publication={p} showType />)}
+            </ol>
+          </div>
+        ))}
+  </PageSection>
+
+  <PageSection id="talks" eyebrow="Presentations" title="Talks, posters and conferences">
+    {talks.length === 0
+      ? <PlaceholderBlock>Selected talks, posters and conference presentations to be added</PlaceholderBlock>
+      : (
+        <ul class="divide-y divide-warm/70 border-y border-warm/70">
+          {talks.map((t) => (
+            <li class="grid gap-1 py-4 sm:grid-cols-[5rem_1fr] sm:gap-6">
+              <span class="font-display text-clay">{t.year}</span>
+              <div>
+                <p class="eyebrow mb-1">{t.kind}</p>
+                <p class="font-display text-lg">{t.link ? <a href={t.link} class="link-line">{t.title}</a> : t.title}</p>
+                <p class="text-sm text-ink-soft">{t.event}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+  </PageSection>
+
+  <PageSection id="collaborations" eyebrow="Earlier research" title="Earlier research and collaborations" class="pb-0">
+    <ul class="divide-y divide-warm/70 border-y border-warm/70">
+      {earlier.map((p) => (
+        <li class="py-4">
+          <p class="eyebrow mb-1">{categoryLabels[p.category]}</p>
+          <p class="font-display text-lg"><a href={`/projects/${p.slug}`} class="link-line">{p.title}</a></p>
+          <p class="text-sm text-ink-soft">{p.summary}</p>
+        </li>
+      ))}
+      {collaborations.map((c) => (
+        <li class="py-4">
+          <p class="eyebrow mb-1">Research collaboration</p>
+          <p class="font-display text-lg"><a href={c.href} class="link-line">{c.name}</a></p>
+          {c.description && <p class="text-sm text-ink-soft">{c.description}</p>}
+          <p class="mt-2 text-sm"><a href={c.href} class="link-line">{c.cta} →</a></p>
+        </li>
+      ))}
+    </ul>
+  </PageSection>
+</BaseLayout>

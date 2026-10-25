@@ -1,0 +1,20 @@
+---
+import { site } from '~/data/site';
+import { nav } from '~/data/nav';
+import Container from './Container.astro';
+---
+<footer class="mt-section border-t border-warm/70 py-10 text-sm text-ink-soft">
+  <Container class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="font-display text-lg text-ink">{site.name}</p>
+      <p>{site.affiliation}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        {nav.map((n) => <li><a href={n.href} class="link-line">{n.label}</a></li>)}
+        <li><a href="/#contact" class="link-line">Contact</a></li>
+      </ul>
+    </nav>
+    <p>© {new Date().getFullYear()} {site.name}</p>
+  </Container>
+</footer>

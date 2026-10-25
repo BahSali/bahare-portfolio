@@ -1,0 +1,15 @@
+---
+import Placeholder from './Placeholder.astro';
+interface Props { count?: number }
+const { count = 3 } = Astro.props;
+---
+{Array.from({ length: count }, () => (
+  <li class="grid gap-1 py-6 sm:grid-cols-[5rem_1fr] sm:gap-6">
+    <span class="font-display text-clay">[Year]</span>
+    <div>
+      <h3 class="font-display text-xl" style="line-height:1.25"><Placeholder>Publication title</Placeholder></h3>
+      <p class="mt-2 text-sm"><Placeholder>Authors</Placeholder></p>
+      <p class="text-sm"><Placeholder>Venue, link</Placeholder></p>
+    </div>
+  </li>
+))}

@@ -1,0 +1,65 @@
+---
+import { nav } from '~/data/nav';
+import { site } from '~/data/site';
+import Container from './Container.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<header class="sticky top-0 z-40 border-b border-warm/60 bg-paper/95 backdrop-blur-sm">
+  <Container class="flex items-center justify-between py-4">
+    <a href="/" class="font-display text-xl tracking-tight transition-colors hover:text-teal">{site.name}</a>
+
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex gap-8 text-[0.9375rem]">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class="relative py-1 text-ink-soft transition-colors hover:text-ink aria-[current=page]:text-ink after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-clay after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="-mr-2 p-2 text-[0.9375rem] md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >Menu</button>
+  </Container>
+
+  <nav id="mobile-menu" aria-label="Main (mobile)" hidden class="border-t border-warm/60 md:hidden">
+    <Container>
+      <ul class="py-3">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class="block border-b border-warm/40 py-3 font-display text-2xl aria-[current=page]:text-clay"
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-toggle') as HTMLButtonElement | null;
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    const set = (open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Close' : 'Menu';
+      menu.hidden = !open;
+    };
+    btn.addEventListener('click', () => set(menu.hidden === true));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+  }
+</script>
