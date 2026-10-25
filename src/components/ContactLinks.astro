@@ -2,6 +2,8 @@
 import { site } from '~/data/site';
 import Placeholder from './Placeholder.astro';
 
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
 const c = site.contact;
 const emailRows = c.emails.map((e) => ({ label: 'Email', href: `mailto:${e}`, text: e }));
 const links = [
@@ -13,10 +15,11 @@ const links = [
   { label: 'ORCID', href: c.orcid, text: 'ORCID' },
 ];
 ---
+{/* compact: hide entries that have no link yet */}
 <dl class="divide-y divide-warm/70 border-y border-warm/70">
-  {links.map((l, i) => (
+  {links.filter((l) => !compact || l.href).map((l, i, arr) => (
     <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 py-3.5 sm:grid-cols-[11rem_1fr]">
-      <dt class="eyebrow">{i > 0 && l.label === links[i - 1].label ? '' : l.label}</dt>
+      <dt class="eyebrow">{i > 0 && l.label === arr[i - 1].label ? '' : l.label}</dt>
       <dd>
         {l.href
           ? <a href={l.href} class="link-line">{l.text}</a>

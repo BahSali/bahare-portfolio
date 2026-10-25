@@ -1,9 +1,37 @@
 ---
-import PlaceholderPage from '~/components/PlaceholderPage.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Container from '~/components/Container.astro';
+import PageHeader from '~/components/PageHeader.astro';
+import Timeline from '~/components/Timeline.astro';
+import { timelineItems } from '~/lib/timeline';
+import { experience } from '~/data/experience';
+
+const industry = experience.find((e) => e.lane === 'industry');
 ---
-<PlaceholderPage
-  title="Experience"
-  eyebrow="Academic and industry"
-  description="Academic and industrial experience, including enterprise databases and ERP systems."
-  planned={['Academic positions and education', 'Industry experience', 'Technical skills grouped by area (no rating bars)']}
-/>
+<BaseLayout title="Experience" description="Academic and industrial experience, including enterprise databases, SQL and ERP systems, and the EU Horizon Europe EMERALDS project.">
+  <PageHeader eyebrow="Experience" title="Academic and industrial journey">
+    <p>From undergraduate studies to a PhD, alongside industrial work with enterprise databases and ERP systems.</p>
+  </PageHeader>
+
+  <Container class="pt-section-sm">
+    <Timeline items={timelineItems} />
+  </Container>
+
+  {industry && (
+    <Container class="pt-section-sm">
+      <div class="grid gap-8 border-t border-warm/70 pt-8 lg:grid-cols-12 lg:gap-10">
+        <div class="lg:col-span-4">
+          <p class="eyebrow mb-3">Industry focus</p>
+          <h2 class="font-display-tight text-3xl font-light sm:text-4xl" style="line-height:1.1">Enterprise data in practice</h2>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-6">
+          <p class="text-lg text-ink-soft">{industry.summary}</p>
+          <ul class="mt-6 grid gap-px border-y border-warm/70 sm:grid-cols-2">
+            {industry.topics.map((t) => <li class="border-b border-warm/70 py-3 font-display text-xl last:border-b-0 sm:[&:nth-last-child(2)]:border-b-0">{t}</li>)}
+          </ul>
+          <p class="mt-6 text-sm"><a href="/about#skills" class="link-line">Skills by category →</a></p>
+        </div>
+      </div>
+    </Container>
+  )}
+</BaseLayout>

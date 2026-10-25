@@ -1,0 +1,117 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Container from '~/components/Container.astro';
+import ImagePlaceholder from '~/components/ImagePlaceholder.astro';
+import Placeholder from '~/components/Placeholder.astro';
+import { projects, categoryLabels } from '~/data/projects';
+import type { Project } from '~/data/projects';
+import { publications } from '~/data/publications';
+import { timelineItems } from '~/lib/timeline';
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, prev: projects[i - 1] ?? null, next: projects[i + 1] ?? null },
+  }));
+}
+
+interface Props { project: Project; prev: Project | null; next: Project | null }
+const { project, prev, next } = Astro.props;
+
+const related = publications.filter(
+  (p) => project.publications.includes(p.slug) || p.projects?.includes(project.slug),
+);
+const context = timelineItems.filter((i) => i.projects.includes(project.slug));
+
+const sections = [
+  { id: 'problem', label: 'Problem', text: project.problem, todo: 'Problem statement to be added' },
+  { id: 'approach', label: 'Approach', text: project.approach, todo: 'Approach to be added' },
+  { id: 'contribution', label: 'My contribution', text: project.contribution, todo: 'Personal contribution to be added' },
+];
+---
+<BaseLayout title={project.title} description={project.summary}>
+  <Container class="pt-section-sm">
+    <p class="text-sm"><a href="/projects" class="link-line">← All projects</a></p>
+    <div class="mt-10 grid gap-6 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-9">
+        <p class="eyebrow mb-4">{categoryLabels[project.category]}</p>
+        <h1 class="font-display-tight text-[clamp(2.25rem,5.5vw,4.25rem)] font-light" style="line-height:1.06">{project.title}</h1>
+      </div>
+      <p class="max-w-xl text-lg text-ink-soft lg:col-span-7">{project.summary}</p>
+    </div>
+
+    <dl class="mt-10 grid gap-x-10 gap-y-4 border-y border-warm/70 py-5 text-sm sm:grid-cols-3">
+      <div><dt class="eyebrow mb-1">Period</dt><dd>{project.period ?? <Placeholder>Period to be added</Placeholder>}</dd></div>
+      <div><dt class="eyebrow mb-1">Role</dt><dd>{project.role ?? <Placeholder>Role to be added</Placeholder>}</dd></div>
+      <div>
+        <dt class="eyebrow mb-1">Context</dt>
+        <dd>
+          {context.length
+            ? context.map((c, i) => <>{i > 0 && ', '}<a href={`/experience#${c.id}`} class="link-line">{c.title}</a></>)
+            : <Placeholder>Context to be added</Placeholder>}
+        </dd>
+      </div>
+    </dl>
+
+    <ImagePlaceholder
+      src={project.image.src}
+      alt={project.image.alt}
+      label={project.image.placeholderLabel}
+      tone="sage"
+      ratio="aspect-[16/9]"
+      eager
+      class="mt-10"
+    />
+  </Container>
+
+  <Container class="pt-section-sm">
+    <div class="divide-y divide-warm/70 border-y border-warm/70">
+      {sections.map((s) => (
+        <section id={s.id} class="grid gap-3 py-8 lg:grid-cols-12 lg:gap-10">
+          <h2 class="eyebrow lg:col-span-3">{s.label}</h2>
+          <div class="max-w-2xl lg:col-span-7">
+            {s.text ? <p class="text-lg">{s.text}</p> : <p class="text-ink-soft"><Placeholder>{s.todo}</Placeholder></p>}
+          </div>
+        </section>
+      ))}
+
+      <section id="technologies" class="grid gap-3 py-8 lg:grid-cols-12 lg:gap-10">
+        <h2 class="eyebrow lg:col-span-3">Technologies</h2>
+        <div class="lg:col-span-7">
+          {project.technologies.length
+            ? <p class="text-lg">{project.technologies.join(' · ')}</p>
+            : <p class="text-ink-soft"><Placeholder>Technologies to be added</Placeholder></p>}
+        </div>
+      </section>
+
+      <section id="results" class="grid gap-3 py-8 lg:grid-cols-12 lg:gap-10">
+        <h2 class="eyebrow lg:col-span-3">Results</h2>
+        <div class="max-w-2xl lg:col-span-7">
+          {project.results ? <p class="text-lg">{project.results}</p> : <p class="text-ink-soft"><Placeholder>Results to be added</Placeholder></p>}
+          {project.links.length > 0 && (
+            <p class="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+              {project.links.map((l) => <a href={l.href} class="link-line">{l.label}</a>)}
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section id="publications" class="grid gap-3 py-8 lg:grid-cols-12 lg:gap-10">
+        <h2 class="eyebrow lg:col-span-3">Related publications</h2>
+        <div class="lg:col-span-7">
+          {related.length
+            ? <ul class="space-y-3">{related.map((p) => <li>{p.title} <span class="text-ink-soft">({p.year})</span></li>)}</ul>
+            : <p class="text-ink-soft"><Placeholder>Related publications to be linked</Placeholder></p>}
+          <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">All publications →</a></p>
+        </div>
+      </section>
+    </div>
+  </Container>
+
+  <Container class="pt-section-sm">
+    <nav aria-label="More projects" class="grid gap-6 text-sm sm:grid-cols-2">
+      <div>{prev && <><p class="eyebrow mb-2">Previous</p><a href={`/projects/${prev.slug}`} class="link-line font-display text-lg">{prev.title}</a></>}</div>
+      <div class="sm:text-right">{next && <><p class="eyebrow mb-2">Next</p><a href={`/projects/${next.slug}`} class="link-line font-display text-lg">{next.title}</a></>}</div>
+    </nav>
+  </Container>
+</BaseLayout>

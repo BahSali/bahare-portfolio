@@ -4,7 +4,8 @@ import Container from '~/components/Container.astro';
 import ImagePlaceholder from '~/components/ImagePlaceholder.astro';
 import SectionHeading from '~/components/SectionHeading.astro';
 import ProjectFeature from '~/components/ProjectFeature.astro';
-import Placeholder from '~/components/Placeholder.astro';
+import PublicationRow from '~/components/PublicationRow.astro';
+import PublicationPlaceholders from '~/components/PublicationPlaceholders.astro';
 import ContactLinks from '~/components/ContactLinks.astro';
 import { site } from '~/data/site';
 import { projects } from '~/data/projects';
@@ -12,7 +13,8 @@ import { emeralds } from '~/data/emeralds';
 import { expertise } from '~/data/expertise';
 import { publications } from '~/data/publications';
 
-const placeholderPubs = [1, 2, 3];
+const featuredProjects = projects.filter((p) => p.homeFeatured).slice(0, 3);
+const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
 ---
 <BaseLayout title="Home">
   <!-- Hero -->
@@ -59,7 +61,7 @@ const placeholderPubs = [1, 2, 3];
       </div>
       <h2 id="projects-h" class="sr-only">Selected projects</h2>
       <div class="mt-14 space-y-20 sm:space-y-28 lg:mt-20 lg:space-y-36">
-        {projects.map((p, i) => <ProjectFeature project={p} index={i} reversed={i % 2 === 1} />)}
+        {featuredProjects.map((p, i) => <ProjectFeature project={p} index={i} reversed={i % 2 === 1} />)}
       </div>
     </Container>
   </section>
@@ -77,9 +79,8 @@ const placeholderPubs = [1, 2, 3];
         </p>
       </div>
       <p class="text-sm lg:col-span-3 lg:text-right">
-        {emeralds.link
-          ? <a href={emeralds.link.href} class="link-line hover:!text-sage">{emeralds.link.label}</a>
-          : <span class="text-paper/75">[Project link to be added]</span>}
+        <a href={emeralds.more.href} class="link-line hover:!text-sage">{emeralds.more.label} →</a>
+        {emeralds.link && <a href={emeralds.link.href} class="link-line mt-2 block hover:!text-sage">{emeralds.link.label}</a>}
       </p>
     </Container>
   </section>
@@ -96,6 +97,7 @@ const placeholderPubs = [1, 2, 3];
             <h3 class="font-display-tight mt-3 text-2xl font-normal sm:text-[1.7rem]" style="line-height:1.15">{e.title}</h3>
             <p class="mt-4 text-ink-soft">{e.description}</p>
             <p class="mt-5 text-sm text-ink">{e.topics.join(' · ')}</p>
+            <p class="mt-4 text-sm"><a href={e.href} class="link-line">{e.hrefLabel} →</a></p>
           </li>
         ))}
       </ol>
@@ -108,32 +110,12 @@ const placeholderPubs = [1, 2, 3];
       <div class="lg:col-span-4">
         <SectionHeading eyebrow="Research" title="Selected publications" />
         <h2 id="pubs-h" class="sr-only">Selected publications</h2>
-        <p class="mt-6 text-sm"><a href="/research" class="link-line">Research overview →</a></p>
+        <p class="mt-6 text-sm"><a href="/research#publications" class="link-line">All publications →</a></p>
       </div>
       <ol class="lg:col-span-8 lg:col-start-6 divide-y divide-warm/70 border-y border-warm/70">
-        {publications.length
-          ? publications.map((p) => (
-              <li class="grid gap-1 py-6 sm:grid-cols-[5rem_1fr] sm:gap-6">
-                <span class="font-display text-clay">{p.year}</span>
-                <div>
-                  <h3 class="font-display text-xl" style="line-height:1.25">
-                    {p.link ? <a href={p.link} class="link-line">{p.title}</a> : p.title}
-                  </h3>
-                  <p class="mt-2 text-sm text-ink-soft">{p.authors}</p>
-                  <p class="text-sm text-ink-soft">{p.venue}</p>
-                </div>
-              </li>
-            ))
-          : placeholderPubs.map(() => (
-              <li class="grid gap-1 py-6 sm:grid-cols-[5rem_1fr] sm:gap-6">
-                <span class="font-display text-clay">[Year]</span>
-                <div>
-                  <h3 class="font-display text-xl" style="line-height:1.25"><Placeholder>Publication title</Placeholder></h3>
-                  <p class="mt-2 text-sm"><Placeholder>Authors</Placeholder></p>
-                  <p class="text-sm"><Placeholder>Venue, link</Placeholder></p>
-                </div>
-              </li>
-            ))}
+        {featuredPubs.length
+          ? featuredPubs.map((p) => <PublicationRow publication={p} />)
+          : <PublicationPlaceholders count={3} />}
       </ol>
     </Container>
   </section>
@@ -145,10 +127,10 @@ const placeholderPubs = [1, 2, 3];
         <SectionHeading eyebrow="Contact" title="Get in touch" />
         <h2 id="contact-h" class="sr-only">Contact</h2>
         <p class="mt-6 max-w-sm text-ink-soft">For research collaboration, roles in machine learning and data science, or questions about the work above.</p>
-        <p class="mt-6 text-sm"><a href="/about" class="link-line">About →</a></p>
+        <p class="mt-6 text-sm"><a href="/about#contact" class="link-line">All contact details and CV →</a></p>
       </div>
       <div class="lg:col-span-6 lg:col-start-7">
-        <ContactLinks />
+        <ContactLinks compact />
       </div>
     </Container>
   </section>

@@ -1,0 +1,16 @@
+---
+import type { Project } from '~/data/projects';
+import { categoryLabels } from '~/data/projects';
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+<li class="group border-b border-warm/70">
+  <a href={`/projects/${project.slug}`} class="grid items-baseline gap-1 py-5 transition-colors hover:text-teal sm:grid-cols-[11rem_1fr_auto] sm:gap-8">
+    <span class="eyebrow">{categoryLabels[project.category]}</span>
+    <span>
+      <span class="font-display text-xl" style="line-height:1.25">{project.title}</span>
+      <span class="mt-1 block text-sm text-ink-soft">{project.summary}</span>
+    </span>
+    <span class="text-sm transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+  </a>
+</li>

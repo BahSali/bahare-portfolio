@@ -1,0 +1,24 @@
+---
+import type { Publication } from '~/data/publications';
+import { publicationTypeLabels } from '~/data/publications';
+import { getProject } from '~/data/projects';
+
+interface Props { publication: Publication; showType?: boolean }
+const { publication: p, showType = false } = Astro.props;
+const related = (p.projects ?? []).flatMap((s) => { const x = getProject(s); return x ? [x] : []; });
+---
+<li class="grid gap-1 py-6 sm:grid-cols-[5rem_1fr] sm:gap-6">
+  <span class="font-display text-clay">{p.year}</span>
+  <div>
+    {showType && <p class="eyebrow mb-2">{publicationTypeLabels[p.type]}</p>}
+    <h3 class="font-display text-xl" style="line-height:1.25">{p.title}</h3>
+    <p class="mt-2 text-sm text-ink-soft">{p.authors}</p>
+    <p class="text-sm text-ink-soft">{p.venue}</p>
+    {(p.links?.length || related.length > 0) && (
+      <p class="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+        {p.links?.map((l) => <a href={l.href} class="link-line">{l.label}</a>)}
+        {related.map((r) => <a href={`/projects/${r.slug}`} class="link-line">Project: {r.title}</a>)}
+      </p>
+    )}
+  </div>
+</li>
