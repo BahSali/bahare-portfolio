@@ -146,14 +146,14 @@ export const projects: Project[] = [
     },
     story: {
       overview: [
-        'Cities need continuous traffic monitoring, but fixed sensors cover few roads and commercial or probe data can be costly or restricted. Traffic observations are also often incomplete, with missing values on monitored roads and no data at all on others.',
-        'This research began with recovering missing values in incomplete traffic data. It then turned to a broader question: can public transit buses, whose positions are openly published as GTFS-Realtime feeds, act as probes for estimating traffic across a whole city? The work moves from missing-data recovery, to relating bus speeds to general traffic, to a citywide model and an interactive tool for exploring its estimates. The results come from a research case study in Brussels.',
+        "Understanding traffic conditions across an entire city requires reliable and continuous data, yet collecting such information remains expensive and often incomplete. Fixed sensors provide limited coverage, while commercial data sources, despite their broader reach, can be costly or difficult to access.",
+        "This research explores how existing, accessible data sources can support citywide traffic monitoring. It begins by recovering missing observations from incomplete traffic datasets and extends to estimating conditions on roads without direct measurements, using spatial and temporal relationships across the network.",
+        "Working with real-world transportation datasets, the research investigates how machine learning can transform publicly available bus observations, particularly from Brussels' STIB network, into estimates of general road traffic speeds.",
       ],
       facts: [
-        { value: '1,366', label: 'road segments in the Brussels study network' },
-        { value: '68', label: 'bus lines providing probe observations' },
-        { value: '≈110 km²', label: 'of the urban area covered' },
-        { value: '6 weeks', label: 'of weekday data, Nov–Dec 2025' },
+        { value: 'Brussels', label: 'Belgium · Urban road network' },
+        { value: '≈110 km²', label: 'Study area coverage' },
+        { value: 'GTFS-RT', label: 'STIB-MIVB bus observations' },
       ],
       journey: [
         {
