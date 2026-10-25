@@ -10,14 +10,14 @@ import { timelineItems } from '~/lib/timeline';
 import CaseStudy from '~/components/CaseStudy.astro';
 
 export function getStaticPaths() {
-  return projects.map((project, i) => ({
+  return projects.map((project) => ({
     params: { slug: project.slug },
-    props: { project, prev: projects[i - 1] ?? null, next: projects[i + 1] ?? null },
+    props: { project },
   }));
 }
 
-interface Props { project: Project; prev: Project | null; next: Project | null }
-const { project, prev, next } = Astro.props;
+interface Props { project: Project }
+const { project } = Astro.props;
 const app = project.application;
 const story = project.story;
 
@@ -75,8 +75,16 @@ const toggle =
 
   <nav aria-label="Sections" class="sticky top-[60px] z-30 mt-8 border-y border-warm/70 bg-paper/95 backdrop-blur-sm">
     <Container>
-      <ul class="flex gap-6 overflow-x-auto py-3 text-sm whitespace-nowrap">
-        {sections.map((s) => <li><a href={`#${s.id}`} class="text-ink-soft transition-colors hover:text-clay">{s.label}</a></li>)}
+      <ul id="section-nav" class="flex gap-6 overflow-x-auto py-3 text-sm whitespace-nowrap">
+        {sections.map((s) => (
+          <li>
+            <a
+              href={`#${s.id}`}
+              data-text={s.label}
+              class="inline-flex flex-col text-ink-soft transition-colors after:invisible after:h-0 after:overflow-hidden after:font-semibold after:content-[attr(data-text)] hover:text-clay aria-[current=true]:font-semibold aria-[current=true]:text-ink"
+            >{s.label}</a>
+          </li>
+        ))}
       </ul>
     </Container>
   </nav>
@@ -164,10 +172,28 @@ const toggle =
     </section>
   </Container>}
 
-  <Container class="pt-10">
-    <nav aria-label="More projects" class="grid gap-6 text-sm sm:grid-cols-2">
-      <div>{prev && <><p class="eyebrow mb-2">Previous</p><a href={`/projects/${prev.slug}`} class="link-line font-display text-lg">{prev.title}</a></>}</div>
-      <div class="sm:text-right">{next && <><p class="eyebrow mb-2">Next</p><a href={`/projects/${next.slug}`} class="link-line font-display text-lg">{next.title}</a></>}</div>
-    </nav>
-  </Container>
 </BaseLayout>
+
+<script>
+  const nav = document.getElementById('section-nav');
+  if (nav) {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    const targets = links.map((a) => document.getElementById(a.getAttribute('href')!.slice(1)));
+    let current = -1;
+    const update = () => {
+      const line = 140;
+      let idx = -1;
+      targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top <= line) idx = i; });
+      if (idx === current) return;
+      current = idx;
+      links.forEach((a, i) => a.setAttribute('aria-current', String(i === idx)));
+      if (idx >= 0) {
+        const a = links[idx];
+        nav.scrollTo({ left: a.offsetLeft - 24, behavior: 'smooth' });
+      }
+    };
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+  }
+</script>
