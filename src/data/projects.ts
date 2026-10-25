@@ -11,7 +11,7 @@ import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import modelArchitecture from '~/assets/phd/model-architecture.png';
 import maeDistribution from '~/assets/phd/mae-distribution.png';
 import spatialError from '~/assets/phd/spatial-error.jpg';
-import speedSeriesCard from '~/assets/phd/speed-series-card.png';
+import networkCard from '~/assets/phd/network-card.jpg';
 import speedSeriesFrequency from '~/assets/phd/speed-series-frequency.png';
 
 export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
@@ -138,8 +138,8 @@ export const projects: Project[] = [
       placeholderLabel: 'Project image',
     },
     cardImage: {
-      src: speedSeriesCard,
-      alt: 'Bus-derived and Google-derived reference speeds over time for one road segment, with frequency and low-pass views',
+      src: networkCard,
+      alt: 'Network of bus-served road segments across Brussels',
       placeholderLabel: 'Card image',
     },
     story: {
