@@ -6,10 +6,9 @@ import portrait from '~/assets/bahare-portrait.jpg';
  */
 export const site = {
   name: 'Bahare Salehi',
-  role: 'Machine Learning Researcher | Data Scientist',
+  role: 'Data Scientist',
+  subtitle: 'Machine Learning · Applied Research · Data Systems',
   affiliation: 'PhD researcher, Université libre de Bruxelles',
-  tagline:
-    'Machine learning, optimization and spatiotemporal modeling, grounded in years of work with enterprise databases and ERP systems.',
   intro:
     'I build learning and optimization methods for data that moves through space and time, and I bring a practical understanding of how enterprise data is actually stored, governed and used. My aim is research that holds up in real-world applications.',
 
