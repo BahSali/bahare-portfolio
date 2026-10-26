@@ -38,13 +38,13 @@ const archBig = await Promise.all(story.architectures.map(async (a) => ({
 const band = 'scroll-mt-28 border-t border-ink/25';
 const tint = 'bg-[#dbe2d3]';
 const pad = 'py-8 sm:py-12';
-const h2 = 'font-display-tight mb-5 text-3xl font-light sm:mb-5 sm:text-[2.1rem]';
+const h2 = 'font-display-tight mb-4 text-2xl font-light sm:text-[1.9rem]';
 const h3 = 'font-display text-lg';
 ---
 <!-- Overview -->
 <section id="overview" class={band}>
   <Container class="py-6 sm:py-9">
-    <h2 class="font-display-tight mb-4 text-3xl font-light sm:text-[2.1rem]">Overview</h2>
+    <h2 class="font-display-tight mb-4 text-2xl font-light sm:text-[1.9rem]">Overview</h2>
     <div class="grid items-start gap-6 lg:grid-cols-12 lg:gap-10">
       <div class="max-w-[36rem] space-y-3.5 text-base leading-[1.65] lg:col-span-7 text-justify hyphens-auto">
         {story.overview.map((p) => <p>{p}</p>)}
@@ -70,7 +70,7 @@ const h3 = 'font-display text-lg';
     <dl class="mt-6 grid gap-4 border-y border-warm/70 py-4 sm:grid-cols-3 sm:gap-8">
       {story.facts.map((f) => (
         <div>
-          <dt class="font-display-tight text-2xl font-light text-teal sm:text-3xl">{f.value}</dt>
+          <dt class="font-display text-lg text-teal sm:text-xl">{f.value}</dt>
           <dd class="mt-1 text-sm text-ink-soft">{f.label}</dd>
         </div>
       ))}
@@ -426,7 +426,7 @@ const h3 = 'font-display text-lg';
 <section id="funding" class={band}>
   <Container class="py-6 sm:py-9">
     <div class="grid items-start gap-x-10 gap-y-3 lg:grid-cols-12">
-      <h2 class="font-display-tight text-3xl font-light sm:text-[2.1rem] lg:col-span-2">Funding</h2>
+      <h2 class="font-display-tight text-2xl font-light sm:text-[1.9rem] lg:col-span-2">Funding</h2>
       <p class="max-w-[48rem] text-base leading-[1.65] lg:col-span-7">This research is supported by the EMERALDS project, funded by the European Union's Horizon Europe programme.</p>
       <p class="text-sm lg:col-span-3 lg:pt-1.5 lg:text-right lg:whitespace-nowrap"><a href={emeralds.href} class="link-line">Explore my work in EMERALDS →</a></p>
     </div>

@@ -9,7 +9,7 @@ const { id, eyebrow, title, class: className = '' } = Astro.props;
    <div class="grid gap-8 border-t border-warm/70 pt-8 lg:grid-cols-12 lg:gap-10">
     <div class="lg:col-span-4">
       {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
-      <h2 id={id ? `${id}-h` : undefined} class="font-display-tight text-3xl font-light sm:text-4xl" style="line-height:1.1">{title}</h2>
+      <h2 id={id ? `${id}-h` : undefined} class="font-display-tight text-2xl font-light sm:text-[1.9rem]" style="line-height:1.1">{title}</h2>
       <slot name="aside" />
     </div>
     <div class="lg:col-span-7 lg:col-start-6"><slot /></div>
