@@ -57,10 +57,10 @@ const toggle =
       </div>
       {project.subtitle
         ? <p class="text-sm text-ink-soft lg:col-span-12 lg:-mt-2"><span class="eyebrow mr-3">Research areas</span>{project.subtitle}</p>
-        : <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.summary}</p>}
+        : !project.brief && <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.summary}</p>}
     </div>
 
-    <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
+    {!project.brief && <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
       <div><dt class="eyebrow mb-1">Period</dt><dd>{project.period ?? <Placeholder>Period to be added</Placeholder>}</dd></div>
       <div><dt class="eyebrow mb-1">Role</dt><dd>{project.role ?? <Placeholder>Role to be added</Placeholder>}</dd></div>
       {!story && <div>
@@ -71,12 +71,12 @@ const toggle =
             : <Placeholder>Context to be added</Placeholder>}
         </dd>
       </div>}
-    </dl>
+    </dl>}
 
-    {!story && <ImagePlaceholder src={project.image.src} alt={project.image.alt} label={project.image.placeholderLabel} tone="sage" ratio="aspect-[16/7]" eager class="mt-6" />}
+    {!story && !project.brief && <ImagePlaceholder src={project.image.src} alt={project.image.alt} label={project.image.placeholderLabel} tone="sage" ratio="aspect-[16/7]" eager class="mt-6" />}
   </Container>
 
-  <nav aria-label="Sections" class="sticky top-[60px] z-30 mt-8 border-y border-warm/70 bg-paper/95 backdrop-blur-sm">
+  {!project.brief && <nav aria-label="Sections" class="sticky top-[60px] z-30 mt-8 border-y border-warm/70 bg-paper/95 backdrop-blur-sm">
     <Container>
       <ul id="section-nav" class="flex gap-6 overflow-x-auto py-3 text-sm whitespace-nowrap">
         {sections.map((s) => (
@@ -90,11 +90,31 @@ const toggle =
         ))}
       </ul>
     </Container>
-  </nav>
+  </nav>}
+
+  {project.brief && (
+    <Container class="pb-10 pt-2">
+      <div class="max-w-[44rem] space-y-9 border-t border-warm/70 pt-6">
+        <section id="overview">
+          <h2 class="eyebrow mb-3">Overview</h2>
+          <div class="space-y-3 text-base leading-[1.7]">{project.brief.overview.map((t) => <p>{t}</p>)}</div>
+        </section>
+        <section id="contribution">
+          <h2 class="eyebrow mb-3">My contribution</h2>
+          <div class="space-y-3 text-base leading-[1.7]">{project.brief.contribution.map((t) => <p>{t}</p>)}</div>
+        </section>
+        <section id="technical-areas">
+          <h2 class="eyebrow mb-3">Technical areas</h2>
+          <p class="text-[0.9375rem]"><span class="font-display text-lg">{project.brief.areaTitle}</span></p>
+          <p class="mt-1 text-sm text-ink-soft">{project.brief.areas.join(' · ')}</p>
+        </section>
+      </div>
+    </Container>
+  )}
 
   {story && <CaseStudy project={project} story={story} />}
 
-  {!story && <Container class="pt-2">
+  {!story && !project.brief && <Container class="pt-2">
     <section id="overview" class={row}>
       <h2 class="eyebrow lg:col-span-3">Overview</h2>
       <div class="max-w-2xl lg:col-span-8">

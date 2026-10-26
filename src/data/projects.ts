@@ -97,6 +97,8 @@ export interface Project {
   image: ImageRef;
   /** Short funding note shown as a tag on overview pages. */
   funding?: string;
+  /** Short single-page write-up (overview, contribution, technical areas) instead of the generic template. */
+  brief?: { overview: string[]; contribution: string[]; areaTitle: string; areas: string[] };
   /** Overrides on the detail page only. */
   eyebrow?: string;
   headline?: string;
@@ -342,14 +344,27 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'evolutionary-multi-objective-optimization',
-    title: 'Evolutionary Multi-Objective Optimization',
+    title: 'Runtime Analysis of Evolutionary Algorithms',
+    eyebrow: 'Research collaboration · University of Passau, Germany',
     category: 'collaboration',
     tier: 'standard',
     homeFeatured: true,
-    summary: 'Research with the University of Passau on evolutionary multi-objective optimization, including NSGA-II.',
+    summary: 'Research collaboration at the University of Passau on the runtime analysis of evolutionary multi-objective optimization algorithms.',
+    brief: {
+      overview: [
+        'During a research stay at the University of Passau, I worked with Prof. Dirk Sudholt and his research group on the runtime analysis of evolutionary multi-objective optimization algorithms.',
+        'The research examined how crossover and noisy evaluations affect the efficiency and robustness of algorithms such as NSGA-II and GSEMO. The collaboration resulted in two publications at AAAI 2023 and GECCO 2023.',
+      ],
+      contribution: [
+        'My work focused primarily on algorithm implementation, computational experiments, and result analysis. Using Python, I implemented evolutionary optimization procedures, investigated algorithm behavior under different experimental settings, and prepared results and visualizations to support the research.',
+        'I also contributed to parts of the mathematical analysis as part of the collaborative work.',
+      ],
+      areaTitle: 'Evolutionary Optimization',
+      areas: ['NSGA-II', 'GSEMO', 'Python', 'Algorithm Implementation', 'Experimental Analysis'],
+    },
     image: {
       src: null,
-      alt: 'Figure from the evolutionary multi-objective optimization research',
+      alt: 'Figure from the evolutionary optimization research',
       placeholderLabel: 'Project image: figure',
     },
   },
