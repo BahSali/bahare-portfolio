@@ -120,7 +120,7 @@ export const phdDatasets: Dataset[] = [
     role: 'Urban road traffic data used to evaluate spatiotemporal learning methods and recover missing observations across streets.',
     card: { src: thessalonikiMap, alt: 'Map of the Thessaloniki street network with the study segments highlighted' },
     overview: [
-      { label: 'Source', value: 'MobiSpace project ([project number to be added])' },
+      { label: 'Source', value: 'MobiSpaces project, EU Horizon Europe (Grant Agreement ID 101070279).' },
       { label: 'Coverage', value: 'City streets in Thessaloniki' },
       { label: 'Period', value: 'January – June 2023, 15-minute measurements' },
       { label: 'Size', value: '189 road segments, grouped into 28 roads' },
@@ -160,16 +160,16 @@ export const phdDatasets: Dataset[] = [
     kind: 'Highway traffic sensors · United States',
     role: 'Public highway sensor data used to benchmark missing traffic speed estimation methods on a large-scale transportation network.',
     card: { src: sanFranciscoMap, alt: 'Map of highway sensor locations in the San Francisco Bay Area' },
+    refined: true,
     overview: [
-      { label: 'Source', value: 'PeMSD4, collected by the California Department of Transportation (Caltrans). A preprocessed version is public.' },
-      { label: 'Coverage', value: 'Highways in the San Francisco Bay Area' },
-      { label: 'Period', value: 'January – February 2018' },
-      { label: 'Size', value: '307 loop detectors, each measuring average speed, flow and occupancy. This research uses average speed.' },
-      { label: 'Traffic', value: 'Over 80% of recorded speeds fall between 60 and 65 mph, which indicates mostly free-flowing traffic.' },
+      { label: 'Source', value: 'PeMSD4, a publicly available traffic benchmark derived from California Department of Transportation (Caltrans) sensor data.' },
+      { label: 'Coverage', value: 'Highway traffic sensors in the San Francisco Bay Area.' },
+      { label: 'Period', value: 'January–February 2018.' },
+      { label: 'Dataset', value: '307 traffic sensors recording speed, flow, and occupancy. This study uses average traffic speed.' },
     ],
+    purposeTitle: 'Research focus',
     purpose: [
-      'Apply a range of graph neural network designs to the missing-value problem on a well-known dataset.',
-      'Because the data come preprocessed, the focus stays on the imputation methods themselves.',
+      'Using a widely adopted traffic benchmark to evaluate graph neural network architectures for missing speed data imputation and compare their performance under a common experimental setting.',
     ],
     sections: [
       {
@@ -178,18 +178,17 @@ export const phdDatasets: Dataset[] = [
           {
             src: sanFranciscoHistogram,
             alt: 'Histogram of recorded speeds in the PeMSD4 dataset',
-            caption: 'Distribution of recorded speeds: most readings are between 60 and 65 mph.',
+            caption: 'Distribution of recorded traffic speeds across the dataset.',
           },
           {
             src: sanFranciscoDay,
             alt: 'Line chart of average speed over one day for one sensor',
-            caption: 'Average speed over one day for one sensor.',
+            caption: 'Example of speed variations recorded by a single sensor over one day.',
           },
         ],
       },
     ],
     paper: 'icdew-2024',
-    missing: 'Results on this dataset are reported in the ICDEW ’24 ablation study; a result figure from it would be needed to show them here.',
   },
   {
     id: 'brussels',
