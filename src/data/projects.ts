@@ -69,10 +69,12 @@ export interface ProjectStory {
   /** Methods & Technologies: the actual workflow. `core` = used extensively, `explored` = worked with or explored. */
   workflow: { title: string; text: string; core: string[]; explored: string[] }[];
   /** Short scope note shown under the workflow. */
-  workflowNote: string;
+  workflowNote?: string;
   architectureFigure: Figure;
   /** Active or exploratory work, never presented as completed or published. */
   currentResearch: { title: string; text: string }[];
+  /** Plain-language explanation of the architecture diagram. */
+  architectureNotes: { title: string; text: string }[];
 }
 
 export interface Project {
@@ -221,51 +223,51 @@ export const projects: Project[] = [
       datasets: phdDatasets,
       workflow: [
         {
-          title: 'Data preparation and alignment',
-          text: 'Bus observations, reference speeds and historical records are cleaned, matched in time and put on a shared 15-minute grid.',
-          core: ['Python', 'GTFS-Realtime', 'Google Routes API'],
-          explored: ['Parquet', 'Waze jam data'],
+          title: 'Data Engineering & Integration',
+          text: 'Building research datasets from heterogeneous sources: working with APIs, processing and aligning time-series observations, handling missing values and integrating traffic reference data.',
+          core: ['Python', 'Pandas', 'SQL', 'GTFS-Realtime', 'Google Routes API'],
+          explored: [],
         },
         {
-          title: 'Geospatial processing',
-          text: 'Road segments between bus stops form a network. Observations are matched to segments and checked on maps.',
-          core: ['QGIS', 'GeoJSON', 'SQL', 'PostGIS'],
-          explored: ['OpenStreetMap basemaps'],
+          title: 'Geospatial Analytics & Databases',
+          text: 'Constructing road networks, mapping observations to geographic segments, working with spatial databases and analysing spatial relationships.',
+          core: ['PostgreSQL/PostGIS', 'QGIS', 'GeoJSON', 'OpenStreetMap'],
+          explored: [],
         },
         {
-          title: 'Machine learning and model development',
-          text: 'A graph neural network learns how bus speeds relate to general traffic, using attention to focus on the most informative times and roads.',
-          core: ['PyTorch'],
-          explored: ['TensorFlow', 'MXNet', 'NumPy', 'SciPy', 'PyWavelets', 'Foundation models'],
+          title: 'Deep Learning & Model Design',
+          text: 'Designing and implementing custom neural network architectures for traffic estimation, including graph convolutions, temporal and spatial attention, and gated prediction branches. The main architecture was independently designed and substantially implemented from the ground up.',
+          core: ['PyTorch (primary)', 'TensorFlow and MXNet (additional experience)'],
+          explored: [],
         },
         {
-          title: 'Evaluation and visualization',
-          text: 'Estimates are compared with the reference and with baseline models (LSTM, CNN, DCRNN, Graph WaveNet), then explored in an interactive app.',
-          core: ['Streamlit'],
-          explored: ['Tableau'],
+          title: 'Experimental Design & Evaluation',
+          text: 'Comparing architectures and baseline methods, investigating missing-data reconstruction, conducting ablation studies and analysing spatial and temporal prediction errors.',
+          core: ['NumPy', 'SciPy', 'Model evaluation metrics'],
+          explored: [],
+        },
+        {
+          title: 'Interactive ML Applications',
+          text: 'Integrating trained models into an interactive web application for traffic exploration, model comparison and travel-time analysis, including application configuration, environment-based credential handling and Git/GitHub version control.',
+          core: ['Streamlit', 'Python', 'Git/GitHub'],
+          explored: [],
         },
       ],
-      workflowNote:
-        'Working with real-time feeds here means collecting and processing timestamped observations for research. It is not a production monitoring service. Throughout: Python and GitHub.',
+      workflowNote: '',
       architectureFigure: {
         src: modelArchitecture,
         alt: 'Model architecture: spatiotemporal encoder followed by a dual-branch decoder',
-        caption: 'Model overview: historical feature construction, a spatiotemporal block (temporal CNN with attention, then attention and GCNN over the road graph), and a decoder with base and residual branches.',
+        caption: 'Model overview, from the SIGSPATIAL \u201926 paper.',
         placeholderLabel: 'Figure: model architecture',
       },
+      architectureNotes: [
+        { title: 'Time and space', text: 'Each road segment gets a feature history built from recent speeds, daily and weekly patterns, and similar past days. Temporal convolution with attention learns how speeds evolve over time. Attention-weighted graph convolution then shares information between connected road segments.' },
+        { title: 'Gated dual-branch decoder', text: 'One branch estimates the broader traffic pattern; the other models local deviations around it. A learnable gate controls how much of the local correction is added to the final speed estimate.' },
+      ],
       currentResearch: [
-        {
-          title: 'Transferability',
-          text: 'Investigating how learned traffic patterns can be transferred to other cities.',
-        },
-        {
-          title: 'Frequency-domain modeling',
-          text: 'Relating bus-derived and reference speeds across temporal frequencies, with spectral decomposition and frequency-aware architectures. Early experiments, not yet published.',
-        },
-        {
-          title: 'Less new reference data',
-          text: 'Updating existing models with less dependence on newly collected reference data.',
-        },
+        { title: 'Transferability across cities', text: 'Investigating how learned traffic patterns transfer to other cities.' },
+        { title: 'Frequency-domain modeling', text: 'Frequency-domain modeling and signal-processing techniques for relating bus-derived and reference speeds.' },
+        { title: 'Less new reference data', text: 'Reducing dependence on newly collected reference data when adapting models.' },
       ],
     },
     application: {
