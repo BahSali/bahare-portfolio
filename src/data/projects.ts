@@ -10,6 +10,8 @@
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
+import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
+import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
 import networkCard from '~/assets/phd/network-card.jpg';
@@ -97,6 +99,8 @@ export interface Project {
   image: ImageRef;
   /** Short funding note shown as a tag on overview pages. */
   funding?: string;
+  /** Short single-page write-up (overview, contribution, technical areas) instead of the generic template. */
+  brief?: { overview: string[]; contribution: string[]; areaTitle: string; areas: string[]; figure?: { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string } };
   /** Overrides on the detail page only. */
   eyebrow?: string;
   headline?: string;
@@ -342,15 +346,38 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'evolutionary-multi-objective-optimization',
-    title: 'Evolutionary Multi-Objective Optimization',
+    title: 'Runtime Analysis of Evolutionary Algorithms',
+    eyebrow: 'Research collaboration · University of Passau, Germany',
+    subtitle: 'Evolutionary Algorithms · Multi-Objective Optimization · Runtime Analysis',
+    period: 'May 2022 – March 2023',
+    role: 'Visiting Researcher',
     category: 'collaboration',
     tier: 'standard',
     homeFeatured: true,
-    summary: 'Research with the University of Passau on evolutionary multi-objective optimization, including NSGA-II.',
+    summary: 'Exploring the efficiency and robustness of evolutionary optimization algorithms through computational experiments.',
+    publications: ['aaai-2023', 'gecco-2023'],
+    brief: {
+      overview: [
+        "During a research stay at the University of Passau, I collaborated with Prof. Dirk Sudholt's research group on the analysis of evolutionary multi-objective optimization algorithms.",
+        'We investigated how crossover and noise influence the runtime and robustness of NSGA-II and GSEMO. The work combined theoretical analysis with computational experiments and led to two publications at AAAI 2023 and GECCO 2023.',
+      ],
+      contribution: [
+        'I implemented NSGA-II and GSEMO from scratch in Python, covering their main components, including selection, crossover, mutation, and population management.',
+        'I developed and ran experiments to study algorithm performance under different conditions, analysed the results, and prepared figures for the publications. I also contributed to selected mathematical proofs.',
+      ],
+      areaTitle: 'Technical Skills',
+      areas: ['Python', 'Multi-Objective Optimization', 'Evolutionary Algorithms', 'Algorithm Implementation', 'Experimental Evaluation', 'Runtime Analysis'],
+      figure: {
+        src: passauFig,
+        alt: 'Number of Pareto-optimal points covered per generation by GSEMO and NSGA-II on two benchmark functions under noise',
+        caption: 'Experiment from the GECCO 2023 paper: Pareto-optimal points covered per generation by GSEMO and NSGA-II under noise, for noise probability p.',
+        placeholderLabel: 'Experiment figure',
+      },
+    },
     image: {
-      src: null,
-      alt: 'Figure from the evolutionary multi-objective optimization research',
-      placeholderLabel: 'Project image: figure',
+      src: nsgaIllustration,
+      alt: 'Schematic illustration of non-dominated sorting in NSGA-II, with solutions ranked into successive Pareto fronts',
+      placeholderLabel: 'Project image',
     },
   },
   {
@@ -359,8 +386,15 @@ export const projects: Project[] = [
     title: 'Network Design Optimization',
     category: 'thesis',
     tier: 'standard',
+    eyebrow: "Master's thesis",
     homeFeatured: false,
     summary: "Master's thesis research on network design, graph algorithms and optimization.",
+    brief: {
+      overview: [],
+      contribution: [],
+      areaTitle: 'Technical skills',
+      areas: [],
+    },
     image: {
       src: null,
       alt: 'Figure from the network design optimization thesis',
