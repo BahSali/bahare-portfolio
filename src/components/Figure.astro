@@ -1,0 +1,15 @@
+---
+import { Image } from 'astro:assets';
+import ImagePlaceholder from './ImagePlaceholder.astro';
+import type { Figure } from '~/data/projects';
+
+/** A research figure shown whole (never cropped) with its caption; a placeholder when `src` is null. */
+interface Props { figure: Figure; format?: 'png' | 'webp'; class?: string }
+const { figure, format = 'webp', class: className = '' } = Astro.props;
+---
+<figure class={className}>
+  {figure.src
+    ? <Image src={figure.src} alt={figure.alt} format={format} quality="high" width={figure.src.width} class="h-auto w-full border border-warm/60 bg-white" sizes="(min-width: 1024px) 50vw, 100vw" loading="lazy" />
+    : <ImagePlaceholder src={null} alt={figure.alt} label={figure.placeholderLabel} ratio="aspect-[4/3]" tone="warm" />}
+  <figcaption class="mt-2 max-w-xl text-sm text-ink-soft">{figure.caption}</figcaption>
+</figure>

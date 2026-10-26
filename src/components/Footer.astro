@@ -2,8 +2,10 @@
 import { site } from '~/data/site';
 import { nav } from '~/data/nav';
 import Container from './Container.astro';
+interface Props { tight?: boolean }
+const { tight = false } = Astro.props;
 ---
-<footer class="mt-section border-t border-warm/70 py-10 text-sm text-ink-soft">
+<footer class:list={[tight ? "mt-0" : "mt-section", "border-t border-warm/70 py-10 text-sm text-ink-soft"]}>
   <Container class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <p class="font-display text-lg text-ink">{site.name}</p>

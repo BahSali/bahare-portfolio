@@ -7,6 +7,14 @@
  * - `publications` lists publication slugs (see publications.ts) for cross-linking.
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
+import citywideNetwork from '~/assets/phd/citywide-network.jpg';
+import archBaseline from '~/assets/phd/arch-baseline.png';
+import archAttention from '~/assets/phd/arch-attention.png';
+import archSpectral from '~/assets/phd/arch-spectral.png';
+import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
+import networkCard from '~/assets/phd/network-card.jpg';
+import { phdDatasets, type Dataset } from './phd-datasets';
+
 export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
 export type ProjectTier = 'lead' | 'standard';
 
@@ -23,8 +31,49 @@ export interface ImageRef { src: ImageMetadata | string | null; alt: string; pla
 export interface ProjectApplication {
   title: string;
   summary: string;
+  /** Shown only when an accessible URL is provided. */
   demoUrl: string | null;
+  /** Demonstration video; place the file under /public/media and set `src` (e.g. '/media/app-demo.mp4'). */
+  video: { src: string; poster: ImageMetadata | string | null; type: string; label: string } | null;
+  features: { title: string; text: string }[];
+  /** Screenshots are shown only when `src` is set; with no video, the first is the large main visual. */
   screenshots: ImageRef[];
+}
+
+/** A figure taken from the research material, with its caption. `src: null` renders a placeholder. */
+export interface Figure { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string }
+
+/** Optional long-form case study; when present the detail page uses the case-study layout. */
+export interface ProjectStory {
+  overview: string[];
+  /** Silent looping animation shown beside the overview (files in /public/media). */
+  overviewMedia?: { src: string; still: string; width: number; height: number; alt: string; caption: string };
+  facts: { value: string; label: string }[];
+  /** Stages of one research project, shown as a compact timeline. `publications` are publication slugs. */
+  journey: {
+    title: string;
+    text: string;
+    /** Condensed text used when the journey is laid out in a single row. */
+    short: string;
+    /** Secondary details such as case studies. */
+    details: { label: string; text: string }[];
+    /** Related publications: `slug` links to the Research page. */
+    papers: { label: string; slug: string }[];
+    /** Short feature list, shown as plain text. */
+    features?: string;
+    /** Topics under active investigation (stage still in progress). */
+    topics?: string[];
+    status?: 'ongoing';
+  }[];
+  /** Introductory sentence for the Data section. */
+  dataIntro: string;
+  /** Data section case studies (see phd-datasets.ts). */
+  datasets: Dataset[];
+  /** Technical Work & Expertise: competency areas. `ongoing` lists research directions, not established results. */
+  workflow: { title: string; text: string; ongoing?: string; core: string[]; explored: string[] }[];
+  workflowNote?: string;
+  /** Model development: one entry per architecture, shown with an image selector (the one marked `default` opens first). */
+  architectures: { id: string; label: string; fullName: string; venue: string; paper: string; src: ImageMetadata; alt: string; approach: string; focus: string; default?: boolean; ongoing?: boolean }[];
 }
 
 export interface Project {
@@ -39,24 +88,34 @@ export interface Project {
   role: string | null;
   overview: string | null;
   methodology: string | null;
-  contribution: string | null;
+  /** Research or professional contributions; empty renders a placeholder. */
+  contributions: string[];
   technologies: string[];
   results: string | null;
   publications: string[];
   links: Link[];
   image: ImageRef;
+  /** Short funding note shown as a tag on overview pages. */
+  funding?: string;
+  /** Overrides on the detail page only. */
+  eyebrow?: string;
+  headline?: string;
+  subtitle?: string;
+  story?: ProjectStory;
+  /** Image for overview cards (Home); falls back to `image`. */
+  cardImage?: ImageRef;
   application?: ProjectApplication;
 }
 
 const empty: Pick<
   Project,
-  'period' | 'role' | 'overview' | 'methodology' | 'contribution' | 'technologies' | 'results' | 'publications' | 'links'
+  'period' | 'role' | 'overview' | 'methodology' | 'contributions' | 'technologies' | 'results' | 'publications' | 'links'
 > = {
   period: null,
   role: null,
   overview: null,
   methodology: null,
-  contribution: null,
+  contributions: [],
   technologies: [],
   results: null,
   publications: [],
@@ -68,24 +127,215 @@ export const projects: Project[] = [
     ...empty,
     slug: 'traffic-speed-estimation',
     title: 'Citywide Traffic Speed Estimation',
+    eyebrow: 'PhD Research | Université libre de Bruxelles',
+    funding: 'Funded under EMERALDS · Horizon Europe',
+    headline: 'From Incomplete Traffic Data to Citywide Traffic Estimation',
+    subtitle: 'Machine Learning · Spatiotemporal Modeling · Real-World Data',
     category: 'phd',
     tier: 'lead',
     homeFeatured: true,
     summary:
       'Estimating traffic speeds across a whole city from observations collected by public transit vehicles.',
+    period: 'April 2023 – present',
+    role: 'PhD researcher',
+    contributions: [
+      'Enriching incomplete traffic observations through spatiotemporal patterns across multiple cities and varying levels of data availability.',
+      'Introducing and validating public transit buses as probes for urban road-level traffic speed estimation.',
+      'An attention-enhanced gated dual-branch GCNN for citywide traffic estimation.',
+      'An open-access citywide dataset of GTFS-derived bus speeds at the road-segment level.',
+    ],
+    technologies: ['Python', 'PyTorch', 'GTFS-Realtime', 'Google Routes API', 'Streamlit'],
+    // Add a { label, href } code link here only once a public repository has been approved.
+    links: [],
+    publications: ['icdew-2024', 'sigspatial-2025', 'sigspatial-2026', 'urban-ai-2026'],
     image: {
-      src: null,
-      alt: 'Illustration for the traffic speed estimation project',
-      placeholderLabel: 'Project image: speed estimation map or figure',
+      src: citywideNetwork,
+      alt: 'Map of the 1,366 road segments of the Brussels study network',
+      placeholderLabel: 'Project image',
+    },
+    cardImage: {
+      src: networkCard,
+      alt: 'Network of bus-served road segments across Brussels',
+      placeholderLabel: 'Card image',
+    },
+    story: {
+      overview: [
+        "Understanding traffic conditions across an entire city requires reliable and continuous data, yet collecting such information remains expensive and often incomplete. Fixed sensors provide limited coverage, while commercial data sources, despite their broader reach, can be costly or difficult to access.",
+        "This research explores how existing, accessible data sources can support citywide traffic monitoring. It begins by recovering missing observations from incomplete traffic datasets and extends to estimating conditions on roads without direct measurements, using spatial and temporal relationships across the network.",
+        "Working with real-world transportation datasets, the research investigates how machine learning can transform publicly available bus observations, particularly from Brussels' STIB network, into estimates of general road traffic speeds.",
+      ],
+      overviewMedia: {
+        src: '/media/overview-network.gif',
+        still: '/media/overview-network-still.jpg',
+        width: 480,
+        height: 320,
+        alt: 'Animated map zooming from the whole Brussels bus network down to individual roads',
+        caption: 'Case study of Brussels: road segments are shown as dark lines and bus stops as red points.',
+      },
+      facts: [
+        { value: 'Brussels', label: 'Belgium · Urban road network' },
+        { value: '≈110 km²', label: 'Study area coverage' },
+        { value: 'GTFS-RT', label: 'STIB-MIVB bus observations' },
+      ],
+      journey: [
+        {
+          title: 'Missing Traffic Data Imputation',
+          short: 'Recovering missing traffic observations with spatiotemporal models and neural architectures.',
+          text: 'Investigating different spatiotemporal models and NN architectures to recover missing traffic observations.',
+          details: [{ label: 'Case studies', text: 'Brussels bus network, Rotterdam highways, Thessaloniki urban network, and San Francisco Bay Area.' }],
+          papers: [{ label: "ICDEW '24", slug: 'icdew-2024' }],
+        },
+        {
+          title: 'Buses as Traffic Probes',
+          short: 'Evaluating public transit buses as moving sensors of general road traffic speeds.',
+          text: 'Introducing and evaluating the use of public transit buses as moving sensors for estimating general road traffic speeds.',
+          details: [{ label: 'Case study', text: '74 road segments in Ixelles and Etterbeek, Brussels.' }],
+          papers: [{ label: "ACM SIGSPATIAL '25", slug: 'sigspatial-2025' }],
+        },
+        {
+          title: 'Citywide Traffic Estimation',
+          short: 'Scaling to a whole urban network with an attention-enhanced GCNN, a dual-branch decoder and trend–residual decomposition.',
+          text: 'Scaling traffic estimation to an entire urban network by developing an attention-enhanced GCNN with a dual-branch decoder. Trend–residual decomposition is incorporated to help the model better learn the multi-level relationships between bus-derived speeds and general traffic conditions.',
+          details: [{ label: 'Case studies', text: 'Brussels transportation network including 1,366 road segments, and York (EMERALDS), with 638 road segments.' }],
+          papers: [
+            { label: "ACM SIGSPATIAL '26", slug: 'sigspatial-2026' },
+            { label: "UrbanAI '26", slug: 'urban-ai-2026' },
+          ],
+        },
+        {
+          title: 'Interactive Traffic Analytics',
+          short: 'A real-time application that estimates and visualizes current traffic from live bus observations and a model trained on historical data.',
+          text: 'Developing a real-time application to estimate and visualize current traffic conditions using live bus observations and a machine learning model trained on historical data.',
+          details: [],
+          papers: [],
+          features: 'Interactive maps · Model comparison · Travel-time analysis',
+        },
+        {
+          title: 'Transferability & Model Adaptation',
+          short: 'Transferring learned patterns to other cities and updating models with less new reference data.',
+          text: 'Investigating how learned traffic patterns can be transferred to other cities and how existing models can be updated with less dependence on newly collected reference data.',
+          details: [],
+          papers: [],
+          topics: ['Frequency-domain modeling', 'Foundation models', 'Cross-city generalization'],
+          status: 'ongoing',
+        },
+      ],
+      dataIntro:
+        'Real-world case studies. Open one to see its source, figures and results.',
+      datasets: phdDatasets,
+      workflow: [
+        {
+          title: 'Data Engineering & Integration',
+          text: 'Building datasets from heterogeneous sources: working with APIs, processing and aligning time-series observations, handling missing values and integrating traffic reference data. This includes data cleaning, validation, map matching and preparing model-ready data.',
+          core: ['Python', 'Pandas', 'GTFS-Realtime', 'Google Routes API'],
+          explored: [],
+        },
+        {
+          title: 'Geospatial Analytics & Data Management',
+          text: 'Constructing and analysing road networks, performing spatial operations, managing geographic databases and exploring spatial and temporal data.',
+          core: ['PostgreSQL/PostGIS', 'SQL', 'QGIS', 'GeoJSON', 'Parquet', 'OpenStreetMap'],
+          explored: [],
+        },
+        {
+          title: 'Machine Learning & Model Development',
+          text: 'Developing and comparing statistical and neural approaches for traffic estimation, with ARIMA, LSTM, temporal CNN, DCRNN and Graph WaveNet as baselines. I designed and implemented custom GCNN architectures, progressing from a baseline spatiotemporal network to attention-based models and a gated dual-branch design.',
+          core: ['PyTorch (primary)', 'TensorFlow and MXNet (additional experience)'],
+          explored: [],
+        },
+        {
+          title: 'Frequency-Domain Modeling & Signal Analysis',
+          text: 'Investigating traffic signals at different temporal frequencies to better understand complex and heterogeneous traffic behaviour across large urban networks. Exploring signal decomposition, Fourier and wavelet transforms, and frequency-aware neural architectures to distinguish broader traffic patterns from local variations.',
+          ongoing: 'Active research: spectral analysis and decomposition approaches, and a frequency-aware architecture, are in early experiments.',
+          core: ['NumPy', 'SciPy', 'PyWavelets'],
+          explored: [],
+        },
+        {
+          title: 'Experimentation & Model Evaluation',
+          text: 'Designing comparative experiments and ablation studies, examining how model components contribute, and evaluating errors across road segments and time periods.',
+          core: ['Evaluation metrics (e.g. MAE, RMSE, DTW)'],
+          explored: [],
+        },
+        {
+          title: 'Model Transfer, Adaptation & Foundation Models',
+          text: 'Investigating how trained models can be transferred across cities and road networks, and updated with less newly collected reference data. The York case study within EMERALDS applies the approach to a second city.',
+          ongoing: 'Active research: model transfer across cities, graph partitioning and adaptation strategies, and foundation models for traffic estimation, including TabPFN.',
+          core: [],
+          explored: [],
+        },
+        {
+          title: 'Interactive Applications & Visualization',
+          text: 'Building interactive applications to visualize traffic data and compare model predictions. Integrating multiple trained models into online demos, with secure API access and credential management.',
+          core: ['Streamlit', 'Tableau', 'Git/GitHub'],
+          explored: [],
+        },
+      ],
+      architectures: [
+        {
+          id: 'baseline',
+          label: 'Baseline GCNN',
+          fullName: 'Baseline Spatiotemporal GCNN',
+          venue: 'ICDEW 2024',
+          paper: 'icdew-2024',
+          src: archBaseline,
+          alt: 'Baseline GCNN: three parallel sub-networks for hourly, daily and weekly patterns, each with a spatiotemporal block, fused into the output',
+          approach: 'Designed for imputing missing traffic speed observations, using spatial and temporal relationships. Combines temporal and spatial convolutions over separate hourly, daily and weekly inputs.',
+          focus: 'Investigating how different neural network components affect missing traffic speed reconstruction.',
+        },
+        {
+          id: 'attention',
+          label: 'Attention GCNN',
+          fullName: 'Attention-based GCNN',
+          venue: 'SIGSPATIAL 2025',
+          paper: 'sigspatial-2025',
+          src: archAttention,
+          alt: 'Attention-based GCNN: embedding convolution, a spatiotemporal block with temporal and spatial attention, and an output head',
+          approach: 'Designed for learning a mapping from bus-derived speed time series to general traffic speeds, represented by the reference data. Uses temporal and spatial attention.',
+          focus: 'Estimating road traffic speeds from public transit data rather than relying on fixed traffic sensors.',
+        },
+        {
+          id: 'dual-branch',
+          label: 'Dual-Branch GCNN',
+          fullName: 'Gated Dual-Branch GCNN',
+          venue: '2026',
+          paper: 'sigspatial-2026',
+          src: modelArchitecture,
+          alt: 'Gated dual-branch GCNN: feature construction, spatiotemporal block, and a decoder with base and residual branches combined by additive fusion',
+          approach: 'Extends bus-to-reference estimation to a larger urban network, addressing more heterogeneous traffic patterns and local variations. A dual-branch decoder with adaptive gating separates broader patterns from local deviations.',
+          focus: 'Bus-to-reference traffic estimation at citywide scale.',
+          default: true,
+        },
+        {
+          id: 'spectral',
+          label: 'Spectral Network',
+          fullName: 'Spectral Transfer Network',
+          venue: 'Ongoing research',
+          paper: '',
+          src: archSpectral,
+          alt: 'Spectral Transfer Network architecture: wavelet decomposition of bus speed into bands, per-band blocks with graph mixing and a transfer operator, coverage gate, and inverse wavelet transform',
+          approach: 'Investigates frequency-domain decomposition and transfer mechanisms for the same citywide mapping problem, where temporal patterns, data coverage and traffic conditions are more complex.',
+          focus: 'Bus-to-reference traffic estimation: separating broader trends from local fluctuations and handling varying bus-data coverage.',
+          ongoing: true,
+        },
+      ],
     },
     application: {
       title: 'Interactive Traffic Analytics Platform',
-      summary: 'An interactive application for exploring and analysing traffic data.',
+      summary: 'A Streamlit application for exploring and evaluating citywide traffic estimates.',
       demoUrl: null,
+      video: {
+        src: '/media/app-demo.mp4',
+        poster: '/media/app-demo-poster.jpg',
+        type: 'video/mp4',
+        label: 'Narrated walkthrough of the application',
+      },
+      features: [
+        { title: 'Synchronized maps', text: 'Explore traffic conditions and compare multiple models side by side.' },
+        { title: 'Model performance', text: 'Compare predictions with reference data and examine estimation errors.' },
+        { title: 'Travel-time analysis', text: 'Compare estimated travel times along selected routes.' },
+      ],
       screenshots: [
-        { src: null, alt: 'Main view of the analytics platform', placeholderLabel: 'Screenshot: main view' },
-        { src: null, alt: 'Second view of the analytics platform', placeholderLabel: 'Screenshot: detail view' },
-        { src: null, alt: 'Third view of the analytics platform', placeholderLabel: 'Screenshot: analysis view' },
+        { src: null, alt: 'Main view of the Streamlit analytics platform', placeholderLabel: 'Demo video: application walkthrough' },
+        { src: null, alt: 'Secondary view of the Streamlit analytics platform', placeholderLabel: 'Optional second screenshot' },
       ],
     },
   },
@@ -151,5 +401,5 @@ export const projectCard = (p: Project): CardItem => ({
   label: categoryLabels[p.category],
   title: p.title,
   summary: p.summary,
-  image: p.image,
+  image: p.cardImage ?? p.image,
 });

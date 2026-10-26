@@ -4,6 +4,6 @@ const { eyebrow, title, as: Tag = 'h2', class: className = '' } = Astro.props;
 ---
 <div class:list={['max-w-2xl', className]}>
   {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
-  <Tag class="font-display-tight text-4xl font-light sm:text-5xl"><Fragment set:html={title} /></Tag>
+  <Tag class="font-display-tight text-2xl font-light sm:text-[1.9rem]"><Fragment set:html={title} /></Tag>
   <slot />
 </div>

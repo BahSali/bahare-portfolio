@@ -4,8 +4,8 @@ import { site } from '~/data/site';
 import Header from '~/components/Header.astro';
 import Footer from '~/components/Footer.astro';
 
-interface Props { title?: string; description?: string }
-const { title, description = `${site.role}: ${site.subtitle}.` } = Astro.props;
+interface Props { title?: string; description?: string; tightFooter?: boolean }
+const { title, description = `${site.role}: ${site.subtitle}.`, tightFooter = false } = Astro.props;
 const fullTitle = title && title !== 'Home' ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
 ---
 <!doctype html>
@@ -26,6 +26,6 @@ const fullTitle = title && title !== 'Home' ? `${title} · ${site.name}` : `${si
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">Skip to content</a>
     <Header />
     <main id="main"><slot /></main>
-    <Footer />
+    <Footer tight={tightFooter} />
   </body>
 </html>
