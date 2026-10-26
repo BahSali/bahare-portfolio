@@ -9,12 +9,11 @@ const lead = projects.filter((p) => p.tier === 'lead');
 const others = projects.filter((p) => p.tier !== 'lead');
 const tones = ['warm', 'teal', 'sage'] as const;
 ---
-<BaseLayout title="Projects" description="Four research projects in machine learning, spatiotemporal modeling and optimization.">
+<BaseLayout title="Projects" description="Projects in machine learning, spatiotemporal modeling and optimization.">
   <Container class="pt-8 sm:pt-10">
     <div>
       <div>
-        <p class="eyebrow mb-3">Projects</p>
-        <h1 class="font-display-tight text-[clamp(1.75rem,3.2vw,2.5rem)] font-light" style="line-height:1.08">Research projects</h1>
+        <h1 class="font-display-tight text-[clamp(1.75rem,3.2vw,2.5rem)] font-light" style="line-height:1.08">Projects</h1>
       </div>
 
     </div>
@@ -47,7 +46,7 @@ const tones = ['warm', 'teal', 'sage'] as const;
   ))}
 
   <Container class="pt-8 sm:pt-10">
-    <p class="eyebrow mb-5 border-t border-warm/70 pt-4">Further research</p>
+    <p class="eyebrow mb-5 border-t border-warm/70 pt-4">More projects</p>
     <div class="grid gap-6 md:grid-cols-3 md:gap-6">
       {others.map((p, i) => <ProjectTile item={projectCard(p)} tone={tones[i % tones.length]} />)}
     </div>
