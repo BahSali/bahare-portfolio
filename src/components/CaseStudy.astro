@@ -103,27 +103,93 @@ const h3 = 'font-display text-xl';
   <Container class={pad}>
     <h2 class={h2}>Data</h2>
     <p class="mb-8 max-w-[38rem] text-[1.0625rem] leading-[1.7]">{story.dataIntro}</p>
-    <div class="space-y-10">
-      {story.dataGroups.map((g, gi) => (
-        <div class:list={[gi > 0 && 'border-t border-warm/70 pt-6']}>
-          <h3 class={h3}>{g.title}</h3>
-          {g.note && <p class="mb-5 mt-1 max-w-[38rem] text-sm leading-relaxed text-ink-soft">{g.note}</p>}
-          <ul class:list={['grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4']}>
-            {g.items.map((it) => (
-              <li>
-                <div class="aspect-[4/3] overflow-hidden border border-warm/60 bg-white">
-                  {it.src
-                    ? <Image src={it.src} alt={it.alt} format={it.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={640} style={it.position ? `object-position:${it.position}` : undefined} class:list={['h-full w-full', it.fit ? 'object-contain p-2' : 'object-cover']} loading="lazy" />
-                    : <ImagePlaceholder src={null} alt={it.alt} label="Figure" ratio="aspect-[4/3]" tone="warm" class="w-full" />}
+
+    <ul class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-6" id="dataset-gallery">
+      {story.datasets.map((d, i) => (
+        <li class:list={['lg:col-span-2', i >= 3 && 'lg:col-span-3']}>
+          <article data-card={d.id} class="group h-full border border-transparent">
+            <div class="aspect-[16/10] overflow-hidden border border-warm/60 bg-white">
+              <Image src={d.card.src} alt={d.card.alt} format="webp" quality="high" width={760} style={d.card.position ? `object-position:${d.card.position}` : undefined} class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]" loading="lazy" />
+            </div>
+            <p class="eyebrow mt-3">{d.kind}</p>
+            <h3 class="font-display mt-1 text-xl" style="line-height:1.2">{d.name}</h3>
+            <p class="mt-2 max-w-[34rem] text-sm leading-relaxed text-ink-soft">{d.role}</p>
+            <button
+              type="button"
+              data-open={d.id}
+              aria-expanded="false"
+              aria-controls={`panel-${d.id}`}
+              class="mt-3 inline-flex items-center gap-2 border border-ink/40 px-4 py-2 text-sm transition-colors hover:bg-ink hover:text-paper aria-expanded:border-ink aria-expanded:bg-ink aria-expanded:text-paper"
+            >
+              <span data-label>Show more</span>
+              <span aria-hidden="true" data-chevron>↓</span>
+            </button>
+          </article>
+        </li>
+      ))}
+    </ul>
+
+    <div id="dataset-panels" class="mt-8">
+      {story.datasets.map((d) => (
+        <section id={`panel-${d.id}`} data-panel={d.id} hidden class="scroll-mt-32 border-t-2 border-ink bg-paper p-5 sm:p-8" aria-labelledby={`panel-${d.id}-h`}>
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="eyebrow">{d.kind}</p>
+              <h3 id={`panel-${d.id}-h`} class="font-display-tight mt-1 text-3xl font-light" style="line-height:1.1">{d.name}</h3>
+            </div>
+            <button type="button" data-close class="shrink-0 text-sm underline underline-offset-4">Close</button>
+          </div>
+
+          <div class="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-10">
+            <div class="lg:col-span-8">
+              <h4 class="eyebrow mb-2">Overview</h4>
+              <dl class="grid border-t border-warm/60 text-sm sm:grid-cols-2 sm:gap-x-8">
+                {d.overview.map((o) => (
+                  <div class="border-b border-warm/60 py-2.5">
+                    <dt class="eyebrow mb-0.5">{o.label}</dt>
+                    <dd class="leading-relaxed">{o.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <div class="lg:col-span-4">
+              <h4 class="eyebrow mb-2">Purpose and experiments</h4>
+              <ul class="list-disc space-y-2 border-t border-warm/60 pl-5 pt-3 text-sm leading-relaxed text-ink-soft">
+                {d.purpose.map((x) => <li>{x}</li>)}
+              </ul>
+              {d.paper && <p class="mt-4 text-sm"><a href={`/research#pub-${d.paper}`} class="link-line">Read the publication →</a></p>}
+            </div>
+          </div>
+
+          <div class="mt-8 space-y-8">
+            {d.sections.map((sec) => (
+              <div>
+                <h4 class="eyebrow mb-2 border-b border-ink/30 pb-2">{sec.title}</h4>
+                {sec.note && <p class="mb-3 max-w-[44rem] text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
+                <div class="grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {sec.figures.map((f) => (
+                    <figure class:list={[f.wide && 'sm:col-span-2 lg:col-span-3']}>
+                      <div class:list={['border border-warm/60 bg-white', f.crop && 'aspect-[4/3] overflow-hidden']}>
+                        <Image
+                          src={f.src}
+                          alt={f.alt}
+                          format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
+                          quality="high"
+                          width={f.wide ? 1400 : 760}
+                          style={f.position ? `object-position:${f.position}` : undefined}
+                          class:list={['w-full', f.crop ? 'h-full object-cover' : 'h-auto']}
+                          loading="lazy"
+                        />
+                      </div>
+                      <figcaption class="mt-2 text-sm leading-relaxed text-ink-soft">{f.caption}</figcaption>
+                    </figure>
+                  ))}
                 </div>
-                <h4 class="font-display mt-3 text-lg" style="line-height:1.25">{it.title}</h4>
-                <p class="mt-1 text-sm leading-relaxed text-ink-soft">{it.text}</p>
-                {it.challenge && <p class="mt-2 text-sm leading-relaxed"><span class="eyebrow mr-2">Challenge</span>{it.challenge}</p>}
-                <p class="mt-2 text-xs tracking-wide text-ink">{it.meta}</p>
-              </li>
+              </div>
             ))}
-          </ul>
-        </div>
+            {d.missing && <p class="max-w-[44rem] border-l-2 border-clay pl-4 text-sm leading-relaxed text-ink-soft">[Figure needed] {d.missing}</p>}
+          </div>
+        </section>
       ))}
     </div>
     <p class="mt-8 text-xs text-ink-soft">Basemaps © OpenStreetMap contributors. Figures from the author's research material.</p>
@@ -263,6 +329,29 @@ const h3 = 'font-display text-xl';
 </section>
 
 <script>
+  const gallery = document.getElementById('dataset-gallery');
+  if (gallery) {
+    const openers = [...gallery.querySelectorAll<HTMLButtonElement>('[data-open]')];
+    const panels = [...document.querySelectorAll<HTMLElement>('[data-panel]')];
+    const show = (id: string | null, scroll = true) => {
+      panels.forEach((p) => { p.hidden = p.dataset.panel !== id; });
+      openers.forEach((b) => {
+        const on = b.dataset.open === id;
+        b.setAttribute('aria-expanded', String(on));
+        (b.querySelector('[data-label]') as HTMLElement).textContent = on ? 'Hide details' : 'Show more';
+        b.closest('article')?.classList.toggle('border-ink', on);
+        b.closest('article')?.classList.toggle('border-transparent', !on);
+      });
+      if (id && scroll) document.getElementById(`panel-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    openers.forEach((b) => b.addEventListener('click', () => show(b.getAttribute('aria-expanded') === 'true' ? null : b.dataset.open!)));
+    panels.forEach((p) => p.querySelector('[data-close]')?.addEventListener('click', () => {
+      const id = p.dataset.panel!;
+      show(null);
+      openers.find((b) => b.dataset.open === id)?.focus();
+    }));
+  }
+
   document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((btn) => {
     const dlg = document.getElementById(btn.dataset.zoom!) as HTMLDialogElement | null;
     if (!dlg) return;

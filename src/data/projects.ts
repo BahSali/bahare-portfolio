@@ -10,14 +10,7 @@
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import modelArchitecture from '~/assets/phd/model-architecture.png';
 import networkCard from '~/assets/phd/network-card.jpg';
-import dataRotterdam from '~/assets/phd/data-rotterdam.jpg';
-import dataThessaloniki from '~/assets/phd/data-thessaloniki.jpg';
-import dataSanFrancisco from '~/assets/phd/data-sanfrancisco.jpg';
-import dataBrusselsEarly from '~/assets/phd/data-brussels-early.jpg';
-import dataYork from '~/assets/phd/data-york.jpg';
-import dataStudyArea from '~/assets/phd/data-study-area.jpg';
-import dataStibSample from '~/assets/phd/data-stib-sample.png';
-import dataBusVsReference from '~/assets/phd/data-bus-vs-reference.png';
+import { phdDatasets, type Dataset } from './phd-datasets';
 
 export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
 export type ProjectTier = 'lead' | 'standard';
@@ -47,22 +40,6 @@ export interface ProjectApplication {
 /** A figure taken from the research material, with its caption. `src: null` renders a placeholder. */
 export interface Figure { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string }
 
-/** A figure in the Data section. `meta` is a short factual line (size, period, resolution). */
-export interface DataFigure {
-  title: string;
-  src: ImageMetadata | null;
-  alt: string;
-  /** What the data represents and why it matters, in plain language. */
-  text: string;
-  meta: string;
-  /** One-line difficulty this dataset brings. */
-  challenge?: string;
-  /** Show the whole image on white (tables, charts) rather than cropped to fill. */
-  fit?: boolean;
-  /** CSS object-position when the image is cropped to fill. */
-  position?: string;
-}
-
 /** Optional long-form case study; when present the detail page uses the case-study layout. */
 export interface ProjectStory {
   overview: string[];
@@ -87,8 +64,8 @@ export interface ProjectStory {
   }[];
   /** Introductory sentence for the Data section. */
   dataIntro: string;
-  /** Data section groups; each item is a real figure with a plain-language explanation. */
-  dataGroups: { title: string; note?: string; items: DataFigure[] }[];
+  /** Data section case studies (see phd-datasets.ts). */
+  datasets: Dataset[];
   /** Methods & Technologies: the actual workflow. `core` = used extensively, `explored` = worked with or explored. */
   workflow: { title: string; text: string; core: string[]; explored: string[] }[];
   /** Short scope note shown under the workflow. */
@@ -240,86 +217,8 @@ export const projects: Project[] = [
         },
       ],
       dataIntro:
-        'The research draws on traffic data from five regions, open bus data from Brussels, and a commercial traffic service used as a reference.',
-      dataGroups: [
-        {
-          title: 'Historical traffic datasets',
-          note: 'Road sensors record how fast vehicles move, but their records often have gaps. These four datasets test how well missing values can be recovered in very different settings.',
-          items: [
-            {
-              title: 'Rotterdam highways',
-              src: dataRotterdam,
-              alt: 'Map of loop-detector locations along the Rotterdam highways',
-              text: 'Detectors in the road record vehicle speeds every minute. The data come from the EMERALDS project and cover more than a year.',
-              challenge: 'Some detectors have almost no historical data.',
-              meta: '206 detectors · Apr 2022 – May 2023 · 1-minute intervals',
-            },
-            {
-              title: 'Thessaloniki',
-              src: dataThessaloniki,
-              alt: 'Map of the Thessaloniki street network with the study segments highlighted',
-              text: 'Average speeds on city streets, provided by a partner of the MobiSpace project, another Horizon Europe project. Green lines show how the streets connect.',
-              challenge: 'Neighbouring streets can follow different speed trends, so timing matters as much as location.',
-              meta: '189 road segments · Jan – Jun 2023 · 15-minute intervals',
-            },
-            {
-              title: 'San Francisco Bay Area',
-              src: dataSanFrancisco,
-              alt: 'Map of highway sensor locations in the San Francisco Bay Area',
-              text: 'PeMSD4: highway sensors operated by the California Department of Transportation, a public benchmark that researchers use to compare methods.',
-              challenge: 'A large, dense sensor network across highways.',
-              meta: '307 sensors · Jan – Feb 2018 · 15-minute intervals',
-            },
-            {
-              title: 'Brussels bus network',
-              src: dataBrusselsEarly,
-              alt: 'Map of the Brussels bus-line road network used in the early study',
-              text: 'Instead of fixed sensors, speeds come from buses driving the city. Data from the Brussels Mobility Twin platform.',
-              challenge: 'A complex network of roads and intersections.',
-              meta: '1,146 road segments · June 2023 mornings · 10-minute intervals',
-            },
-          ],
-        },
-        {
-          title: 'Bus data, reference data and York',
-          note: 'The citywide network of 1,366 road segments is the map shown in the Overview. York comes from the EMERALDS project.',
-          items: [
-            {
-              title: 'Neighbourhood study area',
-              src: dataStudyArea,
-              alt: 'Map of the 74 road segments studied in Ixelles and Etterbeek, Brussels',
-              text: 'A first test of whether bus speeds reflect general traffic, on streets that mix residential areas and busy junctions. Each segment lies between two consecutive bus stops.',
-              meta: '74 road segments · Ixelles and Etterbeek',
-            },
-            {
-              title: 'Bus observations (STIB-MIVB)',
-              src: dataStibSample,
-              alt: 'Sample tables: average bus speed per road segment and 15-minute interval, and the stops bounding each segment',
-              text: 'Buses publish their live position and speed as open data. Top: average speed per segment and 15-minute interval, with blanks where no bus passed. Below: the stops that bound each segment.',
-              meta: 'GTFS-Realtime · Brussels Mobility Twin',
-              fit: true,
-            },
-            {
-              title: 'Google Routes reference data',
-              src: dataBusVsReference,
-              alt: 'Line chart of bus-derived and Google-derived average speed over one day',
-              text: 'Traffic-aware travel times serve as a reference for general traffic. Bus speeds (blue) follow the same daily rhythm as the reference (orange) but are noisier. The reference is a proxy, not ground truth.',
-              challenge: 'Usage-based pricing limits how much can be collected.',
-              meta: 'Google Routes API',
-              fit: true,
-            },
-            {
-              title: 'York',
-              src: dataYork,
-              alt: 'Map of the York streets used in the EMERALDS case study',
-              text: 'The approach applied to another city within EMERALDS, with connected-vehicle data from more than 25,000 devices (Cariad) as the reference instead of Google.',
-              challenge: 'A different reference source and a different city.',
-              meta: '638 road segments · 22 Jul – 12 Aug 2025 · 214 buses, 63 lines',
-              position: 'center 30%',
-            },
-          ],
-        },
-      ],
+        'Five case studies, each with a different kind of traffic data. Open one to see its source, figures and results.',
+      datasets: phdDatasets,
       workflow: [
         {
           title: 'Data preparation and alignment',
