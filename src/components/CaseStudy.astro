@@ -362,8 +362,8 @@ const h3 = 'font-display text-xl';
     <Container class={pad}>
       <h2 class={h2}>Application Demo</h2>
       <div class="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
-        <div class="lg:col-span-7">
-          <div class="bg-ink p-1.5">
+        <div class="lg:col-span-5">
+          <div class="bg-ink p-1">
             {app.video
               ? (
                 <video
@@ -383,9 +383,9 @@ const h3 = 'font-display text-xl';
                 : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
           </div>
                   </div>
-        <div class="lg:col-span-5">
+        <div class="lg:col-span-6 lg:col-start-6">
           <p class="eyebrow mb-2">Traffic Analytics Platform</p>
-          <p class="text-[0.9375rem] leading-relaxed">A web application, built with Streamlit, that estimates and compares citywide traffic speeds from live bus observations. The walkthrough runs it on Brussels' live bus feed.</p>
+          <p class="text-[0.9375rem] leading-relaxed">An interactive Streamlit application for estimating and comparing urban traffic speeds using real-time bus observations.</p>
           <ul class="mt-4 divide-y divide-warm/70 border-y border-warm/70">
             {app.features.map((f) => (
               <li class="py-2.5"><p class="font-display text-base">{f.title}</p><p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{f.text}</p></li>
@@ -418,7 +418,7 @@ const h3 = 'font-display text-xl';
         </li>
       ))}
     </ul>
-    <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">Explore related publications →</a></p>
+    <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">Explore all publications →</a></p>
   </Container>
 </section>
 

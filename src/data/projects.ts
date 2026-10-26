@@ -326,9 +326,9 @@ export const projects: Project[] = [
         label: 'Narrated walkthrough of the application',
       },
       features: [
-        { title: 'Map-based comparison', text: 'Compare traffic estimates across road segments on a map.' },
-        { title: 'Model evaluation', text: 'Evaluate estimates against the reference data.' },
-        { title: 'Travel-time analysis', text: 'Analyse travel times derived from the estimates.' },
+        { title: 'Synchronized maps', text: 'Explore traffic conditions and compare multiple models side by side.' },
+        { title: 'Model performance', text: 'Compare predictions with reference data and examine estimation errors.' },
+        { title: 'Travel-time analysis', text: 'Compare estimated travel times along selected routes.' },
       ],
       screenshots: [
         { src: null, alt: 'Main view of the Streamlit analytics platform', placeholderLabel: 'Demo video: application walkthrough' },
