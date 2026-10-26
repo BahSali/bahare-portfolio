@@ -10,6 +10,7 @@
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
+import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
@@ -371,9 +372,9 @@ export const projects: Project[] = [
       },
     },
     image: {
-      src: null,
-      alt: 'Figure from the evolutionary optimization research',
-      placeholderLabel: 'Project image: figure',
+      src: nsgaIllustration,
+      alt: 'Schematic illustration of non-dominated sorting in NSGA-II, with solutions ranked into successive Pareto fronts',
+      placeholderLabel: 'Project image',
     },
   },
   {
@@ -382,8 +383,15 @@ export const projects: Project[] = [
     title: 'Network Design Optimization',
     category: 'thesis',
     tier: 'standard',
+    eyebrow: "Master's thesis",
     homeFeatured: false,
     summary: "Master's thesis research on network design, graph algorithms and optimization.",
+    brief: {
+      overview: [],
+      contribution: [],
+      areaTitle: 'Technical skills',
+      areas: [],
+    },
     image: {
       src: null,
       alt: 'Figure from the network design optimization thesis',

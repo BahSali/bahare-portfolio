@@ -99,15 +99,15 @@ const toggle =
       <div class="max-w-[42rem] space-y-8 lg:col-span-7">
         <section id="overview">
           <h2 class="eyebrow mb-3">Overview</h2>
-          <div class="space-y-3 text-base leading-[1.7]">{project.brief.overview.map((t) => <p>{t}</p>)}</div>
+          <div class="space-y-3 text-base leading-[1.7]">{project.brief.overview.length ? project.brief.overview.map((t) => <p>{t}</p>) : <p class="text-ink-soft"><Placeholder>Overview to be added</Placeholder></p>}</div>
         </section>
         <section id="contribution">
           <h2 class="eyebrow mb-3">My Contribution</h2>
-          <div class="space-y-3 text-base leading-[1.7]">{project.brief.contribution.map((t) => <p>{t}</p>)}</div>
+          <div class="space-y-3 text-base leading-[1.7]">{project.brief.contribution.length ? project.brief.contribution.map((t) => <p>{t}</p>) : <p class="text-ink-soft"><Placeholder>Personal contribution to be added</Placeholder></p>}</div>
         </section>
         <section id="technical-areas">
           <h2 class="eyebrow mb-3">{project.brief.areaTitle}</h2>
-          <p class="text-sm text-ink-soft">{project.brief.areas.join(' · ')}</p>
+          <p class="text-sm text-ink-soft">{project.brief.areas.length ? project.brief.areas.join(' · ') : <Placeholder>Skills to be added</Placeholder>}</p>
         </section>
         {related.length > 0 && (
           <section id="publications">
