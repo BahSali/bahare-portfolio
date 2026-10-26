@@ -73,7 +73,7 @@ export interface ProjectStory {
   workflow: { title: string; text: string; ongoing?: string; core: string[]; explored: string[] }[];
   workflowNote?: string;
   /** Model development: one entry per architecture, shown with an image selector (the one marked `default` opens first). */
-  architectures: { id: string; label: string; venue: string; paper: string; src: ImageMetadata; alt: string; changed: string; why: string; default?: boolean; ongoing?: boolean }[];
+  architectures: { id: string; label: string; fullName: string; venue: string; paper: string; src: ImageMetadata; alt: string; approach: string; focus: string; default?: boolean; ongoing?: boolean }[];
 }
 
 export interface Project {
@@ -269,44 +269,48 @@ export const projects: Project[] = [
       architectures: [
         {
           id: 'baseline',
-          label: 'Baseline Spatiotemporal GCNN',
+          label: 'Baseline GCNN',
+          fullName: 'Baseline Spatiotemporal GCNN',
           venue: 'ICDEW 2024',
           paper: 'icdew-2024',
           src: archBaseline,
           alt: 'Baseline GCNN: three parallel sub-networks for hourly, daily and weekly patterns, each with a spatiotemporal block, fused into the output',
-          changed: 'Three independent sub-networks learn hourly, daily and weekly patterns. Each runs temporal and spatial graph convolutions, and their outputs are fused to estimate missing speeds.',
-          why: 'A baseline for an ablation study of the temporal and spatial layers, with and without attention.',
+          approach: 'A graph-based architecture combining temporal and spatial convolutions with separate hourly, daily, and weekly inputs.',
+          focus: 'Investigating how different neural network components affect missing traffic speed reconstruction.',
         },
         {
           id: 'attention',
-          label: 'Attention-based GCNN',
+          label: 'Attention GCNN',
+          fullName: 'Attention-based GCNN',
           venue: 'SIGSPATIAL 2025',
           paper: 'sigspatial-2025',
           src: archAttention,
           alt: 'Attention-based GCNN: embedding convolution, a spatiotemporal block with temporal and spatial attention, and an output head',
-          changed: 'A stack of spatiotemporal blocks with temporal and spatial attention takes the road graph and the bus speed history, and produces segment-level speeds that approximate the reference.',
-          why: 'Applies the model to bus-probe data. The earlier ablation found attention helpful, most clearly in the spatial layer.',
+          approach: 'Integrating temporal and spatial attention to learn relationships between bus observations and general traffic conditions.',
+          focus: 'Estimating road traffic speeds from public transit data rather than relying on fixed traffic sensors.',
         },
         {
           id: 'dual-branch',
-          label: 'Gated Dual-Branch GCNN',
-          venue: '2026 research',
+          label: 'Dual-Branch GCNN',
+          fullName: 'Gated Dual-Branch GCNN',
+          venue: '2026',
           paper: 'sigspatial-2026',
           src: modelArchitecture,
           alt: 'Gated dual-branch GCNN: feature construction, spatiotemporal block, and a decoder with base and residual branches combined by additive fusion',
-          changed: 'The decoder is split into a base branch for the broader traffic pattern and a residual branch for local deviations, combined through a learnable gate.',
-          why: 'A single decoding path tended to produce overly smooth estimates on the citywide network.',
+          approach: 'Separating broader traffic patterns from local variations using a dual-branch decoder with adaptive gating.',
+          focus: 'Improving the representation of heterogeneous traffic patterns across a larger urban network.',
           default: true,
         },
         {
           id: 'spectral',
-          label: 'Spectral Transfer Network',
+          label: 'Spectral Network',
+          fullName: 'Spectral Transfer Network',
           venue: 'Ongoing research',
           paper: '',
           src: archSpectral,
           alt: 'Spectral Transfer Network architecture: wavelet decomposition of bus speed into bands, per-band blocks with graph mixing and a transfer operator, coverage gate, and inverse wavelet transform',
-          changed: 'Bus speeds are split into frequency bands with a wavelet transform. Each band passes through its own block combining temporal convolution and graph mixing, with a learned transfer path, a neighbour-based fallback and a coverage gate, and the bands are then recombined into the speed estimate.',
-          why: 'Explores separating broader patterns from local variation by frequency, and adapting to areas with limited coverage. Early experiments, not published.',
+          approach: 'Exploring wavelet-based decomposition and frequency-aware learning to model traffic patterns at different temporal scales.',
+          focus: 'Investigating how to distinguish broader traffic trends from local fluctuations and account for varying bus-data coverage.',
           ongoing: true,
         },
       ],

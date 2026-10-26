@@ -321,30 +321,29 @@ const h3 = 'font-display text-xl';
       ))}
     </ol>
 
-    <div id="model-development" class="mt-12 scroll-mt-28 border-t border-ink/30 pt-6">
-      <h3 class={`${h3} mb-1`}>Model development</h3>
-      <p class="mb-4 text-sm text-ink-soft">Four architectures, each extending the previous one. They are distinct models, not interchangeable variants; the last is ongoing research.</p>
-      <div role="tablist" aria-label="Model architectures" class="mb-5 flex gap-2 overflow-x-auto pb-1">
+    <div id="model-development" class="mt-10 scroll-mt-28 border-t border-ink/30 pt-5">
+      <h3 class={`${h3} mb-1`}>Model Evolution</h3>
+      <p class="mb-3 max-w-[44rem] text-sm leading-snug text-ink-soft">A progression of spatiotemporal architectures developed to address missing traffic data, bus-based traffic estimation, and the challenges of citywide modeling.</p>
+      <div role="tablist" aria-label="Model architectures" class="mb-4 flex gap-1.5 overflow-x-auto pb-1">
         {story.architectures.map((a) => (
-          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="shrink-0 whitespace-nowrap border border-ink/30 px-2.5 py-1.5 text-left text-xs transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
+          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="shrink-0 whitespace-nowrap border border-ink/30 px-2.5 py-1 text-left text-xs transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
             {a.label}<span class="ml-1.5 opacity-70">· {a.venue}</span>
           </button>
         ))}
       </div>
       {archBig.map((a) => (
-        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-6 lg:grid-cols-12 lg:gap-10">
-          <figure class="lg:col-span-6">
-            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`View ${a.label} diagram at full size`}>
-              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-56 w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
+        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-x-8 gap-y-3 md:grid-cols-[minmax(0,33rem)_1fr]">
+          <figure>
+            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${a.fullName} diagram`}>
+              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
             </button>
-            <figcaption class="mt-2 text-xs text-ink-soft">{a.label} ({a.venue}). Original diagram. <span class="text-clay">Click to view full size.</span></figcaption>
+            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="mt-1 text-xs text-ink-soft underline underline-offset-4 hover:text-clay">Enlarge figure</button>
           </figure>
-          <div class="space-y-4 lg:col-span-6">
-            <div><p class="eyebrow mb-1">What changed</p><p class="text-[0.875rem] leading-relaxed">{a.changed}</p></div>
-            <div><p class="eyebrow mb-1">Why</p><p class="text-[0.875rem] leading-relaxed text-ink-soft">{a.why}</p></div>
-            {a.paper
-              ? <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Publication →</a></p>
-              : <p class="text-[0.8125rem] italic text-ink-soft">Ongoing research, not published.</p>}
+          <div class="space-y-3 text-[0.875rem] leading-snug">
+            <p class="font-display text-base leading-tight">{a.fullName}</p>
+            <div><p class="eyebrow mb-0.5">Approach</p><p>{a.approach}</p></div>
+            <div><p class="eyebrow mb-0.5">Focus</p><p class="text-ink-soft">{a.focus}</p></div>
+            {a.paper && <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Read the paper →</a></p>}
           </div>
         </div>
       ))}
