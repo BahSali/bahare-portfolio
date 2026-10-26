@@ -95,6 +95,8 @@ export interface Project {
   publications: string[];
   links: Link[];
   image: ImageRef;
+  /** Short funding note shown as a tag on overview pages. */
+  funding?: string;
   /** Overrides on the detail page only. */
   eyebrow?: string;
   headline?: string;
@@ -126,6 +128,7 @@ export const projects: Project[] = [
     slug: 'traffic-speed-estimation',
     title: 'Citywide Traffic Speed Estimation',
     eyebrow: 'PhD Research | Université libre de Bruxelles',
+    funding: 'Funded under EMERALDS · Horizon Europe',
     headline: 'From Incomplete Traffic Data to Citywide Traffic Estimation',
     subtitle: 'Machine Learning · Spatiotemporal Modeling · Real-World Data',
     category: 'phd',

@@ -55,7 +55,9 @@ const toggle =
         <p class="eyebrow mb-3">{project.eyebrow ?? categoryLabels[project.category]}</p>
         <h1 class="font-display-tight text-[clamp(1.75rem,3.2vw,2.5rem)] font-light" style="line-height:1.08">{project.headline ?? project.title}</h1>
       </div>
-      <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.subtitle ?? project.summary}</p>
+      {project.subtitle
+        ? <p class="text-sm text-ink-soft lg:col-span-12 lg:-mt-2"><span class="eyebrow mr-3">Research areas</span>{project.subtitle}</p>
+        : <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.summary}</p>}
     </div>
 
     <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
