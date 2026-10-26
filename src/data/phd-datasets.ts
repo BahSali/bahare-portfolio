@@ -54,6 +54,10 @@ export interface Dataset {
   /** Turns this phrase inside `role` into a link. */
   roleLink?: { text: string; href: string };
   card: { src: ImageMetadata; alt: string; position?: string };
+  /** Cleaner panel layout: stacked metadata, full-width figures with captions below. */
+  refined?: boolean;
+  /** Heading for the purpose list (default: Purpose and experiments). */
+  purposeTitle?: string;
   /** Verified facts: source, coverage, period, statistics. */
   overview: { label: string; value: string }[];
   /** Short bullets: purpose and experiments. */
@@ -72,36 +76,37 @@ export const phdDatasets: Dataset[] = [
     kind: 'Highway traffic sensors · Netherlands',
     role: 'Historical traffic sensor data used to investigate missing-value recovery across highway networks and different data availability conditions.',
     card: { src: rotterdamMap, alt: 'Map of loop-detector locations along the Rotterdam highways' },
+    refined: true,
     overview: [
-      { label: 'Source', value: 'National Road Traffic Data Portal (NDW), provided by a partner of the EMERALDS project' },
-      { label: 'Coverage', value: 'Highways around Rotterdam, with fewer intersections than the Brussels bus network' },
-      { label: 'Period', value: '25 April 2022 – 7 May 2023, one-minute measurements' },
-      { label: 'Size', value: '206 loop detectors · 544,320 time steps' },
-      { label: 'Measurements', value: 'Traffic flow and speed per lane. Speeds are averaged over the lanes with observations at each detector.' },
+      { label: 'Source', value: 'Dutch National Road Traffic Data Portal (NDW), accessed through an EMERALDS project partner.' },
+      { label: 'Coverage', value: 'Highway network around Rotterdam, monitored by 206 loop detectors.' },
+      { label: 'Period', value: 'April 2022 – May 2023, 1-minute intervals.' },
+      { label: 'Dataset size', value: '206 detectors, 544,320 time steps.' },
+      { label: 'Measurements', value: 'Traffic speed and flow, recorded per lane and aggregated at detector level.' },
     ],
+    purposeTitle: 'Research focus',
     purpose: [
-      'Test how well a graph neural network recovers missing speeds when whole detectors have no data for long periods.',
-      'In those cases the model must rely on neighbouring detectors, which makes the dataset a robustness test.',
+      'Evaluating how graph-based models reconstruct missing traffic speeds, particularly when observations from individual detectors are unavailable for extended periods.',
     ],
     sections: [
       {
-        title: 'Data example',
+        title: 'Traffic observations',
         figures: [
           {
             src: rotterdamHeatmap,
-            alt: 'Map of selected detectors and a heatmap of their average speeds over time, with blank areas for missing data',
-            caption: 'Selected detectors (left) and their average speed over time (right). White areas are missing data; some detectors have none for long stretches.',
+            alt: 'Map of selected detectors and a heatmap of their recorded speeds over time, with blank areas for missing data',
+            caption: 'Selected road detectors and their recorded speeds over time. White gaps indicate missing observations, including extended periods without data.',
             wide: true,
           },
         ],
       },
       {
-        title: 'Result',
+        title: 'Missing data reconstruction',
         figures: [
           {
             src: rotterdamEstimation,
-            alt: 'Two heatmaps of detector speeds over time: input with missing values and the model estimate',
-            caption: 'Input with missing values (left) and the model’s estimate (right). Rows are detectors, columns are time steps.',
+            alt: 'Two heatmaps of detector speeds over time: observed speeds with missing values and model-reconstructed speeds',
+            caption: 'Observed traffic speeds with missing values (left) and model-reconstructed speeds (right). Each row represents a detector and each column a time step.',
             wide: true,
           },
         ],

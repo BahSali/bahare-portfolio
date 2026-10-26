@@ -158,22 +158,39 @@ const h3 = 'font-display text-xl';
           <div class="grid gap-0 lg:grid-cols-12">
             <aside class="border-b border-ink/25 lg:col-span-4 lg:border-b-0 lg:border-r"><div class="p-5 lg:sticky lg:top-36">
               <h4 class="eyebrow mb-2">Overview</h4>
-              <dl class="divide-y divide-warm/60 border-y border-warm/60 text-[0.8125rem]">
-                {d.overview.map((o) => (
-                  <div class="grid grid-cols-[6.5rem_1fr] gap-3 py-2">
-                    <dt class="eyebrow !text-[0.625rem] pt-0.5">{o.label}</dt>
-                    <dd class="leading-snug">{o.value}</dd>
-                  </div>
-                ))}
-              </dl>
-              <h4 class="eyebrow mb-2 mt-5">Purpose and experiments</h4>
-              <ul class="list-disc space-y-1.5 pl-4 text-[0.8125rem] leading-snug text-ink-soft">
-                {d.purpose.map((x) => <li>{x}</li>)}
-              </ul>
+              {d.refined
+                ? (
+                  <dl class="space-y-3 text-[0.8125rem]">
+                    {d.overview.map((o) => (
+                      <div>
+                        <dt class="text-[0.6875rem] uppercase tracking-[0.12em] text-ink-soft/80">{o.label}</dt>
+                        <dd class="mt-0.5 leading-snug">{o.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )
+                : (
+                  <dl class="divide-y divide-warm/60 border-y border-warm/60 text-[0.8125rem]">
+                    {d.overview.map((o) => (
+                      <div class="grid grid-cols-[6.5rem_1fr] gap-3 py-2">
+                        <dt class="eyebrow !text-[0.625rem] pt-0.5">{o.label}</dt>
+                        <dd class="leading-snug">{o.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              <h4 class:list={['eyebrow mb-2', d.refined ? 'mt-6 border-t border-warm/60 pt-4' : 'mt-5']}>{d.purposeTitle ?? 'Purpose and experiments'}</h4>
+              {d.refined
+                ? <p class="text-[0.8125rem] leading-relaxed text-ink-soft">{d.purpose[0]}</p>
+                : (
+                  <ul class="list-disc space-y-1.5 pl-4 text-[0.8125rem] leading-snug text-ink-soft">
+                    {d.purpose.map((x) => <li>{x}</li>)}
+                  </ul>
+                )}
               {d.paper && <p class="mt-4 text-[0.8125rem]"><a href={`/research#pub-${d.paper}`} class="link-line">Read the publication →</a></p>}
             </div></aside>
 
-            <div class="p-5 lg:col-span-8">
+            <div class:list={['p-5 lg:col-span-8', d.refined && 'lg:min-h-[38.5rem]']}>
               {d.sections.length > 1 && (
                 <div role="tablist" aria-label={`${d.name} figures`} class="mb-5 flex flex-wrap gap-2">
                   {d.sections.map((sec, si) => (
@@ -187,6 +204,16 @@ const h3 = 'font-display text-xl';
                 <div role="tabpanel" data-tabpanel={`${d.id}-${si}`} hidden={si !== 0}>
                   {d.sections.length === 1 && <h4 class="eyebrow mb-3 border-b border-ink/25 pb-1.5">{sec.title}</h4>}
                   {sec.note && <p class="mb-4 text-[0.8125rem] leading-snug text-ink-soft">{sec.note}</p>}
+                  {d.refined
+                    ? sec.figures.map((f) => (
+                      <figure>
+                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${f.alt}`}>
+                          <Image src={f.src} alt={f.alt} format={f.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1100} class="h-auto w-full p-3 transition-opacity group-hover:opacity-90" loading="lazy" />
+                        </button>
+                        <figcaption class="mt-2 max-w-[44rem] text-[0.8125rem] leading-snug text-ink-soft">{f.caption}</figcaption>
+                      </figure>
+                    ))
+                    : (
                   <div class:list={['grid gap-x-5 gap-y-6', sec.figures.length === 2 && 'sm:grid-cols-2', sec.figures.length >= 3 && 'sm:grid-cols-2 xl:grid-cols-3', sec.figures.length === 1 && 'lg:grid-cols-12 lg:items-start']}>
                     {sec.figures.map((f) => (
                       <figure class:list={[sec.figures.length === 1 && 'contents']}>
@@ -208,6 +235,7 @@ const h3 = 'font-display text-xl';
                       </figure>
                     ))}
                   </div>
+                    )}
                 </div>
               ))}
               {d.missing && <p class="mt-5 border-l-2 border-clay pl-3 text-xs leading-snug text-ink-soft">[Figure needed] {d.missing}</p>}
