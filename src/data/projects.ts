@@ -348,10 +348,12 @@ export const projects: Project[] = [
     slug: 'evolutionary-multi-objective-optimization',
     title: 'Runtime Analysis of Evolutionary Algorithms',
     eyebrow: 'Research collaboration · University of Passau, Germany',
+    subtitle: 'Evolutionary Algorithms · Multi-Objective Optimization · Runtime Analysis',
+    role: 'Research Collaborator',
     category: 'collaboration',
     tier: 'standard',
     homeFeatured: true,
-    summary: 'Research collaboration at the University of Passau on the runtime analysis of evolutionary multi-objective optimization algorithms.',
+    summary: 'Exploring the efficiency and robustness of evolutionary optimization algorithms through computational experiments.',
     publications: ['aaai-2023', 'gecco-2023'],
     brief: {
       overview: [

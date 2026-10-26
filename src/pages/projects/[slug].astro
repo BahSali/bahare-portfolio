@@ -7,7 +7,7 @@ import { projects, categoryLabels } from '~/data/projects';
 import type { Project } from '~/data/projects';
 import { publications } from '~/data/publications';
 import { timelineItems } from '~/lib/timeline';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import CaseStudy from '~/components/CaseStudy.astro';
 
 export function getStaticPaths() {
@@ -20,6 +20,7 @@ export function getStaticPaths() {
 interface Props { project: Project }
 const { project } = Astro.props;
 const app = project.application;
+const briefBig = project.brief?.figure?.src ? (await getImage({ src: project.brief.figure.src, width: Math.min(project.brief.figure.src.width, 2000), format: 'png' })).src : null;
 const story = project.story;
 
 const related = publications.filter(
@@ -61,10 +62,10 @@ const toggle =
         : !project.brief && <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.summary}</p>}
     </div>
 
-    {!project.brief && <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
+    <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story || project.brief ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
       <div><dt class="eyebrow mb-1">Period</dt><dd>{project.period ?? <Placeholder>Period to be added</Placeholder>}</dd></div>
       <div><dt class="eyebrow mb-1">Role</dt><dd>{project.role ?? <Placeholder>Role to be added</Placeholder>}</dd></div>
-      {!story && <div>
+      {!story && !project.brief && <div>
         <dt class="eyebrow mb-1">Context</dt>
         <dd>
           {context.length
@@ -72,7 +73,7 @@ const toggle =
             : <Placeholder>Context to be added</Placeholder>}
         </dd>
       </div>}
-    </dl>}
+    </dl>
 
     {!story && !project.brief && <ImagePlaceholder src={project.image.src} alt={project.image.alt} label={project.image.placeholderLabel} tone="sage" ratio="aspect-[16/7]" eager class="mt-6" />}
   </Container>
@@ -95,7 +96,7 @@ const toggle =
 
   {project.brief && (
     <Container class="pb-10 pt-2">
-      <div class="grid gap-x-12 gap-y-8 border-t border-warm/70 pt-6 lg:grid-cols-12">
+      <div class="grid gap-x-12 gap-y-8 pt-8 lg:grid-cols-12">
       <div class="max-w-[42rem] space-y-8 lg:col-span-7">
         <section id="overview">
           <h2 class="eyebrow mb-3">Overview</h2>
@@ -128,9 +129,9 @@ const toggle =
       {project.brief.figure && (
         <figure class="lg:col-span-5">
           {project.brief.figure.src
-            ? <div class="border border-warm/70 bg-white"><Image src={project.brief.figure.src} alt={project.brief.figure.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5" loading="lazy" /></div>
+            ? <button type="button" data-lightbox={briefBig} data-alt={project.brief.figure.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label="Enlarge figure"><Image src={project.brief.figure.src} alt={project.brief.figure.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" /></button>
             : <ImagePlaceholder src={null} alt={project.brief.figure.alt} label={project.brief.figure.placeholderLabel} tone="sage" ratio="aspect-[4/3]" />}
-          <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{project.brief.figure.caption}</figcaption>
+          <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{project.brief.figure.caption} <button type="button" data-lightbox={briefBig} data-alt={project.brief.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge figure</button></figcaption>
         </figure>
       )}
       </div>
@@ -220,6 +221,12 @@ const toggle =
     </section>
   </Container>}
 
+  {project.brief?.figure?.src && (
+    <dialog id="lightbox" class="m-auto max-h-[92vh] max-w-[min(96vw,64rem)] bg-white p-3 backdrop:bg-ink/60">
+      <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
+      <img id="lightbox-img" alt="" class="h-auto max-h-[80vh] w-full object-contain" />
+    </dialog>
+  )}
 </BaseLayout>
 
 <script>
@@ -245,5 +252,16 @@ const toggle =
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     update();
+  }
+</script>
+
+<script>
+  const lb = document.getElementById('lightbox') as HTMLDialogElement | null;
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  if (lb && lbImg) {
+    document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((b) =>
+      b.addEventListener('click', () => { lbImg.src = b.dataset.lightbox!; lbImg.alt = b.dataset.alt ?? ''; lb.showModal(); }),
+    );
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
   }
 </script>
