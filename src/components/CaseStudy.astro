@@ -16,14 +16,17 @@ const refs = publications
   .filter((p) => project.publications.includes(p.slug))
   .sort((a, b) => b.year - a.year);
 
+const withBig = (figs: any[]) =>
+  Promise.all(figs.map(async (f) => ({
+    ...f,
+    big: (await getImage({ src: f.src, width: Math.min(f.src.width, 1800), format: f.src.src.endsWith('.png') ? 'png' : 'webp', quality: 'high' })).src,
+  })));
 const dsFull = await Promise.all(story.datasets.map(async (d) => ({
   ...d,
   sections: await Promise.all(d.sections.map(async (sec) => ({
     ...sec,
-    figures: await Promise.all(sec.figures.map(async (f) => ({
-      ...f,
-      big: (await getImage({ src: f.src, width: Math.min(f.src.width, 1800), format: f.src.src.endsWith('.png') ? 'png' : 'webp', quality: 'high' })).src,
-    }))),
+    figures: await withBig(sec.figures),
+    groups: sec.groups ? await Promise.all(sec.groups.map(async (g) => ({ ...g, figures: await withBig(g.figures) }))) : undefined,
   }))),
 })));
 
@@ -204,14 +207,55 @@ const h3 = 'font-display text-xl';
                   {d.sections.length === 1 && <h4 class="eyebrow mb-3 border-b border-ink/25 pb-1.5">{sec.title}</h4>}
                   {sec.note && <p class="mb-4 text-[0.8125rem] leading-snug text-ink-soft">{sec.note}</p>}
                   {d.refined
-                    ? <div class="grid gap-x-5 gap-y-6 md:[grid-template-columns:var(--cols)]" style={`--cols:${sec.figures.map((f) => (f.src.width / f.src.height).toFixed(2) + 'fr').join(' ')}`}>{sec.figures.map((f) => (
-                      <figure>
-                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${f.alt}`}>
-                          <Image src={f.src} alt={f.alt} format={f.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1100} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
-                        </button>
-                        <figcaption class="mt-2 max-w-[44rem] text-[0.8125rem] leading-snug text-ink-soft">{f.caption}</figcaption>
-                      </figure>
-                    ))}</div>
+                    ? (
+                      <div class="space-y-7">
+                        {(sec.groups ?? [{ title: '', note: undefined, figures: sec.figures }]).map((g) => (
+                          <div>
+                            {g.title && <h5 class="eyebrow mb-3 border-b border-ink/25 pb-1.5">{g.title}</h5>}
+                            {g.figures.length === 1 && g.note
+                              ? (
+                                <div class="grid items-start gap-x-6 gap-y-3 md:grid-cols-12">
+                                  <figure class="md:col-span-7">
+                                    <button type="button" data-lightbox={g.figures[0].big} data-alt={g.figures[0].alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${g.figures[0].alt}`}>
+                                      <Image src={g.figures[0].src} alt={g.figures[0].alt} format={g.figures[0].src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1000} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+                                    </button>
+                                    <figcaption class="mt-2 text-[0.8125rem] leading-snug text-ink-soft">{g.figures[0].caption}</figcaption>
+                                  </figure>
+                                  <p class="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-5">{g.note}</p>
+                                </div>
+                              )
+                              : g.figures.length > 2
+                                ? (
+                                  <div class="grid gap-x-5 gap-y-6 sm:grid-cols-2">
+                                    {g.figures.map((f) => (
+                                      <figure>
+                                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${f.alt}`}>
+                                          <span class="flex aspect-[16/10] items-center justify-center overflow-hidden">
+                                            <Image src={f.src} alt={f.alt} format={f.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={760} class:list={['w-full transition-opacity group-hover:opacity-90', f.crop ? 'h-full object-cover' : 'h-full object-contain p-1.5']} loading="lazy" />
+                                          </span>
+                                        </button>
+                                        <figcaption class="mt-2 text-[0.8125rem] leading-snug text-ink-soft">{f.caption}</figcaption>
+                                      </figure>
+                                    ))}
+                                  </div>
+                                )
+                                : (
+                                  <div class="grid gap-x-5 gap-y-6 md:[grid-template-columns:var(--cols)]" style={`--cols:${g.figures.map((f) => (f.src.width / f.src.height).toFixed(2) + 'fr').join(' ')}`}>
+                                    {g.figures.map((f) => (
+                                      <figure>
+                                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${f.alt}`}>
+                                          <Image src={f.src} alt={f.alt} format={f.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1100} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+                                        </button>
+                                        <figcaption class="mt-2 max-w-[44rem] text-[0.8125rem] leading-snug text-ink-soft">{f.caption}</figcaption>
+                                      </figure>
+                                    ))}
+                                  </div>
+                                )}
+                          </div>
+                        ))}
+                        {sec.sourceNote && <p class="text-[0.8125rem] text-ink-soft">{sec.sourceNote.before}<a href={sec.sourceNote.href} class="link-line" rel="noopener">{sec.sourceNote.linkText}</a>{sec.sourceNote.after}</p>}
+                      </div>
+                    )
                     : (
                   <div class:list={['grid gap-x-5 gap-y-6', sec.figures.length === 2 && 'sm:grid-cols-2', sec.figures.length >= 3 && 'sm:grid-cols-2 xl:grid-cols-3', sec.figures.length === 1 && 'lg:grid-cols-12 lg:items-start']}>
                     {sec.figures.map((f) => (
@@ -237,6 +281,7 @@ const h3 = 'font-display text-xl';
                     )}
                 </div>
               ))}
+              {d.papers && d.refined && (() => { const pubs = d.papers.flatMap((slug) => publications.filter((x) => x.slug === slug)); return pubs.length > 0 && <p class="mt-6 border-t border-warm/60 pt-3 text-[0.8125rem] text-ink-soft">Related publications: {pubs.map((pub, i) => <>{i > 0 && ' · '}<a href={`/research#pub-${pub.slug}`} class="link-line">{pub.venue.split(',')[0]}</a></>)}</p>; })()}
               {d.paper && d.refined && (() => { const pub = publications.find((x) => x.slug === d.paper); return pub && <p class="mt-5 text-[0.8125rem] text-ink-soft">Related publication: <a href={`/research#pub-${pub.slug}`} class="link-line">{pub.venue.split(',')[0]}</a></p>; })()}
               {d.missing && <p class="mt-5 border-l-2 border-clay pl-3 text-xs leading-snug text-ink-soft">[Figure needed] {d.missing}</p>}
             </div>

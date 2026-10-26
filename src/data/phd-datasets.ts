@@ -13,12 +13,10 @@ import sanFranciscoMap from '~/assets/phd/ds/sanfrancisco-map.jpg';
 import sanFranciscoHistogram from '~/assets/phd/ds/sanfrancisco-histogram.png';
 import sanFranciscoDay from '~/assets/phd/ds/sanfrancisco-sensor-day.png';
 import bruBusMap from '~/assets/phd/ds/brussels-bru-bus-map.jpg';
-import bruEarlyErrors from '~/assets/phd/ds/brussels-early-errors.png';
 import stibSample from '~/assets/phd/ds/brussels-stib-sample.png';
 import busVsGoogle from '~/assets/phd/ds/brussels-bus-vs-google.png';
+import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import studyArea from '~/assets/phd/ds/brussels-study-area.jpg';
-import tableBus from '~/assets/phd/ds/brussels-table-bus.png';
-import tableModel from '~/assets/phd/ds/brussels-table-model.png';
 import neighbourhoodSeries from '~/assets/phd/ds/brussels-neighbourhood-series.png';
 import maeDistribution from '~/assets/phd/ds/brussels-mae-distribution.png';
 import spatialError from '~/assets/phd/ds/brussels-spatial-error.jpg';
@@ -38,10 +36,21 @@ export interface DatasetFigure {
   position?: string;
 }
 
+export interface DatasetGroup {
+  title: string;
+  /** Short study description shown beside a single figure. */
+  note?: string;
+  figures: DatasetFigure[];
+}
+
 export interface DatasetSection {
   title: string;
   note?: string;
   figures: DatasetFigure[];
+  /** Optional separate groups (e.g. two studies) shown one after the other inside a tab. */
+  groups?: DatasetGroup[];
+  /** Source note with an external link, shown below the figures. */
+  sourceNote?: { before: string; linkText: string; href: string; after?: string };
 }
 
 export interface Dataset {
@@ -65,6 +74,8 @@ export interface Dataset {
   sections: DatasetSection[];
   /** Optional pointer to the publication reporting the results (slug in publications.ts). */
   paper?: string;
+  /** Several related publications (slugs in publications.ts). */
+  papers?: string[];
   /** Shown when the material lacks a figure that would be expected here. */
   missing?: string;
 }
@@ -196,84 +207,80 @@ export const phdDatasets: Dataset[] = [
     kind: 'Public transit data · Belgium',
     role: 'The main research case study, combining STIB-MIVB bus observations with reference traffic data to develop and evaluate citywide traffic speed estimation.',
     card: { src: bruBusMap, alt: 'Map of the Brussels bus-line road network' },
+    refined: true,
     overview: [
-      { label: 'Source', value: 'STIB-MIVB GTFS-Realtime bus data, accessed through the Brussels Mobility Twin platform' },
-      { label: 'Reference', value: 'Google Routes API: traffic-aware travel times (driving mode), used as a proxy for general traffic, not as ground truth' },
-      { label: 'Early study', value: '1,146 road segments and 442 intersections · June 2023 morning peaks, 30 days · 10-minute intervals' },
-      { label: 'Neighbourhood study', value: '74 road segments in Ixelles and Etterbeek' },
-      { label: 'Citywide study', value: '1,366 road segments · 68 bus lines · about 110 km² · six weeks of weekday mornings (07:00–13:00), Nov – Dec 2025, 15-minute intervals' },
+      { label: 'Source', value: 'STIB-MIVB GTFS-Realtime bus observations, accessed through the Brussels Mobility Twin API.' },
+      { label: 'Reference', value: 'Google Routes API, using traffic-aware driving estimates as a comparison reference, not ground truth.' },
+      { label: 'Coverage', value: '74 segments in Ixelles and Etterbeek for the neighbourhood study; 1,366 segments across 68 bus lines for the citywide study.' },
+      { label: 'Period', value: 'November–December 2025, weekday mornings, 15-minute intervals (citywide study).' },
     ],
+    purposeTitle: 'Research focus',
     purpose: [
-      'Early study: recover missing bus speeds on a large, complex network. Few buses run off-peak, so morning peaks were used.',
-      'Neighbourhood study: test whether bus speeds reflect general traffic, and learn the mapping from bus speeds to overall traffic.',
-      'Citywide study: scale that mapping to the whole network. The citywide map is the one shown in the Overview.',
+      'Using public transit buses as moving traffic sensors to estimate road traffic speeds, from a neighbourhood-scale experiment to a larger urban network.',
     ],
+    papers: ['sigspatial-2026', 'urban-ai-2026', 'sigspatial-2025', 'icdew-2024'],
     sections: [
       {
-        title: 'Data sources',
-        note: 'Related sources used together: the open bus data, the road segments between stops, and the Google reference.',
+        title: 'Data example',
         figures: [
           {
             src: stibSample,
             alt: 'Sample tables: average bus speed per road segment and 15-minute interval, and the stops bounding each segment',
-            caption: 'STIB-MIVB bus data. Top: average speed per segment and 15-minute interval, with blanks where no bus passed. Bottom: the stops that bound each segment.',
+            caption: 'STIB-MIVB bus data: average speed per segment and 15-minute interval (blank where no bus passed), and the stops bounding each segment.',
           },
           {
             src: busVsGoogle,
             alt: 'Line chart of bus-derived and Google-derived average speed over one day',
-            caption: 'Bus-derived speeds (blue) and the Google-derived reference (orange) over one day. Buses follow the same rhythm but are noisier.',
+            caption: 'Bus-derived speeds (blue) and the Google-derived reference (orange) over one day.',
           },
           {
             src: studyArea,
             alt: 'Map of the 74 road segments in Ixelles and Etterbeek',
-            caption: 'Neighbourhood study area: 74 road segments in Ixelles and Etterbeek, mixing residential streets and traffic hubs.',
+            caption: 'Neighbourhood study: 74 road segments in Ixelles and Etterbeek.',
             crop: true,
           },
-        ],
-      },
-      {
-        title: 'Early study · missing data',
-        figures: [
           {
-            src: bruEarlyErrors,
-            alt: 'Bar chart of the number of road segments by absolute error magnitude',
-            caption: 'Absolute error of the model’s estimates on the 1,146-segment network, with 25% of values missing in one snapshot.',
+            src: citywideNetwork,
+            alt: 'Map of the 1,366 road segments of the Brussels study network with a zoomed inset',
+            caption: 'Citywide study: 1,366 road segments between consecutive bus stops across Brussels.',
           },
         ],
+        sourceNote: {
+          before: 'STIB-MIVB real-time bus observations were accessed through the ',
+          linkText: 'Brussels Mobility Twin',
+          href: 'https://mobilitytwin.brussels',
+          after: ' API.',
+        },
       },
       {
-        title: 'Neighbourhood study · 74 segments',
-        note: 'Errors are measured against the Google-derived reference. This is a separate experiment from the citywide one below.',
-        figures: [
+        title: 'Results',
+        figures: [],
+        groups: [
           {
-            src: tableBus,
-            alt: 'Table of per-segment errors for raw bus speeds against the Google reference, with a network total of 4.43 km/h MAE',
-            caption: 'Raw bus speeds versus the reference: network MAE 4.43 km/h.',
+            title: 'Neighbourhood study · 74 segments',
+            note: 'Bus-derived and model-estimated speeds are compared with the Google-derived reference, for one segment with high bus density (Porte de Namur – Trône).',
+            figures: [
+              {
+                src: neighbourhoodSeries,
+                alt: 'Line chart of bus-derived, Google-derived and model-derived speeds for one segment',
+                caption: 'Bus-derived, Google-derived and model-derived speeds over one day. Across the 74 segments, mean absolute error against the reference falls from 4.43 km/h (bus-derived) to 2.44 km/h (model).',
+              },
+            ],
           },
           {
-            src: tableModel,
-            alt: 'Table of per-segment errors for model estimates against the Google reference, with a network total of 2.44 km/h MAE',
-            caption: 'Model estimates versus the reference: network MAE 2.44 km/h.',
-          },
-          {
-            src: neighbourhoodSeries,
-            alt: 'Line chart of bus-derived, Google-derived and model-derived speeds for one segment',
-            caption: 'One segment with high bus density (Porte de Namur – Trône): bus-derived, Google-derived and model-derived speeds over a day.',
-          },
-        ],
-      },
-      {
-        title: 'Citywide study · 1,366 segments',
-        figures: [
-          {
-            src: maeDistribution,
-            alt: 'Histogram of segment-level mean absolute error for model estimates and raw bus-derived speeds',
-            caption: 'Segment-level error: model estimates (blue) against raw bus speeds (orange), both measured against the Google reference.',
-          },
-          {
-            src: spatialError,
-            alt: 'Map of segment-level error across Brussels with three circled areas of higher error',
-            caption: 'Where errors are higher: warmer colours mean larger error. Circled areas: dense intersections around the EU quarter, and northern and southern access corridors.',
+            title: 'Citywide study · 1,366 segments',
+            figures: [
+              {
+                src: maeDistribution,
+                alt: 'Histogram of segment-level mean absolute error for model estimates and raw bus-derived speeds',
+                caption: 'Segment-level error of model estimates (blue) and raw bus-derived speeds (orange), both measured against the Google-derived reference.',
+              },
+              {
+                src: spatialError,
+                alt: 'Map of segment-level error across Brussels with three circled areas of higher error',
+                caption: 'Spatial distribution of the error: warmer colours mean larger error. Circled areas mark higher-error clusters.',
+              },
+            ],
           },
         ],
       },
