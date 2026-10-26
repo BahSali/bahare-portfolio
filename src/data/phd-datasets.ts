@@ -78,7 +78,7 @@ export const phdDatasets: Dataset[] = [
     card: { src: rotterdamMap, alt: 'Map of loop-detector locations along the Rotterdam highways' },
     refined: true,
     overview: [
-      { label: 'Source', value: 'Dutch National Road Traffic Data Portal (NDW), accessed through an EMERALDS project partner.' },
+      { label: 'Source', value: 'Dutch National Road Traffic Data Portal (NDW), provided as a use case (UC) of the EMERALDS project.' },
       { label: 'Coverage', value: 'Highway network around Rotterdam, monitored by 206 loop detectors.' },
       { label: 'Period', value: 'April 2022 – May 2023, 1-minute intervals.' },
       { label: 'Dataset size', value: '206 detectors, 544,320 time steps.' },
@@ -90,7 +90,7 @@ export const phdDatasets: Dataset[] = [
     ],
     sections: [
       {
-        title: 'Traffic observations',
+        title: 'Data example',
         figures: [
           {
             src: rotterdamHeatmap,
@@ -101,12 +101,12 @@ export const phdDatasets: Dataset[] = [
         ],
       },
       {
-        title: 'Missing data reconstruction',
+        title: 'Results',
         figures: [
           {
             src: rotterdamEstimation,
             alt: 'Two heatmaps of detector speeds over time: observed speeds with missing values and model-reconstructed speeds',
-            caption: 'Observed traffic speeds with missing values (left) and model-reconstructed speeds (right). Each row represents a detector and each column a time step.',
+            caption: 'Observed traffic speeds with missing values (left) and model-reconstructed speeds (right) for a 3,000-time-step excerpt, not the full dataset. Each row represents a detector and each column a time step.',
             wide: true,
           },
         ],
@@ -120,14 +120,14 @@ export const phdDatasets: Dataset[] = [
     role: 'Urban road traffic data used to evaluate spatiotemporal learning methods and recover missing observations across streets.',
     card: { src: thessalonikiMap, alt: 'Map of the Thessaloniki street network with the study segments highlighted' },
     overview: [
-      { label: 'Source', value: 'A partner of the MobiSpace project, another EU Horizon Europe project' },
+      { label: 'Source', value: 'MobiSpace project ([project number to be added])' },
       { label: 'Coverage', value: 'City streets in Thessaloniki' },
       { label: 'Period', value: 'January – June 2023, 15-minute measurements' },
       { label: 'Size', value: '189 road segments, grouped into 28 roads' },
     ],
     purpose: [
-      'The data came without road connections. They were rebuilt by matching the streets to OpenStreetMap by proximity, producing the green links on the map.',
-      'Neighbouring segments sometimes show different speed trends, so temporal patterns can matter more than spatial proximity here.',
+      'The dataset was provided as street metadata without spatial connectivity between streets. I map-matched the streets to OpenStreetMap and built the adjacency matrix (green links on the map).',
+      'Neighbouring segments can follow clearly different speed trends over the same period, so temporal dynamics may be more informative than spatial proximity alone.',
     ],
     sections: [
       {

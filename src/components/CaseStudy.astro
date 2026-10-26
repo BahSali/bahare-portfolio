@@ -208,7 +208,7 @@ const h3 = 'font-display text-xl';
                     ? sec.figures.map((f) => (
                       <figure>
                         <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${f.alt}`}>
-                          <Image src={f.src} alt={f.alt} format={f.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1100} class="h-auto w-full p-3 transition-opacity group-hover:opacity-90" loading="lazy" />
+                          <Image src={f.src} alt={f.alt} format={f.src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1100} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
                         </button>
                         <figcaption class="mt-2 max-w-[44rem] text-[0.8125rem] leading-snug text-ink-soft">{f.caption}</figcaption>
                       </figure>
@@ -218,7 +218,7 @@ const h3 = 'font-display text-xl';
                     {sec.figures.map((f) => (
                       <figure class:list={[sec.figures.length === 1 && 'contents']}>
                         <button type="button" data-lightbox={f.big} data-alt={f.alt} class:list={['group block w-full cursor-zoom-in border border-warm/70 bg-white', sec.figures.length === 1 && 'lg:col-span-8']} aria-label={`Enlarge: ${f.alt}`}>
-                          <span class:list={['flex items-center justify-center overflow-hidden', sec.figures.length === 1 ? 'aspect-[16/10]' : 'aspect-[4/3]']}>
+                          <span class:list={['flex items-center justify-center overflow-hidden', f.crop && (sec.figures.length === 1 ? 'aspect-[16/10]' : 'aspect-[4/3]')]}>
                             <Image
                               src={f.src}
                               alt={f.alt}
@@ -226,7 +226,7 @@ const h3 = 'font-display text-xl';
                               quality="high"
                               width={900}
                               style={f.position ? `object-position:${f.position}` : undefined}
-                              class:list={['h-full w-full p-2 transition-opacity group-hover:opacity-85', f.crop ? 'object-cover !p-0' : 'object-contain']}
+                              class:list={['w-full transition-opacity group-hover:opacity-85', f.crop ? 'h-full object-cover' : 'h-auto object-contain p-1']}
                               loading="lazy"
                             />
                           </span>
