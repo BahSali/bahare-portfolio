@@ -192,7 +192,7 @@ export const projects: Project[] = [
           title: 'Citywide Traffic Estimation',
           short: 'Scaling to a whole urban network with an attention-enhanced GCNN, a dual-branch decoder and trend–residual decomposition.',
           text: 'Scaling traffic estimation to an entire urban network by developing an attention-enhanced GCNN with a dual-branch decoder. Trend–residual decomposition is incorporated to help the model better learn the multi-level relationships between bus-derived speeds and general traffic conditions.',
-          details: [{ label: 'Case study', text: 'Brussels transportation network including 1,366 road segments.' }],
+          details: [{ label: 'Case studies', text: 'Brussels transportation network including 1,366 road segments, and York (EMERALDS), with 638 road segments.' }],
           papers: [
             { label: "ACM SIGSPATIAL '26", slug: 'sigspatial-2026' },
             { label: "UrbanAI '26", slug: 'urban-ai-2026' },

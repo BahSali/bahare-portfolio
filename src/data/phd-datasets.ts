@@ -82,6 +82,42 @@ export interface Dataset {
 
 export const phdDatasets: Dataset[] = [
   {
+    id: 'sanfrancisco',
+    name: 'San Francisco Bay Area',
+    kind: 'Highway traffic sensors · United States',
+    role: 'Public highway sensor data used to benchmark missing traffic speed estimation methods on a large-scale transportation network.',
+    card: { src: sanFranciscoMap, alt: 'Map of highway sensor locations in the San Francisco Bay Area' },
+    refined: true,
+    overview: [
+      { label: 'Source', value: 'PeMSD4, a publicly available traffic benchmark derived from California Department of Transportation (Caltrans) sensor data.' },
+      { label: 'Coverage', value: 'Highway traffic sensors in the San Francisco Bay Area.' },
+      { label: 'Period', value: 'January–February 2018.' },
+      { label: 'Dataset', value: '307 traffic sensors recording speed, flow, and occupancy. This study uses average traffic speed.' },
+    ],
+    purposeTitle: 'Research focus',
+    purpose: [
+      'Using a widely adopted traffic benchmark to evaluate graph neural network architectures for missing speed data imputation and compare their performance under a common experimental setting.',
+    ],
+    sections: [
+      {
+        title: 'Data examples',
+        figures: [
+          {
+            src: sanFranciscoHistogram,
+            alt: 'Histogram of recorded speeds in the PeMSD4 dataset',
+            caption: 'Distribution of recorded traffic speeds across the dataset.',
+          },
+          {
+            src: sanFranciscoDay,
+            alt: 'Line chart of average speed over one day for one sensor',
+            caption: 'Example of speed variations recorded by a single sensor over one day.',
+          },
+        ],
+      },
+    ],
+    paper: 'icdew-2024',
+  },
+  {
     id: 'rotterdam',
     name: 'Rotterdam Highways',
     kind: 'Highway traffic sensors · Netherlands',
@@ -164,42 +200,6 @@ export const phdDatasets: Dataset[] = [
         ],
       },
     ],
-  },
-  {
-    id: 'sanfrancisco',
-    name: 'San Francisco Bay Area',
-    kind: 'Highway traffic sensors · United States',
-    role: 'Public highway sensor data used to benchmark missing traffic speed estimation methods on a large-scale transportation network.',
-    card: { src: sanFranciscoMap, alt: 'Map of highway sensor locations in the San Francisco Bay Area' },
-    refined: true,
-    overview: [
-      { label: 'Source', value: 'PeMSD4, a publicly available traffic benchmark derived from California Department of Transportation (Caltrans) sensor data.' },
-      { label: 'Coverage', value: 'Highway traffic sensors in the San Francisco Bay Area.' },
-      { label: 'Period', value: 'January–February 2018.' },
-      { label: 'Dataset', value: '307 traffic sensors recording speed, flow, and occupancy. This study uses average traffic speed.' },
-    ],
-    purposeTitle: 'Research focus',
-    purpose: [
-      'Using a widely adopted traffic benchmark to evaluate graph neural network architectures for missing speed data imputation and compare their performance under a common experimental setting.',
-    ],
-    sections: [
-      {
-        title: 'Data examples',
-        figures: [
-          {
-            src: sanFranciscoHistogram,
-            alt: 'Histogram of recorded speeds in the PeMSD4 dataset',
-            caption: 'Distribution of recorded traffic speeds across the dataset.',
-          },
-          {
-            src: sanFranciscoDay,
-            alt: 'Line chart of average speed over one day for one sensor',
-            caption: 'Example of speed variations recorded by a single sensor over one day.',
-          },
-        ],
-      },
-    ],
-    paper: 'icdew-2024',
   },
   {
     id: 'brussels',
@@ -320,21 +320,20 @@ export const phdDatasets: Dataset[] = [
               },
             ],
           },
-        ],
-      },
-      {
-        title: 'Results',
-        note: 'Connected-vehicle (Cariad) and bus-derived speeds for two streets on 28 July. No quantitative error results for York are included here yet.',
-        figures: [
           {
-            src: yorkSeries1,
-            alt: 'Line chart of Cariad-derived and bus-derived speeds for one street over a day',
-            caption: 'First street: connected-vehicle (blue) and bus-derived (orange) speeds through the day.',
-          },
-          {
-            src: yorkSeries2,
-            alt: 'Line chart of Cariad-derived and bus-derived speeds for a second street over a day',
-            caption: 'Second street: gaps appear where no observations were available.',
+            title: 'Speeds on two streets, 28 July',
+            figures: [
+              {
+                src: yorkSeries1,
+                alt: 'Line chart of Cariad-derived and bus-derived speeds for one street over a day',
+                caption: 'First street: connected-vehicle (blue) and bus-derived (orange) speeds through the day.',
+              },
+              {
+                src: yorkSeries2,
+                alt: 'Line chart of Cariad-derived and bus-derived speeds for a second street over a day',
+                caption: 'Second street: gaps appear where no observations were available.',
+              },
+            ],
           },
         ],
       },

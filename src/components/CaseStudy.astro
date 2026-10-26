@@ -215,13 +215,13 @@ const h3 = 'font-display text-xl';
                             {g.figures.length === 1 && g.note
                               ? (
                                 <div class="grid items-start gap-x-6 gap-y-3 md:grid-cols-12">
-                                  <figure class="md:col-span-7">
+                                  <figure class="md:col-span-5">
                                     <button type="button" data-lightbox={g.figures[0].big} data-alt={g.figures[0].alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${g.figures[0].alt}`}>
                                       <Image src={g.figures[0].src} alt={g.figures[0].alt} format={g.figures[0].src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1000} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
                                     </button>
                                     <figcaption class="mt-2 text-[0.8125rem] leading-snug text-ink-soft">{g.figures[0].caption}</figcaption>
                                   </figure>
-                                  <p class="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-5">{g.note}</p>
+                                  <p class="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-7">{g.note}</p>
                                 </div>
                               )
                               : g.figures.length > 2
