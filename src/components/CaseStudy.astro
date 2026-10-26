@@ -43,14 +43,14 @@ const h3 = 'font-display text-xl';
 ---
 <!-- Overview -->
 <section id="overview" class={band}>
-  <Container class={pad}>
-    <h2 class={h2}>Overview</h2>
-    <div class="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
-      <div class="max-w-[38rem] space-y-5 text-[1.0625rem] leading-[1.75] lg:col-span-7 text-justify hyphens-auto">
+  <Container class="py-6 sm:py-9">
+    <h2 class="font-display-tight mb-4 text-3xl font-light sm:text-[2.1rem]">Overview</h2>
+    <div class="grid items-start gap-6 lg:grid-cols-12 lg:gap-10">
+      <div class="max-w-[36rem] space-y-3.5 text-base leading-[1.65] lg:col-span-7 text-justify hyphens-auto">
         {story.overview.map((p) => <p>{p}</p>)}
       </div>
       {story.overviewMedia && (
-        <figure class="lg:col-span-5">
+        <figure class="lg:col-span-5 lg:max-w-[26rem]">
           <picture>
             <source media="(prefers-reduced-motion: reduce)" srcset={story.overviewMedia.still} />
             <img
@@ -67,10 +67,10 @@ const h3 = 'font-display text-xl';
         </figure>
       )}
     </div>
-    <dl class="mt-8 grid gap-6 border-y border-warm/70 py-6 sm:grid-cols-3 sm:gap-8">
+    <dl class="mt-6 grid gap-4 border-y border-warm/70 py-4 sm:grid-cols-3 sm:gap-8">
       {story.facts.map((f) => (
         <div>
-          <dt class="font-display-tight text-3xl font-light text-teal sm:text-4xl">{f.value}</dt>
+          <dt class="font-display-tight text-2xl font-light text-teal sm:text-3xl">{f.value}</dt>
           <dd class="mt-1 text-sm text-ink-soft">{f.label}</dd>
         </div>
       ))}
@@ -332,10 +332,10 @@ const h3 = 'font-display text-xl';
         ))}
       </div>
       {archBig.map((a) => (
-        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-x-8 gap-y-3 md:grid-cols-[minmax(0,33rem)_1fr]">
+        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-x-8 gap-y-3 md:grid-cols-[minmax(0,30rem)_1fr]">
           <figure>
             <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${a.fullName} diagram`}>
-              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-52 w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
             </button>
             <button type="button" data-lightbox={a.big} data-alt={a.alt} class="mt-1 text-xs text-ink-soft underline underline-offset-4 hover:text-clay">Enlarge figure</button>
           </figure>
@@ -418,16 +418,18 @@ const h3 = 'font-display text-xl';
         </li>
       ))}
     </ul>
-    <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">All publications on the Research page →</a></p>
+    <p class="mt-4 text-sm"><a href="/research#publications" class="link-line">Explore related publications →</a></p>
   </Container>
 </section>
 
 <!-- Funding -->
 <section id="funding" class={band}>
-  <Container class={pad}>
-    <h2 class={h2}>Funding</h2>
-    <p class="max-w-[38rem] text-[1.0625rem] leading-[1.7]">This research is supported through the EMERALDS project, funded by the European Union's Horizon Europe programme. Related research has also been developed and evaluated within the project's collaborative activities.</p>
-    <p class="mt-4 text-sm"><a href={emeralds.href} class="link-line">Learn more about my work on EMERALDS →</a></p>
+  <Container class="py-6 sm:py-9">
+    <div class="grid items-start gap-x-10 gap-y-3 lg:grid-cols-12">
+      <h2 class="font-display-tight text-3xl font-light sm:text-[2.1rem] lg:col-span-2">Funding</h2>
+      <p class="max-w-[48rem] text-base leading-[1.65] lg:col-span-7">This research is supported through the EMERALDS project, funded by the European Union's Horizon Europe programme. Related research has also been developed and evaluated within the project's collaborative activities.</p>
+      <p class="text-sm lg:col-span-3 lg:pt-1.5 lg:text-right lg:whitespace-nowrap"><a href={emeralds.href} class="link-line">Learn more about my work on EMERALDS →</a></p>
+    </div>
   </Container>
 </section>
 
