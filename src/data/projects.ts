@@ -217,7 +217,7 @@ export const projects: Project[] = [
         },
       ],
       dataIntro:
-        'Five case studies, each with a different kind of traffic data. Open one to see its source, figures and results.',
+        'Real-world case studies. Open one to see its source, figures and results.',
       datasets: phdDatasets,
       workflow: [
         {

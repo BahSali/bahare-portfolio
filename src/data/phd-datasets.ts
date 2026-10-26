@@ -51,6 +51,8 @@ export interface Dataset {
   kind: string;
   /** One short sentence: the dataset's role in the research. */
   role: string;
+  /** Turns this phrase inside `role` into a link. */
+  roleLink?: { text: string; href: string };
   card: { src: ImageMetadata; alt: string; position?: string };
   /** Verified facts: source, coverage, period, statistics. */
   overview: { label: string; value: string }[];
@@ -67,8 +69,8 @@ export const phdDatasets: Dataset[] = [
   {
     id: 'rotterdam',
     name: 'Rotterdam Highways',
-    kind: 'Highway sensors · Netherlands',
-    role: 'Long records with extended gaps: a test of recovering missing speeds on a simple highway network.',
+    kind: 'Highway traffic sensors · Netherlands',
+    role: 'Historical traffic sensor data used to investigate missing-value recovery across highway networks and different data availability conditions.',
     card: { src: rotterdamMap, alt: 'Map of loop-detector locations along the Rotterdam highways' },
     overview: [
       { label: 'Source', value: 'National Road Traffic Data Portal (NDW), provided by a partner of the EMERALDS project' },
@@ -109,8 +111,8 @@ export const phdDatasets: Dataset[] = [
   {
     id: 'thessaloniki',
     name: 'Thessaloniki',
-    kind: 'Urban streets · Greece',
-    role: 'City streets where neighbours do not always move together: timing matters as much as location.',
+    kind: 'Urban traffic data · Greece',
+    role: 'Urban road traffic data used to evaluate spatiotemporal learning methods and recover missing observations across streets.',
     card: { src: thessalonikiMap, alt: 'Map of the Thessaloniki street network with the study segments highlighted' },
     overview: [
       { label: 'Source', value: 'A partner of the MobiSpace project, another EU Horizon Europe project' },
@@ -150,8 +152,8 @@ export const phdDatasets: Dataset[] = [
   {
     id: 'sanfrancisco',
     name: 'San Francisco Bay Area',
-    kind: 'Highway sensors · USA · open benchmark',
-    role: 'A public benchmark used to compare methods for filling in missing traffic speeds.',
+    kind: 'Highway traffic sensors · United States',
+    role: 'Public highway sensor data used to benchmark missing traffic speed estimation methods on a large-scale transportation network.',
     card: { src: sanFranciscoMap, alt: 'Map of highway sensor locations in the San Francisco Bay Area' },
     overview: [
       { label: 'Source', value: 'PeMSD4, collected by the California Department of Transportation (Caltrans). A preprocessed version is public.' },
@@ -187,8 +189,8 @@ export const phdDatasets: Dataset[] = [
   {
     id: 'brussels',
     name: 'Brussels',
-    kind: 'Public transit buses · Belgium',
-    role: 'The core case study: bus observations from the STIB-MIVB network, compared with a Google traffic reference.',
+    kind: 'Public transit data · Belgium',
+    role: 'The main research case study, combining STIB-MIVB bus observations with reference traffic data to develop and evaluate citywide traffic speed estimation.',
     card: { src: bruBusMap, alt: 'Map of the Brussels bus-line road network' },
     overview: [
       { label: 'Source', value: 'STIB-MIVB GTFS-Realtime bus data, accessed through the Brussels Mobility Twin platform' },
@@ -276,8 +278,9 @@ export const phdDatasets: Dataset[] = [
   {
     id: 'york',
     name: 'York',
-    kind: 'EMERALDS case study',
-    role: 'The approach applied to another city within EMERALDS, with a different reference source than Google.',
+    kind: 'Connected-vehicle data · United Kingdom',
+    role: 'Connected-vehicle data from York, provided through the EMERALDS project and used to evaluate the transferability of traffic estimation methods to another city.',
+    roleLink: { text: 'EMERALDS project', href: '/experience#emeralds' },
     card: { src: yorkMap, alt: 'Map of the York streets in the EMERALDS case study', position: 'center 30%' },
     overview: [
       { label: 'Project', value: 'EU Horizon Europe EMERALDS. York is presented as a final update of the project work.' },

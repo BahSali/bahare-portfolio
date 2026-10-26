@@ -124,7 +124,11 @@ const h3 = 'font-display text-xl';
             </div>
             <p class="eyebrow mt-3 !text-[0.625rem] !tracking-[0.1em]">{d.kind}</p>
             <h3 class="font-display mt-1 text-lg" style="line-height:1.2">{d.name}</h3>
-            <p class="mt-2 text-[0.8125rem] leading-relaxed text-ink-soft">{d.role}</p>
+            <p class="mt-2 text-[0.8125rem] leading-relaxed text-ink-soft">
+              {d.roleLink && d.role.includes(d.roleLink.text)
+                ? <>{d.role.split(d.roleLink.text)[0]}<a href={d.roleLink.href} class="link-line">{d.roleLink.text}</a>{d.role.split(d.roleLink.text)[1]}</>
+                : d.role}
+            </p>
             <button
               type="button"
               data-open={d.id}
@@ -170,38 +174,42 @@ const h3 = 'font-display text-xl';
             </div></aside>
 
             <div class="p-5 lg:col-span-8">
-              <div class="grid gap-x-8 gap-y-6 md:grid-cols-2">
-                {d.sections.map((sec) => (
-                  <>
-                    <div class="md:col-span-2">
-                      <h4 class="eyebrow border-b border-ink/25 pb-1.5">{sec.title}</h4>
-                      {sec.note && <p class="mt-2 text-xs leading-snug text-ink-soft">{sec.note}</p>}
-                    </div>
+              {d.sections.length > 1 && (
+                <div role="tablist" aria-label={`${d.name} figures`} class="mb-5 flex flex-wrap gap-2">
+                  {d.sections.map((sec, si) => (
+                    <button type="button" role="tab" data-tab={`${d.id}-${si}`} aria-selected={si === 0} class="border border-ink/30 px-3 py-1.5 text-[0.8125rem] transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
+                      {sec.title}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {d.sections.map((sec, si) => (
+                <div role="tabpanel" data-tabpanel={`${d.id}-${si}`} hidden={si !== 0}>
+                  {d.sections.length === 1 && <h4 class="eyebrow mb-3 border-b border-ink/25 pb-1.5">{sec.title}</h4>}
+                  {sec.note && <p class="mb-4 text-[0.8125rem] leading-snug text-ink-soft">{sec.note}</p>}
+                  <div class:list={['grid gap-x-5 gap-y-6', sec.figures.length === 2 && 'sm:grid-cols-2', sec.figures.length >= 3 && 'sm:grid-cols-2 xl:grid-cols-3', sec.figures.length === 1 && 'lg:grid-cols-12 lg:items-start']}>
                     {sec.figures.map((f) => (
-                      <figure class:list={['flex flex-col gap-3 sm:flex-row sm:items-start', f.wide && 'md:col-span-2']}>
-                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class:list={['group block w-full shrink-0 cursor-zoom-in border border-warm/70 bg-white', f.wide ? 'sm:w-[42%]' : 'sm:w-[50%]']} aria-label={`Enlarge: ${f.alt}`}>
-                          <span class="flex aspect-[4/3] items-center justify-center overflow-hidden">
+                      <figure class:list={[sec.figures.length === 1 && 'contents']}>
+                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class:list={['group block w-full cursor-zoom-in border border-warm/70 bg-white', sec.figures.length === 1 && 'lg:col-span-8']} aria-label={`Enlarge: ${f.alt}`}>
+                          <span class:list={['flex items-center justify-center overflow-hidden', sec.figures.length === 1 ? 'aspect-[16/10]' : 'aspect-[4/3]']}>
                             <Image
                               src={f.src}
                               alt={f.alt}
                               format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
                               quality="high"
-                              width={520}
+                              width={900}
                               style={f.position ? `object-position:${f.position}` : undefined}
-                              class:list={['h-full w-full p-1.5 transition-opacity group-hover:opacity-85', f.crop ? 'object-cover !p-0' : 'object-contain']}
+                              class:list={['h-full w-full p-2 transition-opacity group-hover:opacity-85', f.crop ? 'object-cover !p-0' : 'object-contain']}
                               loading="lazy"
                             />
                           </span>
                         </button>
-                        <figcaption class="text-[0.8125rem] leading-snug text-ink-soft">
-                          {f.caption}
-                          
-                        </figcaption>
+                        <figcaption class:list={['text-[0.8125rem] leading-snug text-ink-soft', sec.figures.length === 1 ? 'lg:col-span-4' : 'mt-2']}>{f.caption}</figcaption>
                       </figure>
                     ))}
-                  </>
-                ))}
-              </div>
+                  </div>
+                </div>
+              ))}
               {d.missing && <p class="mt-5 border-l-2 border-clay pl-3 text-xs leading-snug text-ink-soft">[Figure needed] {d.missing}</p>}
             </div>
           </div>
@@ -212,7 +220,6 @@ const h3 = 'font-display text-xl';
       <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
       <img id="lightbox-img" alt="" class="h-auto max-h-[80vh] w-full object-contain" />
     </dialog>
-    <p class="mt-8 text-xs text-ink-soft">Basemaps © OpenStreetMap contributors. Figures from the author's research material.</p>
   </Container>
 </section>
 
@@ -371,6 +378,15 @@ const h3 = 'font-display text-xl';
       openers.find((b) => b.dataset.open === id)?.focus();
     }));
   }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.tab!;
+      const panel = tab.closest('[data-panel]')!;
+      panel.querySelectorAll<HTMLElement>('[data-tab]').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      panel.querySelectorAll<HTMLElement>('[data-tabpanel]').forEach((p) => { p.hidden = p.dataset.tabpanel !== id; });
+    });
+  });
 
   const lb = document.getElementById('lightbox') as HTMLDialogElement | null;
   const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
