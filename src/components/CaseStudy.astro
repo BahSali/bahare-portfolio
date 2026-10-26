@@ -3,7 +3,7 @@ import type { Project, ProjectStory } from '~/data/projects';
 import { publications } from '~/data/publications';
 import { emeralds } from '~/data/emeralds';
 import Container from './Container.astro';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import ImagePlaceholder from './ImagePlaceholder.astro';
 
 /** Long-form layout for a project with a `story` (see ProjectStory in data/projects.ts). */
@@ -15,6 +15,17 @@ const shots = (app?.screenshots ?? []).filter((x) => x.src);
 const refs = publications
   .filter((p) => project.publications.includes(p.slug))
   .sort((a, b) => b.year - a.year);
+
+const dsFull = await Promise.all(story.datasets.map(async (d) => ({
+  ...d,
+  sections: await Promise.all(d.sections.map(async (sec) => ({
+    ...sec,
+    figures: await Promise.all(sec.figures.map(async (f) => ({
+      ...f,
+      big: (await getImage({ src: f.src, width: Math.min(f.src.width, 1800), format: f.src.src.endsWith('.png') ? 'png' : 'webp', quality: 'high' })).src,
+    }))),
+  }))),
+})));
 
 const band = 'scroll-mt-28 border-t border-ink/25';
 const tint = 'bg-[#dbe2d3]';
@@ -129,87 +140,75 @@ const h3 = 'font-display text-xl';
       ))}
     </ul>
 
-    <div id="dataset-panels" class="mt-8">
-      {story.datasets.map((d) => (
-        <section id={`panel-${d.id}`} data-panel={d.id} hidden class="scroll-mt-32 border-t-2 border-ink bg-paper p-4 sm:p-6" aria-labelledby={`panel-${d.id}-h`}>
-          <div class="flex items-start justify-between gap-4">
-            <div>
+    <div id="dataset-panels" class="mt-6">
+      {dsFull.map((d) => (
+        <section id={`panel-${d.id}`} data-panel={d.id} hidden class="scroll-mt-32 border border-ink/40 bg-[#f4f1ea]" aria-labelledby={`panel-${d.id}-h`}>
+          <header class="flex items-center justify-between gap-4 border-b border-ink/25 bg-paper-deep px-5 py-3">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 id={`panel-${d.id}-h`} class="font-display text-2xl" style="line-height:1.2">{d.name}</h3>
               <p class="eyebrow">{d.kind}</p>
-              <h3 id={`panel-${d.id}-h`} class="font-display-tight mt-1 text-3xl font-light" style="line-height:1.1">{d.name}</h3>
             </div>
             <button type="button" data-close class="shrink-0 text-sm underline underline-offset-4">Close</button>
-          </div>
+          </header>
 
-          <div class="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-10">
-            <div class="lg:col-span-8">
+          <div class="grid gap-0 lg:grid-cols-12">
+            <aside class="border-b border-ink/25 p-5 lg:col-span-4 lg:border-b-0 lg:border-r">
               <h4 class="eyebrow mb-2">Overview</h4>
-              <dl class="grid border-t border-warm/60 text-sm sm:grid-cols-2 sm:gap-x-8">
+              <dl class="divide-y divide-warm/60 border-y border-warm/60 text-[0.8125rem]">
                 {d.overview.map((o) => (
-                  <div class="border-b border-warm/60 py-2.5">
-                    <dt class="eyebrow mb-0.5">{o.label}</dt>
-                    <dd class="leading-relaxed">{o.value}</dd>
+                  <div class="grid grid-cols-[6.5rem_1fr] gap-3 py-2">
+                    <dt class="eyebrow !text-[0.625rem] pt-0.5">{o.label}</dt>
+                    <dd class="leading-snug">{o.value}</dd>
                   </div>
                 ))}
               </dl>
-            </div>
-            <div class="lg:col-span-4">
-              <h4 class="eyebrow mb-2">Purpose and experiments</h4>
-              <ul class="list-disc space-y-2 border-t border-warm/60 pl-5 pt-3 text-sm leading-relaxed text-ink-soft">
+              <h4 class="eyebrow mb-2 mt-5">Purpose and experiments</h4>
+              <ul class="list-disc space-y-1.5 pl-4 text-[0.8125rem] leading-snug text-ink-soft">
                 {d.purpose.map((x) => <li>{x}</li>)}
               </ul>
-              {d.paper && <p class="mt-4 text-sm"><a href={`/research#pub-${d.paper}`} class="link-line">Read the publication →</a></p>}
-            </div>
-          </div>
+              {d.paper && <p class="mt-4 text-[0.8125rem]"><a href={`/research#pub-${d.paper}`} class="link-line">Read the publication →</a></p>}
+            </aside>
 
-          <div class="mt-8 space-y-8">
-            {d.sections.map((sec) => (
-              <div>
-                <h4 class="eyebrow mb-2 border-b border-ink/30 pb-2">{sec.title}</h4>
-                {sec.figures.length === 1
-                  ? (
-                    <div class="grid items-start gap-x-8 gap-y-3 lg:grid-cols-12">
-                      <figure class={sec.figures[0].src.height > sec.figures[0].src.width ? "lg:col-span-4" : "lg:col-span-7"}>
-                        <div class="border border-warm/60 bg-white">
-                          <Image src={sec.figures[0].src} alt={sec.figures[0].alt} format={sec.figures[0].src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1000} class="h-auto w-full" loading="lazy" />
-                        </div>
-                      </figure>
-                      <div class={sec.figures[0].src.height > sec.figures[0].src.width ? "lg:col-span-8" : "lg:col-span-5"}>
-                        {sec.note && <p class="mb-3 text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
-                        <p class="text-sm leading-relaxed">{sec.figures[0].caption}</p>
-                      </div>
+            <div class="p-5 lg:col-span-8">
+              <div class="grid grid-cols-2 gap-x-4 gap-y-5 md:grid-cols-3">
+                {d.sections.map((sec) => (
+                  <>
+                    <div class="col-span-full">
+                      <h4 class="eyebrow border-b border-ink/25 pb-1.5">{sec.title}</h4>
+                      {sec.note && <p class="mt-2 text-xs leading-snug text-ink-soft">{sec.note}</p>}
                     </div>
-                  )
-                  : (
-                    <>
-                      {sec.note && <p class="mb-3 text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
-                      <div class="grid gap-x-5 gap-y-5 sm:grid-cols-2 lg:[grid-template-columns:repeat(var(--n),minmax(0,1fr))]" style={`--n:${Math.min(sec.figures.length, 3)}`}>
-                        {sec.figures.map((f) => (
-                          <figure>
-                            <div class:list={['border border-warm/60 bg-white', f.crop && 'aspect-[4/3] overflow-hidden']}>
-                              <Image
-                                src={f.src}
-                                alt={f.alt}
-                                format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
-                                quality="high"
-                                width={760}
-                                style={f.position ? `object-position:${f.position}` : undefined}
-                                class:list={['w-full', f.crop ? 'h-full object-cover' : 'h-auto']}
-                                loading="lazy"
-                              />
-                            </div>
-                            <figcaption class="mt-1.5 text-xs leading-relaxed text-ink-soft">{f.caption}</figcaption>
-                          </figure>
-                        ))}
-                      </div>
-                    </>
-                  )}
+                    {sec.figures.map((f) => (
+                      <figure class:list={[f.wide && 'col-span-2']}>
+                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${f.alt}`}>
+                          <span class:list={['flex items-center justify-center overflow-hidden', f.wide ? 'aspect-[8/3]' : 'aspect-[4/3]']}>
+                            <Image
+                              src={f.src}
+                              alt={f.alt}
+                              format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
+                              quality="high"
+                              width={480}
+                              style={f.position ? `object-position:${f.position}` : undefined}
+                              class:list={['h-full w-full p-1.5 transition-opacity group-hover:opacity-85', f.crop ? 'object-cover !p-0' : 'object-contain']}
+                              loading="lazy"
+                            />
+                          </span>
+                        </button>
+                        <figcaption class="mt-1.5 text-xs leading-snug text-ink-soft">{f.caption}</figcaption>
+                      </figure>
+                    ))}
+                  </>
+                ))}
               </div>
-            ))}
-            {d.missing && <p class="border-l-2 border-clay pl-4 text-sm leading-relaxed text-ink-soft">[Figure needed] {d.missing}</p>}
+              {d.missing && <p class="mt-5 border-l-2 border-clay pl-3 text-xs leading-snug text-ink-soft">[Figure needed] {d.missing}</p>}
+            </div>
           </div>
         </section>
       ))}
     </div>
+    <dialog id="lightbox" class="m-auto max-h-[92vh] max-w-[min(96vw,72rem)] bg-white p-3 backdrop:bg-ink/60">
+      <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
+      <img id="lightbox-img" alt="" class="h-auto max-h-[80vh] w-full object-contain" />
+    </dialog>
     <p class="mt-8 text-xs text-ink-soft">Basemaps © OpenStreetMap contributors. Figures from the author's research material.</p>
   </Container>
 </section>
@@ -368,6 +367,15 @@ const h3 = 'font-display text-xl';
       show(null);
       openers.find((b) => b.dataset.open === id)?.focus();
     }));
+  }
+
+  const lb = document.getElementById('lightbox') as HTMLDialogElement | null;
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  if (lb && lbImg) {
+    document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((b) =>
+      b.addEventListener('click', () => { lbImg.src = b.dataset.lightbox!; lbImg.alt = b.dataset.alt ?? ''; lb.showModal(); }),
+    );
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((btn) => {
