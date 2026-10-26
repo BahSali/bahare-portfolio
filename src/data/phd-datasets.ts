@@ -293,33 +293,43 @@ export const phdDatasets: Dataset[] = [
     role: 'Connected-vehicle data from York, provided through the EMERALDS project and used to evaluate the transferability of traffic estimation methods to another city.',
     roleLink: { text: 'EMERALDS project', href: '/experience#emeralds' },
     card: { src: yorkMap, alt: 'Map of the York streets in the EMERALDS case study', position: 'center 30%' },
+    refined: true,
     overview: [
-      { label: 'Project', value: 'EU Horizon Europe EMERALDS. York is presented as a final update of the project work.' },
-      { label: 'Reference', value: 'Cariad connected-vehicle data from more than 25,000 devices' },
-      { label: 'Probes', value: 'Buses: 214 vehicles across 63 bus lines' },
-      { label: 'Period', value: '22 July – 12 August 2025, 07:00–22:00, 15-minute intervals' },
-      { label: 'Size', value: '638 road segments' },
+      { label: 'Source', value: 'EU Horizon Europe EMERALDS project; bus observations and connected-vehicle data from Cariad (more than 25,000 devices).' },
+      { label: 'Reference', value: 'Cariad connected-vehicle speeds, used as the comparison reference instead of Google.' },
+      { label: 'Coverage', value: '638 road segments in York, with buses: 214 vehicles across 63 bus lines.' },
+      { label: 'Period', value: '22 July – 12 August 2025, 07:00–22:00, 15-minute intervals.' },
     ],
+    purposeTitle: 'Research focus',
     purpose: [
-      'Apply the bus-probe approach to a second city, with connected-vehicle speeds replacing the Google reference.',
-      'These are separate data and results from the Brussels experiments and are not compared with them here.',
+      'Applying the bus-probe approach to a second city, with connected-vehicle speeds as the reference, to evaluate how well the method transfers beyond Brussels.',
     ],
     sections: [
       {
-        title: 'Data examples',
-        note: 'Speeds from connected vehicles (Cariad) and from buses on two streets on 28 July.',
-        figures: [
+        title: 'Data example',
+        figures: [],
+        groups: [
           {
-            src: yorkMap,
-            alt: 'Map of the York streets used in the case study',
-            caption: 'The York streets in the study.',
-            crop: true,
-            position: 'center 30%',
+            title: '',
+            note: 'The 638 road segments of the York case study are shown in black. Bus observations and connected-vehicle reference speeds are matched to these segments in 15-minute intervals.',
+            figures: [
+              {
+                src: yorkMap,
+                alt: 'Map of the York streets used in the case study',
+                caption: 'The York streets in the study.',
+              },
+            ],
           },
+        ],
+      },
+      {
+        title: 'Results',
+        note: 'Connected-vehicle (Cariad) and bus-derived speeds for two streets on 28 July. No quantitative error results for York are included here yet.',
+        figures: [
           {
             src: yorkSeries1,
             alt: 'Line chart of Cariad-derived and bus-derived speeds for one street over a day',
-            caption: 'First street: connected-vehicle (blue) and bus-derived (orange) speeds follow similar patterns through the day.',
+            caption: 'First street: connected-vehicle (blue) and bus-derived (orange) speeds through the day.',
           },
           {
             src: yorkSeries2,
@@ -329,6 +339,5 @@ export const phdDatasets: Dataset[] = [
         ],
       },
     ],
-    missing: 'No quantitative results for York are in the supplied material; an error table or chart from the EMERALDS deliverable would be needed to show them.',
   },
 ];
