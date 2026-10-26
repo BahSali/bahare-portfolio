@@ -10,6 +10,7 @@
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
+import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
 import networkCard from '~/assets/phd/network-card.jpg';
@@ -98,7 +99,7 @@ export interface Project {
   /** Short funding note shown as a tag on overview pages. */
   funding?: string;
   /** Short single-page write-up (overview, contribution, technical areas) instead of the generic template. */
-  brief?: { overview: string[]; contribution: string[]; areaTitle: string; areas: string[] };
+  brief?: { overview: string[]; contribution: string[]; areaTitle: string; areas: string[]; figure?: { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string } };
   /** Overrides on the detail page only. */
   eyebrow?: string;
   headline?: string;
@@ -350,17 +351,24 @@ export const projects: Project[] = [
     tier: 'standard',
     homeFeatured: true,
     summary: 'Research collaboration at the University of Passau on the runtime analysis of evolutionary multi-objective optimization algorithms.',
+    publications: ['aaai-2023', 'gecco-2023'],
     brief: {
       overview: [
         'During a research stay at the University of Passau, I worked with Prof. Dirk Sudholt and his research group on the runtime analysis of evolutionary multi-objective optimization algorithms.',
         'The research examined how crossover and noisy evaluations affect the efficiency and robustness of algorithms such as NSGA-II and GSEMO. The collaboration resulted in two publications at AAAI 2023 and GECCO 2023.',
       ],
       contribution: [
-        'My work focused primarily on algorithm implementation, computational experiments, and result analysis. Using Python, I implemented evolutionary optimization procedures, investigated algorithm behavior under different experimental settings, and prepared results and visualizations to support the research.',
-        'I also contributed to parts of the mathematical analysis as part of the collaborative work.',
+        'I implemented NSGA-II and GSEMO from scratch in Python, including selection, crossover, mutation, non-dominated sorting and population management.',
+        'I designed and ran the computational experiments, analysed how the algorithms behave under different conditions, and prepared the results and visualizations that supported the theoretical work. I also contributed to selected mathematical proofs.',
       ],
-      areaTitle: 'Evolutionary Optimization',
-      areas: ['NSGA-II', 'GSEMO', 'Python', 'Algorithm Implementation', 'Experimental Analysis'],
+      areaTitle: 'Technical skills',
+      areas: ['Python', 'Evolutionary Algorithms', 'Multi-Objective Optimization', 'Algorithm Implementation', 'Computational Experiments', 'Performance Analysis'],
+      figure: {
+        src: passauFig,
+        alt: 'Number of Pareto-optimal points covered per generation by GSEMO and NSGA-II on two benchmark functions under noise',
+        caption: 'Experiment from the GECCO 2023 paper: Pareto-optimal points covered per generation by GSEMO and NSGA-II under noise, for noise probability p.',
+        placeholderLabel: 'Experiment figure',
+      },
     },
     image: {
       src: null,

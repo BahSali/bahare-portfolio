@@ -29,6 +29,25 @@ export interface Publication {
 
 export const publications: Publication[] = [
   {
+    slug: 'gecco-2023',
+    year: 2023,
+    title: 'Analysing the Robustness of NSGA-II under Noise',
+    authors: 'Duc-Cuong Dang, Andre Opris, Bahare Salehi, Dirk Sudholt',
+    venue: "GECCO '23, Lisbon, Portugal, 15–19 July 2023",
+    type: 'conference',
+    projects: ['evolutionary-multi-objective-optimization'],
+    links: [{ label: 'DOI', href: 'https://doi.org/10.1145/3583131.3590421' }],
+  },
+  {
+    slug: 'aaai-2023',
+    year: 2023,
+    title: 'A Proof That Using Crossover Can Guarantee Exponential Speed-Ups in Evolutionary Multi-Objective Optimisation',
+    authors: 'Duc-Cuong Dang, Andre Opris, Bahare Salehi, Dirk Sudholt',
+    venue: 'AAAI-23, Thirty-Seventh AAAI Conference on Artificial Intelligence',
+    type: 'conference',
+    projects: ['evolutionary-multi-objective-optimization'],
+  },
+  {
     slug: 'sigspatial-2026',
     year: 2026,
     title: 'Spatiotemporal Citywide Traffic Speed Estimation via Public Transit Bus Probes',
