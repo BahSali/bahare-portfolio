@@ -102,10 +102,10 @@ const h3 = 'font-display text-xl';
 <section id="data" class={band}>
   <Container class={pad}>
     <h2 class={h2}>Data</h2>
-    <p class="mb-8 max-w-[38rem] text-[1.0625rem] leading-[1.7]">{story.dataIntro}</p>
+    <p class="mb-8 text-[1.0625rem] leading-[1.7]">{story.dataIntro}</p>
 
     <ul class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5" id="dataset-gallery">
-      {story.datasets.map((d, i) => (
+      {story.datasets.map((d) => (
         <li>
           <article data-card={d.id} class="group h-full border border-transparent">
             <div class="aspect-[4/3] overflow-hidden border border-warm/60 bg-white">
@@ -165,29 +165,47 @@ const h3 = 'font-display text-xl';
             {d.sections.map((sec) => (
               <div>
                 <h4 class="eyebrow mb-2 border-b border-ink/30 pb-2">{sec.title}</h4>
-                {sec.note && <p class="mb-3 max-w-[44rem] text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
-                <div class="grid gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-                  {sec.figures.map((f) => (
-                    <figure class:list={[f.wide && 'sm:col-span-2 lg:col-span-2']}>
-                      <div class:list={['border border-warm/60 bg-white', f.crop && 'aspect-[4/3] overflow-hidden']}>
-                        <Image
-                          src={f.src}
-                          alt={f.alt}
-                          format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
-                          quality="high"
-                          width={f.wide ? 1000 : 520}
-                          style={f.position ? `object-position:${f.position}` : undefined}
-                          class:list={['w-full', f.crop ? 'h-full object-cover' : 'h-auto']}
-                          loading="lazy"
-                        />
+                {sec.figures.length === 1
+                  ? (
+                    <div class="grid items-start gap-x-8 gap-y-3 lg:grid-cols-12">
+                      <figure class={sec.figures[0].src.height > sec.figures[0].src.width ? "lg:col-span-4" : "lg:col-span-7"}>
+                        <div class="border border-warm/60 bg-white">
+                          <Image src={sec.figures[0].src} alt={sec.figures[0].alt} format={sec.figures[0].src.src.endsWith('.png') ? 'png' : 'webp'} quality="high" width={1000} class="h-auto w-full" loading="lazy" />
+                        </div>
+                      </figure>
+                      <div class={sec.figures[0].src.height > sec.figures[0].src.width ? "lg:col-span-8" : "lg:col-span-5"}>
+                        {sec.note && <p class="mb-3 text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
+                        <p class="text-sm leading-relaxed">{sec.figures[0].caption}</p>
                       </div>
-                      <figcaption class="mt-1.5 text-xs leading-relaxed text-ink-soft">{f.caption}</figcaption>
-                    </figure>
-                  ))}
-                </div>
+                    </div>
+                  )
+                  : (
+                    <>
+                      {sec.note && <p class="mb-3 text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
+                      <div class="grid gap-x-5 gap-y-5 sm:grid-cols-2 lg:[grid-template-columns:repeat(var(--n),minmax(0,1fr))]" style={`--n:${Math.min(sec.figures.length, 3)}`}>
+                        {sec.figures.map((f) => (
+                          <figure>
+                            <div class:list={['border border-warm/60 bg-white', f.crop && 'aspect-[4/3] overflow-hidden']}>
+                              <Image
+                                src={f.src}
+                                alt={f.alt}
+                                format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
+                                quality="high"
+                                width={760}
+                                style={f.position ? `object-position:${f.position}` : undefined}
+                                class:list={['w-full', f.crop ? 'h-full object-cover' : 'h-auto']}
+                                loading="lazy"
+                              />
+                            </div>
+                            <figcaption class="mt-1.5 text-xs leading-relaxed text-ink-soft">{f.caption}</figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </>
+                  )}
               </div>
             ))}
-            {d.missing && <p class="max-w-[44rem] border-l-2 border-clay pl-4 text-sm leading-relaxed text-ink-soft">[Figure needed] {d.missing}</p>}
+            {d.missing && <p class="border-l-2 border-clay pl-4 text-sm leading-relaxed text-ink-soft">[Figure needed] {d.missing}</p>}
           </div>
         </section>
       ))}
