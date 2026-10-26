@@ -355,15 +355,15 @@ export const projects: Project[] = [
     publications: ['aaai-2023', 'gecco-2023'],
     brief: {
       overview: [
-        'During a research stay at the University of Passau, I worked with Prof. Dirk Sudholt and his research group on the runtime analysis of evolutionary multi-objective optimization algorithms.',
-        'The research examined how crossover and noisy evaluations affect the efficiency and robustness of algorithms such as NSGA-II and GSEMO. The collaboration resulted in two publications at AAAI 2023 and GECCO 2023.',
+        "During a research stay at the University of Passau, I collaborated with Prof. Dirk Sudholt's research group on the analysis of evolutionary multi-objective optimization algorithms.",
+        'We investigated how crossover and noise influence the runtime and robustness of NSGA-II and GSEMO. The work combined theoretical analysis with computational experiments and led to two publications at AAAI 2023 and GECCO 2023.',
       ],
       contribution: [
-        'I implemented NSGA-II and GSEMO from scratch in Python, including selection, crossover, mutation, non-dominated sorting and population management.',
-        'I designed and ran the computational experiments, analysed how the algorithms behave under different conditions, and prepared the results and visualizations that supported the theoretical work. I also contributed to selected mathematical proofs.',
+        'I implemented NSGA-II and GSEMO from scratch in Python, covering their main components, including selection, crossover, mutation, and population management.',
+        'I developed and ran experiments to study algorithm performance under different conditions, analysed the results, and prepared figures for the publications. I also contributed to selected mathematical proofs.',
       ],
-      areaTitle: 'Technical skills',
-      areas: ['Python', 'Evolutionary Algorithms', 'Multi-Objective Optimization', 'Algorithm Implementation', 'Computational Experiments', 'Performance Analysis'],
+      areaTitle: 'Technical Skills',
+      areas: ['Python', 'Multi-Objective Optimization', 'Evolutionary Algorithms', 'Algorithm Implementation', 'Experimental Evaluation', 'Runtime Analysis'],
       figure: {
         src: passauFig,
         alt: 'Number of Pareto-optimal points covered per generation by GSEMO and NSGA-II on two benchmark functions under noise',
