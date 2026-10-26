@@ -185,7 +185,8 @@ const toggle =
       const line = 140;
       let idx = -1;
       targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top <= line) idx = i; });
-      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) idx = links.length - 1;
+      const last = targets[targets.length - 1];
+      if (last && innerHeight + scrollY >= document.documentElement.scrollHeight - 4 && last.getBoundingClientRect().top < innerHeight - 120) idx = links.length - 1;
       if (idx === current) return;
       current = idx;
       links.forEach((a, i) => a.setAttribute('aria-current', String(i === idx)));
