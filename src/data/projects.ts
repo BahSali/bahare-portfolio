@@ -10,6 +10,7 @@
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
+import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
 import networkCard from '~/assets/phd/network-card.jpg';
 import { phdDatasets, type Dataset } from './phd-datasets';
@@ -72,7 +73,7 @@ export interface ProjectStory {
   workflow: { title: string; text: string; ongoing?: string; core: string[]; explored: string[] }[];
   workflowNote?: string;
   /** Model development: one entry per architecture, shown with an image selector (the one marked `default` opens first). */
-  architectures: { id: string; label: string; venue: string; paper: string; src: ImageMetadata; alt: string; changed: string; why: string; default?: boolean }[];
+  architectures: { id: string; label: string; venue: string; paper: string; src: ImageMetadata; alt: string; changed: string; why: string; default?: boolean; ongoing?: boolean }[];
 }
 
 export interface Project {
@@ -239,16 +240,22 @@ export const projects: Project[] = [
           explored: [],
         },
         {
-          title: 'Experimentation & Model Analysis',
-          text: 'Designing comparative experiments and ablation studies, examining how model components contribute, and evaluating errors across road segments and time periods. Published work includes a component ablation of GCNN layers and an analysis of the dual-branch decoder and its gate.',
-          ongoing: 'Ongoing: signal decomposition and frequency-domain investigations of bus and reference speeds, in early experiments.',
-          core: ['NumPy', 'SciPy', 'Evaluation metrics (MAE, RMSE, DTW)'],
+          title: 'Frequency-Domain Modeling & Signal Analysis',
+          text: 'Investigating traffic signals at different temporal frequencies to better understand complex and heterogeneous traffic behaviour across large urban networks. Exploring signal decomposition, Fourier and wavelet transforms, and frequency-aware neural architectures to distinguish broader traffic patterns from local variations.',
+          ongoing: 'Active research: spectral analysis and decomposition approaches, and a frequency-aware architecture, are in early experiments and not yet published.',
+          core: ['NumPy', 'SciPy', 'PyWavelets'],
           explored: [],
         },
         {
-          title: 'Model Transfer & Adaptation',
-          text: 'Investigating how trained models can be transferred to other road networks and maintained with less newly collected reference data. The York case study within EMERALDS applies the approach to a second city.',
-          ongoing: 'Ongoing research directions: transferability across cities, graph partitioning to limit reference-data requests, and foundation models (including TabPFN-based experiments carried out by a colleague).',
+          title: 'Experimentation & Model Evaluation',
+          text: 'Designing comparative experiments and ablation studies, examining how model components contribute, and evaluating errors across road segments and time periods. Published work includes a component ablation of GCNN layers and an analysis of the dual-branch decoder and its gate.',
+          core: ['Evaluation metrics (MAE, RMSE, DTW)'],
+          explored: [],
+        },
+        {
+          title: 'Model Transfer, Adaptation & Foundation Models',
+          text: 'Investigating how trained models can be transferred across cities and road networks, and updated with less newly collected reference data. The York case study within EMERALDS applies the approach to a second city.',
+          ongoing: 'Active research: model transfer across cities, graph partitioning and adaptation strategies, and foundation models for traffic estimation, including TabPFN-based experiments carried out by a colleague.',
           core: [],
           explored: [],
         },
@@ -290,6 +297,17 @@ export const projects: Project[] = [
           changed: 'The decoder is split into a base branch for the broader traffic pattern and a residual branch for local deviations, combined through a learnable gate.',
           why: 'A single decoding path tended to produce overly smooth estimates on the citywide network.',
           default: true,
+        },
+        {
+          id: 'spectral',
+          label: 'Spectral Transfer Network',
+          venue: 'Ongoing research',
+          paper: '',
+          src: archSpectral,
+          alt: 'Spectral Transfer Network architecture: wavelet decomposition of bus speed into bands, per-band blocks with graph mixing and a transfer operator, coverage gate, and inverse wavelet transform',
+          changed: 'Bus speeds are split into frequency bands with a wavelet transform. Each band passes through its own block combining temporal convolution and graph mixing, with a learned transfer path, a neighbour-based fallback and a coverage gate, and the bands are then recombined into the speed estimate.',
+          why: 'Explores separating broader patterns from local variation by frequency, and adapting to areas with limited coverage. Early experiments, not published.',
+          ongoing: true,
         },
       ],
     },

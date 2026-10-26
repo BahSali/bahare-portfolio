@@ -305,21 +305,25 @@ const h3 = 'font-display text-xl';
 <section id="methods" class:list={[band, tint]}>
   <Container class={pad}>
     <h2 class={h2}>Technical Work &amp; Expertise</h2>
-    <ol class="grid gap-x-12 gap-y-8 md:grid-cols-2">
+    <ol class="border-t border-ink">
       {story.workflow.map((w, i) => (
-        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 border-t border-ink pt-4">
-          <p class="font-display text-sm text-clay">0{i + 1}</p>
-          <h3 class="font-display mt-1 text-xl" style="line-height:1.2">{w.title}</h3>
-          <p class="mt-2 text-[0.9rem] leading-relaxed">{w.text}</p>
-          {w.ongoing && <p class="mt-2 border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
-          {w.core.length > 0 && <p class="mt-3 text-xs leading-relaxed tracking-wide text-ink-soft">{w.core.join(' · ')}</p>}
+        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 md:grid-cols-12">
+          <div class="flex items-baseline gap-3 md:col-span-4">
+            <span class="font-display text-sm text-clay">0{i + 1}</span>
+            <h3 class="font-display text-lg" style="line-height:1.25">{w.title}</h3>
+          </div>
+          <div class="md:col-span-5">
+            <p class="max-w-[40rem] text-[0.9rem] leading-relaxed">{w.text}</p>
+            {w.ongoing && <p class="mt-2 border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
+          </div>
+          <p class="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-3">{w.core.join(' · ')}</p>
         </li>
       ))}
     </ol>
 
     <div id="model-development" class="mt-12 scroll-mt-28 border-t border-ink/30 pt-6">
       <h3 class={`${h3} mb-1`}>Model development</h3>
-      <p class="mb-4 text-sm text-ink-soft">Three architectures I designed, each building on the previous one. They are distinct models, not interchangeable variants.</p>
+      <p class="mb-4 text-sm text-ink-soft">Four architectures, each extending the previous one. They are distinct models, not interchangeable variants; the last is ongoing research.</p>
       <div role="tablist" aria-label="Model architectures" class="mb-5 flex flex-wrap gap-2">
         {story.architectures.map((a, k) => (
           <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="border border-ink/30 px-3 py-1.5 text-left text-[0.8125rem] transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
@@ -329,16 +333,18 @@ const h3 = 'font-display text-xl';
       </div>
       {archBig.map((a) => (
         <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-6 lg:grid-cols-12 lg:gap-10">
-          <figure class="lg:col-span-8">
+          <figure class="lg:col-span-6">
             <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`View ${a.label} diagram at full size`}>
-              <Image src={a.src} alt={a.alt} format="png" width={1100} class="h-auto max-h-[26rem] w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
+              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-56 w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
             </button>
-            <figcaption class="mt-2 text-xs text-ink-soft">{a.label} ({a.venue}). Original diagram from the publication. <span class="text-clay">Click to view full size.</span></figcaption>
+            <figcaption class="mt-2 text-xs text-ink-soft">{a.label} ({a.venue}). Original diagram. <span class="text-clay">Click to view full size.</span></figcaption>
           </figure>
-          <div class="space-y-4 lg:col-span-4">
+          <div class="space-y-4 lg:col-span-6">
             <div><p class="eyebrow mb-1">What changed</p><p class="text-[0.875rem] leading-relaxed">{a.changed}</p></div>
             <div><p class="eyebrow mb-1">Why</p><p class="text-[0.875rem] leading-relaxed text-ink-soft">{a.why}</p></div>
-            <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Publication →</a></p>
+            {a.paper
+              ? <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Publication →</a></p>
+              : <p class="text-[0.8125rem] italic text-ink-soft">Ongoing research, not published.</p>}
           </div>
         </div>
       ))}
@@ -377,8 +383,7 @@ const h3 = 'font-display text-xl';
                 ? <ImagePlaceholder src={shots[0].src} alt={shots[0].alt} label={shots[0].placeholderLabel} tone="teal" ratio="aspect-video" />
                 : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
           </div>
-          {app.video && <p class="mt-2 text-xs text-ink-soft">{app.video.label}, 3 min</p>}
-        </div>
+                  </div>
         <div class="lg:col-span-5">
           <p class="eyebrow mb-2">Traffic Analytics Platform</p>
           <p class="text-[0.9375rem] leading-relaxed">A web application, built with Streamlit, that estimates and compares citywide traffic speeds from live bus observations. The walkthrough runs it on Brussels' live bus feed.</p>
