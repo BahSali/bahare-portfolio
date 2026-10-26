@@ -8,7 +8,9 @@
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
-import modelArchitecture from '~/assets/phd/model-architecture.png';
+import archBaseline from '~/assets/phd/arch-baseline.png';
+import archAttention from '~/assets/phd/arch-attention.png';
+import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
 import networkCard from '~/assets/phd/network-card.jpg';
 import { phdDatasets, type Dataset } from './phd-datasets';
 
@@ -66,15 +68,11 @@ export interface ProjectStory {
   dataIntro: string;
   /** Data section case studies (see phd-datasets.ts). */
   datasets: Dataset[];
-  /** Methods & Technologies: the actual workflow. `core` = used extensively, `explored` = worked with or explored. */
-  workflow: { title: string; text: string; core: string[]; explored: string[] }[];
-  /** Short scope note shown under the workflow. */
+  /** Technical Work & Expertise: competency areas. `ongoing` lists research directions, not established results. */
+  workflow: { title: string; text: string; ongoing?: string; core: string[]; explored: string[] }[];
   workflowNote?: string;
-  architectureFigure: Figure;
-  /** Active or exploratory work, never presented as completed or published. */
-  currentResearch: { title: string; text: string }[];
-  /** Plain-language explanation of the architecture diagram. */
-  architectureNotes: { title: string; text: string }[];
+  /** Model development: one entry per architecture, shown with an image selector (the one marked `default` opens first). */
+  architectures: { id: string; label: string; venue: string; paper: string; src: ImageMetadata; alt: string; changed: string; why: string; default?: boolean }[];
 }
 
 export interface Project {
@@ -224,50 +222,75 @@ export const projects: Project[] = [
       workflow: [
         {
           title: 'Data Engineering & Integration',
-          text: 'Building research datasets from heterogeneous sources: working with APIs, processing and aligning time-series observations, handling missing values and integrating traffic reference data.',
-          core: ['Python', 'Pandas', 'SQL', 'GTFS-Realtime', 'Google Routes API'],
+          text: 'Building datasets from heterogeneous sources: working with APIs, processing and aligning time-series observations, handling missing values and integrating traffic reference data. This includes data cleaning, validation, map matching and preparing model-ready data.',
+          core: ['Python', 'Pandas', 'GTFS-Realtime', 'Google Routes API'],
           explored: [],
         },
         {
-          title: 'Geospatial Analytics & Databases',
-          text: 'Constructing road networks, mapping observations to geographic segments, working with spatial databases and analysing spatial relationships.',
-          core: ['PostgreSQL/PostGIS', 'QGIS', 'GeoJSON', 'OpenStreetMap'],
+          title: 'Geospatial Analytics & Data Management',
+          text: 'Constructing and analysing road networks, performing spatial operations, managing geographic databases and exploring spatial and temporal data.',
+          core: ['PostgreSQL/PostGIS', 'SQL', 'QGIS', 'GeoJSON', 'Parquet', 'OpenStreetMap'],
           explored: [],
         },
         {
-          title: 'Deep Learning & Model Design',
-          text: 'Designing and implementing custom neural network architectures for traffic estimation, including graph convolutions, temporal and spatial attention, and gated prediction branches. The main architecture was independently designed and substantially implemented from the ground up.',
+          title: 'Machine Learning & Model Development',
+          text: 'Developing and comparing statistical and neural approaches for traffic estimation, with ARIMA, LSTM, temporal CNN, DCRNN and Graph WaveNet as baselines. I designed and implemented custom GCNN architectures, progressing from a baseline spatiotemporal network to attention-based models and a gated dual-branch design.',
           core: ['PyTorch (primary)', 'TensorFlow and MXNet (additional experience)'],
           explored: [],
         },
         {
-          title: 'Experimental Design & Evaluation',
-          text: 'Comparing architectures and baseline methods, investigating missing-data reconstruction, conducting ablation studies and analysing spatial and temporal prediction errors.',
-          core: ['NumPy', 'SciPy', 'Model evaluation metrics'],
+          title: 'Experimentation & Model Analysis',
+          text: 'Designing comparative experiments and ablation studies, examining how model components contribute, and evaluating errors across road segments and time periods. Published work includes a component ablation of GCNN layers and an analysis of the dual-branch decoder and its gate.',
+          ongoing: 'Ongoing: signal decomposition and frequency-domain investigations of bus and reference speeds, in early experiments.',
+          core: ['NumPy', 'SciPy', 'Evaluation metrics (MAE, RMSE, DTW)'],
           explored: [],
         },
         {
-          title: 'Interactive ML Applications',
-          text: 'Integrating trained models into an interactive web application for traffic exploration, model comparison and travel-time analysis, including application configuration, environment-based credential handling and Git/GitHub version control.',
-          core: ['Streamlit', 'Python', 'Git/GitHub'],
+          title: 'Model Transfer & Adaptation',
+          text: 'Investigating how trained models can be transferred to other road networks and maintained with less newly collected reference data. The York case study within EMERALDS applies the approach to a second city.',
+          ongoing: 'Ongoing research directions: transferability across cities, graph partitioning to limit reference-data requests, and foundation models (including TabPFN-based experiments carried out by a colleague).',
+          core: [],
+          explored: [],
+        },
+        {
+          title: 'Interactive Applications & Visualization',
+          text: 'Building interactive tools to explore traffic data, run trained models, compare predictions, and visualise road-level speeds, errors and travel times, with application configuration and careful handling of API credentials.',
+          core: ['Streamlit', 'Tableau', 'Git/GitHub'],
           explored: [],
         },
       ],
-      workflowNote: '',
-      architectureFigure: {
-        src: modelArchitecture,
-        alt: 'Model architecture: spatiotemporal encoder followed by a dual-branch decoder',
-        caption: 'Model overview, from the SIGSPATIAL \u201926 paper.',
-        placeholderLabel: 'Figure: model architecture',
-      },
-      architectureNotes: [
-        { title: 'Time and space', text: 'Each road segment gets a feature history built from recent speeds, daily and weekly patterns, and similar past days. Temporal convolution with attention learns how speeds evolve over time. Attention-weighted graph convolution then shares information between connected road segments.' },
-        { title: 'Gated dual-branch decoder', text: 'One branch estimates the broader traffic pattern; the other models local deviations around it. A learnable gate controls how much of the local correction is added to the final speed estimate.' },
-      ],
-      currentResearch: [
-        { title: 'Transferability across cities', text: 'Investigating how learned traffic patterns transfer to other cities.' },
-        { title: 'Frequency-domain modeling', text: 'Frequency-domain modeling and signal-processing techniques for relating bus-derived and reference speeds.' },
-        { title: 'Less new reference data', text: 'Reducing dependence on newly collected reference data when adapting models.' },
+      architectures: [
+        {
+          id: 'baseline',
+          label: 'Baseline Spatiotemporal GCNN',
+          venue: 'ICDEW 2024',
+          paper: 'icdew-2024',
+          src: archBaseline,
+          alt: 'Baseline GCNN: three parallel sub-networks for hourly, daily and weekly patterns, each with a spatiotemporal block, fused into the output',
+          changed: 'Three independent sub-networks learn hourly, daily and weekly patterns. Each runs temporal and spatial graph convolutions, and their outputs are fused to estimate missing speeds.',
+          why: 'A baseline for an ablation study of the temporal and spatial layers, with and without attention.',
+        },
+        {
+          id: 'attention',
+          label: 'Attention-based GCNN',
+          venue: 'SIGSPATIAL 2025',
+          paper: 'sigspatial-2025',
+          src: archAttention,
+          alt: 'Attention-based GCNN: embedding convolution, a spatiotemporal block with temporal and spatial attention, and an output head',
+          changed: 'A stack of spatiotemporal blocks with temporal and spatial attention takes the road graph and the bus speed history, and produces segment-level speeds that approximate the reference.',
+          why: 'Applies the model to bus-probe data. The earlier ablation found attention helpful, most clearly in the spatial layer.',
+        },
+        {
+          id: 'dual-branch',
+          label: 'Gated Dual-Branch GCNN',
+          venue: '2026 research',
+          paper: 'sigspatial-2026',
+          src: modelArchitecture,
+          alt: 'Gated dual-branch GCNN: feature construction, spatiotemporal block, and a decoder with base and residual branches combined by additive fusion',
+          changed: 'The decoder is split into a base branch for the broader traffic pattern and a residual branch for local deviations, combined through a learnable gate.',
+          why: 'A single decoding path tended to produce overly smooth estimates on the citywide network.',
+          default: true,
+        },
       ],
     },
     application: {

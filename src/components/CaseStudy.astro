@@ -30,6 +30,11 @@ const dsFull = await Promise.all(story.datasets.map(async (d) => ({
   }))),
 })));
 
+const archBig = await Promise.all(story.architectures.map(async (a) => ({
+  ...a,
+  big: (await getImage({ src: a.src, width: Math.min(a.src.width, 2000), format: 'png' })).src,
+})));
+
 const band = 'scroll-mt-28 border-t border-ink/25';
 const tint = 'bg-[#dbe2d3]';
 const pad = 'py-8 sm:py-12';
@@ -296,64 +301,47 @@ const h3 = 'font-display text-xl';
   </Container>
 </section>
 
-<!-- Methods & technologies -->
+<!-- Technical work & expertise -->
 <section id="methods" class:list={[band, tint]}>
   <Container class={pad}>
-    <h2 class={h2}>Methods &amp; Technologies</h2>
-    <ol class="border-t border-ink">
+    <h2 class={h2}>Technical Work &amp; Expertise</h2>
+    <ol class="grid gap-x-12 gap-y-8 md:grid-cols-2">
       {story.workflow.map((w, i) => (
-        <li class="grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 md:grid-cols-12">
-          <div class="flex items-baseline gap-3 md:col-span-4">
-            <span class="font-display text-sm text-clay">0{i + 1}</span>
-            <h3 class="font-display text-lg" style="line-height:1.25">{w.title}</h3>
-          </div>
-          <p class="max-w-[40rem] text-[0.9rem] leading-relaxed md:col-span-5">{w.text}</p>
-          <p class="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-3">{w.core.join(' · ')}</p>
+        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 border-t border-ink pt-4">
+          <p class="font-display text-sm text-clay">0{i + 1}</p>
+          <h3 class="font-display mt-1 text-xl" style="line-height:1.2">{w.title}</h3>
+          <p class="mt-2 text-[0.9rem] leading-relaxed">{w.text}</p>
+          {w.ongoing && <p class="mt-2 border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
+          {w.core.length > 0 && <p class="mt-3 text-xs leading-relaxed tracking-wide text-ink-soft">{w.core.join(' · ')}</p>}
         </li>
       ))}
     </ol>
 
-    <div class="mt-10 grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
-      <figure class="lg:col-span-7">
-        <h3 class={`${h3} mb-3`}>Model architecture</h3>
-        {story.architectureFigure.src && (
-          <>
-            <button type="button" data-zoom="arch-dialog" class="group relative block w-full cursor-zoom-in text-left" aria-label="View the model architecture diagram at full size">
-              <Image src={story.architectureFigure.src} alt={story.architectureFigure.alt} format="png" width={900} class="h-auto w-full border border-warm/60 bg-white p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
-              <span class="mt-2 block text-sm text-clay">View full size ↗</span>
-            </button>
-            <dialog id="arch-dialog" class="m-auto max-h-[92vh] max-w-[min(96vw,64rem)] bg-white p-3 backdrop:bg-ink/60">
-              <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
-              <Image src={story.architectureFigure.src} alt={story.architectureFigure.alt} format="png" width={story.architectureFigure.src.width} class="h-auto max-h-[78vh] w-full object-contain" loading="lazy" />
-            </dialog>
-          </>
-        )}
-        <figcaption class="mt-1 text-xs text-ink-soft">{story.architectureFigure.caption}</figcaption>
-      </figure>
-      <div class="lg:col-span-5 lg:pt-9">
-        <p class="eyebrow mb-3">How it works</p>
-        <ul class="space-y-4">
-          {story.architectureNotes.map((n) => (
-            <li class="border-t border-ink/30 pt-3">
-              <p class="font-display text-base">{n.title}</p>
-              <p class="mt-1 text-[0.8125rem] leading-relaxed text-ink-soft">{n.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-
-    <div id="current-research" class="mt-10 scroll-mt-28 border-t border-dashed border-ink/40 pt-5">
-      <h3 class={h3}>Ongoing research</h3>
-      <p class="mb-4 mt-1 text-sm text-ink-soft">Active investigations, not yet established results.</p>
-      <ul class="grid gap-x-8 gap-y-4 md:grid-cols-3">
-        {story.currentResearch.map((c) => (
-          <li class="border-t border-ink/30 pt-3">
-            <p class="font-display text-base" style="line-height:1.25">{c.title}</p>
-            <p class="mt-1 text-[0.8125rem] leading-relaxed text-ink-soft">{c.text}</p>
-          </li>
+    <div id="model-development" class="mt-12 scroll-mt-28 border-t border-ink/30 pt-6">
+      <h3 class={`${h3} mb-1`}>Model development</h3>
+      <p class="mb-4 text-sm text-ink-soft">Three architectures I designed, each building on the previous one. They are distinct models, not interchangeable variants.</p>
+      <div role="tablist" aria-label="Model architectures" class="mb-5 flex flex-wrap gap-2">
+        {story.architectures.map((a, k) => (
+          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="border border-ink/30 px-3 py-1.5 text-left text-[0.8125rem] transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
+            <span class="opacity-70">0{k + 1}</span> {a.label}<span class="ml-2 opacity-70">{a.venue}</span>
+          </button>
         ))}
-      </ul>
+      </div>
+      {archBig.map((a) => (
+        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-6 lg:grid-cols-12 lg:gap-10">
+          <figure class="lg:col-span-8">
+            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`View ${a.label} diagram at full size`}>
+              <Image src={a.src} alt={a.alt} format="png" width={1100} class="h-auto max-h-[26rem] w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
+            </button>
+            <figcaption class="mt-2 text-xs text-ink-soft">{a.label} ({a.venue}). Original diagram from the publication. <span class="text-clay">Click to view full size.</span></figcaption>
+          </figure>
+          <div class="space-y-4 lg:col-span-4">
+            <div><p class="eyebrow mb-1">What changed</p><p class="text-[0.875rem] leading-relaxed">{a.changed}</p></div>
+            <div><p class="eyebrow mb-1">Why</p><p class="text-[0.875rem] leading-relaxed text-ink-soft">{a.why}</p></div>
+            <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Publication →</a></p>
+          </div>
+        </div>
+      ))}
     </div>
     {project.links.length > 0 && (
       <p class="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm">
@@ -469,6 +457,14 @@ const h3 = 'font-display text-xl';
       const panel = tab.closest('[data-panel]')!;
       panel.querySelectorAll<HTMLElement>('[data-tab]').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
       panel.querySelectorAll<HTMLElement>('[data-tabpanel]').forEach((p) => { p.hidden = p.dataset.tabpanel !== id; });
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-arch]').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const root = tab.closest('#model-development')!;
+      root.querySelectorAll<HTMLElement>('[data-arch]').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      root.querySelectorAll<HTMLElement>('[data-archpanel]').forEach((p) => { p.hidden = p.dataset.archpanel !== tab.dataset.arch; });
     });
   });
 
