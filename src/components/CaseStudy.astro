@@ -304,19 +304,19 @@ const h3 = 'font-display text-xl';
 <!-- Technical work & expertise -->
 <section id="methods" class:list={[band, tint]}>
   <Container class={pad}>
-    <h2 class={h2}>Technical Work &amp; Expertise</h2>
+    <h2 class={h2}>Technical Experience</h2>
     <ol class="border-t border-ink">
       {story.workflow.map((w, i) => (
-        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 md:grid-cols-12">
+        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
           <div class="flex items-baseline gap-3 md:col-span-4">
             <span class="font-display text-sm text-clay">0{i + 1}</span>
             <h3 class="font-display text-lg" style="line-height:1.25">{w.title}</h3>
           </div>
-          <div class="md:col-span-5">
-            <p class="max-w-[40rem] text-[0.9rem] leading-relaxed">{w.text}</p>
-            {w.ongoing && <p class="mt-2 border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
+          <p class="max-w-[40rem] text-[0.9rem] leading-relaxed md:col-span-5">{w.text}</p>
+          <div class="space-y-2 md:col-span-3">
+            {w.core.length > 0 && <p class="text-[0.8125rem] leading-relaxed text-ink-soft">{w.core.join(' · ')}</p>}
+            {w.ongoing && <p class="border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
           </div>
-          <p class="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-3">{w.core.join(' · ')}</p>
         </li>
       ))}
     </ol>
@@ -324,10 +324,10 @@ const h3 = 'font-display text-xl';
     <div id="model-development" class="mt-12 scroll-mt-28 border-t border-ink/30 pt-6">
       <h3 class={`${h3} mb-1`}>Model development</h3>
       <p class="mb-4 text-sm text-ink-soft">Four architectures, each extending the previous one. They are distinct models, not interchangeable variants; the last is ongoing research.</p>
-      <div role="tablist" aria-label="Model architectures" class="mb-5 flex flex-wrap gap-2">
-        {story.architectures.map((a, k) => (
-          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="border border-ink/30 px-3 py-1.5 text-left text-[0.8125rem] transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
-            <span class="opacity-70">0{k + 1}</span> {a.label}<span class="ml-2 opacity-70">{a.venue}</span>
+      <div role="tablist" aria-label="Model architectures" class="mb-5 flex gap-2 overflow-x-auto pb-1">
+        {story.architectures.map((a) => (
+          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="shrink-0 whitespace-nowrap border border-ink/30 px-2.5 py-1.5 text-left text-xs transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
+            {a.label}<span class="ml-1.5 opacity-70">· {a.venue}</span>
           </button>
         ))}
       </div>
