@@ -104,22 +104,22 @@ const h3 = 'font-display text-xl';
     <h2 class={h2}>Data</h2>
     <p class="mb-8 max-w-[38rem] text-[1.0625rem] leading-[1.7]">{story.dataIntro}</p>
 
-    <ul class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-6" id="dataset-gallery">
+    <ul class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5" id="dataset-gallery">
       {story.datasets.map((d, i) => (
-        <li class:list={['lg:col-span-2', i >= 3 && 'lg:col-span-3']}>
+        <li>
           <article data-card={d.id} class="group h-full border border-transparent">
-            <div class="aspect-[16/10] overflow-hidden border border-warm/60 bg-white">
+            <div class="aspect-[4/3] overflow-hidden border border-warm/60 bg-white">
               <Image src={d.card.src} alt={d.card.alt} format="webp" quality="high" width={760} style={d.card.position ? `object-position:${d.card.position}` : undefined} class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]" loading="lazy" />
             </div>
-            <p class="eyebrow mt-3">{d.kind}</p>
-            <h3 class="font-display mt-1 text-xl" style="line-height:1.2">{d.name}</h3>
-            <p class="mt-2 max-w-[34rem] text-sm leading-relaxed text-ink-soft">{d.role}</p>
+            <p class="eyebrow mt-3 !text-[0.625rem] !tracking-[0.1em]">{d.kind}</p>
+            <h3 class="font-display mt-1 text-lg" style="line-height:1.2">{d.name}</h3>
+            <p class="mt-2 text-[0.8125rem] leading-relaxed text-ink-soft">{d.role}</p>
             <button
               type="button"
               data-open={d.id}
               aria-expanded="false"
               aria-controls={`panel-${d.id}`}
-              class="mt-3 inline-flex items-center gap-2 border border-ink/40 px-4 py-2 text-sm transition-colors hover:bg-ink hover:text-paper aria-expanded:border-ink aria-expanded:bg-ink aria-expanded:text-paper"
+              class="mt-3 inline-flex items-center gap-2 border border-ink/40 px-3 py-1.5 text-[0.8125rem] transition-colors hover:bg-ink hover:text-paper aria-expanded:border-ink aria-expanded:bg-ink aria-expanded:text-paper"
             >
               <span data-label>Show more</span>
               <span aria-hidden="true" data-chevron>↓</span>
@@ -131,7 +131,7 @@ const h3 = 'font-display text-xl';
 
     <div id="dataset-panels" class="mt-8">
       {story.datasets.map((d) => (
-        <section id={`panel-${d.id}`} data-panel={d.id} hidden class="scroll-mt-32 border-t-2 border-ink bg-paper p-5 sm:p-8" aria-labelledby={`panel-${d.id}-h`}>
+        <section id={`panel-${d.id}`} data-panel={d.id} hidden class="scroll-mt-32 border-t-2 border-ink bg-paper p-4 sm:p-6" aria-labelledby={`panel-${d.id}-h`}>
           <div class="flex items-start justify-between gap-4">
             <div>
               <p class="eyebrow">{d.kind}</p>
@@ -166,22 +166,22 @@ const h3 = 'font-display text-xl';
               <div>
                 <h4 class="eyebrow mb-2 border-b border-ink/30 pb-2">{sec.title}</h4>
                 {sec.note && <p class="mb-3 max-w-[44rem] text-sm leading-relaxed text-ink-soft">{sec.note}</p>}
-                <div class="grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                   {sec.figures.map((f) => (
-                    <figure class:list={[f.wide && 'sm:col-span-2 lg:col-span-3']}>
+                    <figure class:list={[f.wide && 'sm:col-span-2 lg:col-span-2']}>
                       <div class:list={['border border-warm/60 bg-white', f.crop && 'aspect-[4/3] overflow-hidden']}>
                         <Image
                           src={f.src}
                           alt={f.alt}
                           format={f.src.src.endsWith('.png') ? 'png' : 'webp'}
                           quality="high"
-                          width={f.wide ? 1400 : 760}
+                          width={f.wide ? 1000 : 520}
                           style={f.position ? `object-position:${f.position}` : undefined}
                           class:list={['w-full', f.crop ? 'h-full object-cover' : 'h-auto']}
                           loading="lazy"
                         />
                       </div>
-                      <figcaption class="mt-2 text-sm leading-relaxed text-ink-soft">{f.caption}</figcaption>
+                      <figcaption class="mt-1.5 text-xs leading-relaxed text-ink-soft">{f.caption}</figcaption>
                     </figure>
                   ))}
                 </div>
@@ -259,8 +259,8 @@ const h3 = 'font-display text-xl';
       <p class="eyebrow mb-3">Interactive application</p>
       <h2 class="font-display-tight text-3xl font-light sm:text-4xl" style="line-height:1.1">{app.title}</h2>
       <p class="mb-6 mt-3 max-w-[34rem] leading-relaxed text-ink-soft">{app.summary}</p>
-      <div class="max-w-[880px]">
-        <div class="bg-ink p-2 sm:p-3">
+      <div class="max-w-[640px]">
+        <div class="bg-ink p-1.5">
           {app.video
             ? (
               <video
@@ -280,7 +280,7 @@ const h3 = 'font-display text-xl';
               : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
         </div>
         {app.video && <p class="mt-2 text-sm text-ink-soft">{app.video.label}</p>}
-        <ul class="mt-6 grid gap-x-8 gap-y-4 border-t border-ink/30 pt-4 md:grid-cols-3">
+        <ul class="mt-4 grid gap-x-6 gap-y-3 border-t border-ink/30 pt-3 md:grid-cols-3">
           {app.features.map((f) => (
             <li><p class="font-display text-lg">{f.title}</p><p class="mt-1 text-sm leading-relaxed text-ink-soft">{f.text}</p></li>
           ))}
