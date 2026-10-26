@@ -78,6 +78,108 @@ const h3 = 'font-display text-lg';
   </Container>
 </section>
 
+<!-- Technical work & expertise -->
+<section id="methods" class:list={[band, tint]}>
+  <Container class={pad}>
+    <h2 class={h2}>Technical Experience</h2>
+    <ol class="border-t border-ink">
+      {story.workflow.map((w, i) => (
+        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
+          <div class="flex items-baseline gap-3 md:col-span-4">
+            <span class="font-display text-sm text-clay">0{i + 1}</span>
+            <h3 class="font-display text-lg" style="line-height:1.25">{w.title}</h3>
+          </div>
+          <p class="max-w-[40rem] text-[0.9rem] leading-relaxed md:col-span-5">{w.text}</p>
+          <div class="space-y-2 md:col-span-3">
+            {w.core.length > 0 && <p class="text-[0.8125rem] leading-relaxed text-ink-soft">{w.core.join(' · ')}</p>}
+            {w.ongoing && <p class="border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div id="model-development" class="mt-10 scroll-mt-28 border-t border-ink/30 pt-5">
+      <h3 class={`${h3} mb-1`}>Model Evolution</h3>
+      <p class="mb-3 max-w-[44rem] text-sm leading-snug text-ink-soft">A progression of spatiotemporal architectures developed to address missing traffic data, bus-based traffic estimation, and the challenges of citywide modeling.</p>
+      <div role="tablist" aria-label="Model architectures" class="mb-4 flex gap-1.5 overflow-x-auto pb-1">
+        {story.architectures.map((a) => (
+          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="shrink-0 whitespace-nowrap border border-ink/30 px-2.5 py-1 text-left text-xs transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
+            {a.label}<span class="ml-1.5 opacity-70">· {a.venue}</span>
+          </button>
+        ))}
+      </div>
+      {archBig.map((a) => (
+        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-x-8 gap-y-3 md:grid-cols-[minmax(0,30rem)_1fr]">
+          <figure>
+            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${a.fullName} diagram`}>
+              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-52 w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
+            </button>
+            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="mt-1 text-xs text-ink-soft underline underline-offset-4 hover:text-clay">Enlarge figure</button>
+          </figure>
+          <div class="space-y-3 text-[0.875rem] leading-snug">
+            <p class="font-display text-base leading-tight">{a.fullName}</p>
+            <div><p class="eyebrow mb-0.5">Approach</p><p>{a.approach}</p></div>
+            <div><p class="eyebrow mb-0.5">Focus</p><p class="text-ink-soft">{a.focus}</p></div>
+            {a.paper && <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Read the paper →</a></p>}
+          </div>
+        </div>
+      ))}
+    </div>
+    {project.links.length > 0 && (
+      <p class="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+        {project.links.map((l) => <a href={l.href} class="link-line">{l.label} →</a>)}
+      </p>
+    )}
+  </Container>
+</section>
+
+<!-- Application demo -->
+{app && (
+  <section id="application" class={band}>
+    <Container class={pad}>
+      <h2 class={h2}>Application Demo</h2>
+      <div class="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
+        <div class="lg:col-span-5">
+          <div class="bg-ink p-1">
+            {app.video
+              ? (
+                <video
+                  controls
+                  preload="metadata"
+                  playsinline
+                  poster={app.video.poster ? (typeof app.video.poster === 'string' ? app.video.poster : app.video.poster.src) : undefined}
+                  class="aspect-video w-full bg-ink"
+                  aria-label={app.video.label}
+                >
+                  <source src={app.video.src} type={app.video.type} />
+                  Your browser cannot play this video.
+                </video>
+              )
+              : (shots[0]
+                ? <ImagePlaceholder src={shots[0].src} alt={shots[0].alt} label={shots[0].placeholderLabel} tone="teal" ratio="aspect-video" />
+                : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
+          </div>
+                  </div>
+        <div class="lg:col-span-6 lg:col-start-6">
+          <p class="eyebrow mb-2">Traffic Analytics Platform</p>
+          <p class="text-[0.9375rem] leading-relaxed">An interactive Streamlit application for estimating and comparing urban traffic speeds using real-time bus observations.</p>
+          <ul class="mt-4 divide-y divide-warm/70 border-y border-warm/70">
+            {app.features.map((f) => (
+              <li class="py-2.5"><p class="font-display text-base">{f.title}</p><p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{f.text}</p></li>
+            ))}
+          </ul>
+          {(app.video ? shots : shots.slice(1)).map((sh) => (
+            <ImagePlaceholder src={sh.src} alt={sh.alt} label={sh.placeholderLabel} tone="sage" ratio="aspect-[16/7]" class="mt-4" />
+          ))}
+          {app.demoUrl && (
+            <p class="mt-5"><a href={app.demoUrl} class="inline-block border border-teal bg-teal px-5 py-2.5 text-sm text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Open live demo →</a></p>
+          )}
+        </div>
+      </div>
+    </Container>
+  </section>
+)}
+
 <!-- Research journey -->
 <section id="journey" class:list={[band, tint]}>
   <Container class={pad}>
@@ -300,108 +402,6 @@ const h3 = 'font-display text-lg';
     </dialog>
   </Container>
 </section>
-
-<!-- Technical work & expertise -->
-<section id="methods" class:list={[band, tint]}>
-  <Container class={pad}>
-    <h2 class={h2}>Technical Experience</h2>
-    <ol class="border-t border-ink">
-      {story.workflow.map((w, i) => (
-        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
-          <div class="flex items-baseline gap-3 md:col-span-4">
-            <span class="font-display text-sm text-clay">0{i + 1}</span>
-            <h3 class="font-display text-lg" style="line-height:1.25">{w.title}</h3>
-          </div>
-          <p class="max-w-[40rem] text-[0.9rem] leading-relaxed md:col-span-5">{w.text}</p>
-          <div class="space-y-2 md:col-span-3">
-            {w.core.length > 0 && <p class="text-[0.8125rem] leading-relaxed text-ink-soft">{w.core.join(' · ')}</p>}
-            {w.ongoing && <p class="border-l border-dashed border-ink/50 pl-3 text-[0.8125rem] italic leading-relaxed text-ink-soft">{w.ongoing}</p>}
-          </div>
-        </li>
-      ))}
-    </ol>
-
-    <div id="model-development" class="mt-10 scroll-mt-28 border-t border-ink/30 pt-5">
-      <h3 class={`${h3} mb-1`}>Model Evolution</h3>
-      <p class="mb-3 max-w-[44rem] text-sm leading-snug text-ink-soft">A progression of spatiotemporal architectures developed to address missing traffic data, bus-based traffic estimation, and the challenges of citywide modeling.</p>
-      <div role="tablist" aria-label="Model architectures" class="mb-4 flex gap-1.5 overflow-x-auto pb-1">
-        {story.architectures.map((a) => (
-          <button type="button" role="tab" data-arch={a.id} aria-selected={!!a.default} class="shrink-0 whitespace-nowrap border border-ink/30 px-2.5 py-1 text-left text-xs transition-colors hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-paper">
-            {a.label}<span class="ml-1.5 opacity-70">· {a.venue}</span>
-          </button>
-        ))}
-      </div>
-      {archBig.map((a) => (
-        <div role="tabpanel" data-archpanel={a.id} hidden={!a.default} class="grid items-start gap-x-8 gap-y-3 md:grid-cols-[minmax(0,30rem)_1fr]">
-          <figure>
-            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label={`Enlarge: ${a.fullName} diagram`}>
-              <Image src={a.src} alt={a.alt} format="png" width={700} class="h-52 w-full object-contain p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
-            </button>
-            <button type="button" data-lightbox={a.big} data-alt={a.alt} class="mt-1 text-xs text-ink-soft underline underline-offset-4 hover:text-clay">Enlarge figure</button>
-          </figure>
-          <div class="space-y-3 text-[0.875rem] leading-snug">
-            <p class="font-display text-base leading-tight">{a.fullName}</p>
-            <div><p class="eyebrow mb-0.5">Approach</p><p>{a.approach}</p></div>
-            <div><p class="eyebrow mb-0.5">Focus</p><p class="text-ink-soft">{a.focus}</p></div>
-            {a.paper && <p class="text-[0.8125rem]"><a href={`/research#pub-${a.paper}`} class="link-line">Read the paper →</a></p>}
-          </div>
-        </div>
-      ))}
-    </div>
-    {project.links.length > 0 && (
-      <p class="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm">
-        {project.links.map((l) => <a href={l.href} class="link-line">{l.label} →</a>)}
-      </p>
-    )}
-  </Container>
-</section>
-
-<!-- Application demo -->
-{app && (
-  <section id="application" class={band}>
-    <Container class={pad}>
-      <h2 class={h2}>Application Demo</h2>
-      <div class="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
-        <div class="lg:col-span-5">
-          <div class="bg-ink p-1">
-            {app.video
-              ? (
-                <video
-                  controls
-                  preload="metadata"
-                  playsinline
-                  poster={app.video.poster ? (typeof app.video.poster === 'string' ? app.video.poster : app.video.poster.src) : undefined}
-                  class="aspect-video w-full bg-ink"
-                  aria-label={app.video.label}
-                >
-                  <source src={app.video.src} type={app.video.type} />
-                  Your browser cannot play this video.
-                </video>
-              )
-              : (shots[0]
-                ? <ImagePlaceholder src={shots[0].src} alt={shots[0].alt} label={shots[0].placeholderLabel} tone="teal" ratio="aspect-video" />
-                : <ImagePlaceholder src={null} alt="Application demo video (placeholder)" label="Demo video: application walkthrough" tone="teal" ratio="aspect-video" />)}
-          </div>
-                  </div>
-        <div class="lg:col-span-6 lg:col-start-6">
-          <p class="eyebrow mb-2">Traffic Analytics Platform</p>
-          <p class="text-[0.9375rem] leading-relaxed">An interactive Streamlit application for estimating and comparing urban traffic speeds using real-time bus observations.</p>
-          <ul class="mt-4 divide-y divide-warm/70 border-y border-warm/70">
-            {app.features.map((f) => (
-              <li class="py-2.5"><p class="font-display text-base">{f.title}</p><p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{f.text}</p></li>
-            ))}
-          </ul>
-          {(app.video ? shots : shots.slice(1)).map((sh) => (
-            <ImagePlaceholder src={sh.src} alt={sh.alt} label={sh.placeholderLabel} tone="sage" ratio="aspect-[16/7]" class="mt-4" />
-          ))}
-          {app.demoUrl && (
-            <p class="mt-5"><a href={app.demoUrl} class="inline-block border border-teal bg-teal px-5 py-2.5 text-sm text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Open live demo →</a></p>
-          )}
-        </div>
-      </div>
-    </Container>
-  </section>
-)}
 
 <!-- Publications -->
 <section id="publications" class:list={[band, tint]}>
