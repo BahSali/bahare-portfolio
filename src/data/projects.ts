@@ -560,8 +560,7 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'I tested on two benchmark networks: a small one with 17 nodes and 23 links, and Sioux Falls with 24 nodes and 76 links.',
-                'The experiments used two candidate sets: the five most congested links, which allows an exhaustive search and a true Pareto front for reference, and every link in the network.',
+                'The proposed approach was evaluated on benchmark transportation networks of different scales, including the well-established Sioux Falls network shown here. The experiments examined the quality of the solutions obtained under different road network configurations.',
               ],
               figure: {
                 src: mscNetwork,
@@ -573,8 +572,8 @@ export const projects: Project[] = [
               kind: 'text',
               figureFirst: true,
               paragraphs: [
-                'I compared WPN and NSGA-II by the quality of the Pareto solutions each produced. In these experiments, WPN gave better Pareto sets, most clearly on Sioux Falls, where it found solutions with both lower travel time and lower cost.',
-                'The Pareto sets show the trade-off between travel time and infrastructure cost directly. In the final sets for both networks, some solutions remove lanes: reducing capacity on selected roads sometimes produced a better overall configuration.',
+                'Comparisons with NSGA-II showed that WPN produced better Pareto solutions in the tested scenarios, particularly on the Sioux Falls network, achieving lower travel times and infrastructure costs.',
+                'The results also highlighted an interesting finding: some of the most effective network configurations involved removing lanes rather than adding capacity, demonstrating that infrastructure expansion does not always lead to better traffic performance.',
               ],
               figure: {
                 src: mscPareto,
