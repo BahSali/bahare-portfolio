@@ -12,6 +12,7 @@ import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
 import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
+import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
@@ -89,7 +90,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
   | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
-  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href: string })[] }[] }
+  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
@@ -505,6 +506,18 @@ export const projects: Project[] = [
                     { text: 'Frank–Wolfe algorithm', href: 'https://en.wikipedia.org/wiki/Frank%E2%80%93Wolfe_algorithm' },
                     ' is used to calculate traffic flows.',
                   ],
+                  details: {
+                    summary: 'How traffic assignment works',
+                    items: [
+                      { title: 'User Equilibrium', text: 'User Equilibrium describes a traffic condition in which drivers have no incentive to change routes, as switching to another available route would not reduce their travel time.' },
+                      { title: 'Frank–Wolfe Algorithm', text: 'The Frank–Wolfe algorithm is an iterative optimization method used here to solve the traffic assignment problem. It starts with an initial traffic flow distribution, calculates updated route choices based on travel times, and adjusts the flows until the solution converges toward equilibrium.' },
+                    ],
+                    figure: {
+                      src: mscFrankWolfe,
+                      alt: 'Illustration of one Frank–Wolfe (conditional gradient) step toward a vertex of the feasible set',
+                      caption: 'One Frank–Wolfe step. Illustration after Jaggi (2011).',
+                    },
+                  },
                 },
                 { label: 'Network optimization', text: "A genetic algorithm explores lane additions and removals under the two competing objectives, keeping an evolving Pareto front. Removals are included because extra capacity can sometimes worsen congestion (Braess's paradox)." },
                 { label: 'Weighted P-Norm (WPN)', text: 'I developed WPN, a way to rank solutions by their weighted distance from the ideal point, and compared it with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
