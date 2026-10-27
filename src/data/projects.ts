@@ -91,7 +91,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
@@ -582,10 +582,8 @@ export const projects: Project[] = [
                 caption: 'Pareto solutions on Sioux Falls: NSGA-II (red) and WPN (green). Lower is better on both axes.',
               },
               notes: {
-                title: 'What each point is',
                 paragraphs: [
-                  'Each point in the chart is one candidate design. A design is a list with one number per candidate road: a positive number adds that many lanes, a negative number removes them, and 0 leaves the road unchanged.',
-                  'The design shown here adds one lane on the first road, leaves the second as it is, removes two lanes on the third-to-last road, adds two on the next and removes one on the last. The traffic model then computes its total travel time and cost, and that pair of values sets where the point lands. Points toward the lower left are better.',
+                  'Each point on the Pareto chart represents a potential road network design. The figure illustrates how a single design is encoded as a sequence of cells, with each cell corresponding to a road. The cell value specifies the number of lanes to add (+), remove (−), or leave unchanged (0). Each design is then evaluated based on its total travel time, calculated through the lower-level traffic assignment model, and the associated infrastructure modification cost. These two values determine its position on the Pareto chart.',
                 ],
                 figure: {
                   src: mscSolution,
