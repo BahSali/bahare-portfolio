@@ -13,11 +13,7 @@ import archAttention from '~/assets/phd/arch-attention.png';
 import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
-import mscBraess from '~/assets/phd/msc-braess.png';
-import mscChromosome from '~/assets/phd/msc-chromosome.png';
 import mscCard from '~/assets/phd/msc-card.png';
-import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
-import mscSurface from '~/assets/phd/msc-surface.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
 import yorkMap from '~/assets/phd/ds/york-map.jpg';
 import passauFig from '~/assets/phd/passau-fig2.png';
@@ -89,6 +85,15 @@ export interface ProjectStory {
   architectures: { id: string; label: string; fullName: string; venue: string; paper: string; src: ImageMetadata; alt: string; approach: string; focus: string; default?: boolean; ongoing?: boolean }[];
 }
 
+export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
+/** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
+export type BriefBlock =
+  | { kind: 'text'; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'columns'; items: { label: string; text: string }[] }
+  | { kind: 'rows'; items: { label: string; text: string }[] }
+  | { kind: 'publications' };
+export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
+
 export interface Project {
   slug: string;
   title: string;
@@ -111,7 +116,7 @@ export interface Project {
   /** Short funding note shown as a tag on overview pages. */
   funding?: string;
   /** Short single-page write-up (overview, contribution, technical areas) instead of the generic template. */
-  brief?: { overview: string[]; contribution: string[]; extra?: { title: string; lines: { label?: string; text: string }[] }[]; figures?: { src: ImageMetadata; alt: string; caption: string }[]; areaTitle: string; areas: string[]; figure?: { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string } };
+  brief?: { overview: string[]; contribution: string[]; extra?: { title: string; lines: { label?: string; text: string }[] }[]; figures?: { src: ImageMetadata; alt: string; caption: string }[]; sections?: BriefSection[]; areaTitle: string; areas: string[]; figure?: { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string } };
   /** Overrides on the detail page only. */
   eyebrow?: string;
   headline?: string;
@@ -459,68 +464,95 @@ export const projects: Project[] = [
     summary: 'How changes to road capacity affect traffic flow and travel times, using bi-level optimization and a multi-objective genetic algorithm.',
     publications: ['icee-2019'],
     brief: {
-      overview: [
-        'This project investigated how changes to road capacity affect traffic flow and travel times across urban networks. The aim was to identify effective network configurations while balancing traffic performance and infrastructure costs.',
-        "The problem was modeled using a bi-level optimization framework, combining road network design decisions with drivers' route choices.",
-      ],
+      overview: [],
       contribution: [],
-      extra: [
+      areaTitle: '',
+      areas: [],
+      sections: [
         {
-          title: 'Thesis',
-          lines: [
-            { text: 'M.Sc. in Computer Software Engineering, Shiraz University. Thesis: "Evaluating the Effects of Structural Modification on Urban Traffic Network Functionality", supervised by Prof. Seyed Mohammad Reza Moosavi and graded Excellent.' },
+          id: 'overview',
+          title: 'Overview',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'How does changing road capacity affect traffic across an urban network? This thesis looks for configurations that cut total travel time without driving up infrastructure cost, two objectives that pull against each other.',
+                'The problem has two levels. The upper level chooses lane additions or removals on candidate roads. The lower level models how drivers respond by choosing their routes, and the resulting flows and travel times inform the next design.',
+              ],
+              figure: {
+                src: mscLoop,
+                alt: 'Diagram of the bi-level loop: the upper level changes lane counts on candidate links, the lower level assigns traffic and returns link flows and travel times',
+                caption: "Bi-level framework: the upper level changes the road, the lower level models drivers' response.",
+              },
+            },
           ],
         },
         {
-          title: 'Problem and model',
-          lines: [
-            { label: 'Decision', text: 'For each candidate road, how many lanes to add or remove (from −2 to +2 lanes). Removing lanes was included because of Braess’s paradox, where extra capacity can make congestion worse.' },
-            { label: 'Objectives', text: 'Minimize total travel time and construction cost at the same time. The result is not one answer but a Pareto set of trade-offs.' },
-            { label: 'Bi-level structure', text: 'The upper level chooses the lane changes. The lower level simulates how drivers react, using User Equilibrium: no driver can save time by switching route.' },
+          id: 'approach',
+          title: 'Approach',
+          blocks: [
+            {
+              kind: 'columns',
+              items: [
+                { label: 'Traffic assignment', text: "I model drivers' route choices with User Equilibrium, where no one can save time by switching routes, and solve the assignment with the Frank–Wolfe method." },
+                { label: 'Network optimization', text: "A genetic algorithm explores lane additions and removals under the two competing objectives, keeping an evolving Pareto front. Removals are included because extra capacity can sometimes worsen congestion (Braess's paradox)." },
+                { label: 'Weighted P-Norm (WPN)', text: 'I developed WPN, a way to rank solutions by their weighted distance from the ideal point, and compared it with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
+              ],
+            },
           ],
         },
         {
-          title: 'Data',
-          lines: [
-            { text: 'Two standard benchmark networks of different size: a small network with 17 nodes and 23 links, and the Sioux Falls network with 24 nodes and 76 links and travel demand between 552 origin–destination pairs.' },
-            { text: 'Each network came with link capacities, free-flow travel times and travel demand. Two candidate sets were used: the five most congested links, which allowed a full search of all 3,125 configurations, and every link in the network.' },
+          id: 'evaluation',
+          title: 'Evaluation & Findings',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'I tested on two benchmark networks: a small one with 17 nodes and 23 links, and Sioux Falls with 24 nodes and 76 links.',
+                'The experiments used two candidate sets: the five most congested links, which allows an exhaustive search and a true Pareto front for reference, and every link in the network.',
+              ],
+              figure: {
+                src: mscNetwork,
+                alt: 'Sioux Falls benchmark network with 24 nodes and 76 numbered road links',
+                caption: 'Sioux Falls benchmark network (24 nodes, 76 links).',
+              },
+            },
+            {
+              kind: 'text',
+              figureFirst: true,
+              paragraphs: [
+                'I compared WPN and NSGA-II by the quality of the Pareto solutions each produced. In these experiments, WPN gave better Pareto sets, most clearly on Sioux Falls, where it found solutions with both lower travel time and lower cost.',
+                'The Pareto sets show the trade-off between travel time and infrastructure cost directly. In the final sets for both networks, some solutions remove lanes: reducing capacity on selected roads sometimes produced a better overall configuration.',
+              ],
+              figure: {
+                src: mscPareto,
+                alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network',
+                caption: 'Pareto solutions on Sioux Falls: NSGA-II (red) and WPN (green). Lower is better on both axes.',
+              },
+            },
           ],
         },
         {
-          title: 'Methods',
-          lines: [
-            { label: 'Traffic assignment', text: 'User Equilibrium solved with the Frank–Wolfe (conditional gradient) method, using a travel-time function that grows with congestion.' },
-            { label: 'Network optimization', text: 'A genetic algorithm searched lane configurations, with uniform crossover and a continuously updated Pareto front.' },
-            { label: 'Weighted P-Norm (WPN)', text: 'A new way to rank solutions by their weighted distance from the ideal (utopia) point, used for survival selection. It was compared with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
-            { label: 'Implementation', text: 'Python 3.6, with the traffic assignment computed in parallel on four processes.' },
-          ],
-        },
-        {
-          title: 'Results',
-          lines: [
-            { text: 'WPN produced better Pareto sets than NSGA-II in the comparison. The difference was clearest on the larger Sioux Falls network, where WPN found solutions with both lower travel time and lower cost.' },
-            { text: 'On the small network, the full search gave the true Pareto front to compare the genetic algorithm against.' },
-            { text: 'The final Pareto sets for both networks included solutions that remove lanes, showing that reducing capacity on selected roads can improve overall network performance.' },
-          ],
-        },
-        {
-          title: 'What I learned',
-          lines: [
-            { text: 'Formulating bi-level optimization problems and traffic assignment models; solving traffic equilibrium with the Frank–Wolfe method; implementing and tuning a genetic algorithm and comparing it with NSGA-II; designing a new solution-ranking method; comparing multi-objective results with quality metrics and a known true Pareto front; and writing up the work as a thesis and a conference paper.' },
+          id: 'experience',
+          title: 'Technical Experience & Publication',
+          blocks: [
+            {
+              kind: 'rows',
+              items: [
+                { label: 'Bi-level optimization', text: 'Formulating the network design problem and coupling it with a traffic assignment model.' },
+                { label: 'Evolutionary algorithms', text: 'Implementing and tuning a genetic algorithm, with NSGA-II as the baseline.' },
+                { label: 'Traffic assignment', text: 'Solving User Equilibrium with Frank–Wolfe in Python, with the assignments computed in parallel.' },
+                { label: 'Experiments and evaluation', text: 'Running benchmark experiments and comparing Pareto sets against quality metrics and a known true Pareto front.' },
+              ],
+            },
+            {
+              kind: 'text',
+              paragraphs: ['The ICEE 2019 paper presents a narrower part of this work, centred on the conditional-gradient approach.'],
+            },
+            { kind: 'publications' },
           ],
         },
       ],
-      figures: [
-        { src: mscLoop, alt: 'Diagram of the bi-level loop: the upper level changes lane counts on candidate links, the lower level assigns traffic and returns link flows and travel times', caption: 'Motivation and structure: the upper level changes the road, the lower level shows how drivers react. Redrawn from thesis Fig. 2-1.' },
-        { src: mscBraess, alt: 'Four-node road network with a zero-cost shortcut between the two middle nodes, illustrating Braess paradox', caption: 'Why adding capacity can backfire: a textbook example of Braess\'s paradox. My illustration.' },
-        { src: mscChromosome, alt: 'Chromosome with one gene per candidate link, holding the number of lanes added or removed', caption: 'Genetic algorithm: how a candidate design is encoded. Redrawn from thesis Figs. 4-4 and 4-5.' },
-        { src: mscFrankWolfe, alt: 'Illustration of one conditional gradient step toward a vertex of a polytope', caption: 'The Frank–Wolfe (conditional gradient) idea behind the traffic assignment step. Illustration after Jaggi (2011), recoloured.' },
-        { src: mscNetwork, alt: 'Sioux Falls benchmark network with 24 nodes and 76 numbered road links', caption: 'Data: the Sioux Falls benchmark network, 24 nodes and 76 links. Figure from the thesis.' },
-        { src: mscSurface, alt: 'Three-dimensional surface of total travel time for lane changes on two candidate links, showing a non-convex shape', caption: 'Search space: total travel time for lane changes on two candidate links. The surface is not convex, which is why a search heuristic was used. Figure from the thesis, recoloured.' },
-        { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network', caption: 'Results: Pareto solutions from NSGA-II (red) and WPN (green) on Sioux Falls. Lower travel time and cost is better. Figure from the thesis.' },
-      ],
-      areaTitle: 'Technical Areas',
-      areas: ['Multi-Objective Optimization', 'Genetic Algorithms', 'NSGA-II', 'Frank–Wolfe Algorithm', 'Bi-Level Optimization', 'Graph Modeling', 'Traffic Assignment', 'Python'],
     },
     image: {
       src: mscCard,
