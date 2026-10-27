@@ -90,7 +90,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; lead?: string; paragraphs: string[]; /** Small explanatory notes under the text and figure. */ notes?: { title: string; text: string }[]; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
@@ -572,14 +572,17 @@ export const projects: Project[] = [
               kind: 'text',
               figureFirst: true,
               paragraphs: [
-                'Comparisons with NSGA-II showed that WPN produced better Pareto solutions in the tested scenarios, particularly on the Sioux Falls network, achieving lower travel times and infrastructure costs.',
-                'The results also highlighted an interesting finding: some of the most effective network configurations involved removing lanes rather than adding capacity, demonstrating that infrastructure expansion does not always lead to better traffic performance.',
+                'The comparison with NSGA-II shows how the two algorithms perform in finding effective road network configurations. Each point in the figure represents a different combination of lane additions and removals, evaluated by its total travel time and modification cost. In the tested scenarios, WPN identified configurations with more favorable trade-offs between these objectives, particularly on the Sioux Falls network. Some of these configurations also involved removing lanes, highlighting that increasing road capacity is not always the most effective way to improve traffic conditions.',
               ],
               figure: {
                 src: mscPareto,
                 alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network',
                 caption: 'Pareto solutions on Sioux Falls: NSGA-II (red) and WPN (green). Lower is better on both axes.',
               },
+              notes: [
+                { title: 'Reading the chart', text: 'Each point is one candidate road network, defined by a specific set of lane additions and removals. The horizontal axis shows total travel time and the vertical axis shows modification cost; lower is better on both. Green stars are WPN solutions (labelled “Euclidean” in the original legend) and red triangles are NSGA-II solutions.' },
+                { title: 'Illustrative example', text: 'Conceptual, not a plotted point: a candidate might add one lane on one road and remove one on another. The traffic model returns the travel time for that layout, and together with its modification cost this places the candidate at a single position on the chart.' },
+              ],
             },
           ],
         },
