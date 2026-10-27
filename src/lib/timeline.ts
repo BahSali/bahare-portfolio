@@ -19,6 +19,8 @@ export interface TimelineBase {
   start: string | null;
   end: string | 'present' | null;
   summary: string | null;
+  /** Short academic or professional distinction, shown under the organization. */
+  achievement?: string;
   topics: string[];
   /** Project slugs related to this entry. */
   projects: string[];
