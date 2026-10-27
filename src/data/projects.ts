@@ -14,7 +14,7 @@ import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
 import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
 import mscBraess from '~/assets/phd/msc-braess.png';
-import mscExample from '~/assets/phd/msc-example.png';
+import mscSolution from '~/assets/phd/msc-solution.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
@@ -582,15 +582,15 @@ export const projects: Project[] = [
                 caption: 'Pareto solutions on Sioux Falls: NSGA-II (red) and WPN (green). Lower is better on both axes.',
               },
               notes: {
-                title: 'Reading the chart',
+                title: 'What each point is',
                 paragraphs: [
-                  'Every dot is one complete set of lane changes, placed by the two values it produces: total travel time across and modification cost up. Dots toward the lower left are better, so both algorithms push their dots in that direction. In the chart above, green stars are WPN and red triangles are NSGA-II.',
-                  'The example on the right shows the same idea on a small test where every possible layout could be checked. Each dot is a layout that no other layout beats on both values. At cost 0 the total travel time is 2,725,079; spending 16 brings it down to 2,248,058, and spending 80 to 1,881,444.',
+                  'Each point in the chart is one candidate design. A design is a list with one number per candidate road: a positive number adds that many lanes, a negative number removes them, and 0 leaves the road unchanged.',
+                  'The design shown here adds one lane on the first road, leaves the second as it is, removes two lanes on the third-to-last road, adds two on the next and removes one on the last. The traffic model then computes its total travel time and cost, and that pair of values sets where the point lands. Points toward the lower left are better.',
                 ],
                 figure: {
-                  src: mscExample,
-                  alt: 'Scatter plot of modification cost against total travel time for the best layouts found by exhaustive search, with three points labelled',
-                  caption: 'Exhaustive-search test (thesis Table 5-6). Labels show total travel time.',
+                  src: mscSolution,
+                  alt: 'A candidate design written as a row of numbers: 1, 0, ellipsis, minus 2, 2, minus 1, one value per candidate road',
+                  caption: 'A candidate design from the thesis: lanes added (+) or removed (−) per road.',
                 },
               },
             },
