@@ -14,6 +14,7 @@ import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
 import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
 import mscBraess from '~/assets/phd/msc-braess.png';
+import mscExample from '~/assets/phd/msc-example.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
@@ -90,7 +91,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; lead?: string; paragraphs: string[]; /** Small explanatory notes under the text and figure. */ notes?: { title: string; text: string }[]; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
@@ -559,6 +560,7 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
+              small: true,
               paragraphs: [
                 'The proposed approach was evaluated on benchmark transportation networks of different scales, including the well-established Sioux Falls network shown here. The experiments examined the quality of the solutions obtained under different road network configurations.',
               ],
@@ -579,10 +581,18 @@ export const projects: Project[] = [
                 alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network',
                 caption: 'Pareto solutions on Sioux Falls: NSGA-II (red) and WPN (green). Lower is better on both axes.',
               },
-              notes: [
-                { title: 'Reading the chart', text: 'Each point is one candidate road network, defined by a specific set of lane additions and removals. The horizontal axis shows total travel time and the vertical axis shows modification cost; lower is better on both. Green stars are WPN solutions (labelled “Euclidean” in the original legend) and red triangles are NSGA-II solutions.' },
-                { title: 'Example from the thesis', text: 'Each candidate is encoded as one value per candidate road. In the thesis example (1, 0, …, −2, 2, −1), the first road gains one lane, the second stays unchanged, and the last three roads lose two lanes, gain two, and lose one. Evaluating such a layout gives its pair of values. In the thesis’s separate exhaustive-search test, for instance, one solution at cost 16 has a total travel time of 2,248,058, against 2,725,079 at cost 0. That pair is one point on a chart like this one.' },
-              ],
+              notes: {
+                title: 'Reading the chart',
+                paragraphs: [
+                  'Every dot is one complete set of lane changes, placed by the two values it produces: total travel time across and modification cost up. Dots toward the lower left are better, so both algorithms push their dots in that direction. In the chart above, green stars are WPN and red triangles are NSGA-II.',
+                  'The example on the right shows the same idea on a small test where every possible layout could be checked. Each dot is a layout that no other layout beats on both values. At cost 0 the total travel time is 2,725,079; spending 16 brings it down to 2,248,058, and spending 80 to 1,881,444.',
+                ],
+                figure: {
+                  src: mscExample,
+                  alt: 'Scatter plot of modification cost against total travel time for the best layouts found by exhaustive search, with three points labelled',
+                  caption: 'Exhaustive-search test (thesis Table 5-6). Labels show total travel time.',
+                },
+              },
             },
           ],
         },
