@@ -12,6 +12,9 @@ import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
 import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
+import mscLoop from '~/assets/phd/msc-loop.png';
+import mscBraess from '~/assets/phd/msc-braess.png';
+import mscChromosome from '~/assets/phd/msc-chromosome.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
 import mscSurface from '~/assets/phd/msc-surface.png';
@@ -451,17 +454,20 @@ export const projects: Project[] = [
         },
       ],
       figures: [
-        { src: mscNetwork, alt: 'Sioux Falls benchmark network with 24 nodes and 76 numbered road links', caption: 'Sioux Falls benchmark network: 24 nodes and 76 links. Figure from the thesis.' },
-        { src: mscSurface, alt: 'Three-dimensional surface of total travel time for lane changes on two candidate links, showing a non-convex shape', caption: 'Total travel time for lane changes on two candidate links. The surface is not convex, which is why a search heuristic was used. Figure from the thesis, recoloured.' },
-        { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network', caption: 'Sioux Falls network: Pareto solutions from NSGA-II (red) and WPN (green). Lower travel time and cost is better. Figure from the thesis.' },
+        { src: mscLoop, alt: 'Diagram of the bi-level loop: the upper level changes lane counts on candidate links, the lower level assigns traffic and returns link flows and travel times', caption: 'Motivation and structure: the upper level changes the road, the lower level shows how drivers react. Redrawn from thesis Fig. 2-1.' },
+        { src: mscBraess, alt: 'Four-node road network with a zero-cost shortcut between the two middle nodes, illustrating Braess paradox', caption: 'Why adding capacity can backfire: a textbook example of Braess\'s paradox. My illustration.' },
+        { src: mscChromosome, alt: 'Chromosome with one gene per candidate link, holding the number of lanes added or removed', caption: 'Genetic algorithm: how a candidate design is encoded. Redrawn from thesis Figs. 4-4 and 4-5.' },
         { src: mscFrankWolfe, alt: 'Illustration of one conditional gradient step toward a vertex of a polytope', caption: 'The Frank–Wolfe (conditional gradient) idea behind the traffic assignment step. Illustration after Jaggi (2011), recoloured.' },
+        { src: mscNetwork, alt: 'Sioux Falls benchmark network with 24 nodes and 76 numbered road links', caption: 'Data: the Sioux Falls benchmark network, 24 nodes and 76 links. Figure from the thesis.' },
+        { src: mscSurface, alt: 'Three-dimensional surface of total travel time for lane changes on two candidate links, showing a non-convex shape', caption: 'Search space: total travel time for lane changes on two candidate links. The surface is not convex, which is why a search heuristic was used. Figure from the thesis, recoloured.' },
+        { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network', caption: 'Results: Pareto solutions from NSGA-II (red) and WPN (green) on Sioux Falls. Lower travel time and cost is better. Figure from the thesis.' },
       ],
       areaTitle: 'Technical Areas',
       areas: ['Multi-Objective Optimization', 'Genetic Algorithms', 'NSGA-II', 'Frank–Wolfe Algorithm', 'Bi-Level Optimization', 'Graph Modeling', 'Traffic Assignment', 'Python'],
     },
     image: {
       src: mscCard,
-      alt: 'Part of the Sioux Falls benchmark road network',
+      alt: 'Non-convex surface of total travel time as lane counts change on two candidate links',
       placeholderLabel: 'Project image',
     },
   },
