@@ -510,8 +510,8 @@ export const projects: Project[] = [
                   details: {
                     summary: 'How traffic assignment works',
                     items: [
-                      { title: 'User Equilibrium', text: 'User Equilibrium describes a traffic condition in which drivers have no incentive to change routes, as switching to another available route would not reduce their travel time.' },
-                      { title: 'Frank–Wolfe Algorithm', text: 'The Frank–Wolfe algorithm is an iterative optimization method used here to solve the traffic assignment problem. It starts with an initial traffic flow distribution, calculates updated route choices based on travel times, and adjusts the flows until the solution converges toward equilibrium.' },
+                      { title: 'User Equilibrium', text: 'User Equilibrium represents a traffic condition in which no driver can reduce their travel time by switching to another available route. In other words, traffic is distributed across the network so that drivers have no incentive to change their chosen routes.' },
+                      { title: 'Frank–Wolfe Algorithm', text: 'The Frank–Wolfe algorithm is used to calculate this equilibrium. Starting from an initial distribution of traffic flows, it repeatedly identifies routes based on current travel times and updates the flows across the network. The process continues until the changes become sufficiently small, indicating convergence toward User Equilibrium.' },
                     ],
                     figure: {
                       src: mscFrankWolfe,
