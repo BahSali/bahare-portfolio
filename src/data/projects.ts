@@ -534,15 +534,12 @@ export const projects: Project[] = [
                   details: {
                     summary: 'How network optimization works',
                     items: [
-                      { title: 'Genetic Algorithm', text: 'Genetic algorithms explore possible solutions through an evolving population. Each solution represents a road network configuration, and operations such as selection, crossover, and mutation help generate new candidates over successive generations.' },
-                      {
-                        title: 'Pareto Front',
-                        text: 'Reducing travel time and minimizing infrastructure costs can lead to conflicting decisions. The Pareto front represents the best trade-offs found between these two objectives: improving one objective would require compromising the other.',
-                        more: 'In each generation, new candidates are evaluated with the traffic assignment model, and the non-dominated ones update the stored Pareto list. The computed front is an approximation, not necessarily the mathematically exact Pareto front. An exhaustive search is feasible only for small candidate sets, where it provides the true front as a reference.',
-                      },
+                      { title: 'Genetic Algorithm', text: 'A genetic algorithm searches for effective network configurations through an iterative optimization process. It maintains a population of potential solutions, each representing a particular combination of lane additions and removals. In each generation, solutions are evaluated based on travel time and infrastructure costs. Selection, crossover, and mutation are then used to produce new solutions and progressively improve the population.' },
+                      { title: 'Pareto Front', text: 'The optimization considers two potentially conflicting objectives: minimizing total travel time and infrastructure costs. Improving traffic performance may require more expensive modifications, while lower-cost alternatives may offer smaller improvements. Rather than selecting a single solution, the algorithm seeks a set of non-dominated solutions, where improving one objective would require compromising the other. These solutions approximate the Pareto front, illustrating the trade-offs between traffic performance and infrastructure costs.' },
+                      { title: 'Weighted P-Norm (WPN)', text: 'This research introduces a Weighted P-Norm (WPN) approach to improve how the genetic algorithm evaluates and selects solutions for the next generation. WPN considers how close each solution comes to the best values of travel time and infrastructure cost. Its performance was compared with NSGA-II, a widely used multi-objective genetic algorithm.' },
                       {
                         title: "Braess's Paradox",
-                        text: "Adding road capacity can sometimes increase overall travel time because drivers change their routes in response to the new network structure. This counterintuitive effect, known as Braess's paradox, motivates considering lane removals as well as additions.",
+                        text: 'Increasing road capacity does not always improve traffic conditions. Adding a road or lane can change drivers’ route choices in ways that increase congestion and overall travel time. This counterintuitive effect, known as Braess\'s paradox, highlights why removing lanes can sometimes improve network performance.',
                         figure: {
                           src: mscBraess,
                           alt: 'Four-node road network with a zero-cost shortcut between the two middle nodes, illustrating Braess paradox',
@@ -552,7 +549,6 @@ export const projects: Project[] = [
                     ],
                   },
                 },
-                { label: 'Weighted P-Norm (WPN)', text: 'To improve the search for effective road network designs, I developed a genetic algorithm based on Weighted P-Norm (WPN). It evaluates candidate solutions by considering both travel time and infrastructure costs, helping the algorithm select promising configurations for the next generation. The approach was evaluated against NSGA-II, a widely used multi-objective optimization algorithm.' },
               ],
             },
           ],
