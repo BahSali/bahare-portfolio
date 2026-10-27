@@ -412,10 +412,10 @@ export const projects: Project[] = [
     homeFeatured: true,
     eyebrow: 'European research collaboration · Horizon Europe',
     subtitle: 'Mobility Data · Traffic Estimation · Research Collaboration',
-    period: '2023 – 2025',
-    role: 'ULB Researcher and Partner Representative',
-    summary: 'A three-year Horizon Europe project on urban mobility data analytics, where I was responsible for ULB’s traffic estimation work and represented the lab in the consortium.',
-    publications: ['icdew-2024', 'sigspatial-2025'],
+    period: 'April 2023 – December 2025',
+    role: 'ULB Researcher',
+    summary: 'A three-year Horizon Europe project on urban mobility data analytics, where I was responsible for ULB’s traffic estimation work and handled much of its day-to-day coordination.',
+    publications: ['model-cards-2025'],
     links: [
       { label: 'Project website →', href: 'https://emeralds-horizon.eu' },
       { label: 'Related PhD project →', href: '/projects/traffic-speed-estimation' },
@@ -455,7 +455,7 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'I was ULB’s main contributor and its voice toward the other partners for the full three years. That meant handling much of the project’s coordination: weekly meetings, reporting, deliverables and administration, alongside the technical work.',
+                'I worked on EMERALDS from April 2023 until the project ended, under the guidance of my supervisor. Alongside the technical work, I handled much of ULB’s day-to-day involvement: weekly meetings, reporting, deliverables and administration.',
                 'I presented ULB’s work at General Assemblies and at the final review, and the overall project at a conference [conference to be added]. On the technical side, I was responsible for the estimation work, filling gaps in traffic time series and estimating road traffic from public transport buses.',
               ],
             },
@@ -511,7 +511,7 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Project Coordination', text: 'Representing ULB in the consortium, coordinating tasks and deadlines, and presenting at General Assemblies, reviews and a conference.' },
+                { label: 'Project Coordination', text: 'Taking part in the consortium on behalf of ULB, following tasks and deadlines, and presenting at General Assemblies, reviews and a conference.' },
                 { label: 'Deliverables & Reporting', text: 'Writing project deliverables and technical reports for partners and project reviews.' },
                 { label: 'Data Pipelines', text: 'Building pipelines from real-world data, including GTFS-RT bus feeds, loop detectors and connected-vehicle speeds, to model-ready datasets.' },
                 { label: 'Spatiotemporal Modeling', text: 'Developing graph-based deep learning models for gap filling and traffic estimation, evaluated against reference data with MAE, RMSE and MAPE.' },

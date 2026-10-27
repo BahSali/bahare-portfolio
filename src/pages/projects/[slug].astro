@@ -271,7 +271,7 @@ const toggle =
                   {related.map((pb) => (
                     <li class="py-2.5">
                       <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[9rem_1fr]">
-                        <span class="eyebrow whitespace-nowrap pt-0.5">{pb.venue.split(',')[0]}</span>
+                        <span class="eyebrow whitespace-nowrap pt-0.5">{pb.shortVenue ?? pb.venue.split(',')[0]}</span>
                         <span class="font-display leading-snug transition-colors group-hover:text-teal">{pb.title}</span>
                       </a>
                     </li>
@@ -321,7 +321,7 @@ const toggle =
               {related.map((pb) => (
                 <li class="py-2.5">
                   <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[6rem_1fr]">
-                    <span class="eyebrow whitespace-nowrap pt-0.5">{pb.venue.split(',')[0]}</span>
+                    <span class="eyebrow whitespace-nowrap pt-0.5">{pb.shortVenue ?? pb.venue.split(',')[0]}</span>
                     <span class="font-display leading-snug transition-colors group-hover:text-teal">{pb.title}</span>
                   </a>
                 </li>
