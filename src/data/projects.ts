@@ -581,7 +581,7 @@ export const projects: Project[] = [
               },
               notes: [
                 { title: 'Reading the chart', text: 'Each point is one candidate road network, defined by a specific set of lane additions and removals. The horizontal axis shows total travel time and the vertical axis shows modification cost; lower is better on both. Green stars are WPN solutions (labelled “Euclidean” in the original legend) and red triangles are NSGA-II solutions.' },
-                { title: 'Illustrative example', text: 'Conceptual, not a plotted point: a candidate might add one lane on one road and remove one on another. The traffic model returns the travel time for that layout, and together with its modification cost this places the candidate at a single position on the chart.' },
+                { title: 'Example from the thesis', text: 'Each candidate is encoded as one value per candidate road. In the thesis example (1, 0, …, −2, 2, −1), the first road gains one lane, the second stays unchanged, and the last three roads lose two lanes, gain two, and lose one. Evaluating such a layout gives its pair of values. In the thesis’s separate exhaustive-search test, for instance, one solution at cost 16 has a total travel time of 2,248,058, against 2,725,079 at cost 0. That pair is one point on a chart like this one.' },
               ],
             },
           ],
