@@ -588,7 +588,7 @@ export const projects: Project[] = [
                 figure: {
                   src: mscSolution,
                   alt: 'A candidate design written as a row of numbers: 1, 0, ellipsis, minus 2, 2, minus 1, one value per candidate road',
-                  caption: 'A candidate design from the thesis: lanes added (+) or removed (−) per road.',
+                  caption: 'A solution: lanes added (+) or removed (−) per road.',
                 },
               },
             },
