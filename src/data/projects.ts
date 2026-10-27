@@ -433,7 +433,7 @@ export const projects: Project[] = [
         },
       ],
       figures: [
-        { src: mscNetwork, alt: 'Benchmark road network graph with origin and destination nodes', caption: 'One of the benchmark networks, with origin and destination nodes.' },
+        { src: mscNetwork, alt: 'Sioux Falls benchmark network with 24 nodes and 76 numbered road links', caption: 'Sioux Falls benchmark network: 24 nodes and 76 links. Figure from the thesis.' },
         { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network', caption: 'Sioux Falls network: Pareto solutions from NSGA-II (red) and WPN (green). Lower travel time and cost is better. Figure from the thesis.' },
       ],
       areaTitle: 'Technical Areas',
@@ -441,7 +441,7 @@ export const projects: Project[] = [
     },
     image: {
       src: mscCard,
-      alt: 'Benchmark road network graph from the thesis',
+      alt: 'Part of the Sioux Falls benchmark road network',
       placeholderLabel: 'Project image',
     },
   },
