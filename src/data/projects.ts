@@ -91,7 +91,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
   | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
-  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
+  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
@@ -499,13 +499,13 @@ export const projects: Project[] = [
               items: [
                 {
                   label: 'Traffic assignment',
-                  text: 'Traffic assignment models how drivers choose routes and how traffic is distributed across a road network. User Equilibrium represents route-choice behavior, while the Frank–Wolfe algorithm is used to calculate traffic flows.',
+                  text: 'The lower level models how changes in road capacity influence drivers’ route choices and, consequently, the distribution of traffic across the network. To capture these effects, the model uses User Equilibrium formulation to represent drivers’ routing behavior under different network configurations. The Frank–Wolfe algorithm is then applied to solve this traffic assignment problem and calculate the resulting traffic flows and travel times.',
                   parts: [
-                    'Traffic assignment models how drivers choose routes and how traffic is distributed across a road network. ',
-                    { text: 'User Equilibrium', href: 'https://ops.fhwa.dot.gov/publications/fhwahop13015/sec2.htm' },
-                    ' represents route-choice behavior, while the ',
-                    { text: 'Frank–Wolfe algorithm', href: 'https://en.wikipedia.org/wiki/Frank%E2%80%93Wolfe_algorithm' },
-                    ' is used to calculate traffic flows.',
+                    'The lower level models how changes in road capacity influence drivers’ route choices and, consequently, the distribution of traffic across the network. To capture these effects, the model uses ',
+                    { text: 'User Equilibrium', href: 'https://ops.fhwa.dot.gov/publications/fhwahop13015/sec2.htm', info: 'User Equilibrium' },
+                    ' formulation to represent drivers’ routing behavior under different network configurations. The ',
+                    { text: 'Frank–Wolfe algorithm', href: 'https://en.wikipedia.org/wiki/Frank%E2%80%93Wolfe_algorithm', info: 'Frank–Wolfe Algorithm' },
+                    ' is then applied to solve this traffic assignment problem and calculate the resulting traffic flows and travel times.',
                   ],
                   details: {
                     summary: 'How traffic assignment works',
@@ -522,7 +522,14 @@ export const projects: Project[] = [
                 },
                 {
                   label: 'Network optimization',
-                  text: 'A genetic algorithm searches for road network configurations by adding or removing lanes. The goal is to balance two objectives: minimizing total travel time and reducing infrastructure costs. Both options are considered because increasing road capacity does not always improve traffic conditions.',
+                  text: "The upper level focuses on improving the road network by modifying its structure, specifically by adding or removing lanes on selected roads. Since each modification involves a cost, the goal is to balance minimizing total travel time with reducing infrastructure costs. A genetic algorithm is used to explore different combinations of these changes. Both lane additions and removals are considered, as increasing road capacity does not always improve traffic conditions, a phenomenon illustrated by Braess's paradox.",
+                  parts: [
+                    'The upper level focuses on improving the road network by modifying its structure, specifically by adding or removing lanes on selected roads. Since each modification involves a cost, the goal is to balance minimizing total travel time with reducing infrastructure costs. A ',
+                    { text: 'genetic algorithm', info: 'Genetic Algorithm' },
+                    ' is used to explore different combinations of these changes. Both lane additions and removals are considered, as increasing road capacity does not always improve traffic conditions, a phenomenon illustrated by ',
+                    { text: "Braess's paradox", info: "Braess's Paradox" },
+                    '.',
+                  ],
                   details: {
                     summary: 'How network optimization works',
                     items: [
