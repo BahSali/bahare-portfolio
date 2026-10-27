@@ -15,9 +15,12 @@ export interface TimelineBase {
   id: string;
   lane: Lane;
   order: number;
-  start: number | null;
-  end: number | 'present' | null;
+  /** 'YYYY' or 'YYYY-MM'. */
+  start: string | null;
+  end: string | 'present' | null;
   summary: string | null;
+  /** Short academic or professional distinction, shown under the organization. */
+  achievement?: string;
   topics: string[];
   /** Project slugs related to this entry. */
   projects: string[];
@@ -56,11 +59,19 @@ const all: TimelineItem[] = [
 export const isDated = all.every((i) => i.start !== null);
 
 export const timelineItems: TimelineItem[] = [...all].sort((a, b) =>
-  isDated ? (a.start! - b.start!) || a.order - b.order : a.order - b.order,
+  isDated ? (yearOf(a.start!) - yearOf(b.start!)) || a.order - b.order : a.order - b.order,
 );
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmt = (d: string) => {
+  const [y, m] = d.split('-');
+  return m ? `${months[Number(m) - 1]} ${y}` : y;
+};
+export const yearOf = (d: string) => Number(d.slice(0, 4));
 
 export function formatPeriod(i: Pick<TimelineBase, 'start' | 'end'>): string | null {
   if (i.start === null) return null;
-  if (i.end === null || i.end === i.start) return String(i.start);
-  return `${i.start} – ${i.end === 'present' ? 'present' : i.end}`;
+  if (i.end === 'present') return `${fmt(i.start)} – Present`;
+  if (i.end === null || i.end === i.start) return fmt(i.start);
+  return `${fmt(i.start)} – ${fmt(i.end)}`;
 }

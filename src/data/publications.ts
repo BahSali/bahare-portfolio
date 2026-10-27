@@ -25,9 +25,21 @@ export interface Publication {
   featured?: boolean;
   projects?: string[];
   links?: { label: string; href: string }[];
+  /** Original-language title, when `title` is a translated display title. */
+  originalTitle?: string;
 }
 
 export const publications: Publication[] = [
+  {
+    slug: 'icee-2019',
+    year: 2019,
+    title: 'Improving Urban Traffic Network Structure Using a Conditional Gradient Approach',
+    originalTitle: 'بهبود ساختار شبکه ترافیک شهری با رویکرد گرادیان کاهش یافته شرطی',
+    authors: 'Bahare Salehi, Seyed Mohammad Reza Moosavi',
+    venue: 'ICEE 2019, 27th Iranian Conference on Electrical Engineering',
+    type: 'conference',
+    projects: ['network-design-optimization'],
+  },
   {
     slug: 'gecco-2023',
     year: 2023,

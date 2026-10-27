@@ -19,14 +19,14 @@ export const experience: ExperienceEntry[] = [
     title: 'Enterprise Databases & ERP',
     organization: null,
     role: null,
-    start: null,
-    end: null,
+    start: '2019-09',
+    end: '2022-04',
     summary:
       'Professional experience with enterprise databases, SQL and ERP systems, business data and business processes.',
     topics: ['Enterprise databases', 'SQL', 'ERP systems', 'Business processes', 'Business data'],
     projects: [],
     anchor: 'timeline-industry',
-    href: '/experience#industry',
+    href: '/projects/enterprise-data-erp',
   },
   {
     id: 'emeralds',

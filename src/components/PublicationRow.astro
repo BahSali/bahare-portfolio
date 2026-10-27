@@ -13,6 +13,7 @@ const related = (p.projects ?? []).flatMap((s) => { const x = getProject(s); ret
   <div>
     {showType && <p class="eyebrow mb-2">{publicationTypeLabels[p.type]}</p>}
     <h3 class="font-display text-xl" style="line-height:1.25">{p.title}</h3>
+    {p.originalTitle && <p class="mt-1 text-xs text-ink-soft">Translated title. Original (Persian): <span dir="rtl" lang="fa">{p.originalTitle}</span></p>}
     <p class="mt-2 text-sm text-ink-soft">{p.authors ?? <Placeholder>Authors to be added</Placeholder>}</p>
     <p class="text-sm text-ink-soft">{p.venue}</p>
     {(p.links?.length || related.length > 0) && (

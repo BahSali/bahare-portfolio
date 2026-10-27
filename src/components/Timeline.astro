@@ -1,6 +1,6 @@
 ---
 import type { TimelineItem } from '~/lib/timeline';
-import { isDated, lanes } from '~/lib/timeline';
+import { isDated, lanes, yearOf } from '~/lib/timeline';
 import TimelineEntry from './TimelineEntry.astro';
 
 /**
@@ -12,22 +12,22 @@ interface Props { items: TimelineItem[] }
 const { items } = Astro.props;
 
 const currentYear = new Date().getFullYear();
-const endYear = (i: TimelineItem) => (i.end === 'present' ? currentYear : (i.end ?? i.start ?? currentYear));
-const minYear = isDated ? Math.min(...items.map((i) => i.start!)) : 0;
+const endYear = (i: TimelineItem) => (i.end === 'present' ? currentYear : yearOf(i.end ?? i.start ?? String(currentYear)));
+const minYear = isDated ? Math.min(...items.map((i) => yearOf(i.start!))) : 0;
 const maxYear = isDated ? Math.max(...items.map(endYear)) : 0;
 const rows = isDated ? maxYear - minYear + 1 : items.length;
 const years = isDated ? Array.from({ length: rows }, (_, k) => minYear + k) : [];
 const laneIndex = (l: string) => lanes.findIndex((x) => x.id === l);
 const place = (i: TimelineItem, n: number) =>
   isDated
-    ? `--row:${i.start! - minYear + 1} / ${endYear(i) - minYear + 2};--col:${laneIndex(i.lane) + 2}`
+    ? `--row:${yearOf(i.start!) - minYear + 1} / ${endYear(i) - minYear + 2};--col:${laneIndex(i.lane) + 2}`
     : `--row:${n + 1};--col:${laneIndex(i.lane) + 2}`;
 const cols = 'md:grid-cols-[4.5rem_repeat(3,minmax(0,1fr))] md:gap-x-8';
 ---
-{!isDated && (
+{!isDated && items.some((i) => !i.start) && (
   <p class="mb-8 max-w-xl border border-dashed border-clay/60 px-5 py-4 text-sm italic text-ink-soft">
-    [Dates and exact order are placeholders. Add start/end years in src/data/education.ts and
-    experience.ts and the timeline will switch to a to-scale view with overlapping periods.]
+    [Some dates are still to be added in src/data/education.ts and experience.ts. Once every entry has a
+    start date, the timeline switches to a to-scale view with overlapping periods.]
   </p>
 )}
 
@@ -45,8 +45,8 @@ const cols = 'md:grid-cols-[4.5rem_repeat(3,minmax(0,1fr))] md:gap-x-8';
     ? years.map((y, k) => (
         <li aria-hidden="true" class="hidden text-sm tabular-nums text-ink-soft md:block md:[grid-column:1]" style={`grid-row:${k + 1}`}>{y}</li>
       ))
-    : items.map((_, k) => (
-        <li aria-hidden="true" class="todo hidden text-xs md:block md:[grid-column:1]" style={`grid-row:${k + 1}`}>[dates]</li>
+    : items.map((it, k) => (
+        <li aria-hidden="true" class:list={['hidden text-sm tabular-nums md:block md:[grid-column:1]', it.start ? 'text-ink-soft' : 'todo text-xs']} style={`grid-row:${k + 1}`}>{it.start ? yearOf(it.start) : '[dates]'}</li>
       ))}
   {items.map((it, n) => (
     <li class="md:[grid-column:var(--col)] md:[grid-row:var(--row)]" style={place(it, n)}>

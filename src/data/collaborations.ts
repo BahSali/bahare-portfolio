@@ -17,6 +17,6 @@ export const collaborations: Collaboration[] = [
     name: emeralds.fullTitle,
     description: 'Research collaboration within the EU Horizon Europe programme.',
     href: emeralds.href,
-    cta: 'See the Experience section',
+    cta: 'View project',
   },
 ];

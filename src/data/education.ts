@@ -1,8 +1,8 @@
 /**
- * Education. Feeds the Experience timeline, the Research summaries and the About page.
+ * Education. Feeds the Journey timeline, the Research summaries and the About page.
  * `order` sets sequence on the timeline while dates are missing (lower = earlier);
  * once every timeline entry has a `start`, the timeline switches to true chronology.
- * `start`/`end` are years; `end: 'present'` for ongoing. Use null while unknown.
+ * `start`/`end` are 'YYYY' or 'YYYY-MM'; `end: 'present'` for ongoing. Use null while unknown.
  */
 import type { TimelineBase } from '~/lib/timeline';
 
@@ -33,10 +33,11 @@ export const education: EducationEntry[] = [
     lane: 'education',
     order: 30,
     title: "Master's studies",
-    institution: null,
+    institution: 'Shiraz University',
+    achievement: 'Graduated 2nd in the M.Sc. cohort (by GPA).',
     thesis: "Master's thesis in network optimization",
-    start: null,
-    end: null,
+    start: '2016-09',
+    end: '2019-02',
     summary: null,
     topics: ['Optimization', 'Graph algorithms'],
     projects: ['network-design-optimization'],
@@ -48,7 +49,7 @@ export const education: EducationEntry[] = [
     title: 'PhD research',
     institution: 'Université libre de Bruxelles',
     thesis: null,
-    start: null,
+    start: '2023-04',
     end: 'present',
     summary:
       'Estimating citywide traffic speeds from public transit bus observations, from missing-data recovery to a gated dual-branch GCNN and an interactive analytics tool.',

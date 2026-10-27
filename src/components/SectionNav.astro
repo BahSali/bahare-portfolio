@@ -1,0 +1,43 @@
+---
+import Container from './Container.astro';
+/** Sticky in-page menu that highlights the section in view. Items: [label, '#id']. */
+interface Props { items: (readonly [string, string])[] }
+const { items } = Astro.props;
+---
+<nav aria-label="Sections" class="sticky top-[60px] z-30 mt-8 border-y border-warm/70 bg-paper/95 backdrop-blur-sm">
+  <Container>
+    <ul data-section-nav class="flex gap-6 overflow-x-auto py-3 text-sm whitespace-nowrap">
+      {items.map(([label, href]) => (
+        <li>
+          <a
+            href={href}
+            data-text={label}
+            class="inline-flex flex-col text-ink-soft transition-colors after:invisible after:h-0 after:overflow-hidden after:font-semibold after:content-[attr(data-text)] hover:text-clay aria-[current=true]:font-semibold aria-[current=true]:text-ink"
+          >{label}</a>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</nav>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-section-nav]').forEach((nav) => {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    const targets = links.map((a) => document.getElementById(a.getAttribute('href')!.slice(1)));
+    let current = -1;
+    const update = () => {
+      const line = 140;
+      let idx = -1;
+      targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top <= line) idx = i; });
+      const last = targets[targets.length - 1];
+      if (last && innerHeight + scrollY >= document.documentElement.scrollHeight - 4 && last.getBoundingClientRect().top < innerHeight - 120) idx = links.length - 1;
+      if (idx === current) return;
+      current = idx;
+      links.forEach((a, i) => a.setAttribute('aria-current', String(i === idx)));
+      if (idx >= 0) nav.scrollTo({ left: links[idx].offsetLeft - 24, behavior: 'smooth' });
+    };
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+  });
+</script>
