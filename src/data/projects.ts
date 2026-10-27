@@ -87,7 +87,7 @@ export interface ProjectStory {
   architectures: { id: string; label: string; fullName: string; venue: string; paper: string; src: ImageMetadata; alt: string; approach: string; focus: string; default?: boolean; ongoing?: boolean }[];
 }
 
-export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
+export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
   | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
@@ -517,6 +517,7 @@ export const projects: Project[] = [
                       src: mscFrankWolfe,
                       alt: 'Illustration of one Frank–Wolfe (conditional gradient) step toward a vertex of the feasible set',
                       caption: 'One Frank–Wolfe step. Illustration after Jaggi (2011).',
+                      note: 'The bowl is the function being minimized, and the box D is the set of feasible solutions. At the current point x, the algorithm replaces the function with its tangent plane (the flat red surface), finds the point s in D that is lowest on this plane, and moves x part of the way toward s. In traffic assignment, x stands for the current link flows, and each step shifts some traffic onto the routes that are currently fastest.',
                     },
                   },
                 },

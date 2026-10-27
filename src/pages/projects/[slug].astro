@@ -189,6 +189,7 @@ const toggle =
                                     <Image src={it.details.figure.src} alt={it.details.figure.alt} format="png" quality="high" width={640} class="h-auto max-h-52 w-auto max-w-full p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
                                   </button>
                                   <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{it.details.figure.caption} <button type="button" data-lightbox={it.details.figure.big} data-alt={it.details.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
+                                  {it.details.figure.note && <p class="mt-2 text-justify text-xs leading-[1.55] text-ink-soft hyphens-auto">{it.details.figure.note}</p>}
                                 </figure>
                               )}
                             </div>
