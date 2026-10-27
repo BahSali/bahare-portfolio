@@ -143,11 +143,11 @@ const toggle =
         )}
       </div>
       {briefFigs.length > 0 && (
-        <div class="space-y-5 lg:col-span-5">
+        <div class="space-y-4 lg:col-span-5">
           {briefFigs.map((f) => (
             <figure>
-              <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label="Enlarge figure">
-                <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="mx-auto h-auto max-h-[24rem] w-auto max-w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+              <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-paper" aria-label="Enlarge figure">
+                <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="mx-auto h-auto max-h-[17rem] w-auto max-w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
               </button>
               <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{f.caption} <button type="button" data-lightbox={f.big} data-alt={f.alt} class="underline underline-offset-4 hover:text-clay">Enlarge figure</button></figcaption>
             </figure>
