@@ -13,6 +13,8 @@ import archAttention from '~/assets/phd/arch-attention.png';
 import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
 import mscCard from '~/assets/phd/msc-card.png';
+import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
+import mscSurface from '~/assets/phd/msc-surface.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
 import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
@@ -410,34 +412,52 @@ export const projects: Project[] = [
           ],
         },
         {
-          title: 'Approach',
+          title: 'Problem and model',
           lines: [
-            { label: 'Traffic modeling', text: 'User Equilibrium was used to represent route choice behavior, with the Frank–Wolfe method for traffic assignment.' },
-            { label: 'Network optimization', text: 'Genetic algorithms were used to explore different road capacity configurations, including both lane additions and removals.' },
-            { label: 'Algorithm development', text: 'A Weighted P-Norm (WPN) approach was developed and evaluated against NSGA-II to investigate the quality of Pareto-optimal solutions.' },
+            { label: 'Decision', text: 'For each candidate road, how many lanes to add or remove (from −2 to +2 lanes). Removing lanes was included because of Braess’s paradox, where extra capacity can make congestion worse.' },
+            { label: 'Objectives', text: 'Minimize total travel time and construction cost at the same time. The result is not one answer but a Pareto set of trade-offs.' },
+            { label: 'Bi-level structure', text: 'The upper level chooses the lane changes. The lower level simulates how drivers react, using User Equilibrium: no driver can save time by switching route.' },
           ],
         },
         {
-          title: 'Evaluation and results',
+          title: 'Data',
           lines: [
-            { text: 'The methods were evaluated on two benchmark transportation networks of different sizes, comparing trade-offs between travel time and construction cost.' },
+            { text: 'Two standard benchmark networks of different size: a small network with 17 nodes and 23 links, and the Sioux Falls network with 24 nodes and 76 links and travel demand between 552 origin–destination pairs.' },
+            { text: 'Each network came with link capacities, free-flow travel times and travel demand. Two candidate sets were used: the five most congested links, which allowed a full search of all 3,125 configurations, and every link in the network.' },
+          ],
+        },
+        {
+          title: 'Methods',
+          lines: [
+            { label: 'Traffic assignment', text: 'User Equilibrium solved with the Frank–Wolfe (conditional gradient) method, using a travel-time function that grows with congestion.' },
+            { label: 'Network optimization', text: 'A genetic algorithm searched lane configurations, with uniform crossover and a continuously updated Pareto front.' },
+            { label: 'Weighted P-Norm (WPN)', text: 'A new way to rank solutions by their weighted distance from the ideal (utopia) point, used for survival selection. It was compared with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
+            { label: 'Implementation', text: 'Python 3.6, with the traffic assignment computed in parallel on four processes.' },
+          ],
+        },
+        {
+          title: 'Results',
+          lines: [
             { text: 'WPN produced better Pareto sets than NSGA-II in the comparison. The difference was clearest on the larger Sioux Falls network, where WPN found solutions with both lower travel time and lower cost.' },
+            { text: 'On the small network, the full search gave the true Pareto front to compare the genetic algorithm against.' },
             { text: 'The final Pareto sets for both networks included solutions that remove lanes, showing that reducing capacity on selected roads can improve overall network performance.' },
           ],
         },
         {
-          title: 'Skills developed',
+          title: 'What I learned',
           lines: [
-            { text: 'Formulating bi-level optimization problems and traffic assignment models; implementing and tuning genetic algorithms and NSGA-II; designing experiments and quality metrics to compare multi-objective methods; and presenting the work as a thesis and a conference paper.' },
+            { text: 'Formulating bi-level optimization problems and traffic assignment models; solving traffic equilibrium with the Frank–Wolfe method; implementing and tuning a genetic algorithm and comparing it with NSGA-II; designing a new solution-ranking method; comparing multi-objective results with quality metrics and a known true Pareto front; and writing up the work as a thesis and a conference paper.' },
           ],
         },
       ],
       figures: [
         { src: mscNetwork, alt: 'Sioux Falls benchmark network with 24 nodes and 76 numbered road links', caption: 'Sioux Falls benchmark network: 24 nodes and 76 links. Figure from the thesis.' },
+        { src: mscSurface, alt: 'Three-dimensional surface of total travel time for lane changes on two candidate links, showing a non-convex shape', caption: 'Total travel time for lane changes on two candidate links. The surface is not convex, which is why a search heuristic was used. Figure from the thesis, recoloured.' },
         { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network', caption: 'Sioux Falls network: Pareto solutions from NSGA-II (red) and WPN (green). Lower travel time and cost is better. Figure from the thesis.' },
+        { src: mscFrankWolfe, alt: 'Illustration of one conditional gradient step toward a vertex of a polytope', caption: 'The Frank–Wolfe (conditional gradient) idea behind the traffic assignment step. Illustration after Jaggi (2011), recoloured.' },
       ],
       areaTitle: 'Technical Areas',
-      areas: ['Multi-Objective Optimization', 'Genetic Algorithms', 'NSGA-II', 'Frank–Wolfe Algorithm', 'Bi-Level Optimization', 'Graph Modeling', 'Traffic Assignment'],
+      areas: ['Multi-Objective Optimization', 'Genetic Algorithms', 'NSGA-II', 'Frank–Wolfe Algorithm', 'Bi-Level Optimization', 'Graph Modeling', 'Traffic Assignment', 'Python'],
     },
     image: {
       src: mscCard,
