@@ -556,7 +556,7 @@ export const projects: Project[] = [
         },
         {
           id: 'evaluation',
-          title: 'Evaluation & Findings',
+          title: 'Experimental Results',
           blocks: [
             {
               kind: 'text',
