@@ -21,6 +21,12 @@ interface Props { project: Project }
 const { project } = Astro.props;
 const app = project.application;
 const briefBig = project.brief?.figure?.src ? (await getImage({ src: project.brief.figure.src, width: Math.min(project.brief.figure.src.width, 2000), format: 'png' })).src : null;
+const briefFigs = await Promise.all(
+  (project.brief?.figures ?? []).map(async (f) => ({
+    ...f,
+    big: (await getImage({ src: f.src, width: Math.min(f.src.width, 2000), format: 'png' })).src,
+  })),
+);
 const story = project.story;
 
 const related = publications.filter(
@@ -102,10 +108,20 @@ const toggle =
           <h2 class="eyebrow mb-3">Overview</h2>
           <div class="space-y-3 text-base leading-[1.7]">{project.brief.overview.length ? project.brief.overview.map((t) => <p>{t}</p>) : <p class="text-ink-soft"><Placeholder>Overview to be added</Placeholder></p>}</div>
         </section>
-        <section id="contribution">
-          <h2 class="eyebrow mb-3">My Contribution</h2>
-          <div class="space-y-3 text-base leading-[1.7]">{project.brief.contribution.length ? project.brief.contribution.map((t) => <p>{t}</p>) : <p class="text-ink-soft"><Placeholder>Personal contribution to be added</Placeholder></p>}</div>
-        </section>
+        {project.brief.contribution.length > 0 && (
+          <section id="contribution">
+            <h2 class="eyebrow mb-3">My Contribution</h2>
+            <div class="space-y-3 text-base leading-[1.7]">{project.brief.contribution.map((t) => <p>{t}</p>)}</div>
+          </section>
+        )}
+        {project.brief.extra?.map((ex) => (
+          <section>
+            <h2 class="eyebrow mb-3">{ex.title}</h2>
+            <ul class="space-y-2.5 text-base leading-[1.65]">
+              {ex.lines.map((l) => <li>{l.label && <span class="font-display mr-1.5">{l.label}:</span>}{l.text}</li>)}
+            </ul>
+          </section>
+        ))}
         <section id="technical-areas">
           <h2 class="eyebrow mb-3">{project.brief.areaTitle}</h2>
           <p class="text-sm text-ink-soft">{project.brief.areas.length ? project.brief.areas.join(' · ') : <Placeholder>Skills to be added</Placeholder>}</p>
@@ -126,6 +142,18 @@ const toggle =
           </section>
         )}
       </div>
+      {briefFigs.length > 0 && (
+        <div class="space-y-5 lg:col-span-5">
+          {briefFigs.map((f) => (
+            <figure>
+              <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label="Enlarge figure">
+                <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="mx-auto h-auto max-h-[24rem] w-auto max-w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+              </button>
+              <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{f.caption} <button type="button" data-lightbox={f.big} data-alt={f.alt} class="underline underline-offset-4 hover:text-clay">Enlarge figure</button></figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
       {project.brief.figure && (
         <figure class="lg:col-span-5">
           {project.brief.figure.src
@@ -221,7 +249,7 @@ const toggle =
     </section>
   </Container>}
 
-  {project.brief?.figure?.src && (
+  {(project.brief?.figure?.src || briefFigs.length > 0) && (
     <dialog id="lightbox" class="m-auto max-h-[92vh] max-w-[min(96vw,64rem)] bg-white p-3 backdrop:bg-ink/60">
       <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
       <img id="lightbox-img" alt="" class="h-auto max-h-[80vh] w-full object-contain" />

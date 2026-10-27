@@ -11,6 +11,9 @@ import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
 import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
+import mscNetwork from '~/assets/phd/msc-network.png';
+import mscCard from '~/assets/phd/msc-card.png';
+import mscPareto from '~/assets/phd/msc-pareto.png';
 import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
@@ -100,7 +103,7 @@ export interface Project {
   /** Short funding note shown as a tag on overview pages. */
   funding?: string;
   /** Short single-page write-up (overview, contribution, technical areas) instead of the generic template. */
-  brief?: { overview: string[]; contribution: string[]; areaTitle: string; areas: string[]; figure?: { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string } };
+  brief?: { overview: string[]; contribution: string[]; extra?: { title: string; lines: { label?: string; text: string }[] }[]; figures?: { src: ImageMetadata; alt: string; caption: string }[]; areaTitle: string; areas: string[]; figure?: { src: ImageMetadata | null; alt: string; caption: string; placeholderLabel: string } };
   /** Overrides on the detail page only. */
   eyebrow?: string;
   headline?: string;
@@ -383,22 +386,50 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'network-design-optimization',
-    title: 'Network Design Optimization',
+    title: 'Multi-Objective Optimization of Urban Road Networks',
     category: 'thesis',
     tier: 'standard',
-    eyebrow: "Master's thesis",
+    eyebrow: "Master's thesis · Shiraz University, Iran",
+    subtitle: 'Multi-Objective Optimization · Network Design · Traffic Modeling',
+    period: '2019',
+    role: 'M.Sc. Researcher',
     homeFeatured: false,
-    summary: "Master's thesis research on network design, graph algorithms and optimization.",
+    summary: 'How changes to road capacity affect traffic flow and travel times, using bi-level optimization and a multi-objective genetic algorithm.',
+    publications: ['icee-2019'],
     brief: {
-      overview: [],
+      overview: [
+        'This project investigated how changes to road capacity affect traffic flow and travel times across urban networks. The aim was to identify effective network configurations while balancing traffic performance and infrastructure costs.',
+        "The problem was modeled using a bi-level optimization framework, combining road network design decisions with drivers' route choices.",
+      ],
       contribution: [],
-      areaTitle: 'Technical skills',
-      areas: [],
+      extra: [
+        {
+          title: 'Approach',
+          lines: [
+            { label: 'Traffic modeling', text: 'User Equilibrium was used to represent route choice behavior, with the Frank–Wolfe method for traffic assignment.' },
+            { label: 'Network optimization', text: 'Genetic algorithms were used to explore different road capacity configurations, including both lane additions and removals.' },
+            { label: 'Algorithm development', text: 'A Weighted P-Norm (WPN) approach was developed and evaluated against NSGA-II to investigate the quality of Pareto-optimal solutions.' },
+          ],
+        },
+        {
+          title: 'Evaluation',
+          lines: [
+            { text: 'The methods were evaluated on benchmark transportation networks of different sizes, comparing trade-offs between travel time and infrastructure costs.' },
+            { text: 'The experiments also examined whether reducing capacity on selected roads could improve overall network performance.' },
+          ],
+        },
+      ],
+      figures: [
+        { src: mscNetwork, alt: 'Benchmark road network graph with origin and destination nodes', caption: 'Benchmark network used in the experiments, from the thesis presentation.' },
+        { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red) and the WPN approach (green)', caption: 'Travel time versus infrastructure cost: Pareto solutions from NSGA-II (red) and the WPN approach (green).' },
+      ],
+      areaTitle: 'Technical Areas',
+      areas: ['Multi-Objective Optimization', 'Genetic Algorithms', 'NSGA-II', 'Frank–Wolfe Algorithm', 'Bi-Level Optimization', 'Graph Modeling', 'Traffic Assignment'],
     },
     image: {
-      src: null,
-      alt: 'Figure from the network design optimization thesis',
-      placeholderLabel: 'Project image: network or graph figure',
+      src: mscCard,
+      alt: 'Benchmark road network graph from the thesis',
+      placeholderLabel: 'Project image',
     },
   },
   {
