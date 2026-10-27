@@ -10,16 +10,14 @@ export const lanes: { id: Lane; label: string }[] = [
   { id: 'research', label: 'Research & collaborations' },
 ];
 
-/** Fields shared by every timeline entry. Dates are 'YYYY' or 'YYYY-MM'; `end: 'present'` for ongoing. */
+/** Fields shared by every timeline entry. */
 export interface TimelineBase {
   id: string;
   lane: Lane;
-  /** Tie-break for entries that start in the same month. */
   order: number;
+  /** 'YYYY' or 'YYYY-MM'. */
   start: string | null;
   end: string | 'present' | null;
-  /** Position for sorting while `start` is unknown. */
-  sortAs?: string;
   summary: string | null;
   topics: string[];
   /** Project slugs related to this entry. */
@@ -55,16 +53,19 @@ const all: TimelineItem[] = [
   ...experience.map((e) => toItem(e, e.title, e.organization, e.role)),
 ];
 
-const key = (i: TimelineBase) => i.start ?? i.sortAs ?? '0000';
+/** True when every entry has a start year, so overlapping periods can be drawn to scale. */
+export const isDated = all.every((i) => i.start !== null);
 
-/** Most recent first. */
-export const timelineItems: TimelineItem[] = [...all].sort((a, b) => key(b).localeCompare(key(a)) || a.order - b.order);
+export const timelineItems: TimelineItem[] = [...all].sort((a, b) =>
+  isDated ? (yearOf(a.start!) - yearOf(b.start!)) || a.order - b.order : a.order - b.order,
+);
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const fmt = (d: string) => {
   const [y, m] = d.split('-');
   return m ? `${months[Number(m) - 1]} ${y}` : y;
 };
+export const yearOf = (d: string) => Number(d.slice(0, 4));
 
 export function formatPeriod(i: Pick<TimelineBase, 'start' | 'end'>): string | null {
   if (i.start === null) return null;
