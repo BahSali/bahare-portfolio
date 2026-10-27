@@ -148,15 +148,21 @@ const toggle =
             {s.blocks.map((b) => {
               if (b.kind === 'text') {
                 return (
-                  <div class:list={['grid gap-x-10 gap-y-5', b.figure && 'items-center', b.figure && (b.figureFirst ? (b.small ? 'md:grid-cols-[12rem_minmax(0,1fr)]' : 'md:grid-cols-[16rem_minmax(0,1fr)]') : (b.small ? 'md:grid-cols-[minmax(0,1fr)_12rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]'))]}>
+                  <div class:list={['grid gap-x-10 gap-y-5', !b.wide && (b.figure || b.video) && 'items-center', !b.wide && (b.video ? 'md:grid-cols-[minmax(0,1fr)_22rem]' : b.figure && (b.figureFirst ? (b.small ? 'md:grid-cols-[12rem_minmax(0,1fr)]' : 'md:grid-cols-[16rem_minmax(0,1fr)]') : (b.small ? 'md:grid-cols-[minmax(0,1fr)_12rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]')))]}>
                     <div class:list={['space-y-3 text-justify text-base leading-[1.7] hyphens-auto', b.figureFirst && 'md:order-2']}>
                       {b.lead && <p class="font-display text-xl text-teal" style="line-height:1.3">{b.lead}</p>}
                       {b.paragraphs.map((t) => <p>{t}</p>)}
                     </div>
+                    {b.video && (
+                      <figure class="w-full max-w-[22rem]">
+                        <video controls preload="none" poster={b.video.poster} class="w-full border border-warm/70 bg-paper"><source src={b.video.src} type="video/mp4" /></video>
+                        <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.video.caption}</figcaption>
+                      </figure>
+                    )}
                     {b.figure && (
-                      <figure class:list={['w-full', b.small ? 'max-w-[12rem]' : 'max-w-[16rem]', b.figureFirst && 'md:order-1']}>
-                        <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class:list={['group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper', b.small ? 'h-36' : 'h-48']} aria-label="Enlarge figure">
-                          <Image src={b.figure.src} alt={b.figure.alt} format="png" quality="high" width={640} class="h-auto max-h-full w-auto max-w-full p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
+                      <figure class:list={['w-full', b.wide ? 'max-w-[34rem]' : b.small ? 'max-w-[12rem]' : 'max-w-[16rem]', b.figureFirst && 'md:order-1']}>
+                        <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class:list={['group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper', !b.wide && (b.small ? 'h-36' : 'h-48')]} aria-label="Enlarge figure">
+                          <Image src={b.figure.src} alt={b.figure.alt} format="png" quality="high" width={b.wide ? 1000 : 640} class:list={['h-auto max-w-full p-2 transition-opacity group-hover:opacity-90', b.wide ? 'w-full' : 'max-h-full w-auto']} loading="lazy" />
                         </button>
                         <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.figure.caption} <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
                       </figure>
@@ -181,6 +187,13 @@ const toggle =
                       </div>
                     )}
                   </div>
+                );
+              }
+              if (b.kind === 'links') {
+                return project.links.length > 0 && (
+                  <p class="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+                    {project.links.map((l) => <a href={l.href} class="link-line" {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{l.label}</a>)}
+                  </p>
                 );
               }
               if (b.kind === 'columns') {
@@ -245,7 +258,7 @@ const toggle =
                 <ul class="text-sm">
                   {related.map((pb) => (
                     <li class="py-2.5">
-                      <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[6rem_1fr]">
+                      <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[9rem_1fr]">
                         <span class="eyebrow whitespace-nowrap pt-0.5">{pb.venue.split(',')[0]}</span>
                         <span class="font-display leading-snug transition-colors group-hover:text-teal">{pb.title}</span>
                       </a>

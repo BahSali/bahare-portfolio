@@ -18,6 +18,7 @@ import mscSolution from '~/assets/phd/msc-solution.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
+import emeraldsWorkflow from '~/assets/phd/emeralds-workflow.png';
 import yorkMap from '~/assets/phd/ds/york-map.jpg';
 import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
@@ -91,9 +92,10 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
+  | { kind: 'links' }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
 
@@ -407,45 +409,112 @@ export const projects: Project[] = [
     tier: 'standard',
     homeFeatured: true,
     eyebrow: 'European research collaboration · Horizon Europe',
-    subtitle: 'Spatiotemporal Data · Traffic Estimation · Research Collaboration',
-    summary: 'Participation in the EU Horizon Europe EMERALDS project, applying my PhD research to new datasets.',
-    links: [{ label: 'Related PhD project →', href: '/projects/traffic-speed-estimation' }],
+    subtitle: 'Mobility Data · Traffic Estimation · Research Collaboration',
+    period: '2023 – 2025',
+    role: 'ULB Researcher and Partner Representative',
+    summary: 'A three-year Horizon Europe project on urban mobility data analytics, where I was responsible for ULB’s traffic estimation work and represented the lab in the consortium.',
+    publications: ['icdew-2024', 'sigspatial-2025'],
+    links: [
+      { label: 'Project website →', href: 'https://emeralds-horizon.eu' },
+      { label: 'Related PhD project →', href: '/projects/traffic-speed-estimation' },
+    ],
     brief: {
-      overview: [
-        'Participation in the EU Horizon Europe EMERALDS project. The technical work is closely related to my PhD research, adapted and evaluated with other datasets.',
-        "My PhD research is supported by the EMERALDS project, funded by the European Union's Horizon Europe programme.",
-      ],
+      overview: [],
       contribution: [],
-      extra: [
+      areaTitle: '',
+      areas: [],
+      sections: [
         {
-          title: 'Involvement',
-          lines: [
-            { text: 'Working in an international, multi-partner research project.' },
-            { text: 'Applying research to new datasets and project requirements.' },
-            { text: 'Team collaboration and technical reporting.' },
-            { text: 'Presentations, speaking engagements and dissemination activities.' },
+          id: 'overview',
+          title: 'Overview',
+          blocks: [
+            {
+              kind: 'text',
+              wide: true,
+              lead: 'Extreme-scale urban mobility data analytics as a service',
+              paragraphs: [
+                'EMERALDS is a three-year Horizon Europe project in which research and industry partners build analytics services for large-scale mobility data. Our lab at ULB joined the project and hired a PhD researcher, my position, to carry out its contribution.',
+                'ULB’s work sat in Task 3.3, Mobility Data Fusion and Management: storing and retrieving mobility data efficiently, filling gaps in traffic time series, and estimating road traffic from public transport data.',
+              ],
+              figure: {
+                src: emeraldsWorkflow,
+                alt: 'Workflow of ULB’s task: raw mobility data from buses, cars and phones is compressed, stored, and used for traffic estimation and analysis',
+                caption: 'ULB’s task: from raw mobility data to compressed data and traffic estimation.',
+              },
+            },
+            { kind: 'links' },
           ],
         },
         {
-          title: 'Data',
-          lines: [
-            { label: 'York', text: 'Connected-vehicle data from York, provided through the project and used to evaluate how well traffic estimation methods transfer to another city.' },
-            { label: 'Coverage', text: '638 road segments, with 214 buses across 63 bus lines; Cariad connected-vehicle speeds (more than 25,000 devices) serve as the reference.' },
+          id: 'role',
+          title: 'My Role',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'I was ULB’s main contributor and its voice toward the other partners, handling much of the project’s coordination, from weekly meetings and reporting to deliverables and administration. I presented our work at General Assemblies and the final review, and the overall project at a conference [conference to be added].',
+                'On the technical side, I was responsible for the estimation work: filling gaps in traffic time series and estimating road traffic from public transport buses.',
+              ],
+            },
           ],
         },
         {
-          title: 'Project material',
-          lines: [{ text: '[Presentations, posters and public deliverables to be added]' }],
+          id: 'estimation',
+          title: 'Estimation Work',
+          blocks: [
+            {
+              kind: 'columns',
+              items: [
+                {
+                  label: 'Gap filling in traffic time series',
+                  text: 'A graph convolutional model fills missing speeds caused by sensor failures or sparse coverage. It was tested on the Rotterdam highway loop detectors, a Brussels bus line and PeMSD4 from the California Bay Area, and reduced MSE by 5% to 31% against state-of-the-art methods across the datasets.',
+                },
+                {
+                  label: 'Traffic estimation from public transport',
+                  text: 'Buses act as free probes, and a model maps their speeds to overall traffic conditions. It was applied in Brussels and York, where 214 buses on 63 lines covered 638 road segments, with Cariad connected-vehicle data as the reference. The project KPI shows MAE falling from 4.43 for raw bus speeds to 2.44.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'applications',
+          title: 'Applications',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'ULB’s final demonstration includes two web applications. A GTFS-RT data viewer lets users browse and download real-time public transport feeds from Riga, the Netherlands and York as Parquet or JSON. A traffic estimator shows live bus speeds and estimated overall traffic on a map for Brussels and York.',
+              ],
+              video: {
+                src: '/media/emeralds-demo.mp4',
+                poster: '/media/emeralds-demo-poster.jpg',
+                caption: 'Walkthrough of the two applications.',
+              },
+            },
+          ],
+        },
+        {
+          id: 'experience',
+          title: 'Technical Experience',
+          blocks: [
+            {
+              kind: 'rows',
+              items: [
+                { label: 'Project Coordination', text: 'Representing ULB in the consortium, coordinating tasks and deadlines, and presenting at General Assemblies, reviews and a conference.' },
+                { label: 'Deliverables & Reporting', text: 'Writing project deliverables and technical reports for partners and project reviews.' },
+                { label: 'Data Pipelines', text: 'Building pipelines from real-world data, including GTFS-RT bus feeds, loop detectors and connected-vehicle speeds, to model-ready datasets.' },
+                { label: 'Spatiotemporal Modeling', text: 'Developing graph-based deep learning models for gap filling and traffic estimation, evaluated against reference data with MAE, RMSE and MAPE.' },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'publications',
+          title: 'Publications',
+          blocks: [{ kind: 'publications' }],
         },
       ],
-      areaTitle: 'Technical Areas',
-      areas: ['Spatiotemporal Data', 'Traffic Estimation', 'Transferability Across Cities', 'Collaboration and Reporting', 'Dissemination'],
-      figure: {
-        src: yorkMap,
-        alt: 'Map of the York streets in the EMERALDS case study',
-        caption: 'York street network used in the EMERALDS case study.',
-        placeholderLabel: 'Project image',
-      },
     },
     image: {
       src: yorkMap,
