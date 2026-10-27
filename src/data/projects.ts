@@ -544,7 +544,7 @@ export const projects: Project[] = [
                     ],
                   },
                 },
-                { label: 'Weighted P-Norm (WPN)', text: 'I developed WPN, a way to rank solutions by their weighted distance from the ideal point, and compared it with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
+                { label: 'Weighted P-Norm (WPN)', text: 'To improve the search for effective road network designs, I developed a genetic algorithm based on Weighted P-Norm (WPN). It evaluates candidate solutions by considering both travel time and infrastructure costs, helping the algorithm select promising configurations for the next generation. The approach was evaluated against NSGA-II, a widely used multi-objective optimization algorithm.' },
               ],
             },
           ],
