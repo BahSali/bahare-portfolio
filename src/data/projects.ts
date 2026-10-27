@@ -588,7 +588,7 @@ export const projects: Project[] = [
         },
         {
           id: 'experience',
-          title: 'Technical Experience & Publication',
+          title: 'Technical Experience',
           blocks: [
             {
               kind: 'rows',
@@ -599,12 +599,12 @@ export const projects: Project[] = [
                 { label: 'Experiments and evaluation', text: 'Running benchmark experiments and comparing Pareto sets against quality metrics and a known true Pareto front.' },
               ],
             },
-            {
-              kind: 'text',
-              paragraphs: ['The ICEE 2019 paper presents a narrower part of this work, centred on the conditional-gradient approach.'],
-            },
-            { kind: 'publications' },
           ],
+        },
+        {
+          id: 'publication',
+          title: 'Publication',
+          blocks: [{ kind: 'publications' }],
         },
       ],
     },
