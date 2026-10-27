@@ -228,11 +228,11 @@ const toggle =
                   <ol class="border-t border-ink">
                     {b.items.map((it, i) => (
                       <li class="grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
-                        <div class="flex items-baseline gap-3 md:col-span-4">
+                        <div class="flex items-baseline gap-3 md:col-span-5">
                           <span class="font-display text-sm text-clay">0{i + 1}</span>
                           <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
                         </div>
-                        <p class="text-justify text-[0.9rem] leading-relaxed hyphens-auto md:col-span-8">{it.text}</p>
+                        <p class="text-justify text-[0.9rem] leading-relaxed hyphens-auto md:col-span-7">{it.text}</p>
                       </li>
                     ))}
                   </ol>

@@ -601,11 +601,10 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Optimization Modeling', text: 'Formulating bi-level, multi-objective network design problems and evaluating alternative solution approaches using CPLEX and Gurobi.' },
-                { label: 'Algorithm Development', text: 'Implementing the Frank–Wolfe algorithm in Python for traffic assignment and developing genetic algorithm-based optimization methods.' },
-                { label: 'Traffic Modeling', text: 'Implementing and comparing traffic assignment approaches to model route choice, network flows, and travel times.' },
-                { label: 'Evolutionary Optimization', text: 'Working with genetic algorithms, NSGA-II, and multi-objective solution-ranking strategies, including the Weighted P-Norm approach.' },
-                { label: 'Experimentation & Evaluation', text: 'Constructing small test networks, working with transportation benchmarks, and evaluating algorithm performance through Pareto-front comparisons.' },
+                { label: 'Mathematical Optimization', text: 'Formulating bi-level, multi-objective optimization problems and exploring mathematical programming approaches with CPLEX and Gurobi.' },
+                { label: 'Algorithm Design & Implementation', text: 'Implementing Frank–Wolfe and genetic algorithms in Python, including the Weighted P-Norm (WPN) solution-ranking method.' },
+                { label: 'Traffic Assignment & Network Modeling', text: 'Implementing traffic assignment models to analyse route choice, network flows, and travel times under different road configurations.' },
+                { label: 'Experimental Evaluation', text: 'Designing computational experiments using synthetic test networks and established benchmarks; comparing NSGA-II and WPN through Pareto-front analysis.' },
               ],
             },
           ],
