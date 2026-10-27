@@ -225,14 +225,17 @@ const toggle =
               }
               if (b.kind === 'rows') {
                 return (
-                  <ul class="divide-y divide-warm/70 border-y border-warm/70">
-                    {b.items.map((it) => (
-                      <li class="grid gap-x-6 gap-y-1 py-3 sm:grid-cols-[13rem_1fr]">
-                        <span class="font-display text-base">{it.label}</span>
-                        <span class="text-justify text-[0.9375rem] leading-[1.6] text-ink-soft hyphens-auto">{it.text}</span>
+                  <ol class="border-t border-ink">
+                    {b.items.map((it, i) => (
+                      <li class="grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
+                        <div class="flex items-baseline gap-3 md:col-span-4">
+                          <span class="font-display text-sm text-clay">0{i + 1}</span>
+                          <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
+                        </div>
+                        <p class="text-justify text-[0.9rem] leading-relaxed hyphens-auto md:col-span-8">{it.text}</p>
                       </li>
                     ))}
-                  </ul>
+                  </ol>
                 );
               }
               return related.length > 0 && (

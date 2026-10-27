@@ -601,10 +601,11 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Bi-level optimization', text: 'Formulating the network design problem and coupling it with a traffic assignment model.' },
-                { label: 'Evolutionary algorithms', text: 'Implementing and tuning a genetic algorithm, with NSGA-II as the baseline.' },
-                { label: 'Traffic assignment', text: 'Solving User Equilibrium with Frank–Wolfe in Python, with the assignments computed in parallel.' },
-                { label: 'Experiments and evaluation', text: 'Running benchmark experiments and comparing Pareto sets against quality metrics and a known true Pareto front.' },
+                { label: 'Optimization Modeling', text: 'Formulating bi-level, multi-objective network design problems and evaluating alternative solution approaches using CPLEX and Gurobi.' },
+                { label: 'Algorithm Development', text: 'Implementing the Frank–Wolfe algorithm in Python for traffic assignment and developing genetic algorithm-based optimization methods.' },
+                { label: 'Traffic Modeling', text: 'Implementing and comparing traffic assignment approaches to model route choice, network flows, and travel times.' },
+                { label: 'Evolutionary Optimization', text: 'Working with genetic algorithms, NSGA-II, and multi-objective solution-ranking strategies, including the Weighted P-Norm approach.' },
+                { label: 'Experimentation & Evaluation', text: 'Constructing small test networks, working with transportation benchmarks, and evaluating algorithm performance through Pareto-front comparisons.' },
               ],
             },
           ],
