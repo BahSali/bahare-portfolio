@@ -391,7 +391,7 @@ export const projects: Project[] = [
     tier: 'standard',
     eyebrow: "Master's thesis · Shiraz University, Iran",
     subtitle: 'Multi-Objective Optimization · Network Design · Traffic Modeling',
-    period: '2019',
+    period: 'September 2016 – February 2019',
     role: 'M.Sc. Researcher',
     homeFeatured: false,
     summary: 'How changes to road capacity affect traffic flow and travel times, using bi-level optimization and a multi-objective genetic algorithm.',
@@ -404,6 +404,12 @@ export const projects: Project[] = [
       contribution: [],
       extra: [
         {
+          title: 'Thesis',
+          lines: [
+            { text: 'M.Sc. in Computer Software Engineering, Shiraz University. Thesis: "Evaluating the Effects of Structural Modification on Urban Traffic Network Functionality", supervised by Prof. Seyed Mohammad Reza Moosavi and graded Excellent.' },
+          ],
+        },
+        {
           title: 'Approach',
           lines: [
             { label: 'Traffic modeling', text: 'User Equilibrium was used to represent route choice behavior, with the Frank–Wolfe method for traffic assignment.' },
@@ -412,16 +418,23 @@ export const projects: Project[] = [
           ],
         },
         {
-          title: 'Evaluation',
+          title: 'Evaluation and results',
           lines: [
-            { text: 'The methods were evaluated on benchmark transportation networks of different sizes, comparing trade-offs between travel time and infrastructure costs.' },
-            { text: 'The experiments also examined whether reducing capacity on selected roads could improve overall network performance.' },
+            { text: 'The methods were evaluated on two benchmark transportation networks of different sizes, comparing trade-offs between travel time and construction cost.' },
+            { text: 'WPN produced better Pareto sets than NSGA-II in the comparison. The difference was clearest on the larger Sioux Falls network, where WPN found solutions with both lower travel time and lower cost.' },
+            { text: 'The final Pareto sets for both networks included solutions that remove lanes, showing that reducing capacity on selected roads can improve overall network performance.' },
+          ],
+        },
+        {
+          title: 'Skills developed',
+          lines: [
+            { text: 'Formulating bi-level optimization problems and traffic assignment models; implementing and tuning genetic algorithms and NSGA-II; designing experiments and quality metrics to compare multi-objective methods; and presenting the work as a thesis and a conference paper.' },
           ],
         },
       ],
       figures: [
-        { src: mscNetwork, alt: 'Benchmark road network graph with origin and destination nodes', caption: 'Benchmark network used in the experiments, from the thesis presentation.' },
-        { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red) and the WPN approach (green)', caption: 'Travel time versus infrastructure cost: Pareto solutions from NSGA-II (red) and the WPN approach (green).' },
+        { src: mscNetwork, alt: 'Benchmark road network graph with origin and destination nodes', caption: 'One of the benchmark networks, with origin and destination nodes.' },
+        { src: mscPareto, alt: 'Scatter plot of travel time against cost for Pareto solutions from NSGA-II (red triangles) and the WPN approach (green stars) on the Sioux Falls network', caption: 'Sioux Falls network: Pareto solutions from NSGA-II (red) and WPN (green). Lower travel time and cost is better. Figure from the thesis.' },
       ],
       areaTitle: 'Technical Areas',
       areas: ['Multi-Objective Optimization', 'Genetic Algorithms', 'NSGA-II', 'Frank–Wolfe Algorithm', 'Bi-Level Optimization', 'Graph Modeling', 'Traffic Assignment'],
