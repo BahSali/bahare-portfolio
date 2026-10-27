@@ -13,6 +13,7 @@ import archAttention from '~/assets/phd/arch-attention.png';
 import nsgaIllustration from '~/assets/phd/nsga2-illustration.png';
 import mscNetwork from '~/assets/phd/msc-network.png';
 import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
+import mscBraess from '~/assets/phd/msc-braess.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
@@ -90,7 +91,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
   | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
-  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string }[]; figure?: BriefFigure } }[] }
+  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
@@ -519,7 +520,30 @@ export const projects: Project[] = [
                     },
                   },
                 },
-                { label: 'Network optimization', text: "A genetic algorithm explores lane additions and removals under the two competing objectives, keeping an evolving Pareto front. Removals are included because extra capacity can sometimes worsen congestion (Braess's paradox)." },
+                {
+                  label: 'Network optimization',
+                  text: 'A genetic algorithm searches for road network configurations by adding or removing lanes. The goal is to balance two objectives: minimizing total travel time and reducing infrastructure costs. Both options are considered because increasing road capacity does not always improve traffic conditions.',
+                  details: {
+                    summary: 'How network optimization works',
+                    items: [
+                      { title: 'Genetic Algorithm', text: 'Genetic algorithms explore possible solutions through an evolving population. Each solution represents a road network configuration, and operations such as selection, crossover, and mutation help generate new candidates over successive generations.' },
+                      {
+                        title: 'Pareto Front',
+                        text: 'Reducing travel time and minimizing infrastructure costs can lead to conflicting decisions. The Pareto front represents the best trade-offs found between these two objectives: improving one objective would require compromising the other.',
+                        more: 'In each generation, new candidates are evaluated with the traffic assignment model, and the non-dominated ones update the stored Pareto list. The computed front is an approximation, not necessarily the mathematically exact Pareto front. An exhaustive search is feasible only for small candidate sets, where it provides the true front as a reference.',
+                      },
+                      {
+                        title: "Braess's Paradox",
+                        text: "Adding road capacity can sometimes increase overall travel time because drivers change their routes in response to the new network structure. This counterintuitive effect, known as Braess's paradox, motivates considering lane removals as well as additions.",
+                        figure: {
+                          src: mscBraess,
+                          alt: 'Four-node road network with a zero-cost shortcut between the two middle nodes, illustrating Braess paradox',
+                          caption: "Textbook example: a new zero-cost link raises every driver's travel time from 65 to 80 minutes.",
+                        },
+                      },
+                    ],
+                  },
+                },
                 { label: 'Weighted P-Norm (WPN)', text: 'I developed WPN, a way to rank solutions by their weighted distance from the ideal point, and compared it with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
               ],
             },
