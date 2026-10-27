@@ -89,7 +89,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
   | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
-  | { kind: 'columns'; items: { label: string; text: string }[] }
+  | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href: string })[] }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
@@ -495,7 +495,17 @@ export const projects: Project[] = [
             {
               kind: 'columns',
               items: [
-                { label: 'Traffic assignment', text: "I model drivers' route choices with User Equilibrium, where no one can save time by switching routes, and solve the assignment with the Frank–Wolfe method." },
+                {
+                  label: 'Traffic assignment',
+                  text: 'Traffic assignment models how drivers choose routes and how traffic is distributed across a road network. User Equilibrium represents route-choice behavior, while the Frank–Wolfe algorithm is used to calculate traffic flows.',
+                  parts: [
+                    'Traffic assignment models how drivers choose routes and how traffic is distributed across a road network. ',
+                    { text: 'User Equilibrium', href: 'https://ops.fhwa.dot.gov/publications/fhwahop13015/sec2.htm' },
+                    ' represents route-choice behavior, while the ',
+                    { text: 'Frank–Wolfe algorithm', href: 'https://en.wikipedia.org/wiki/Frank%E2%80%93Wolfe_algorithm' },
+                    ' is used to calculate traffic flows.',
+                  ],
+                },
                 { label: 'Network optimization', text: "A genetic algorithm explores lane additions and removals under the two competing objectives, keeping an evolving Pareto front. Removals are included because extra capacity can sometimes worsen congestion (Braess's paradox)." },
                 { label: 'Weighted P-Norm (WPN)', text: 'I developed WPN, a way to rank solutions by their weighted distance from the ideal point, and compared it with NSGA-II, which ranks by non-dominated sorting and crowding distance.' },
               ],
