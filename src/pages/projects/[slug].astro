@@ -9,6 +9,7 @@ import { publications } from '~/data/publications';
 import { timelineItems } from '~/lib/timeline';
 import { Image, getImage } from 'astro:assets';
 import CaseStudy from '~/components/CaseStudy.astro';
+import SectionNav from '~/components/SectionNav.astro';
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -135,6 +136,8 @@ const toggle =
       </ul>
     </Container>
   </nav>}
+
+  {project.brief?.sections && <SectionNav items={project.brief.sections.map((sec) => [sec.title, `#${sec.id}`] as const)} />}
 
   {project.brief?.sections && (
     <Container class="pb-12 pt-2">
