@@ -502,9 +502,9 @@ export const projects: Project[] = [
                   text: 'The lower level models how changes in road capacity influence drivers’ route choices and, consequently, the distribution of traffic across the network. To capture these effects, the model uses User Equilibrium formulation to represent drivers’ routing behavior under different network configurations. The Frank–Wolfe algorithm is then applied to solve this traffic assignment problem and calculate the resulting traffic flows and travel times.',
                   parts: [
                     'The lower level models how changes in road capacity influence drivers’ route choices and, consequently, the distribution of traffic across the network. To capture these effects, the model uses ',
-                    { text: 'User Equilibrium', href: 'https://ops.fhwa.dot.gov/publications/fhwahop13015/sec2.htm', info: 'User Equilibrium' },
+                    { text: 'User Equilibrium', info: 'User Equilibrium' },
                     ' formulation to represent drivers’ routing behavior under different network configurations. The ',
-                    { text: 'Frank–Wolfe algorithm', href: 'https://en.wikipedia.org/wiki/Frank%E2%80%93Wolfe_algorithm', info: 'Frank–Wolfe Algorithm' },
+                    { text: 'Frank–Wolfe algorithm', info: 'Frank–Wolfe Algorithm' },
                     ' is then applied to solve this traffic assignment problem and calculate the resulting traffic flows and travel times.',
                   ],
                   details: {
