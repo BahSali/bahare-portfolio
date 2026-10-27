@@ -88,7 +88,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; lead?: string; paragraphs: string[]; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'publications' };
@@ -475,9 +475,10 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
+              lead: 'How does changing road capacity affect traffic?',
               paragraphs: [
-                'How does changing road capacity affect traffic across an urban network? This thesis looks for configurations that cut total travel time without driving up infrastructure cost, two objectives that pull against each other.',
-                'The problem has two levels. The upper level chooses lane additions or removals on candidate roads. The lower level models how drivers respond by choosing their routes, and the resulting flows and travel times inform the next design.',
+                'This research explores how changes in road capacity affect traffic flow and travel times across urban networks. It uses multi-objective optimization to identify road network configurations that balance total travel time and infrastructure costs.',
+                "The problem follows a bi-level framework. The upper level determines which road lanes to add or remove, while the lower level models drivers' route choices and calculates the resulting traffic flows and travel times. These results guide the evaluation of different network configurations.",
               ],
               figure: {
                 src: mscLoop,
