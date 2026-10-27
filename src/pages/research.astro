@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHeader from '~/components/PageHeader.astro';
+import SectionNav from '~/components/SectionNav.astro';
 import PageSection from '~/components/PageSection.astro';
 import PlaceholderBlock from '~/components/PlaceholderBlock.astro';
 import Placeholder from '~/components/Placeholder.astro';
@@ -18,21 +19,18 @@ const summaries = education.filter((e) => e.projects.length > 0).reverse();
 const earlier = projects.filter((p) => p.category === 'collaboration' || p.category === 'applied');
 const anchors = [
   ['Interests', '#interests'],
-  ['Academic research', '#academic'],
+  ['Academic Research', '#academic'],
   ['Publications', '#publications'],
-  ['Talks & posters', '#talks'],
-  ['Earlier research & collaborations', '#collaborations'],
-];
+  ['Talks & Posters', '#talks'],
+  ['Collaborations', '#collaborations'],
+] as const;
 ---
 <BaseLayout title="Research" description="Research interests, academic background, publications, talks and collaborations.">
   <PageHeader eyebrow="Research" title="Research">
     <p>Research interests, academic work and publications across machine learning, spatiotemporal modeling and optimization.</p>
-    <nav aria-label="On this page" class="mt-8 text-sm">
-      <ul class="flex flex-wrap gap-x-6 gap-y-2">
-        {anchors.map(([l, h]) => <li><a href={h} class="link-line">{l}</a></li>)}
-      </ul>
-    </nav>
   </PageHeader>
+
+  <SectionNav items={[...anchors]} />
 
   <PageSection id="interests" eyebrow="Interests" title="What I work on">
     <ul class="divide-y divide-warm/70 border-y border-warm/70">

@@ -4,7 +4,7 @@ import Container from './Container.astro';
 interface Props { id?: string; eyebrow?: string; title: string; class?: string }
 const { id, eyebrow, title, class: className = '' } = Astro.props;
 ---
-<section id={id} aria-labelledby={id ? `${id}-h` : undefined} class:list={['scroll-mt-24 pt-section-sm', className]}>
+<section id={id} aria-labelledby={id ? `${id}-h` : undefined} class:list={['scroll-mt-28 pt-section-sm', className]}>
   <Container>
    <div class="grid gap-8 border-t border-warm/70 pt-8 lg:grid-cols-12 lg:gap-10">
     <div class="lg:col-span-4">
