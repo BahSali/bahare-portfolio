@@ -148,13 +148,13 @@ const toggle =
             {s.blocks.map((b) => {
               if (b.kind === 'text') {
                 return (
-                  <div class:list={['grid gap-x-10 gap-y-5', !b.wide && (b.figure || b.video) && 'items-center', !b.wide && (b.video ? 'md:grid-cols-[minmax(0,1fr)_22rem]' : b.figure && (b.figureFirst ? (b.small ? 'md:grid-cols-[12rem_minmax(0,1fr)]' : 'md:grid-cols-[16rem_minmax(0,1fr)]') : (b.small ? 'md:grid-cols-[minmax(0,1fr)_12rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]')))]}>
+                  <div class:list={['grid gap-x-10 gap-y-5', !b.wide && (b.figure || b.video) && 'items-center', !b.wide && (b.video ? 'md:grid-cols-[minmax(0,1fr)_26rem]' : b.figure && (b.figureFirst ? (b.small ? 'md:grid-cols-[12rem_minmax(0,1fr)]' : 'md:grid-cols-[16rem_minmax(0,1fr)]') : (b.small ? 'md:grid-cols-[minmax(0,1fr)_12rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]')))]}>
                     <div class:list={['space-y-3 text-justify text-base leading-[1.7] hyphens-auto', b.figureFirst && 'md:order-2']}>
                       {b.lead && <p class="font-display text-xl text-teal" style="line-height:1.3">{b.lead}</p>}
                       {b.paragraphs.map((t) => <p>{t}</p>)}
                     </div>
                     {b.video && (
-                      <figure class="w-full max-w-[22rem]">
+                      <figure class="w-full max-w-[26rem]">
                         <video controls preload="none" poster={b.video.poster} class="w-full border border-warm/70 bg-paper"><source src={b.video.src} type="video/mp4" /></video>
                         <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.video.caption}</figcaption>
                       </figure>
@@ -189,6 +189,13 @@ const toggle =
                   </div>
                 );
               }
+              if (b.kind === 'bullets') {
+                return (
+                  <ul class="divide-y divide-warm/70 border-y border-warm/70">
+                    {b.items.map((t) => <li class="py-2.5 text-[0.9375rem] leading-[1.6]">{t}</li>)}
+                  </ul>
+                );
+              }
               if (b.kind === 'references') {
                 return (
                   <ul class="divide-y divide-warm/70 border-y border-warm/70 text-sm">
@@ -214,7 +221,7 @@ const toggle =
                     {b.items.map((it) => (
                       <div class="border-t border-warm/70 pt-3">
                         <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
-                        <p class="mt-2 text-justify text-[0.9375rem] leading-[1.65] text-ink-soft hyphens-auto">{it.parts ? it.parts.map((x) => typeof x === 'string' ? x : <>{x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" class="link-line">{x.text}</a> : x.text}{x.info && <button type="button" data-info={x.info} aria-label={`More about ${x.text}`} class="ml-1 inline-block align-[-1px] text-ink-soft transition-colors hover:text-clay"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5" /><path d="M8 7.2v4M8 4.9v.1" stroke-linecap="round" /></svg></button>}</>) : it.text}</p>
+                        <p class="mt-2 text-justify text-[0.9375rem] leading-[1.65] text-ink-soft hyphens-auto">{it.parts ? it.parts.map((x) => typeof x === 'string' ? x : <>{x.href ? <a href={x.href} class="link-line" {...(x.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{x.text}</a> : x.text}{x.info && <button type="button" data-info={x.info} aria-label={`More about ${x.text}`} class="ml-1 inline-block align-[-1px] text-ink-soft transition-colors hover:text-clay"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5" /><path d="M8 7.2v4M8 4.9v.1" stroke-linecap="round" /></svg></button>}</>) : it.text}</p>
                         {it.details && (
                           <details class="group/d mt-3 border-t border-warm/70 pt-2 [&>summary]:flex [&>summary]:cursor-pointer [&>summary]:list-none [&>summary]:items-center [&>summary]:justify-between [&>summary::-webkit-details-marker]:hidden">
                             <summary class="text-sm text-ink-soft transition-colors hover:text-clay"><span>{it.details.summary}</span><span aria-hidden="true" class="transition-transform group-open/d:rotate-45">+</span></summary>

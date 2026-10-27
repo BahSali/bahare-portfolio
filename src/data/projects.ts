@@ -97,6 +97,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
+  | { kind: 'bullets'; items: string[] }
   | { kind: 'references'; items: { label: string; text: string; href: string }[] }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
@@ -406,7 +407,7 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'emeralds',
-    title: 'EU Horizon Europe EMERALDS Project',
+    title: 'EMERALDS — European Urban Mobility Research Project',
     category: 'eu-project',
     tier: 'standard',
     homeFeatured: true,
@@ -414,7 +415,7 @@ export const projects: Project[] = [
     subtitle: 'Mobility Data · Traffic Estimation · Research Collaboration',
     period: 'April 2023 – December 2025',
     role: 'ULB Researcher',
-    summary: 'A three-year Horizon Europe project on urban mobility data analytics, where I was responsible for ULB’s traffic estimation work and handled much of its day-to-day coordination.',
+    summary: 'A Horizon Europe project on reusable urban mobility data services, where I worked on ULB’s traffic estimation and handled much of its day-to-day coordination.',
     publications: ['model-cards-2025'],
     links: [
       { label: 'Project website →', href: 'https://emeralds-horizon.eu' },
@@ -435,9 +436,8 @@ export const projects: Project[] = [
               wide: true,
               lead: 'Extreme-scale urban mobility data analytics as a service',
               paragraphs: [
-                'EMERALDS is a Horizon Europe project (grant 101093051, January 2023 to December 2025) that builds a Mobility Analytics as a Service toolset for large urban mobility datasets. Its goal is a service-oriented architecture, tools for acquiring and processing data at extreme scale, and AI analytics that run across the edge, fog and cloud. Around 30 software tools were offered as services in the toolset.',
-                'The services were demonstrated in three pilot use cases: crowd risk during events on The Hague’s beach, multi-modal traffic network analytics in Rotterdam, and public transport efficiency in Riga. Inlecom coordinated a consortium of research institutes, companies and cities.',
-                'Our lab at ULB joined the project and hired a PhD researcher, my position, to carry out its contribution. ULB worked in Task 3.3, Mobility Data Fusion and Management: storing and retrieving mobility data efficiently, filling gaps in traffic time series, and estimating road traffic from public transport data.',
+                'EMERALDS is a Horizon Europe project that develops reusable data processing and analytics services for urban mobility. It brings together research institutes, companies and cities in a multi-partner European consortium.',
+                'ULB contributed to mobility data management, data gap filling and traffic estimation, working in Task 3.3, Mobility Data Fusion and Management.',
               ],
               figure: {
                 src: emeraldsWorkflow,
@@ -450,56 +450,69 @@ export const projects: Project[] = [
         },
         {
           id: 'role',
-          title: 'My Role',
+          title: 'My Role & Collaboration',
           blocks: [
             {
               kind: 'text',
               paragraphs: [
-                'I worked on EMERALDS from April 2023 until the project ended, under the guidance of my supervisor. Alongside the technical work, I handled much of ULB’s day-to-day involvement: weekly meetings, reporting, deliverables and administration.',
-                'I presented ULB’s work at General Assemblies and at the final review, and the overall project at a conference [conference to be added]. On the technical side, I was responsible for the estimation work, filling gaps in traffic time series and estimating road traffic from public transport buses.',
+                'I joined EMERALDS as a PhD researcher at Université libre de Bruxelles, working under Prof. Mahmoud Sakr. Over three years, I combined technical research with much of the day-to-day coordination of ULB’s participation in the project.',
+              ],
+            },
+            {
+              kind: 'bullets',
+              items: [
+                'Worked directly with consortium partners, taking part in regular technical and coordination meetings and following up on activities and deadlines.',
+                'Prepared technical reports and project deliverables, and contributed to reviewing deliverables produced by other partners.',
+                'Presented ULB’s work at General Assemblies, project reviews and external events.',
+                'Developed and evaluated machine learning approaches for missing traffic data and road traffic estimation.',
+                'Contributed to technical discussions and demonstrations, and communicated ULB’s research results to project partners.',
               ],
             },
           ],
         },
         {
           id: 'estimation',
-          title: 'Estimation Work',
+          title: 'Selected Technical Contributions',
           blocks: [
             {
               kind: 'columns',
               items: [
                 {
-                  label: 'Gap filling in traffic time series',
-                  text: 'A graph convolutional model fills missing speeds caused by sensor failures or sparse coverage. It was developed for the Rotterdam use case, using highway loop-detector data at one-minute resolution, and tested on a Brussels bus line and PeMSD4 from the California Bay Area. Against state-of-the-art methods, it reduced MSE by 5% to 31% across the datasets.',
+                  label: 'Gap Filling in Traffic Time Series',
+                  text: 'A graph convolutional model fills missing speeds caused by sensor failures or sparse coverage. Tested on Rotterdam highway loop detectors, a Brussels bus line and PeMSD4, it reduced MSE by 5% to 31% against state-of-the-art methods.',
                 },
                 {
-                  label: 'Traffic estimation from public transport',
-                  text: 'Buses act as free probes, and a model maps their speeds to overall traffic conditions, offering an affordable alternative to fixed sensors. It was applied in Brussels and in York, where 214 buses on 63 lines covered 638 road segments, with Cariad connected-vehicle data as the reference. The project KPI shows MAE falling from 4.43 for raw bus speeds to 2.44.',
+                  label: 'Road Traffic Estimation from Public Transport Data',
+                  text: 'Bus speeds from GTFS-RT feeds act as free probes, and a model maps them to overall road traffic. On the Brussels network, MAE fell from 4.43 for raw bus speeds to 2.44 against Google reference speeds. The approach was also applied in York, with Cariad connected-vehicle data as the reference.',
+                  parts: [
+                    'Bus speeds from GTFS-RT feeds act as free probes, and a model maps them to overall road traffic. On the Brussels network, MAE fell from 4.43 for raw bus speeds to 2.44 against Google reference speeds. The approach was also applied in York, with Cariad connected-vehicle data as the reference. ',
+                    { text: 'See the PhD project.', href: '/projects/traffic-speed-estimation' },
+                  ],
                 },
               ],
             },
             {
               kind: 'text',
               paragraphs: [
-                'ULB’s task also covered lossless compression of GTFS-RT data from Riga, the Netherlands and York, reaching 5 to 30 times smaller files, and its services were integrated with the CARTO platform through MobilityDB. This part is the wider ULB team’s work.',
+                'Lossless compression of GTFS-RT data, which reaches 5 to 30 times smaller files, was a broader contribution of the ULB team.',
               ],
             },
           ],
         },
         {
           id: 'applications',
-          title: 'Applications',
+          title: 'Applications & Demonstrations',
           blocks: [
             {
               kind: 'text',
               paragraphs: [
-                'ULB’s final demonstration includes two web applications. A GTFS-RT data viewer lets users browse and download real-time public transport feeds from Riga, the Netherlands and York as Parquet or JSON. A traffic estimator shows live bus speeds and estimated overall traffic on a map for Brussels and York.',
-                'The estimator serves the early-adoption use case in York and North Yorkshire, where bus data and connected-vehicle data from Cariad are combined.',
+                'ULB presented two demonstrations. The GTFS-RT Data Viewer lets users browse and download real-time public transport feeds from Riga, the Netherlands and York as Parquet or JSON. The Traffic Estimator shows live bus speeds and estimated overall traffic on a map for Brussels and York.',
+                'My part is the traffic estimation model behind the estimator. The viewer and the wider data infrastructure belong to the broader ULB team’s work.',
               ],
               video: {
                 src: '/media/emeralds-demo.mp4',
                 poster: '/media/emeralds-demo-poster.jpg',
-                caption: 'Walkthrough of the two applications.',
+                caption: 'Walkthrough of the two demonstrations.',
               },
             },
           ],
@@ -511,10 +524,11 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Project Coordination', text: 'Taking part in the consortium on behalf of ULB, following tasks and deadlines, and presenting at General Assemblies, reviews and a conference.' },
-                { label: 'Deliverables & Reporting', text: 'Writing project deliverables and technical reports for partners and project reviews.' },
-                { label: 'Data Pipelines', text: 'Building pipelines from real-world data, including GTFS-RT bus feeds, loop detectors and connected-vehicle speeds, to model-ready datasets.' },
-                { label: 'Spatiotemporal Modeling', text: 'Developing graph-based deep learning models for gap filling and traffic estimation, evaluated against reference data with MAE, RMSE and MAPE.' },
+                { label: 'Cross-Partner Collaboration', text: 'Taking part in regular technical and coordination meetings with consortium partners, and following up on ULB’s activities and deadlines.' },
+                { label: 'Technical Reporting & Review', text: 'Preparing technical reports and project deliverables, including contributions to the public deliverable D3.2, and reviewing deliverables from other partners.' },
+                { label: 'Mobility Data Engineering', text: 'Preparing real-world mobility data, including GTFS-RT bus feeds, loop-detector speeds and connected-vehicle speeds, for modeling and evaluation.' },
+                { label: 'Spatiotemporal Machine Learning', text: 'Developing and evaluating graph convolutional models for missing-data recovery and road traffic estimation, measured with MAE, RMSE, MAPE and DTW.' },
+                { label: 'Technical Communication & Demonstration', text: 'Presenting ULB’s results at General Assemblies, project reviews and external events, and demonstrating the traffic estimation work to partners.' },
               ],
             },
           ],

@@ -38,7 +38,7 @@ export const publications: Publication[] = [
     title: 'Spatiotemporal Model Cards: A Vision for Responsible Geospatial AI',
     authors:
       'Anita Graser, Anahid Wachsenegger, George S. Theodoropoulos, Melitta Dragaschnig, Bahare Salehi, Stathis Antoniou, Christos Doulkeridis, Yannis Theodoridis',
-    venue: 'ACM Transactions on Spatial Algorithms and Systems (under review)',
+    venue: 'ACM Transactions on Spatial Algorithms and Systems (accepted)',
     shortVenue: 'ACM TSAS',
     type: 'journal',
     projects: ['emeralds'],
