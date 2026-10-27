@@ -22,8 +22,8 @@ export const expertise: ExpertiseArea[] = [
     description:
       'Industrial experience with enterprise databases and ERP systems.',
     topics: ['Enterprise databases', 'ERP systems'],
-    href: '/experience',
-    hrefLabel: 'Experience',
+    href: '/projects/enterprise-data-erp',
+    hrefLabel: 'Project',
   },
   {
     title: 'Applied Data Science & Analytics',

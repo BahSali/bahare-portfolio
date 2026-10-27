@@ -75,7 +75,7 @@ const toggle =
         <dt class="eyebrow mb-1">Context</dt>
         <dd>
           {context.length
-            ? context.map((c, i) => <>{i > 0 && ', '}<a href={c.href ?? `/experience#${c.id}`} class="link-line">{c.title}</a></>)
+            ? context.map((c, i) => <>{i > 0 && ', '}<a href={c.href ?? `/journey#${c.id}`} class="link-line">{c.title}</a></>)
             : <Placeholder>Context to be added</Placeholder>}
         </dd>
       </div>}
@@ -122,6 +122,9 @@ const toggle =
             </ul>
           </section>
         ))}
+        {project.links.length > 0 && (
+          <p class="text-sm">{project.links.map((l) => <a href={l.href} class="link-line">{l.label}</a>)}</p>
+        )}
         <section id="technical-areas">
           <h2 class="eyebrow mb-3">{project.brief.areaTitle}</h2>
           <p class="text-sm text-ink-soft">{project.brief.areas.length ? project.brief.areas.join(' · ') : <Placeholder>Skills to be added</Placeholder>}</p>

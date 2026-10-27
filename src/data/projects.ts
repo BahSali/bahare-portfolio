@@ -19,13 +19,14 @@ import mscCard from '~/assets/phd/msc-card.png';
 import mscFrankWolfe from '~/assets/phd/msc-frankwolfe.png';
 import mscSurface from '~/assets/phd/msc-surface.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
+import yorkMap from '~/assets/phd/ds/york-map.jpg';
 import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';
 import networkCard from '~/assets/phd/network-card.jpg';
 import { phdDatasets, type Dataset } from './phd-datasets';
 
-export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied';
+export type ProjectCategory = 'phd' | 'collaboration' | 'thesis' | 'applied' | 'eu-project' | 'industry';
 export type ProjectTier = 'lead' | 'standard';
 
 export const categoryLabels: Record<ProjectCategory, string> = {
@@ -33,6 +34,8 @@ export const categoryLabels: Record<ProjectCategory, string> = {
   collaboration: 'University of Passau',
   thesis: "Master's thesis",
   applied: 'Earlier applied research',
+  'eu-project': 'Horizon Europe project',
+  industry: 'Industry',
 };
 
 export interface Link { label: string; href: string }
@@ -390,6 +393,60 @@ export const projects: Project[] = [
   },
   {
     ...empty,
+    slug: 'emeralds',
+    title: 'EU Horizon Europe EMERALDS Project',
+    category: 'eu-project',
+    tier: 'standard',
+    homeFeatured: true,
+    eyebrow: 'European research collaboration · Horizon Europe',
+    subtitle: 'Spatiotemporal Data · Traffic Estimation · Research Collaboration',
+    summary: 'Participation in the EU Horizon Europe EMERALDS project, applying my PhD research to new datasets.',
+    links: [{ label: 'Related PhD project →', href: '/projects/traffic-speed-estimation' }],
+    brief: {
+      overview: [
+        'Participation in the EU Horizon Europe EMERALDS project. The technical work is closely related to my PhD research, adapted and evaluated with other datasets.',
+        "My PhD research is supported by the EMERALDS project, funded by the European Union's Horizon Europe programme.",
+      ],
+      contribution: [],
+      extra: [
+        {
+          title: 'Involvement',
+          lines: [
+            { text: 'Working in an international, multi-partner research project.' },
+            { text: 'Applying research to new datasets and project requirements.' },
+            { text: 'Team collaboration and technical reporting.' },
+            { text: 'Presentations, speaking engagements and dissemination activities.' },
+          ],
+        },
+        {
+          title: 'Data',
+          lines: [
+            { label: 'York', text: 'Connected-vehicle data from York, provided through the project and used to evaluate how well traffic estimation methods transfer to another city.' },
+            { label: 'Coverage', text: '638 road segments, with 214 buses across 63 bus lines; Cariad connected-vehicle speeds (more than 25,000 devices) serve as the reference.' },
+          ],
+        },
+        {
+          title: 'Project material',
+          lines: [{ text: '[Presentations, posters and public deliverables to be added]' }],
+        },
+      ],
+      areaTitle: 'Technical Areas',
+      areas: ['Spatiotemporal Data', 'Traffic Estimation', 'Transferability Across Cities', 'Collaboration and Reporting', 'Dissemination'],
+      figure: {
+        src: yorkMap,
+        alt: 'Map of the York streets in the EMERALDS case study',
+        caption: 'York street network used in the EMERALDS case study.',
+        placeholderLabel: 'Project image',
+      },
+    },
+    image: {
+      src: yorkMap,
+      alt: 'Map of the York streets in the EMERALDS case study',
+      placeholderLabel: 'Project image',
+    },
+  },
+  {
+    ...empty,
     slug: 'network-design-optimization',
     title: 'Multi-Objective Optimization of Urban Road Networks',
     category: 'thesis',
@@ -468,6 +525,31 @@ export const projects: Project[] = [
     image: {
       src: mscCard,
       alt: 'Non-convex surface of total travel time as lane counts change on two candidate links',
+      placeholderLabel: 'Project image',
+    },
+  },
+  {
+    ...empty,
+    slug: 'enterprise-data-erp',
+    title: 'Enterprise Databases and ERP Systems',
+    category: 'industry',
+    tier: 'standard',
+    homeFeatured: false,
+    eyebrow: 'Professional experience · Industry',
+    subtitle: 'Enterprise Databases · SQL · ERP Systems',
+    summary: 'Professional experience with enterprise databases, SQL and ERP systems, business data and business processes.',
+    brief: {
+      overview: [
+        'Professional experience with enterprise databases, SQL and ERP systems, working with business data and business processes.',
+        '[Employer, systems, projects and responsibilities to be added]',
+      ],
+      contribution: [],
+      areaTitle: 'Technical Skills',
+      areas: ['Enterprise Databases', 'SQL', 'ERP Systems', 'Business Processes', 'Business Data'],
+    },
+    image: {
+      src: null,
+      alt: 'Enterprise data and ERP work',
       placeholderLabel: 'Project image',
     },
   },

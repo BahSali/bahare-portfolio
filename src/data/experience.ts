@@ -26,7 +26,7 @@ export const experience: ExperienceEntry[] = [
     topics: ['Enterprise databases', 'SQL', 'ERP systems', 'Business processes', 'Business data'],
     projects: [],
     anchor: 'timeline-industry',
-    href: '/experience#industry',
+    href: '/projects/enterprise-data-erp',
   },
   {
     id: 'emeralds',

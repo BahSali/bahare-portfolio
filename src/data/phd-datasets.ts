@@ -291,7 +291,7 @@ export const phdDatasets: Dataset[] = [
     name: 'York',
     kind: 'Connected-vehicle data · United Kingdom',
     role: 'Connected-vehicle data from York, provided through the EMERALDS project and used to evaluate the transferability of traffic estimation methods to another city.',
-    roleLink: { text: 'EMERALDS project', href: '/experience#emeralds' },
+    roleLink: { text: 'EMERALDS project', href: '/projects/emeralds' },
     card: { src: yorkMap, alt: 'Map of the York streets in the EMERALDS case study', position: 'center 30%' },
     refined: true,
     overview: [

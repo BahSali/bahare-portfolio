@@ -9,21 +9,10 @@ import PublicationPlaceholders from '~/components/PublicationPlaceholders.astro'
 import ContactLinks from '~/components/ContactLinks.astro';
 import { site } from '~/data/site';
 import { projects, projectCard } from '~/data/projects';
-import { emeralds } from '~/data/emeralds';
 import { expertise } from '~/data/expertise';
 import { publications } from '~/data/publications';
 
-const workItems = [
-  ...projects.filter((p) => p.homeFeatured).slice(0, 2).map(projectCard),
-  {
-    href: emeralds.href,
-    label: emeralds.homeLabel,
-    title: emeralds.title,
-    summary: emeralds.body,
-    image: emeralds.image,
-    cta: 'View experience',
-  },
-];
+const workItems = projects.filter((p) => p.homeFeatured).slice(0, 3).map(projectCard);
 const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
 ---
 <BaseLayout title="Home">

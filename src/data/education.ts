@@ -1,5 +1,5 @@
 /**
- * Education. Feeds the Experience timeline, the Research summaries and the About page.
+ * Education. Feeds the Journey timeline, the Research summaries and the About page.
  * `order` sets sequence on the timeline while dates are missing (lower = earlier);
  * once every timeline entry has a `start`, the timeline switches to true chronology.
  * `start`/`end` are years; `end: 'present'` for ongoing. Use null while unknown.
