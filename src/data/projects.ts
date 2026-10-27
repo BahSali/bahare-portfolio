@@ -537,11 +537,14 @@ export const projects: Project[] = [
     homeFeatured: false,
     eyebrow: 'Professional experience · Industry',
     subtitle: 'Enterprise Databases · SQL · ERP Systems',
+    period: 'September 2019 – April 2022',
+    role: 'ERP Support and Customization Specialist',
     summary: 'Professional experience with enterprise databases, SQL and ERP systems, business data and business processes.',
     brief: {
       overview: [
         'Professional experience with enterprise databases, SQL and ERP systems, working with business data and business processes.',
-        '[Employer, systems, projects and responsibilities to be added]',
+        'Full-time role at Farabard Sakht Dalin Co. (a Farassan subsidiary), Iran.',
+        '[Systems, projects and responsibilities to be added]',
       ],
       contribution: [],
       areaTitle: 'Technical Skills',
