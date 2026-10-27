@@ -189,6 +189,18 @@ const toggle =
                   </div>
                 );
               }
+              if (b.kind === 'references') {
+                return (
+                  <ul class="divide-y divide-warm/70 border-y border-warm/70 text-sm">
+                    {b.items.map((r) => (
+                      <li class="grid gap-x-4 py-2.5 sm:grid-cols-[9rem_1fr]">
+                        <span class="eyebrow pt-0.5">{r.label}</span>
+                        <a href={r.href} target="_blank" rel="noopener noreferrer" class="link-line justify-self-start">{r.text}</a>
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
               if (b.kind === 'links') {
                 return project.links.length > 0 && (
                   <p class="flex flex-wrap gap-x-6 gap-y-1 text-sm">

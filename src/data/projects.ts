@@ -18,6 +18,7 @@ import mscSolution from '~/assets/phd/msc-solution.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
+import emeraldsCard from '~/assets/phd/emeralds-card.png';
 import emeraldsWorkflow from '~/assets/phd/emeralds-workflow.png';
 import yorkMap from '~/assets/phd/ds/york-map.jpg';
 import passauFig from '~/assets/phd/passau-fig2.png';
@@ -96,6 +97,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
+  | { kind: 'references'; items: { label: string; text: string; href: string }[] }
   | { kind: 'publications' };
 export interface BriefSection { id: string; title: string; blocks: BriefBlock[] }
 
@@ -433,8 +435,9 @@ export const projects: Project[] = [
               wide: true,
               lead: 'Extreme-scale urban mobility data analytics as a service',
               paragraphs: [
-                'EMERALDS is a three-year Horizon Europe project in which research and industry partners build analytics services for large-scale mobility data. Our lab at ULB joined the project and hired a PhD researcher, my position, to carry out its contribution.',
-                'ULB’s work sat in Task 3.3, Mobility Data Fusion and Management: storing and retrieving mobility data efficiently, filling gaps in traffic time series, and estimating road traffic from public transport data.',
+                'EMERALDS is a Horizon Europe project (grant 101093051, January 2023 to December 2025) that builds a Mobility Analytics as a Service toolset for large urban mobility datasets. Its goal is a service-oriented architecture, tools for acquiring and processing data at extreme scale, and AI analytics that run across the edge, fog and cloud. Around 30 software tools were offered as services in the toolset.',
+                'The services were demonstrated in three pilot use cases: crowd risk during events on The Hague’s beach, multi-modal traffic network analytics in Rotterdam, and public transport efficiency in Riga. Inlecom coordinated a consortium of research institutes, companies and cities.',
+                'Our lab at ULB joined the project and hired a PhD researcher, my position, to carry out its contribution. ULB worked in Task 3.3, Mobility Data Fusion and Management: storing and retrieving mobility data efficiently, filling gaps in traffic time series, and estimating road traffic from public transport data.',
               ],
               figure: {
                 src: emeraldsWorkflow,
@@ -452,8 +455,8 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'I was ULB’s main contributor and its voice toward the other partners, handling much of the project’s coordination, from weekly meetings and reporting to deliverables and administration. I presented our work at General Assemblies and the final review, and the overall project at a conference [conference to be added].',
-                'On the technical side, I was responsible for the estimation work: filling gaps in traffic time series and estimating road traffic from public transport buses.',
+                'I was ULB’s main contributor and its voice toward the other partners for the full three years. That meant handling much of the project’s coordination: weekly meetings, reporting, deliverables and administration, alongside the technical work.',
+                'I presented ULB’s work at General Assemblies and at the final review, and the overall project at a conference [conference to be added]. On the technical side, I was responsible for the estimation work, filling gaps in traffic time series and estimating road traffic from public transport buses.',
               ],
             },
           ],
@@ -467,12 +470,18 @@ export const projects: Project[] = [
               items: [
                 {
                   label: 'Gap filling in traffic time series',
-                  text: 'A graph convolutional model fills missing speeds caused by sensor failures or sparse coverage. It was tested on the Rotterdam highway loop detectors, a Brussels bus line and PeMSD4 from the California Bay Area, and reduced MSE by 5% to 31% against state-of-the-art methods across the datasets.',
+                  text: 'A graph convolutional model fills missing speeds caused by sensor failures or sparse coverage. It was developed for the Rotterdam use case, using highway loop-detector data at one-minute resolution, and tested on a Brussels bus line and PeMSD4 from the California Bay Area. Against state-of-the-art methods, it reduced MSE by 5% to 31% across the datasets.',
                 },
                 {
                   label: 'Traffic estimation from public transport',
-                  text: 'Buses act as free probes, and a model maps their speeds to overall traffic conditions. It was applied in Brussels and York, where 214 buses on 63 lines covered 638 road segments, with Cariad connected-vehicle data as the reference. The project KPI shows MAE falling from 4.43 for raw bus speeds to 2.44.',
+                  text: 'Buses act as free probes, and a model maps their speeds to overall traffic conditions, offering an affordable alternative to fixed sensors. It was applied in Brussels and in York, where 214 buses on 63 lines covered 638 road segments, with Cariad connected-vehicle data as the reference. The project KPI shows MAE falling from 4.43 for raw bus speeds to 2.44.',
                 },
+              ],
+            },
+            {
+              kind: 'text',
+              paragraphs: [
+                'ULB’s task also covered lossless compression of GTFS-RT data from Riga, the Netherlands and York, reaching 5 to 30 times smaller files, and its services were integrated with the CARTO platform through MobilityDB. This part is the wider ULB team’s work.',
               ],
             },
           ],
@@ -485,6 +494,7 @@ export const projects: Project[] = [
               kind: 'text',
               paragraphs: [
                 'ULB’s final demonstration includes two web applications. A GTFS-RT data viewer lets users browse and download real-time public transport feeds from Riga, the Netherlands and York as Parquet or JSON. A traffic estimator shows live bus speeds and estimated overall traffic on a map for Brussels and York.',
+                'The estimator serves the early-adoption use case in York and North Yorkshire, where bus data and connected-vehicle data from Cariad are combined.',
               ],
               video: {
                 src: '/media/emeralds-demo.mp4',
@@ -514,11 +524,26 @@ export const projects: Project[] = [
           title: 'Publications',
           blocks: [{ kind: 'publications' }],
         },
+        {
+          id: 'references',
+          title: 'References',
+          blocks: [
+            {
+              kind: 'references',
+              items: [
+                { label: 'Website', text: 'EMERALDS project website', href: 'https://emeralds-horizon.eu' },
+                { label: 'CORDIS', text: 'Project record, grant 101093051', href: 'https://cordis.europa.eu/project/id/101093051' },
+                { label: 'Zenodo', text: 'D5.1 Use cases scoping document', href: 'https://zenodo.org/records/14512848' },
+                { label: 'PTV Group', text: 'Exploiting the untapped potential of urban mobility data', href: 'https://blog.ptvgroup.com/en/city-and-mobility/exploiting-the-untapped-potential-of-urban-mobility-data/' },
+              ],
+            },
+          ],
+        },
       ],
     },
     image: {
-      src: yorkMap,
-      alt: 'Map of the York streets in the EMERALDS case study',
+      src: emeraldsCard,
+      alt: 'EMERALDS project logo',
       placeholderLabel: 'Project image',
     },
   },
