@@ -18,6 +18,11 @@ import mscSolution from '~/assets/phd/msc-solution.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
+import ripiCard from '~/assets/phd/ripi-card.png';
+import ripiWorkflow from '~/assets/phd/ripi-workflow.png';
+import ripiWellestim from '~/assets/phd/ripi-wellestim.png';
+import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
+import ripiMakranLogs from '~/assets/phd/ripi-makran-logs.png';
 import emeraldsCard from '~/assets/phd/emeralds-card.png';
 import emeraldsWorkflow from '~/assets/phd/emeralds-workflow.png';
 import yorkMap from '~/assets/phd/ds/york-map.jpg';
@@ -746,16 +751,144 @@ export const projects: Project[] = [
   },
   {
     ...empty,
-    slug: 'artificial-well-hydrocarbon-research',
-    title: 'Artificial Well / Hydrocarbon Research',
+    slug: 'pseudo-well-seismic-inversion',
+    title: 'Pseudo-Well Generation through Seismic Inversion',
     category: 'applied',
     tier: 'standard',
     homeFeatured: false,
-    summary: 'Earlier applied research involving computational methods and optimization.',
+    eyebrow: 'Research Institute of Petroleum Industry (RIPI) · Iran',
+    subtitle: 'Numerical Optimization · Seismic Inversion · Scientific Computing',
+    period: 'January 2020 – July 2022',
+    role: 'Researcher',
+    summary: 'Estimating subsurface elastic properties from seismic data where well logs are missing, using Simulated Annealing.',
+    publications: ['rines-2024'],
+    brief: {
+      overview: [],
+      contribution: [],
+      areaTitle: '',
+      areas: [],
+      sections: [
+        {
+          id: 'overview',
+          title: 'Overview',
+          blocks: [
+            {
+              kind: 'text',
+              lead: 'Estimating subsurface properties without wells',
+              paragraphs: [
+                'Geoscientists usually read rock properties such as P-wave velocity, S-wave velocity and density from well logs. In deep-sea areas, including the gas hydrate regions of the Oman Sea, wells are scarce or missing, so seismic data are the main source of information.',
+                'This research at the Research Institute of Petroleum Industry (RIPI) asked whether those properties can be recovered from seismic data alone. The result is a “pseudo-well”: an elastic property log estimated by optimization from pre-stack seismic data, which can serve as the starting model for further seismic inversion.',
+              ],
+            },
+          ],
+        },
+        {
+          id: 'role',
+          title: 'My Role & Collaboration',
+          blocks: [
+            {
+              kind: 'text',
+              emphasis: true,
+              paragraphs: [
+                'This was a multidisciplinary project with specialists in petroleum engineering and geophysics. I contributed the computational and optimization expertise, working on a domain outside my original computer engineering background.',
+              ],
+            },
+            {
+              kind: 'columns',
+              items: [
+                { label: 'Computational Methods', text: 'Worked on formulating seismic inversion as a nonlinear optimization problem and applying Simulated Annealing to it.' },
+                { label: 'Real Scientific Data', text: 'Worked with benchmark and field-related datasets, including SEAM and Makran, and learned domain-specific requirements along the way.' },
+                { label: 'Domain Collaboration', text: 'Collaborated with petroleum and geoscience researchers, translating domain requirements into computational experiments and optimization models.' },
+                { label: 'Analysis & Writing', text: 'Contributed to research analysis, project reports and the scientific publication.' },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'approach',
+          title: 'Computational Approach',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'Seismic inversion is treated as a nonlinear optimization problem. A candidate model of P-wave velocity, S-wave velocity and density is turned into synthetic seismic data by forward modeling, and it is scored by how closely the synthetic data match the observed data.',
+                'Because the error surface has many local minima, the search uses Simulated Annealing, a global metaheuristic. It starts from an initial model, explores neighbouring models inside a search window, and accepts worse candidates with a probability that shrinks as the temperature cools. Estimated logs and synthetic seismic data are then checked against the references.',
+              ],
+              figure: {
+                src: ripiWorkflow,
+                alt: 'Workflow: an initial model and search window feed Simulated Annealing, which proposes models; forward modeling produces synthetic seismic data that are compared with observed data, and the loop repeats while the temperature cools, producing estimated Vp, Vs and density logs',
+                caption: 'Inversion workflow, summarized from the RIPI report.',
+              },
+            },
+          ],
+        },
+        {
+          id: 'results',
+          title: 'Experiments & Results',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'The experiments covered synthetic layered models, the SEAM benchmark and Makran field data from the Oman Sea. The published article reports the SEAM experiments, where the true elastic model is known. The RIPI reports go further, adding field data and a comparison with Gmax, an industrial seismic package that solves the same problem with a genetic algorithm.',
+                'The Simulated Annealing method is packaged in an application called WellEstim.',
+              ],
+              figure: {
+                src: ripiWellestim,
+                alt: 'Screenshot of the WellEstim application, Simulated Annealing tab, with temperature, layering, neighbourhood and cooling settings',
+                caption: 'WellEstim: Simulated Annealing settings.',
+              },
+            },
+            {
+              kind: 'text',
+              figureFirst: true,
+              paragraphs: [
+                'On the SEAM benchmark, the estimated logs follow the reference closely. In the report’s experiments, P-wave velocity was generally estimated better than shear velocity and density.',
+              ],
+              figure: {
+                src: ripiSeamLogs,
+                alt: 'Vp, Vs and density logs for the SEAM benchmark, comparing the reference (Real) with the Simulated Annealing estimate',
+                caption: 'SEAM: reference (blue) and estimated (green) logs.',
+              },
+            },
+            {
+              kind: 'text',
+              paragraphs: [
+                'On Makran field data, 50 locations were estimated with both Simulated Annealing and Gmax from the same initial model. Both reproduced the seabed and the bottom-simulating reflector (BSR) in the synthetic seismic data. The Simulated Annealing logs were closer to the expected geology, while Gmax showed far larger scatter in P-wave velocity, and it cannot take initial models for Vs and density or a user-defined wavelet.',
+              ],
+              figure: {
+                src: ripiMakranLogs,
+                alt: 'Vp, Vs and density logs for Makran data, comparing the initial model with Simulated Annealing and Gmax estimates',
+                caption: 'Makran: initial model, Simulated Annealing and Gmax.',
+              },
+            },
+          ],
+        },
+        {
+          id: 'experience',
+          title: 'Technical Experience',
+          blocks: [
+            {
+              kind: 'rows',
+              items: [
+                { label: 'Numerical Optimization', text: 'Formulating seismic inversion as a nonlinear, multimodal problem and applying Simulated Annealing with search windows, neighbourhood moves and cooling schedules.' },
+                { label: 'Scientific Computing', text: 'Running forward modeling and inversion experiments in Python on pre-stack seismic data.' },
+                { label: 'Experimental Evaluation', text: 'Testing on synthetic models, the SEAM benchmark and Makran field data, with repeated runs to account for randomness, and comparing against an industrial software package.' },
+                { label: 'Multidisciplinary Collaboration', text: 'Working with petroleum and geoscience researchers to turn domain requirements into computational experiments.' },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'publications',
+          title: 'Publication',
+          blocks: [{ kind: 'publications' }],
+        },
+      ],
+    },
     image: {
-      src: null,
-      alt: 'Figure from the artificial well and hydrocarbon research',
-      placeholderLabel: 'Project image: figure',
+      src: ripiCard,
+      alt: 'P-wave velocity section of the SEAM benchmark model',
+      placeholderLabel: 'Project image',
     },
   },
 ];
