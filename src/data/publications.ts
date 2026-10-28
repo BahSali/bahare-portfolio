@@ -25,11 +25,24 @@ export interface Publication {
   featured?: boolean;
   projects?: string[];
   links?: { label: string; href: string }[];
+  /** Short venue label for compact lists. */
+  shortVenue?: string;
   /** Original-language title, when `title` is a translated display title. */
   originalTitle?: string;
 }
 
 export const publications: Publication[] = [
+  {
+    slug: 'model-cards-2025',
+    year: 2025,
+    title: 'Spatiotemporal Model Cards: A Vision for Responsible Geospatial AI',
+    authors:
+      'Anita Graser, Anahid Wachsenegger, George S. Theodoropoulos, Melitta Dragaschnig, Bahare Salehi, Stathis Antoniou, Christos Doulkeridis, Yannis Theodoridis',
+    venue: 'ACM Transactions on Spatial Algorithms and Systems (accepted)',
+    shortVenue: 'ACM TSAS',
+    type: 'journal',
+    projects: ['emeralds'],
+  },
   {
     slug: 'icee-2019',
     year: 2019,
