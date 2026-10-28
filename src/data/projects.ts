@@ -544,15 +544,13 @@ export const projects: Project[] = [
         },
         {
           id: 'references',
-          title: 'References',
+          title: 'Project Links',
           blocks: [
             {
               kind: 'references',
               items: [
                 { label: 'Website', text: 'EMERALDS project website', href: 'https://emeralds-horizon.eu' },
                 { label: 'CORDIS', text: 'Project record, grant 101093051', href: 'https://cordis.europa.eu/project/id/101093051' },
-                { label: 'Zenodo', text: 'D5.1 Use cases scoping document', href: 'https://zenodo.org/records/14512848' },
-                { label: 'PTV Group', text: 'Exploiting the untapped potential of urban mobility data', href: 'https://blog.ptvgroup.com/en/city-and-mobility/exploiting-the-untapped-potential-of-urban-mobility-data/' },
               ],
             },
           ],
