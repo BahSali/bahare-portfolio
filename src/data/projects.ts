@@ -93,7 +93,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
@@ -511,13 +511,12 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'ULB demonstrated two applications developed as part of Task 3.3: a GTFS-RT Data Viewer for accessing compressed public transport data, and a Traffic Estimator for visualizing bus-derived and estimated road traffic conditions in Brussels and York.',
-                'My technical contribution focused on the traffic estimation models. The data viewer and compression components were developed by other members of the ULB team. I prepared the demonstration video and presented both applications to project partners.',
+                'As part of Task 3.3, ULB delivered two complementary applications: a GTFS-RT Data Viewer for accessing compressed mobility data and a Traffic Estimator for monitoring urban traffic conditions. My research focused on the development of the traffic estimation models, while the data management and compression components were developed within the wider ULB team.',
               ],
               video: {
                 src: '/media/emeralds-demo.mp4',
                 poster: '/media/emeralds-demo-poster.jpg',
-                caption: 'Walkthrough of the two demonstrations.',
+                caption: '',
               },
             },
           ],

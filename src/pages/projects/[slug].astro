@@ -156,7 +156,7 @@ const toggle =
                     {b.video && (
                       <figure class="w-full max-w-[26rem]">
                         <video controls preload="none" poster={b.video.poster} class="w-full border border-warm/70 bg-paper"><source src={b.video.src} type="video/mp4" /></video>
-                        <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.video.caption}</figcaption>
+                        {b.video.caption && <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.video.caption}</figcaption>}
                       </figure>
                     )}
                     {b.figure && (
