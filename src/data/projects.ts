@@ -19,6 +19,7 @@ import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
 import ripiCard from '~/assets/phd/ripi-card.png';
+import ripiSeismic from '~/assets/phd/ripi-seismic-makran.png';
 import ripiWorkflow from '~/assets/phd/ripi-workflow.png';
 import ripiWellestim from '~/assets/phd/ripi-wellestim.png';
 import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
@@ -811,8 +812,19 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'Seismic inversion is treated as a nonlinear optimization problem. A candidate model of P-wave velocity, S-wave velocity and density is turned into synthetic seismic data by forward modeling, and it is scored by how closely the synthetic data match the observed data.',
-                'Because the error surface has many local minima, the search uses Simulated Annealing, a global metaheuristic. It starts from an initial model, explores neighbouring models inside a search window, and accepts worse candidates with a probability that shrinks as the temperature cools. Estimated logs and synthetic seismic data are then checked against the references.',
+                'To investigate what lies beneath the Earth’s surface, geophysicists send seismic waves into the ground and record the signals reflected by underground rock layers. The way these waves travel through the layers and reflect back to the surface depends on the rocks’ properties, such as density and seismic wave velocities. By analyzing these signals, we can estimate the properties without drilling a well. This process is called seismic inversion.',
+              ],
+              figure: {
+                src: ripiSeismic,
+                alt: 'Pre-stack seismic data from the Makran region: observed data on the left, and synthetic data from Simulated Annealing and from Gmax; red lines mark the seabed and the bottom-simulating reflector',
+                caption: 'Makran seismic data: observed (left), SA synthetic (middle) and Gmax synthetic (right). Red lines mark the seabed and BSR.',
+              },
+            },
+            {
+              kind: 'text',
+              figureFirst: true,
+              paragraphs: [
+                'In this research, I implemented Simulated Annealing (SA) to estimate three key properties of underground rock layers: P-wave velocity, S-wave velocity, and density. We started with an initial estimate of these properties and used a mathematical model to simulate the seismic signals they would produce. The algorithm compared the simulated signals with the actual recordings and repeatedly adjusted the estimated properties to reduce the difference. The final output is a pseudo-well: an estimated profile of rock properties derived from seismic measurements without drilling a physical well.',
               ],
               figure: {
                 src: ripiWorkflow,
