@@ -455,6 +455,12 @@ const h3 = 'font-display text-lg';
       show(null);
       openers.find((b) => b.dataset.open === id)?.focus();
     }));
+    const openFromHash = () => {
+      const m = location.hash.match(/^#panel-(.+)$/);
+      if (m && panels.some((p) => p.dataset.panel === m[1])) setTimeout(() => show(m[1]), 50);
+    };
+    openFromHash();
+    addEventListener('hashchange', openFromHash);
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((tab) => {

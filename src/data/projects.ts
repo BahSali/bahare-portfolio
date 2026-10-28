@@ -440,7 +440,7 @@ export const projects: Project[] = [
               lead: 'Extreme-scale urban mobility data analytics as a service',
               paragraphs: [
                 'EMERALDS is a Horizon Europe project that develops reusable data processing and analytics services for urban mobility. It brings together research institutes, companies and cities in a multi-partner European consortium.',
-                'ULB contributed to mobility data management, traffic data gap filling, and traffic estimation as part of Task 3.3 (Mobility Data Fusion and Management). These were contributions of the ULB team; my own research focused on the gap filling and traffic estimation models.',
+                'ULB contributed to mobility data management, traffic data gap filling, and traffic estimation as part of Task 3.3 (Mobility Data Fusion and Management). My own research focused on the gap filling and traffic estimation models.',
               ],
               figure: {
                 src: emeraldsWorkflow,
@@ -475,30 +475,31 @@ export const projects: Project[] = [
         },
         {
           id: 'estimation',
-          title: 'Selected Technical Contributions',
+          title: 'Research Contributions',
           blocks: [
             {
               kind: 'columns',
               items: [
                 {
-                  label: 'Gap Filling in Traffic Time Series',
-                  text: 'A graph convolutional model fills missing speeds caused by sensor failures or sparse coverage. Tested on Rotterdam highway loop detectors, a Brussels bus line and PeMSD4, it reduced MSE by 5% to 31% against state-of-the-art methods.',
+                  label: 'Traffic Data Gap Filling',
+                  text: 'Developed a deep learning model to recover missing traffic speed observations caused by sensor failures or incomplete coverage. Evaluated on real-world traffic data, including Rotterdam highway loop detectors, the approach reduced MSE by 5–31% compared with existing methods.',
+                  parts: [
+                    'Developed a deep learning model to recover missing traffic speed observations caused by sensor failures or incomplete coverage. Evaluated on real-world traffic data, including ',
+                    { text: 'Rotterdam highway loop detectors', href: '/projects/traffic-speed-estimation#panel-rotterdam' },
+                    ', the approach reduced MSE by 5–31% compared with existing methods.',
+                  ],
                 },
                 {
                   label: 'Road Traffic Estimation from Public Transport Data',
-                  text: 'Bus speeds from GTFS-RT feeds act as free probes, and a model maps them to overall road traffic. On the Brussels network, MAE fell from 4.43 for raw bus speeds to 2.44 against Google reference speeds. The approach was also applied in York, with Cariad connected-vehicle data as the reference.',
+                  text: 'Developed a machine learning approach to estimate road traffic conditions using public transport buses as mobile probes. Applied to Brussels and York, using different traffic reference sources to evaluate the estimates.',
                   parts: [
-                    'Bus speeds from GTFS-RT feeds act as free probes, and a model maps them to overall road traffic. On the Brussels network, MAE fell from 4.43 for raw bus speeds to 2.44 against Google reference speeds. The approach was also applied in York, with Cariad connected-vehicle data as the reference. ',
-                    { text: 'See the PhD project.', href: '/projects/traffic-speed-estimation' },
+                    'Developed a machine learning approach to estimate road traffic conditions using public transport buses as mobile probes. Applied to ',
+                    { text: 'Brussels', href: '/projects/traffic-speed-estimation#panel-brussels' },
+                    ' and ',
+                    { text: 'York', href: '/projects/traffic-speed-estimation#panel-york' },
+                    ', using different traffic reference sources to evaluate the estimates.',
                   ],
                 },
-              ],
-            },
-            {
-              kind: 'text',
-              muted: true,
-              paragraphs: [
-                'Mobility data compression, developed by other members of the ULB team: lossless compression of GTFS-RT data, with files 5 to 30 times smaller.',
               ],
             },
           ],
