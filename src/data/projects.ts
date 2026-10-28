@@ -829,7 +829,7 @@ export const projects: Project[] = [
               figure: {
                 src: ripiWorkflow,
                 alt: 'Workflow: an initial model and search window feed Simulated Annealing, which proposes models; forward modeling produces synthetic seismic data that are compared with observed data, and the loop repeats while the temperature cools, producing estimated Vp, Vs and density logs',
-                caption: 'Inversion workflow, summarized from the RIPI report.',
+                caption: 'Inversion workflow.',
               },
             },
           ],
@@ -840,37 +840,37 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
+              small: true,
               paragraphs: [
-                'The experiments covered synthetic layered models, the SEAM benchmark and Makran field data from the Oman Sea. The published article reports the SEAM experiments, where the true elastic model is known. The RIPI reports go further, adding field data and a comparison with Gmax, an industrial seismic package that solves the same problem with a genetic algorithm.',
-                'The Simulated Annealing method is packaged in an application called WellEstim.',
+                'The evaluation focused on two main datasets: the SEAM benchmark and Makran field data from the Oman Sea. The published article reports the benchmark experiments on SEAM, where the reference elastic model is known. Internal RIPI reports extended the evaluation to Makran field data and compared the proposed Simulated Annealing approach with Gmax, an industrial package for pseudo-well generation.',
               ],
               figure: {
                 src: ripiWellestim,
                 alt: 'Screenshot of the WellEstim application, Simulated Annealing tab, with temperature, layering, neighbourhood and cooling settings',
-                caption: 'WellEstim: Simulated Annealing settings.',
+                caption: 'WellEstim interface for configuring the Simulated Annealing inversion.',
               },
             },
             {
               kind: 'text',
               figureFirst: true,
               paragraphs: [
-                'On the SEAM benchmark, the estimated logs follow the reference closely. In the report’s experiments, P-wave velocity was generally estimated better than shear velocity and density.',
+                'On the SEAM benchmark, the estimated pseudo-wells followed the reference logs closely, showing that the method could recover the main trends of the elastic properties under controlled conditions.',
               ],
               figure: {
                 src: ripiSeamLogs,
                 alt: 'Vp, Vs and density logs for the SEAM benchmark, comparing the reference (Real) with the Simulated Annealing estimate',
-                caption: 'SEAM: reference (blue) and estimated (green) logs.',
+                caption: 'SEAM benchmark: reference and estimated pseudo-well logs for P-wave velocity, S-wave velocity, and density.',
               },
             },
             {
               kind: 'text',
               paragraphs: [
-                'On Makran field data, 50 locations were estimated with both Simulated Annealing and Gmax from the same initial model. Both reproduced the seabed and the bottom-simulating reflector (BSR) in the synthetic seismic data. The Simulated Annealing logs were closer to the expected geology, while Gmax showed far larger scatter in P-wave velocity, and it cannot take initial models for Vs and density or a user-defined wavelet.',
+                'On Makran field data, both Simulated Annealing and Gmax reproduced key seismic features in the synthetic responses, including the seabed and the bottom-simulating reflector (BSR). Compared with Gmax, the Simulated Annealing results were more consistent with the expected geology and showed less scatter, especially in P-wave velocity.',
               ],
               figure: {
                 src: ripiMakranLogs,
                 alt: 'Vp, Vs and density logs for Makran data, comparing the initial model with Simulated Annealing and Gmax estimates',
-                caption: 'Makran: initial model, Simulated Annealing and Gmax.',
+                caption: 'Makran field data: comparison of the initial model, Simulated Annealing estimate, and Gmax result.',
               },
             },
           ],
