@@ -93,7 +93,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
@@ -440,7 +440,7 @@ export const projects: Project[] = [
               lead: 'Extreme-scale urban mobility data analytics as a service',
               paragraphs: [
                 'EMERALDS is a Horizon Europe project that develops reusable data processing and analytics services for urban mobility. It brings together research institutes, companies and cities in a multi-partner European consortium.',
-                'ULB contributed to mobility data management, traffic data gap filling, and traffic estimation as part of Task 3.3 (Mobility Data Fusion and Management).',
+                'ULB contributed to mobility data management, traffic data gap filling, and traffic estimation as part of Task 3.3 (Mobility Data Fusion and Management). These were contributions of the ULB team; my own research focused on the gap filling and traffic estimation models.',
               ],
               figure: {
                 src: emeraldsWorkflow,
@@ -496,8 +496,9 @@ export const projects: Project[] = [
             },
             {
               kind: 'text',
+              muted: true,
               paragraphs: [
-                'Lossless compression of GTFS-RT data, which reaches 5 to 30 times smaller files, was a broader contribution of the ULB team.',
+                'Mobility data compression, developed by other members of the ULB team: lossless compression of GTFS-RT data, with files 5 to 30 times smaller.',
               ],
             },
           ],
@@ -509,8 +510,8 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'ULB presented two demonstrations. The GTFS-RT Data Viewer lets users browse and download real-time public transport feeds from Riga, the Netherlands and York as Parquet or JSON. The Traffic Estimator shows live bus speeds and estimated overall traffic on a map for Brussels and York.',
-                'My part is the traffic estimation model behind the estimator. The viewer and the wider data infrastructure belong to the broader ULB team’s work.',
+                'ULB demonstrated two applications developed as part of Task 3.3: a GTFS-RT Data Viewer for accessing compressed public transport data, and a Traffic Estimator for visualizing bus-derived and estimated road traffic conditions in Brussels and York.',
+                'My technical contribution focused on the traffic estimation models. The data viewer and compression components were developed by other members of the ULB team. I prepared the demonstration video and presented both applications to project partners.',
               ],
               video: {
                 src: '/media/emeralds-demo.mp4',
@@ -527,11 +528,11 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Cross-Partner Collaboration', text: 'Taking part in regular technical and coordination meetings with consortium partners, and following up on ULB’s activities and deadlines.' },
-                { label: 'Technical Reporting & Review', text: 'Preparing technical reports and project deliverables, including contributions to the public deliverable D3.2, and reviewing deliverables from other partners.' },
-                { label: 'Mobility Data Engineering', text: 'Preparing real-world mobility data, including GTFS-RT bus feeds, loop-detector speeds and connected-vehicle speeds, for modeling and evaluation.' },
+                { label: 'Cross-Partner Collaboration', text: 'Aligning ULB’s outputs with the use cases in Rotterdam, Riga and York, and working with data provided by partners.' },
+                { label: 'Technical Reporting & Review', text: 'Contributing to project deliverables, including the public deliverable D3.2, and reviewing technical content from other partners.' },
+                { label: 'Mobility Data Engineering', text: 'Preparing real-world data for modeling and evaluation: GTFS-RT bus feeds, loop-detector speeds and connected-vehicle speeds.' },
                 { label: 'Spatiotemporal Machine Learning', text: 'Developing and evaluating graph convolutional models for missing-data recovery and road traffic estimation, measured with MAE, RMSE, MAPE and DTW.' },
-                { label: 'Technical Communication & Demonstration', text: 'Presenting ULB’s results at General Assemblies, project reviews and external events, and demonstrating the traffic estimation work to partners.' },
+                { label: 'Technical Communication & Demonstration', text: 'Preparing the demonstration video for the Traffic Estimator and GTFS-RT Data Viewer, and presenting both applications to project partners.' },
               ],
             },
           ],
