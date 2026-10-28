@@ -776,8 +776,8 @@ export const projects: Project[] = [
               kind: 'text',
               lead: 'Estimating subsurface properties without wells',
               paragraphs: [
-                'Geoscientists usually read rock properties such as P-wave velocity, S-wave velocity and density from well logs. In deep-sea areas, including the gas hydrate regions of the Oman Sea, wells are scarce or missing, so seismic data are the main source of information.',
-                'This research at the Research Institute of Petroleum Industry (RIPI) asked whether those properties can be recovered from seismic data alone. The result is a “pseudo-well”: an elastic property log estimated by optimization from pre-stack seismic data, which can serve as the starting model for further seismic inversion.',
+                'Understanding underground rock formations usually relies on measurements taken from drilled wells. However, in deep-sea regions such as the Oman Sea, drilling is expensive and well data are often unavailable. Seismic surveys offer an alternative by recording how waves travel through and reflect from underground layers.',
+                'A pseudo-well is a way to estimate what a real well might reveal about the rocks beneath the surface, without actually drilling one. It works by analyzing seismic waves reflected from underground layers and estimating the rock properties that could have produced those signals. At the Research Institute of Petroleum Industry (RIPI), we developed an optimization-based approach to generate these virtual well records from seismic data.',
               ],
             },
           ],
