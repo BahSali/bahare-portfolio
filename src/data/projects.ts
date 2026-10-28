@@ -790,16 +790,16 @@ export const projects: Project[] = [
               kind: 'text',
               emphasis: true,
               paragraphs: [
-                'This was a multidisciplinary project with specialists in petroleum engineering and geophysics. I contributed the computational and optimization expertise, working on a domain outside my original computer engineering background.',
+                'As a researcher at the Research Institute of Petroleum Industry (RIPI), I worked with a multidisciplinary team of geophysicists and petroleum engineers, contributing expertise in computational methods and numerical optimization to seismic inversion research.',
               ],
             },
             {
               kind: 'columns',
               items: [
-                { label: 'Computational Methods', text: 'Worked on formulating seismic inversion as a nonlinear optimization problem and applying Simulated Annealing to it.' },
-                { label: 'Real Scientific Data', text: 'Worked with benchmark and field-related datasets, including SEAM and Makran, and learned domain-specific requirements along the way.' },
-                { label: 'Domain Collaboration', text: 'Collaborated with petroleum and geoscience researchers, translating domain requirements into computational experiments and optimization models.' },
-                { label: 'Analysis & Writing', text: 'Contributed to research analysis, project reports and the scientific publication.' },
+                { label: 'Optimization & Modeling', text: 'Developed and evaluated a Simulated Annealing approach for estimating subsurface elastic properties from seismic data, combining nonlinear optimization with forward modeling.' },
+                { label: 'Scientific Data & Evaluation', text: 'Conducted computational experiments using synthetic benchmark and field seismic datasets, including SEAM and Makran, to evaluate inversion accuracy and algorithm performance.' },
+                { label: 'Multidisciplinary Collaboration', text: 'Worked with geophysics and petroleum engineering specialists to formulate computational problems, establish evaluation criteria, and interpret experimental results.' },
+                { label: 'Technical Reporting & Publication', text: 'Documented research methods and experimental findings in technical reports and contributed to a peer-reviewed journal publication.' },
               ],
             },
           ],
