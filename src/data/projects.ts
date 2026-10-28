@@ -523,22 +523,6 @@ export const projects: Project[] = [
           ],
         },
         {
-          id: 'experience',
-          title: 'Technical Experience',
-          blocks: [
-            {
-              kind: 'rows',
-              items: [
-                { label: 'Cross-Partner Collaboration', text: 'Aligning ULB’s outputs with the use cases in Rotterdam, Riga and York, and working with data provided by partners.' },
-                { label: 'Technical Reporting & Review', text: 'Contributing to project deliverables, including the public deliverable D3.2, and reviewing technical content from other partners.' },
-                { label: 'Mobility Data Engineering', text: 'Preparing real-world data for modeling and evaluation: GTFS-RT bus feeds, loop-detector speeds and connected-vehicle speeds.' },
-                { label: 'Spatiotemporal Machine Learning', text: 'Developing and evaluating graph convolutional models for missing-data recovery and road traffic estimation, measured with MAE, RMSE, MAPE and DTW.' },
-                { label: 'Technical Communication & Demonstration', text: 'Preparing the demonstration video for the Traffic Estimator and GTFS-RT Data Viewer, and presenting both applications to project partners.' },
-              ],
-            },
-          ],
-        },
-        {
           id: 'publications',
           title: 'Publications',
           blocks: [{ kind: 'publications' }],
