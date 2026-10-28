@@ -93,7 +93,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
@@ -422,7 +422,7 @@ export const projects: Project[] = [
     publications: ['model-cards-2025'],
     links: [
       { label: 'Project website →', href: 'https://emeralds-horizon.eu' },
-      { label: 'Related PhD project →', href: '/projects/traffic-speed-estimation' },
+      { label: 'Explore the PhD Research Behind Traffic Estimation →', href: '/projects/traffic-speed-estimation' },
     ],
     brief: {
       overview: [],
@@ -440,12 +440,12 @@ export const projects: Project[] = [
               lead: 'Extreme-scale urban mobility data analytics as a service',
               paragraphs: [
                 'EMERALDS is a Horizon Europe project that develops reusable data processing and analytics services for urban mobility. It brings together research institutes, companies and cities in a multi-partner European consortium.',
-                'ULB contributed to mobility data management, data gap filling and traffic estimation, working in Task 3.3, Mobility Data Fusion and Management.',
+                'ULB contributed to mobility data management, traffic data gap filling, and traffic estimation as part of Task 3.3 (Mobility Data Fusion and Management).',
               ],
               figure: {
                 src: emeraldsWorkflow,
                 alt: 'Workflow of ULB’s task: raw mobility data from buses, cars and phones is compressed, stored, and used for traffic estimation and analysis',
-                caption: 'ULB’s task: from raw mobility data to compressed data and traffic estimation.',
+                caption: 'ULB’s contribution: transforming raw mobility data into compressed, high-resolution data for traffic analytics.',
               },
             },
             { kind: 'links' },
@@ -457,18 +457,18 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
+              emphasis: true,
               paragraphs: [
-                'I joined EMERALDS as a PhD researcher at Université libre de Bruxelles, working under Prof. Mahmoud Sakr. Over three years, I combined technical research with much of the day-to-day coordination of ULB’s participation in the project.',
+                'I joined EMERALDS as a PhD researcher at Université libre de Bruxelles, under the supervision of Prof. Mahmoud Sakr. Over three years, I combined technical research with active involvement in ULB’s project activities, including collaboration with consortium partners, technical reporting, project reviews, and presenting research findings at conferences and webinars.',
               ],
             },
             {
-              kind: 'bullets',
+              kind: 'columns',
               items: [
-                'Worked directly with consortium partners, taking part in regular technical and coordination meetings and following up on activities and deadlines.',
-                'Prepared technical reports and project deliverables, and contributed to reviewing deliverables produced by other partners.',
-                'Presented ULB’s work at General Assemblies, project reviews and external events.',
-                'Developed and evaluated machine learning approaches for missing traffic data and road traffic estimation.',
-                'Contributed to technical discussions and demonstrations, and communicated ULB’s research results to project partners.',
+                { label: 'Research & Development', text: 'Developed and evaluated machine learning methods for traffic data imputation and road traffic estimation using real-world mobility datasets, with research code released as open source.' },
+                { label: 'Consortium Collaboration', text: 'Worked closely with research, industry, and public-sector partners on joint technical activities, project progress, and deliverables.' },
+                { label: 'Technical Documentation & Review', text: 'Prepared technical reports and project deliverables, and reviewed technical contributions from other consortium partners.' },
+                { label: 'Research Communication & Demonstrations', text: 'Presented research findings and technical demonstrations at consortium General Assemblies, conferences, and webinars.' },
               ],
             },
           ],
