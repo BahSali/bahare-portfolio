@@ -796,10 +796,10 @@ export const projects: Project[] = [
             {
               kind: 'columns',
               items: [
-                { label: 'Optimization & Modeling', text: 'Developed and evaluated a Simulated Annealing approach for estimating subsurface elastic properties from seismic data, combining nonlinear optimization with forward modeling.' },
-                { label: 'Scientific Data & Evaluation', text: 'Conducted computational experiments using synthetic benchmark and field seismic datasets, including SEAM and Makran, to evaluate inversion accuracy and algorithm performance.' },
-                { label: 'Multidisciplinary Collaboration', text: 'Worked with geophysics and petroleum engineering specialists to formulate computational problems, establish evaluation criteria, and interpret experimental results.' },
-                { label: 'Technical Reporting & Publication', text: 'Documented research methods and experimental findings in technical reports and contributed to a peer-reviewed journal publication.' },
+                { label: 'Optimization & Modeling', text: 'Developed and evaluated a Simulated Annealing approach for seismic inversion, combining nonlinear optimization with forward modeling to estimate subsurface elastic properties.' },
+                { label: 'Scientific Computing & Data Analysis', text: 'Worked with seismic datasets to prepare inputs, implement computational experiments, and analyze estimated elastic properties using scientific computing methods.' },
+                { label: 'Experimental Evaluation', text: 'Tested the approach on synthetic models, the SEAM benchmark, and Makran seismic data, comparing results with reference models and the industrial Gmax software.' },
+                { label: 'Research Collaboration & Reporting', text: 'Worked with geoscience specialists to interpret results and document the research through technical reports and a peer-reviewed journal publication.' },
               ],
             },
           ],
@@ -860,21 +860,6 @@ export const projects: Project[] = [
                 alt: 'Vp, Vs and density logs for Makran data, comparing the initial model with Simulated Annealing and Gmax estimates',
                 caption: 'Makran: initial model, Simulated Annealing and Gmax.',
               },
-            },
-          ],
-        },
-        {
-          id: 'experience',
-          title: 'Technical Experience',
-          blocks: [
-            {
-              kind: 'rows',
-              items: [
-                { label: 'Numerical Optimization', text: 'Formulating seismic inversion as a nonlinear, multimodal problem and applying Simulated Annealing with search windows, neighbourhood moves and cooling schedules.' },
-                { label: 'Scientific Computing', text: 'Running forward modeling and inversion experiments in Python on pre-stack seismic data.' },
-                { label: 'Experimental Evaluation', text: 'Testing on synthetic models, the SEAM benchmark and Makran field data, with repeated runs to account for randomness, and comparing against an industrial software package.' },
-                { label: 'Multidisciplinary Collaboration', text: 'Working with petroleum and geoscience researchers to turn domain requirements into computational experiments.' },
-              ],
             },
           ],
         },
