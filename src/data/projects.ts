@@ -108,6 +108,8 @@ export interface Project {
   category: ProjectCategory;
   tier: ProjectTier;
   homeFeatured: boolean;
+  /** Shows a "Live demo" tag on overview cards. */
+  hasDemo?: boolean;
   /** One neutral line. Replace with the real summary. */
   summary: string;
   period: string | null;
@@ -412,8 +414,9 @@ export const projects: Project[] = [
     tier: 'standard',
     homeFeatured: true,
     eyebrow: 'European research collaboration · Horizon Europe',
-    subtitle: 'Mobility Data · Traffic Estimation · Research Collaboration',
+    subtitle: 'Mobility Data · Traffic Estimation · Spatiotemporal Machine Learning',
     period: 'April 2023 – December 2025',
+    hasDemo: true,
     role: 'ULB Researcher',
     summary: 'A Horizon Europe project on reusable urban mobility data services, where I worked on ULB’s traffic estimation and handled much of its day-to-day coordination.',
     publications: ['model-cards-2025'],
@@ -785,6 +788,8 @@ export interface CardItem {
   image: ImageRef;
   /** Link text, defaults to 'View project'. */
   cta?: string;
+  /** Shows a "Live demo" tag. */
+  demo?: boolean;
 }
 
 export const projectCard = (p: Project): CardItem => ({
@@ -793,4 +798,5 @@ export const projectCard = (p: Project): CardItem => ({
   title: p.title,
   summary: p.summary,
   image: p.cardImage ?? p.image,
+  demo: !!(p.hasDemo || p.application),
 });
