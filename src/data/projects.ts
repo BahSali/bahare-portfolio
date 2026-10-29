@@ -838,7 +838,7 @@ export const projects: Project[] = [
             {
               kind: 'text',
               paragraphs: [
-                'The Simulated Annealing (SA) approach was evaluated using two datasets: the SEAM benchmark and real seismic data from the Makran region in the Oman Sea. The experiments assessed how well the method could estimate underground rock properties and compared its performance with Gmax, an industrial seismic inversion software package.',
+                'The Simulated Annealing (SA) approach was evaluated using two datasets: the SEAM benchmark and the Makran region in the Oman Sea. The experiments assessed how well the method could estimate underground rock properties and compared its performance with Gmax, an industrial seismic inversion software package.',
               ],
             },
             {
@@ -865,9 +865,16 @@ export const projects: Project[] = [
             },
             {
               kind: 'text',
+              muted: true,
+              paragraphs: [
+                'Reading the logs (SEAM and Makran): the vertical axis is time, the travel time of the seismic wave from the surface down to each rock layer, so it increases with depth. The horizontal axes show the rock properties: P-wave velocity and S-wave velocity in m/s, and density.',
+              ],
+            },
+            {
+              kind: 'text',
               lead: 'Makran Field Study',
               paragraphs: [
-                'The approach was also tested on real seismic measurements from the Makran region, where no reference well logs were available, and compared with Gmax, which uses a genetic algorithm for optimization. Simulated Annealing produced more consistent estimates of rock properties, particularly P-wave velocity, while Gmax showed greater variation in its results.',
+                'The approach was also tested on seismic measurements from the Makran region, where no reference well logs were available. Thus, we evaluated the results by comparing them with those produced by Gmax, an industrial software package that uses a genetic algorithm for optimization. Simulated Annealing produced more consistent estimates of rock properties, particularly P-wave velocity, while Gmax showed greater variation in its results.',
               ],
             },
             {
