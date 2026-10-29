@@ -211,7 +211,8 @@ const toggle =
               }
               if (b.kind === 'figures') {
                 return (
-                  <div class="grid max-w-[40rem] gap-x-6 gap-y-5 sm:grid-cols-2">
+                  <div class:list={['grid gap-x-6 gap-y-5', b.aside ? 'lg:grid-cols-[minmax(0,34rem)_minmax(0,1fr)] lg:items-start' : 'max-w-[40rem]']}>
+                    <div class="grid gap-x-6 gap-y-5 sm:grid-cols-2">
                     {b.items.map((f) => (
                       <figure>
                         <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group flex h-44 w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge figure">
@@ -220,6 +221,13 @@ const toggle =
                         <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{f.caption} <button type="button" data-lightbox={f.big} data-alt={f.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
                       </figure>
                     ))}
+                    </div>
+                    {b.aside && (
+                      <aside class="border border-warm/70 bg-paper-deep px-4 py-3.5 lg:max-w-[15rem]">
+                        <h4 class="eyebrow mb-2">{b.aside.title}</h4>
+                        <p class="text-[0.8125rem] leading-[1.6] text-ink-soft">{b.aside.text}</p>
+                      </aside>
+                    )}
                   </div>
                 );
               }

@@ -104,7 +104,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
-  | { kind: 'figures'; items: BriefFigure[] }
+  | { kind: 'figures'; items: BriefFigure[]; /** Text box beside the figures. */ aside?: { title: string; text: string } }
   | { kind: 'bullets'; items: string[] }
   | { kind: 'references'; items: { label: string; text: string; href: string }[] }
   | { kind: 'publications' };
@@ -862,13 +862,10 @@ export const projects: Project[] = [
                   caption: 'SEAM benchmark: reference and estimated pseudo-well logs for P-wave velocity, S-wave velocity, and density.',
                 },
               ],
-            },
-            {
-              kind: 'text',
-              muted: true,
-              paragraphs: [
-                'Reading the logs (SEAM and Makran): the vertical axis is time, the travel time of the seismic wave from the surface down to each rock layer, so it increases with depth. The horizontal axes show the rock properties: P-wave velocity and S-wave velocity in m/s, and density.',
-              ],
+              aside: {
+                title: 'How to read the logs',
+                text: 'Each log shows how a rock property changes with depth. The vertical axis is seismic travel time, the time a wave needs to travel from the surface down to a layer, so it increases with depth. The horizontal axes give P-wave velocity and S-wave velocity in m/s, and density. The Makran logs follow the same layout.',
+              },
             },
             {
               kind: 'text',
