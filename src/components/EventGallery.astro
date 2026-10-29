@@ -1,47 +1,59 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { ResearchEvent } from '~/data/events';
 import PlaceholderBlock from './PlaceholderBlock.astro';
 
-/** Photographic gallery of research events: a lead photograph with up to two more beside it, caption underneath. */
+/**
+ * Gallery of research events. Each event has a short caption and a grid of small, uniform thumbnails;
+ * clicking a thumbnail opens the full photograph in a lightbox. Any number of photos per event works.
+ */
 interface Props { events: ResearchEvent[] }
 const { events } = Astro.props;
-const frame = 'group overflow-hidden bg-paper-deep';
-const img = 'h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]';
+const withBig = await Promise.all(
+  events.map(async (e) => ({
+    ...e,
+    photos: await Promise.all(
+      e.photos.map(async (p) => ({ ...p, big: (await getImage({ src: p.src, width: Math.min(p.src.width, 2000), format: 'jpg' })).src })),
+    ),
+  })),
+);
 ---
 {events.length === 0
   ? <PlaceholderBlock>Event photographs, titles, locations and short descriptions to be added in src/data/events.ts</PlaceholderBlock>
   : (
-    <ul class="space-y-14">
-      {events.map((e) => {
-        const [lead, ...rest] = e.photos;
-        return (
-          <li>
-            <div class:list={['grid gap-3', rest.length > 0 && 'md:grid-cols-12']}>
-              {lead && (
-                <div class:list={[frame, 'aspect-[4/3]', rest.length > 0 && 'md:col-span-7 md:aspect-auto md:min-h-full']}>
-                  <Image src={lead.src} alt={lead.alt} width={1200} class={img} loading="lazy" />
-                </div>
-              )}
-              {rest.length > 0 && (
-                <div class="grid gap-3 md:col-span-5 md:grid-rows-2">
-                  {rest.slice(0, 2).map((p) => (
-                    <div class:list={[frame, 'aspect-[3/2] md:aspect-auto md:h-full']}>
-                      <Image src={p.src} alt={p.alt} width={800} class={img} loading="lazy" />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div class="mt-4 max-w-[44rem]">
-              <p class="eyebrow">{[e.kind, e.year, e.location].filter(Boolean).join(' · ')}</p>
-              <h3 class="font-display mt-1.5 text-xl" style="line-height:1.25">{e.title}</h3>
-              {e.subtitle && <p class="mt-1 text-sm italic text-ink-soft">{e.subtitle}</p>}
-              <p class="mt-2 text-[0.9375rem] leading-[1.65] text-ink-soft">{e.involvement}</p>
-              {e.link && <p class="mt-2 text-sm"><a href={e.link.href} class="link-line" target="_blank" rel="noopener noreferrer">{e.link.label}</a></p>}
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+    <div class="space-y-10">
+      {withBig.map((e) => (
+        <article>
+          <p class="eyebrow">{[e.kind, e.year, e.location].filter(Boolean).join(' · ')}</p>
+          <h3 class="font-display mt-1 text-lg" style="line-height:1.25">{e.title}</h3>
+          {e.subtitle && <p class="mt-0.5 text-sm italic text-ink-soft">{e.subtitle}</p>}
+          <p class="mt-1.5 max-w-[40rem] text-sm leading-[1.6] text-ink-soft">{e.involvement}</p>
+          {e.link && <p class="mt-1.5 text-sm"><a href={e.link.href} class="link-line" target="_blank" rel="noopener noreferrer">{e.link.label}</a></p>}
+          <ul class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {e.photos.map((p) => (
+              <li>
+                <button type="button" data-lightbox={p.big} data-alt={p.alt} class="group block aspect-[4/3] w-full cursor-zoom-in overflow-hidden bg-paper-deep" aria-label={`Enlarge photo: ${p.alt}`}>
+                  <Image src={p.src} alt={p.alt} width={420} height={315} class="h-full w-full object-cover opacity-95 transition duration-300 ease-out group-hover:scale-[1.03] group-hover:opacity-100" loading="lazy" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+    <dialog id="gallery-lightbox" class="m-auto max-h-[92vh] max-w-[min(96vw,64rem)] bg-paper p-3 backdrop:bg-ink/70">
+      <form method="dialog" class="mb-2 text-right"><button class="text-sm underline underline-offset-4">Close</button></form>
+      <img id="gallery-lightbox-img" alt="" class="h-auto max-h-[80vh] w-full object-contain" />
+    </dialog>
   )}
+
+<script>
+  const lb = document.getElementById('gallery-lightbox') as HTMLDialogElement | null;
+  const img = document.getElementById('gallery-lightbox-img') as HTMLImageElement | null;
+  if (lb && img) {
+    document.querySelectorAll<HTMLButtonElement>('#events [data-lightbox]').forEach((b) =>
+      b.addEventListener('click', () => { img.src = b.dataset.lightbox!; img.alt = b.dataset.alt ?? ''; lb.showModal(); }),
+    );
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  }
+</script>
