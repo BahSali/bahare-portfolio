@@ -19,9 +19,10 @@ import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
 import ripiCard from '~/assets/phd/ripi-card.png';
+import ripiSeamModel from '~/assets/phd/ripi-seam-model.png';
+import ripiMakranSection from '~/assets/phd/ripi-makran-section.png';
 import ripiSeismic from '~/assets/phd/ripi-seismic-makran.png';
 import ripiWorkflow from '~/assets/phd/ripi-workflow.png';
-import ripiWellestim from '~/assets/phd/ripi-wellestim.png';
 import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
 import ripiMakranLogs from '~/assets/phd/ripi-makran-logs.png';
 import emeraldsCard from '~/assets/phd/emeralds-card.png';
@@ -103,6 +104,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
+  | { kind: 'figures'; items: BriefFigure[] }
   | { kind: 'bullets'; items: string[] }
   | { kind: 'references'; items: { label: string; text: string; href: string }[] }
   | { kind: 'publications' };
@@ -835,38 +837,53 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
-              small: true,
               paragraphs: [
-                'The evaluation focused on two main datasets: the SEAM benchmark and Makran field data from the Oman Sea. The published article reports the benchmark experiments on SEAM, where the reference elastic model is known. Internal RIPI reports extended the evaluation to Makran field data and compared the proposed Simulated Annealing approach with Gmax, an industrial package for pseudo-well generation.',
+                'The Simulated Annealing (SA) approach was evaluated using two datasets: the SEAM benchmark and real seismic data from the Makran region in the Oman Sea. The experiments assessed how well the method could estimate underground rock properties and compared its performance with Gmax, an industrial seismic inversion software package.',
               ],
-              figure: {
-                src: ripiWellestim,
-                alt: 'Screenshot of the WellEstim application, Simulated Annealing tab, with temperature, layering, neighbourhood and cooling settings',
-                caption: 'WellEstim interface for configuring the Simulated Annealing inversion.',
-              },
             },
             {
               kind: 'text',
-              figureFirst: true,
+              lead: 'SEAM Benchmark',
               paragraphs: [
-                'On the SEAM benchmark, the estimated pseudo-wells followed the reference logs closely, showing that the method could recover the main trends of the elastic properties under controlled conditions.',
+                'The SEAM dataset provides known rock properties, allowing us to directly compare the estimated values with the ground truth. The results closely followed the reference values, demonstrating the method’s ability to recover the main characteristics of underground rock layers from seismic data.',
               ],
-              figure: {
-                src: ripiSeamLogs,
-                alt: 'Vp, Vs and density logs for the SEAM benchmark, comparing the reference (Real) with the Simulated Annealing estimate',
-                caption: 'SEAM benchmark: reference and estimated pseudo-well logs for P-wave velocity, S-wave velocity, and density.',
-              },
+            },
+            {
+              kind: 'figures',
+              items: [
+                {
+                  src: ripiSeamModel,
+                  alt: 'SEAM benchmark model: a geological cross-section and a three-dimensional view',
+                  caption: 'SEAM benchmark model: cross-section and 3D view.',
+                },
+                {
+                  src: ripiSeamLogs,
+                  alt: 'Vp, Vs and density logs for the SEAM benchmark, comparing the reference (Real) with the Simulated Annealing estimate',
+                  caption: 'SEAM benchmark: reference and estimated pseudo-well logs for P-wave velocity, S-wave velocity, and density.',
+                },
+              ],
             },
             {
               kind: 'text',
+              lead: 'Makran Field Study',
               paragraphs: [
-                'On Makran field data, both Simulated Annealing and Gmax reproduced key seismic features in the synthetic responses, including the seabed and the bottom-simulating reflector (BSR). Compared with Gmax, the Simulated Annealing results were more consistent with the expected geology and showed less scatter, especially in P-wave velocity.',
+                'The approach was also tested on real seismic measurements from the Makran region, where no reference well logs were available, and compared with Gmax, which uses a genetic algorithm for optimization. Simulated Annealing produced more consistent estimates of rock properties, particularly P-wave velocity, while Gmax showed greater variation in its results.',
               ],
-              figure: {
-                src: ripiMakranLogs,
-                alt: 'Vp, Vs and density logs for Makran data, comparing the initial model with Simulated Annealing and Gmax estimates',
-                caption: 'Makran field data: comparison of the initial model, Simulated Annealing estimate, and Gmax result.',
-              },
+            },
+            {
+              kind: 'figures',
+              items: [
+                {
+                  src: ripiMakranSection,
+                  alt: 'Seismic section from the Makran region in the Oman Sea, north to south',
+                  caption: 'Makran field data: seismic section from the Oman Sea (north to south).',
+                },
+                {
+                  src: ripiMakranLogs,
+                  alt: 'Vp, Vs and density logs for Makran data, comparing the initial model with Simulated Annealing and Gmax estimates',
+                  caption: 'Makran field data: comparison of the initial model, Simulated Annealing estimate, and Gmax result.',
+                },
+              ],
             },
           ],
         },

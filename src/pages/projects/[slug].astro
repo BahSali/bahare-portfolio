@@ -33,7 +33,9 @@ const thesisSections = await Promise.all(
     ...s,
     blocks: await Promise.all(
       s.blocks.map(async (b) =>
-        b.kind === 'text' && (b.figure || b.figure2 || b.notes?.figure)
+        b.kind === 'figures'
+          ? { ...b, items: await Promise.all(b.items.map(async (f) => ({ ...f, big: (await getImage({ src: f.src, width: Math.min(f.src.width, 2000), format: 'png' })).src }))) }
+          : b.kind === 'text' && (b.figure || b.figure2 || b.notes?.figure)
           ? {
               ...b,
               figure: b.figure && { ...b.figure, big: (await getImage({ src: b.figure.src, width: Math.min(b.figure.src.width, 2000), format: 'png' })).src },
@@ -205,6 +207,20 @@ const toggle =
                   <ul class="divide-y divide-warm/70 border-y border-warm/70">
                     {b.items.map((t) => <li class="py-2.5 text-[0.9375rem] leading-[1.6]">{t}</li>)}
                   </ul>
+                );
+              }
+              if (b.kind === 'figures') {
+                return (
+                  <div class="grid max-w-[40rem] gap-x-6 gap-y-5 sm:grid-cols-2">
+                    {b.items.map((f) => (
+                      <figure>
+                        <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group flex h-44 w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge figure">
+                          <Image src={f.src} alt={f.alt} format="png" quality="high" width={700} class="h-auto max-h-full w-auto max-w-full p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
+                        </button>
+                        <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{f.caption} <button type="button" data-lightbox={f.big} data-alt={f.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
+                      </figure>
+                    ))}
+                  </div>
                 );
               }
               if (b.kind === 'references') {
