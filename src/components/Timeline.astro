@@ -37,8 +37,8 @@ for (const lane of lanes) {
 let col = 2;
 const laneCol: Record<string, number> = {};
 for (const lane of lanes) { laneCol[lane.id] = col; col += subCount[lane.id]; }
-const totalCols = col - 2;
-const template = `4rem repeat(${totalCols}, minmax(0, 1fr))`;
+const tracks = lanes.flatMap((l) => Array.from({ length: subCount[l.id] }, () => `minmax(0, ${(1 / subCount[l.id]).toFixed(3)}fr)`));
+const template = `3.5rem ${tracks.join(' ')}`;
 const rowOf = (y: number) => maxYear - y + 1;
 const cell = (p: { item: TimelineItem; sub: number }) =>
   `grid-row:${rowOf(endYear(p.item))} / ${rowOf(startYear(p.item)) + 1};grid-column:${laneCol[p.item.lane] + p.sub}`;
@@ -53,16 +53,16 @@ const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b)
 
 <!-- md and up: lanes by year -->
 <div class="hidden md:block">
-  <div class="grid gap-x-5 border-b border-ink pb-3" style={`grid-template-columns:${template}`}>
+  <div class="grid gap-x-4 border-b border-ink pb-3" style={`grid-template-columns:${template}`}>
     <span></span>
     {lanes.map((l) => <p class="eyebrow" style={`grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}>{l.label}</p>)}
   </div>
-  <div class="grid gap-x-5 pt-4" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},minmax(4.25rem,auto))`}>
+  <div class="grid gap-x-4 pt-2" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},minmax(3.75rem,auto))`}>
     {years.map((y, k) => (
-      <p class="border-t border-warm/50 pt-2 text-sm tabular-nums text-ink-soft" style={`grid-row:${k + 1};grid-column:1`}>{y}</p>
+      <p class="border-t border-warm/40 pt-2 text-sm tabular-nums text-ink-soft" style={`grid-row:${k + 1};grid-column:1`}>{y}</p>
     ))}
     {placed.map((p) => (
-      <div class="pb-3 pt-2" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
+      <div class="py-1.5" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
     ))}
   </div>
 </div>

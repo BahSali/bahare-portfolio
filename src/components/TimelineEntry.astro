@@ -11,7 +11,7 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
 ---
 {compact
   ? (
-    <div id={item.anchor ?? item.id} class:list={['h-full scroll-mt-24 border-l-2 pl-3', laneBorder, item.highlight && 'bg-paper-deep pr-3']}>
+    <div id={item.anchor ?? item.id} class:list={['h-full scroll-mt-24 border-l-2 bg-paper-deep/60 px-3 py-2.5', laneBorder]}>
       {showPeriod && <p class="eyebrow">{period ?? 'Dates to be added'}</p>}
       <h3 class="font-display text-[1.0625rem]" style="line-height:1.25">{item.title}</h3>
       <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org ?? <Placeholder>To be added</Placeholder>}</p>
