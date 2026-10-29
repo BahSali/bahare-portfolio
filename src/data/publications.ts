@@ -101,7 +101,7 @@ export const publications: Publication[] = [
     authors: 'Bahare Salehi, Mahmoud Sakr',
     venue: "Urban-AI '26, Riverside, CA, USA, 3–6 November 2026",
     type: 'conference',
-    featured: true,
+    featured: false,
     projects: ['traffic-speed-estimation'],
     links: [{ label: 'DOI', href: 'https://doi.org/10.1145/3849742.3856071' }],
   },

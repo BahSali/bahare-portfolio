@@ -1,11 +1,26 @@
-/** Research page content other than publications. */
+/** Research page content other than publications and events. */
 export const research = {
   interests: [
-    'Machine learning',
-    'Spatiotemporal modeling',
-    'Optimization and graph algorithms',
-    'Data science and analytics',
+    'Machine Learning & Predictive Modeling',
+    'Data Science & Analytics',
+    'Spatiotemporal & Graph Modeling',
+    'Optimization & Algorithms',
+    'Data Management & Integration',
+    'Scientific Computing',
   ],
-  /** A short research statement. */
-  statement: null as string | null,
+  /** Doctoral and master's research, each linking to its project page. */
+  academic: [
+    {
+      title: 'PhD Research',
+      institution: 'Université libre de Bruxelles',
+      summary: 'Citywide traffic speed estimation using public transit observations and spatiotemporal machine learning.',
+      project: 'traffic-speed-estimation',
+    },
+    {
+      title: "Master's Thesis",
+      institution: 'Shiraz University',
+      summary: 'Multi-objective optimization of urban road networks using traffic assignment models and optimization algorithms.',
+      project: 'network-design-optimization',
+    },
+  ],
 };
