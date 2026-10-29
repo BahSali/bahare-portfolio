@@ -4,12 +4,12 @@ import { publicationTypeLabels } from '~/data/publications';
 import { getProject } from '~/data/projects';
 import Placeholder from './Placeholder.astro';
 
-interface Props { publication: Publication; showType?: boolean }
-const { publication: p, showType = false } = Astro.props;
+interface Props { publication: Publication; showType?: boolean; hideYear?: boolean }
+const { publication: p, showType = false, hideYear = false } = Astro.props;
 const related = (p.projects ?? []).flatMap((s) => { const x = getProject(s); return x ? [x] : []; });
 ---
-<li id={`pub-${p.slug}`} class="scroll-mt-24 grid gap-1 py-6 sm:grid-cols-[5rem_1fr] sm:gap-6">
-  <span class="font-display text-clay">{p.year}</span>
+<li id={`pub-${p.slug}`} class:list={['scroll-mt-24 grid gap-1 py-6', !hideYear && 'sm:grid-cols-[5rem_1fr] sm:gap-6']}>
+  {!hideYear && <span class="font-display text-clay">{p.year}</span>}
   <div>
     {showType && <p class="eyebrow mb-2">{publicationTypeLabels[p.type]}</p>}
     <h3 class="font-display text-xl" style="line-height:1.25">{p.title}</h3>

@@ -29,7 +29,6 @@ import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
 import ripiMakranLogs from '~/assets/phd/ripi-makran-logs.png';
 import emeraldsCard from '~/assets/phd/emeralds-card.png';
 import emeraldsWorkflow from '~/assets/phd/emeralds-workflow.png';
-import yorkMap from '~/assets/phd/ds/york-map.jpg';
 import passauFig from '~/assets/phd/passau-fig2.png';
 import archSpectral from '~/assets/phd/arch-spectral.png';
 import modelArchitecture from '~/assets/phd/arch-dual-branch.png';

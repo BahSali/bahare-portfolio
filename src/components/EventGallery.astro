@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import type { ResearchEvent } from '~/data/events';
+import PlaceholderBlock from './PlaceholderBlock.astro';
+
+/** Photographic gallery of research events: one consistent 3:2 frame per event, caption underneath. */
+interface Props { events: ResearchEvent[] }
+const { events } = Astro.props;
+---
+{events.length === 0
+  ? <PlaceholderBlock>Event photographs, titles, locations and short descriptions to be added in src/data/events.ts</PlaceholderBlock>
+  : (
+    <ul class="grid gap-x-6 gap-y-10 sm:grid-cols-2">
+      {events.map((e, i) => (
+        <li class:list={[events.length % 2 === 1 && i === 0 && 'sm:col-span-2']}>
+          <figure class="group">
+            <div class:list={['overflow-hidden bg-paper-deep', events.length % 2 === 1 && i === 0 ? 'aspect-[16/8]' : 'aspect-[3/2]']}>
+              {e.photo
+                ? <Image src={e.photo} alt={e.alt} width={1100} class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]" loading="lazy" />
+                : <div class="h-full w-full" role="img" aria-label={e.alt}></div>}
+            </div>
+            <figcaption class="mt-3">
+              <p class="eyebrow">{e.kind} · {e.year} · {e.location}</p>
+              <h3 class="font-display mt-1.5 text-lg" style="line-height:1.25">{e.title}</h3>
+              <p class="mt-1.5 max-w-[34rem] text-sm leading-[1.6] text-ink-soft">{e.involvement}</p>
+              {e.link && <p class="mt-2 text-sm"><a href={e.link.href} class="link-line" target="_blank" rel="noopener noreferrer">{e.link.label}</a></p>}
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  )}
