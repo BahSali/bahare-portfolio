@@ -4,6 +4,9 @@ import { projects } from '~/data/projects';
 
 export type Lane = 'education' | 'industry' | 'research';
 
+/** Journey layout: true = latest year first, entries spanning their years; false = the earlier lane layout. */
+export const reverseTimeline = true;
+
 export const lanes: { id: Lane; label: string }[] = [
   { id: 'education', label: 'Education' },
   { id: 'industry', label: 'Industry' },
