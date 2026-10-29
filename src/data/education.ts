@@ -51,8 +51,7 @@ export const education: EducationEntry[] = [
     thesis: null,
     start: '2023-04',
     end: 'present',
-    summary:
-      'Estimating citywide traffic speeds from public transit bus observations, from missing-data recovery to a gated dual-branch GCNN and an interactive analytics tool.',
+    summary: 'Citywide traffic speed estimation from public transit buses.',
     topics: ['Machine learning', 'Spatiotemporal modeling', 'Optimization', 'Data science'],
     projects: ['traffic-speed-estimation'],
   },

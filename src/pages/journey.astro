@@ -1,18 +1,18 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/Container.astro';
-import PageHeader from '~/components/PageHeader.astro';
 import Timeline from '~/components/Timeline.astro';
-import { timelineItems } from '~/lib/timeline';
+import TimelineClassic from '~/components/TimelineClassic.astro';
+import { timelineItems, reverseTimeline } from '~/lib/timeline';
 ---
 <BaseLayout title="Journey" description="Academic and professional journey, from undergraduate studies to a PhD, with industrial experience in enterprise databases and ERP systems.">
-  <PageHeader eyebrow="Journey" title="Academic and professional journey">
-    <p>From undergraduate studies to a PhD, alongside industrial work with enterprise databases and ERP systems.</p>
-    <p class="mt-3 text-sm"><a href="/projects/emeralds" class="link-line">EMERALDS project</a> · <a href="/projects/enterprise-data-erp" class="link-line">Enterprise databases and ERP</a></p>
-  </PageHeader>
+  <Container class="pt-8 sm:pt-10">
+    <h1 class="font-display-tight text-[clamp(1.75rem,3.2vw,2.5rem)] font-light" style="line-height:1.08">Journey</h1>
+    <p class="mt-2 text-sm text-ink-soft">Studies, research roles and industry work, latest first.</p>
+  </Container>
 
   <Container class="pt-10">
-    <Timeline items={timelineItems} />
+    {reverseTimeline ? <Timeline items={timelineItems} /> : <TimelineClassic items={timelineItems} />}
   </Container>
 
 </BaseLayout>
