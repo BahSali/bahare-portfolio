@@ -824,7 +824,7 @@ export const projects: Project[] = [
               figure2: {
                 src: ripiSeismic,
                 alt: 'Pre-stack seismic data from the Makran region: observed data on the left, and synthetic data from Simulated Annealing and from Gmax; red lines mark the seabed and the bottom-simulating reflector',
-                caption: 'Makran seismic data: observed (left), SA synthetic (middle) and Gmax synthetic (right). Red lines mark the seabed and BSR.',
+                caption: 'Makran seismic data: observed, SA and Gmax synthetic. Red lines: seabed and BSR.',
               },
             },
           ],

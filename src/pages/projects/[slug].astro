@@ -149,7 +149,7 @@ const toggle =
             {s.blocks.map((b) => {
               if (b.kind === 'text') {
                 return (
-                  <div class:list={['grid gap-x-10 gap-y-5', !b.wide && (b.figure || b.video) && 'items-center', !b.wide && (b.video ? 'md:grid-cols-[minmax(0,1fr)_26rem]' : b.large ? 'md:grid-cols-[minmax(0,1fr)_18rem]' : b.figure && (b.figureFirst ? (b.small ? 'md:grid-cols-[12rem_minmax(0,1fr)]' : 'md:grid-cols-[16rem_minmax(0,1fr)]') : (b.small ? 'md:grid-cols-[minmax(0,1fr)_12rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]')))]}>
+                  <div class:list={['grid gap-x-10 gap-y-5', !b.wide && (b.figure || b.video) && 'items-center', !b.wide && (b.video ? 'md:grid-cols-[minmax(0,1fr)_26rem]' : b.large ? 'md:grid-cols-[minmax(0,38rem)_12rem] md:justify-between' : b.figure && (b.figureFirst ? (b.small ? 'md:grid-cols-[12rem_minmax(0,1fr)]' : 'md:grid-cols-[16rem_minmax(0,1fr)]') : (b.small ? 'md:grid-cols-[minmax(0,1fr)_12rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]')))]}>
                     {b.paragraphs.length > 0 && <div class:list={['space-y-3 text-base leading-[1.7]', b.emphasis ? 'border-l-2 border-clay pl-5 font-display text-[1.2rem] leading-[1.5] text-teal' : b.muted ? 'border-t border-warm/70 pt-3 text-sm leading-[1.6] text-ink-soft' : 'text-justify hyphens-auto', b.figureFirst && 'md:order-2']}>
                       {b.lead && <p class="font-display text-xl text-teal" style="line-height:1.3">{b.lead}</p>}
                       {b.paragraphs.map((t) => <p>{t}</p>)}
@@ -162,14 +162,14 @@ const toggle =
                     )}
                     {b.figure && (
                       <div class:list={['space-y-4', b.figureFirst && 'md:order-1']}>
-                        <figure class:list={['w-full', b.wide ? (b.paragraphs.length ? 'max-w-[34rem]' : 'max-w-full') : b.large ? 'max-w-[18rem]' : b.small ? 'max-w-[12rem]' : 'max-w-[16rem]']}>
+                        <figure class:list={['w-full', b.wide ? (b.paragraphs.length ? 'max-w-[34rem]' : 'max-w-full') : b.large ? 'max-w-[12rem]' : b.small ? 'max-w-[12rem]' : 'max-w-[16rem]']}>
                           <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class:list={['group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper', !b.wide && !b.large && (b.small ? 'h-36' : 'h-48')]} aria-label="Enlarge figure">
                             <Image src={b.figure.src} alt={b.figure.alt} format="png" quality="high" width={b.wide || b.large ? 1000 : 640} class:list={['h-auto max-w-full p-2 transition-opacity group-hover:opacity-90', b.wide || b.large ? 'w-full' : 'max-h-full w-auto']} loading="lazy" />
                           </button>
                           <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.figure.caption} <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
                         </figure>
                         {b.figure2 && (
-                          <figure class="w-full max-w-[18rem]">
+                          <figure class="w-full max-w-[12rem]">
                             <button type="button" data-lightbox={b.figure2.big} data-alt={b.figure2.alt} class="group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge figure">
                               <Image src={b.figure2.src} alt={b.figure2.alt} format="png" quality="high" width={1000} class="h-auto w-full p-2 transition-opacity group-hover:opacity-90" loading="lazy" />
                             </button>
