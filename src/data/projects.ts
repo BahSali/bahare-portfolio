@@ -22,6 +22,7 @@ import ripiCard from '~/assets/phd/ripi-card.png';
 import ripiSeamModel from '~/assets/phd/ripi-seam-model.png';
 import ripiMakranSection from '~/assets/phd/ripi-makran-section.png';
 import ripiSeismic from '~/assets/phd/ripi-seismic-makran.png';
+import ripiWellestim from '~/assets/phd/ripi-wellestim.png';
 import ripiWorkflow from '~/assets/phd/ripi-workflow.png';
 import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
 import ripiMakranLogs from '~/assets/phd/ripi-makran-logs.png';
@@ -104,6 +105,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
+  | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure }
   | { kind: 'figures'; items: BriefFigure[]; /** Text box beside the figures. */ aside?: { title: string; text: string } }
   | { kind: 'bullets'; items: string[] }
   | { kind: 'references'; items: { label: string; text: string; href: string }[] }
@@ -804,6 +806,18 @@ export const projects: Project[] = [
                 { label: 'Experimental Evaluation', text: 'Tested the approach on synthetic models, the SEAM benchmark, and Makran seismic data, comparing results with reference models and the industrial Gmax software.' },
                 { label: 'Research Collaboration & Reporting', text: 'Worked with geoscience specialists to interpret results and document the research through technical reports and a peer-reviewed journal publication.' },
               ],
+            },
+            {
+              kind: 'feature',
+              title: 'WellEstim Research Application',
+              paragraphs: [
+                'Independently designed and developed WellEstim, a desktop research application for pseudo-well generation through seismic inversion. The tool provided an interface for configuring Simulated Annealing parameters, running inversion experiments, and inspecting the estimated elastic-property logs.',
+              ],
+              figure: {
+                src: ripiWellestim,
+                alt: 'Screenshot of the WellEstim application, Simulated Annealing tab, with temperature, layering, neighbourhood and cooling settings',
+                caption: 'WellEstim interface used to configure and run the inversion experiments.',
+              },
             },
           ],
         },

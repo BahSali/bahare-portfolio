@@ -33,7 +33,9 @@ const thesisSections = await Promise.all(
     ...s,
     blocks: await Promise.all(
       s.blocks.map(async (b) =>
-        b.kind === 'figures'
+        b.kind === 'feature'
+          ? { ...b, figure: { ...b.figure, big: (await getImage({ src: b.figure.src, width: Math.min(b.figure.src.width, 2000), format: 'png' })).src } }
+          : b.kind === 'figures'
           ? { ...b, items: await Promise.all(b.items.map(async (f) => ({ ...f, big: (await getImage({ src: f.src, width: Math.min(f.src.width, 2000), format: 'png' })).src }))) }
           : b.kind === 'text' && (b.figure || b.figure2 || b.notes?.figure)
           ? {
@@ -207,6 +209,24 @@ const toggle =
                   <ul class="divide-y divide-warm/70 border-y border-warm/70">
                     {b.items.map((t) => <li class="py-2.5 text-[0.9375rem] leading-[1.6]">{t}</li>)}
                   </ul>
+                );
+              }
+              if (b.kind === 'feature') {
+                return (
+                  <div class="grid items-center gap-x-10 gap-y-5 border-t border-warm/70 pt-6 md:grid-cols-[minmax(0,1fr)_11rem]">
+                    <div>
+                      <h3 class="font-display text-lg" style="line-height:1.25">{b.title}</h3>
+                      <div class="mt-2 space-y-2 text-justify text-[0.9375rem] leading-[1.65] text-ink-soft hyphens-auto">
+                        {b.paragraphs.map((t) => <p>{t}</p>)}
+                      </div>
+                    </div>
+                    <figure class="w-full max-w-[11rem]">
+                      <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-paper" aria-label="Enlarge figure">
+                        <Image src={b.figure.src} alt={b.figure.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+                      </button>
+                      <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.figure.caption} <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
+                    </figure>
+                  </div>
                 );
               }
               if (b.kind === 'figures') {
