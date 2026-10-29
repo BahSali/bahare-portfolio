@@ -17,7 +17,15 @@ export const site = {
   reviewMode: true,
 
   contact: {
-    emails: ['salehi.bahare@ulb.be', 'salehi.bahaar@gmail.com'] as string[],
+    /**
+     * Email addresses are stored reversed and base64-encoded so that neither the repository nor the built
+     * HTML contains them in plain text. They are decoded in the visitor's browser when "Reveal" is clicked.
+     * To change one: base64-encode the reversed address (e.g. `btoa([...addr].reverse().join(''))`).
+     */
+    emails: [
+      { label: 'ULB', code: 'ZWIuYmx1QGVyYWhhYi5paGVsYXM=' },
+      { label: 'Personal', code: 'bW9jLmxpYW1nQHJhYWhhYi5paGVsYXM=' },
+    ] as { label: string; code: string }[],
     cvUrl: null as string | null, // e.g. '/cv/bahare-salehi-cv.pdf' (place the file in /public/cv/)
     linkedin: 'https://www.linkedin.com/in/bahare-salehi-b5765ab0/' as string | null,
     github: null as string | null,

@@ -5,9 +5,9 @@ import Placeholder from './Placeholder.astro';
 interface Props { compact?: boolean }
 const { compact = false } = Astro.props;
 const c = site.contact;
-const emailRows = c.emails.map((e) => ({ label: 'Email', href: `mailto:${e}`, text: e }));
+const emailRows = c.emails.map((e) => ({ label: 'Email', href: null as string | null, text: null as string | null, email: e }));
 const links = [
-  ...(emailRows.length ? emailRows : [{ label: 'Email', href: null, text: null }]),
+  ...(emailRows.length ? emailRows : [{ label: 'Email', href: null as string | null, text: null as string | null, email: null }]),
   { label: 'CV', href: c.cvUrl, text: 'Download CV (PDF)' },
   { label: 'LinkedIn', href: c.linkedin, text: 'LinkedIn' },
   { label: 'GitHub', href: c.github, text: 'GitHub' },
@@ -17,14 +17,64 @@ const links = [
 ---
 {/* compact: hide entries that have no link yet */}
 <dl class="divide-y divide-warm/70 border-y border-warm/70">
-  {links.filter((l) => !compact || l.href).map((l, i, arr) => (
+  {links.filter((l) => !compact || l.href || ('email' in l && l.email)).map((l, i, arr) => (
     <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 py-3.5 sm:grid-cols-[11rem_1fr]">
       <dt class="eyebrow">{i > 0 && l.label === arr[i - 1].label ? '' : l.label}</dt>
       <dd>
-        {l.href
-          ? <a href={l.href} class="link-line">{l.text}</a>
-          : <Placeholder>{l.label} link to be added</Placeholder>}
+        {'email' in l && l.email
+          ? (
+            <span data-email-row data-code={l.email.code}>
+              <button type="button" data-reveal class="link-line cursor-pointer">Reveal {l.email.label} email</button>
+              <span data-revealed hidden class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <span data-address class="select-all"></span>
+                <button type="button" data-copy class="link-line cursor-pointer text-sm">Copy</button>
+                <a data-open class="link-line text-sm" href="#">Open in email app</a>
+              </span>
+            </span>
+          )
+          : l.href
+            ? <a href={l.href} class="link-line">{l.text}</a>
+            : <Placeholder>{l.label} link to be added</Placeholder>}
       </dd>
     </div>
   ))}
 </dl>
+
+<p class="sr-only" aria-live="polite" data-email-status></p>
+
+<script>
+  // Decode client-side only after an explicit click: reversed base64 -> address.
+  const decode = (code: string) => [...atob(code)].reverse().join('');
+  const status = document.querySelector<HTMLElement>('[data-email-status]');
+  document.querySelectorAll<HTMLElement>('[data-email-row]').forEach((row) => {
+    const reveal = row.querySelector<HTMLButtonElement>('[data-reveal]')!;
+    const box = row.querySelector<HTMLElement>('[data-revealed]')!;
+    const copy = row.querySelector<HTMLButtonElement>('[data-copy]')!;
+    let address = '';
+    reveal.addEventListener('click', () => {
+      address = decode(row.dataset.code!);
+      row.querySelector<HTMLElement>('[data-address]')!.textContent = address;
+      row.querySelector<HTMLAnchorElement>('[data-open]')!.href = `mailto:${address}`;
+      row.removeAttribute('data-code');
+      reveal.hidden = true;
+      box.hidden = false;
+      if (status) status.textContent = `Email address shown: ${address}`;
+      copy.focus();
+    });
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(address);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(row.querySelector('[data-address]')!);
+        const sel = getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+        document.execCommand('copy');
+      }
+      copy.textContent = 'Copied';
+      if (status) status.textContent = 'Email address copied';
+      setTimeout(() => { copy.textContent = 'Copy'; }, 2000);
+    });
+  });
+</script>
