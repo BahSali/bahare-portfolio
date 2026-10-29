@@ -18,6 +18,15 @@ import mscSolution from '~/assets/phd/msc-solution.png';
 import mscLoop from '~/assets/phd/msc-loop.png';
 import mscCard from '~/assets/phd/msc-card.png';
 import mscPareto from '~/assets/phd/msc-pareto.png';
+import ripiCard from '~/assets/phd/ripi-card.png';
+import ripiSeamModel from '~/assets/phd/ripi-seam-model.png';
+import ripiMakranSection from '~/assets/phd/ripi-makran-section.png';
+import ripiSeismic from '~/assets/phd/ripi-seismic-makran.png';
+import ripiWellestimGeneral from '~/assets/phd/ripi-wellestim-general.png';
+import ripiWellestim from '~/assets/phd/ripi-wellestim.png';
+import ripiWorkflow from '~/assets/phd/ripi-workflow.png';
+import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
+import ripiMakranLogs from '~/assets/phd/ripi-makran-logs.png';
 import emeraldsCard from '~/assets/phd/emeralds-card.png';
 import emeraldsWorkflow from '~/assets/phd/emeralds-workflow.png';
 import yorkMap from '~/assets/phd/ds/york-map.jpg';
@@ -93,10 +102,12 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; /** Second figure stacked under the first. */ figure2?: BriefFigure; /** Larger figure beside the text. */ large?: boolean; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
+  | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
+  | { kind: 'figures'; items: BriefFigure[]; /** Text box beside the figures. */ aside?: { title: string; text: string } }
   | { kind: 'bullets'; items: string[] }
   | { kind: 'references'; items: { label: string; text: string; href: string }[] }
   | { kind: 'publications' };
@@ -746,16 +757,171 @@ export const projects: Project[] = [
   },
   {
     ...empty,
-    slug: 'artificial-well-hydrocarbon-research',
-    title: 'Artificial Well / Hydrocarbon Research',
+    slug: 'pseudo-well-seismic-inversion',
+    title: 'Pseudo-Well Generation through Seismic Inversion',
     category: 'applied',
     tier: 'standard',
     homeFeatured: false,
-    summary: 'Earlier applied research involving computational methods and optimization.',
+    eyebrow: 'Research Institute of Petroleum Industry (RIPI) · Iran',
+    subtitle: 'Numerical Optimization · Seismic Inversion · Scientific Computing',
+    period: 'January 2020 – July 2022',
+    role: 'Researcher',
+    summary: 'Estimating subsurface elastic properties from seismic data where well logs are missing, using Simulated Annealing.',
+    publications: ['rines-2024'],
+    brief: {
+      overview: [],
+      contribution: [],
+      areaTitle: '',
+      areas: [],
+      sections: [
+        {
+          id: 'overview',
+          title: 'Overview',
+          blocks: [
+            {
+              kind: 'text',
+              lead: 'Estimating subsurface properties without wells',
+              paragraphs: [
+                'Understanding underground rock formations usually relies on measurements taken from drilled wells. However, in deep-sea regions such as the Oman Sea, drilling is expensive and well data are often unavailable. Seismic surveys offer an alternative by recording how waves travel through and reflect from underground layers.',
+                'A pseudo-well is a way to estimate what a real well might reveal about the rocks beneath the surface, without actually drilling one. It works by analyzing seismic waves reflected from underground layers and estimating the rock properties that could have produced those signals. At the Research Institute of Petroleum Industry (RIPI), we developed an optimization-based approach to generate these virtual well records from seismic data.',
+              ],
+            },
+          ],
+        },
+        {
+          id: 'role',
+          title: 'My Role & Collaboration',
+          blocks: [
+            {
+              kind: 'text',
+              emphasis: true,
+              paragraphs: [
+                'As a researcher at the Research Institute of Petroleum Industry (RIPI), I worked with a multidisciplinary team of geophysicists and petroleum engineers, contributing expertise in computational methods and numerical optimization to seismic inversion research.',
+              ],
+            },
+            {
+              kind: 'columns',
+              items: [
+                { label: 'Optimization & Modeling', text: 'Developed and evaluated a Simulated Annealing approach for seismic inversion, combining nonlinear optimization with forward modeling to estimate subsurface elastic properties.' },
+                { label: 'Scientific Computing & Data Analysis', text: 'Worked with seismic datasets to prepare inputs, implement computational experiments, and analyze estimated elastic properties using scientific computing methods.' },
+                { label: 'Experimental Evaluation', text: 'Tested the approach on synthetic models, the SEAM benchmark, and Makran seismic data, comparing results with reference models and the industrial Gmax software.' },
+                { label: 'Research Collaboration & Reporting', text: 'Worked with geoscience specialists to interpret results and document the research through technical reports and a peer-reviewed journal publication.' },
+              ],
+            },
+            {
+              kind: 'feature',
+              title: 'WellEstim Research Application',
+              paragraphs: [
+                'Independently designed and developed WellEstim, a desktop research application for pseudo-well generation through seismic inversion. The tool provided an interface for configuring Simulated Annealing parameters, running inversion experiments, and inspecting the estimated elastic-property logs.',
+              ],
+              figure: {
+                src: ripiWellestim,
+                alt: 'Screenshot of the WellEstim application, Simulated Annealing tab, with temperature, layering, neighbourhood and cooling settings',
+                caption: 'WellEstim interface used to configure and run the inversion experiments.',
+              },
+              figure2: {
+                src: ripiWellestimGeneral,
+                alt: 'Screenshot of the WellEstim application, General Parameter tab, with search window, seabed and wavelet settings',
+                caption: '',
+              },
+            },
+          ],
+        },
+        {
+          id: 'approach',
+          title: 'Computational Approach',
+          blocks: [
+            {
+              kind: 'text',
+              large: true,
+              paragraphs: [
+                'To investigate what lies beneath the Earth’s surface, geophysicists send seismic waves into the ground and record the signals reflected by underground rock layers. The way these waves travel through the layers and reflect back to the surface depends on the rocks’ properties, such as density and seismic wave velocities. By analyzing these signals, we can estimate the properties without drilling a well. This process is called seismic inversion.',
+                'In this research, I implemented Simulated Annealing (SA) to estimate three key properties of underground rock layers: P-wave velocity, S-wave velocity, and density. We started with an initial estimate of these properties and used a mathematical model to simulate the seismic signals they would produce. The algorithm compared the simulated signals with the actual recordings and repeatedly adjusted the estimated properties to reduce the difference. The final output is a pseudo-well: an estimated profile of rock properties derived from seismic measurements without drilling a physical well.',
+              ],
+              figure: {
+                src: ripiWorkflow,
+                alt: 'Workflow: an initial model and search window feed Simulated Annealing, which proposes models; forward modeling produces synthetic seismic data that are compared with observed data, and the loop repeats while the temperature cools, producing estimated Vp, Vs and density logs',
+                caption: 'Inversion workflow.',
+              },
+              figure2: {
+                src: ripiSeismic,
+                alt: 'Pre-stack seismic data from the Makran region: observed data on the left, and synthetic data from Simulated Annealing and from Gmax; red lines mark the seabed and the bottom-simulating reflector',
+                caption: 'Makran seismic data: observed, SA and Gmax synthetic. Red lines: seabed and BSR.',
+              },
+            },
+          ],
+        },
+        {
+          id: 'results',
+          title: 'Experiments & Results',
+          blocks: [
+            {
+              kind: 'text',
+              paragraphs: [
+                'The Simulated Annealing (SA) approach was evaluated using two datasets: the SEAM benchmark and the Makran region in the Oman Sea. The experiments assessed how well the method could estimate underground rock properties and compared its performance with Gmax, an industrial seismic inversion software package.',
+              ],
+            },
+            {
+              kind: 'text',
+              lead: 'SEAM Benchmark',
+              paragraphs: [
+                'The SEAM dataset provides known rock properties, allowing us to directly compare the estimated values with the ground truth. The results closely followed the reference values, demonstrating the method’s ability to recover the main characteristics of underground rock layers from seismic data.',
+              ],
+            },
+            {
+              kind: 'figures',
+              items: [
+                {
+                  src: ripiSeamModel,
+                  alt: 'SEAM benchmark model: a geological cross-section and a three-dimensional view',
+                  caption: 'SEAM benchmark model: cross-section and 3D view.',
+                },
+                {
+                  src: ripiSeamLogs,
+                  alt: 'Vp, Vs and density logs for the SEAM benchmark, comparing the reference (Real) with the Simulated Annealing estimate',
+                  caption: 'SEAM benchmark: reference and estimated pseudo-well logs for P-wave velocity, S-wave velocity, and density.',
+                },
+              ],
+              aside: {
+                title: 'How to read the logs',
+                text: 'Each log shows how a rock property changes with depth. The vertical axis is the wave’s travel time from the surface, so it increases with depth. The horizontal axes show P-wave velocity, S-wave velocity (m/s) and density. Makran logs use the same layout.',
+              },
+            },
+            {
+              kind: 'text',
+              lead: 'Makran Field Study',
+              paragraphs: [
+                'The approach was also tested on seismic measurements from the Makran region, where no reference well logs were available. Thus, we evaluated the results by comparing them with those produced by Gmax, an industrial software package that uses a genetic algorithm for optimization. Simulated Annealing produced more consistent estimates of rock properties, particularly P-wave velocity, while Gmax showed greater variation in its results.',
+              ],
+            },
+            {
+              kind: 'figures',
+              items: [
+                {
+                  src: ripiMakranSection,
+                  alt: 'Seismic section from the Makran region in the Oman Sea, north to south',
+                  caption: 'Makran field data: seismic section from the Oman Sea (north to south).',
+                },
+                {
+                  src: ripiMakranLogs,
+                  alt: 'Vp, Vs and density logs for Makran data, comparing the initial model with Simulated Annealing and Gmax estimates',
+                  caption: 'Makran field data: comparison of the initial model, Simulated Annealing estimate, and Gmax result.',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'publications',
+          title: 'Publication',
+          blocks: [{ kind: 'publications' }],
+        },
+      ],
+    },
     image: {
-      src: null,
-      alt: 'Figure from the artificial well and hydrocarbon research',
-      placeholderLabel: 'Project image: figure',
+      src: ripiCard,
+      alt: 'P-wave velocity section of the SEAM benchmark model',
+      placeholderLabel: 'Project image',
     },
   },
 ];

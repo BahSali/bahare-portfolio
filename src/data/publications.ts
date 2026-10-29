@@ -33,6 +33,17 @@ export interface Publication {
 
 export const publications: Publication[] = [
   {
+    slug: 'rines-2024',
+    year: 2024,
+    title: 'Estimating elastic properties of sediments by pseudo-wells generation utilizing simulated annealing optimization method',
+    authors: 'Nasser Keshavarz Faraj Khah, Bahare Salehi, Pooria Kianoush, Shahab Varkouhi',
+    venue: 'Results in Earth Sciences, 2024, 2, 100024',
+    shortVenue: 'Results Earth Sci.',
+    type: 'journal',
+    projects: ['pseudo-well-seismic-inversion'],
+    links: [{ label: 'DOI', href: 'https://doi.org/10.1016/j.rines.2024.100024' }],
+  },
+  {
     slug: 'model-cards-2025',
     year: 2025,
     title: 'Spatiotemporal Model Cards: A Vision for Responsible Geospatial AI',
