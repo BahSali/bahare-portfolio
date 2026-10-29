@@ -1,13 +1,13 @@
 /** Research page content other than publications and events. */
 export const research = {
   interests: [
-    'Spatiotemporal Machine Learning',
-    'Graph Neural Networks & Network Modeling',
-    'Optimization & Evolutionary Algorithms',
-    'Data-Driven Modeling & Scientific Computing',
+    'Machine Learning & Predictive Modeling',
+    'Data Science & Analytics',
+    'Spatiotemporal & Graph Modeling',
+    'Optimization & Algorithms',
+    'Data Management & Integration',
+    'Scientific Computing',
   ],
-  statement:
-    'My research focuses on developing computational methods to analyze complex data and solve optimization problems. My work spans spatiotemporal machine learning, graph-based modeling, and numerical optimization, with applications in urban mobility, transportation networks, and geophysical data analysis.',
   /** Doctoral and master's research, each linking to its project page. */
   academic: [
     {
