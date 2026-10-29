@@ -864,7 +864,7 @@ export const projects: Project[] = [
               ],
               aside: {
                 title: 'How to read the logs',
-                text: 'Each log shows how a rock property changes with depth. The vertical axis is seismic travel time, the time a wave needs to travel from the surface down to a layer, so it increases with depth. The horizontal axes give P-wave velocity and S-wave velocity in m/s, and density. The Makran logs follow the same layout.',
+                text: 'Each log shows how a rock property changes with depth. The vertical axis is the wave’s travel time from the surface, so it increases with depth. The horizontal axes show P-wave velocity, S-wave velocity (m/s) and density. Makran logs use the same layout.',
               },
             },
             {
