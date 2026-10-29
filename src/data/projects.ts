@@ -99,7 +99,7 @@ export interface ProjectStory {
 export interface BriefFigure { src: ImageMetadata; alt: string; caption: string; /** Longer explanation shown under the caption. */ note?: string; /** Full-size URL, resolved on the page for the lightbox. */ big?: string }
 /** Building blocks for a `brief` page laid out as titled sections with figures beside the text. */
 export type BriefBlock =
-  | { kind: 'text'; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
+  | { kind: 'text'; /** Larger figure beside the text. */ large?: boolean; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
@@ -811,25 +811,25 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
+              large: true,
               paragraphs: [
                 'To investigate what lies beneath the Earth’s surface, geophysicists send seismic waves into the ground and record the signals reflected by underground rock layers. The way these waves travel through the layers and reflect back to the surface depends on the rocks’ properties, such as density and seismic wave velocities. By analyzing these signals, we can estimate the properties without drilling a well. This process is called seismic inversion.',
-              ],
-              figure: {
-                src: ripiSeismic,
-                alt: 'Pre-stack seismic data from the Makran region: observed data on the left, and synthetic data from Simulated Annealing and from Gmax; red lines mark the seabed and the bottom-simulating reflector',
-                caption: 'Makran seismic data: observed (left), SA synthetic (middle) and Gmax synthetic (right). Red lines mark the seabed and BSR.',
-              },
-            },
-            {
-              kind: 'text',
-              figureFirst: true,
-              paragraphs: [
                 'In this research, I implemented Simulated Annealing (SA) to estimate three key properties of underground rock layers: P-wave velocity, S-wave velocity, and density. We started with an initial estimate of these properties and used a mathematical model to simulate the seismic signals they would produce. The algorithm compared the simulated signals with the actual recordings and repeatedly adjusted the estimated properties to reduce the difference. The final output is a pseudo-well: an estimated profile of rock properties derived from seismic measurements without drilling a physical well.',
               ],
               figure: {
                 src: ripiWorkflow,
                 alt: 'Workflow: an initial model and search window feed Simulated Annealing, which proposes models; forward modeling produces synthetic seismic data that are compared with observed data, and the loop repeats while the temperature cools, producing estimated Vp, Vs and density logs',
                 caption: 'Inversion workflow.',
+              },
+            },
+            {
+              kind: 'text',
+              wide: true,
+              paragraphs: [],
+              figure: {
+                src: ripiSeismic,
+                alt: 'Pre-stack seismic data from the Makran region: observed data on the left, and synthetic data from Simulated Annealing and from Gmax; red lines mark the seabed and the bottom-simulating reflector',
+                caption: 'Makran seismic data: observed (left), SA synthetic (middle) and Gmax synthetic (right). Red lines mark the seabed and BSR.',
               },
             },
           ],
