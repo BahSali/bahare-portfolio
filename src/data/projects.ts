@@ -22,6 +22,7 @@ import ripiCard from '~/assets/phd/ripi-card.png';
 import ripiSeamModel from '~/assets/phd/ripi-seam-model.png';
 import ripiMakranSection from '~/assets/phd/ripi-makran-section.png';
 import ripiSeismic from '~/assets/phd/ripi-seismic-makran.png';
+import ripiWellestimGeneral from '~/assets/phd/ripi-wellestim-general.png';
 import ripiWellestim from '~/assets/phd/ripi-wellestim.png';
 import ripiWorkflow from '~/assets/phd/ripi-workflow.png';
 import ripiSeamLogs from '~/assets/phd/ripi-seam-logs.png';
@@ -105,7 +106,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
-  | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure }
+  | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
   | { kind: 'figures'; items: BriefFigure[]; /** Text box beside the figures. */ aside?: { title: string; text: string } }
   | { kind: 'bullets'; items: string[] }
   | { kind: 'references'; items: { label: string; text: string; href: string }[] }
@@ -817,6 +818,11 @@ export const projects: Project[] = [
                 src: ripiWellestim,
                 alt: 'Screenshot of the WellEstim application, Simulated Annealing tab, with temperature, layering, neighbourhood and cooling settings',
                 caption: 'WellEstim interface used to configure and run the inversion experiments.',
+              },
+              figure2: {
+                src: ripiWellestimGeneral,
+                alt: 'Screenshot of the WellEstim application, General Parameter tab, with search window, seabed and wavelet settings',
+                caption: '',
               },
             },
           ],

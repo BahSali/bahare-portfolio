@@ -34,7 +34,7 @@ const thesisSections = await Promise.all(
     blocks: await Promise.all(
       s.blocks.map(async (b) =>
         b.kind === 'feature'
-          ? { ...b, figure: { ...b.figure, big: (await getImage({ src: b.figure.src, width: Math.min(b.figure.src.width, 2000), format: 'png' })).src } }
+          ? { ...b, figure: { ...b.figure, big: (await getImage({ src: b.figure.src, width: Math.min(b.figure.src.width, 2000), format: 'png' })).src }, figure2: b.figure2 && { ...b.figure2, big: (await getImage({ src: b.figure2.src, width: Math.min(b.figure2.src.width, 2000), format: 'png' })).src } }
           : b.kind === 'figures'
           ? { ...b, items: await Promise.all(b.items.map(async (f) => ({ ...f, big: (await getImage({ src: f.src, width: Math.min(f.src.width, 2000), format: 'png' })).src }))) }
           : b.kind === 'text' && (b.figure || b.figure2 || b.notes?.figure)
@@ -213,17 +213,19 @@ const toggle =
               }
               if (b.kind === 'feature') {
                 return (
-                  <div class="grid items-start gap-x-12 gap-y-5 border-t border-warm/70 pt-6 md:grid-cols-[minmax(0,1fr)_12rem]">
+                  <div class="grid items-center gap-x-10 gap-y-5 border-t border-warm/70 pt-6 md:grid-cols-2">
                     <div>
-                      <h3 class="font-display text-lg" style="line-height:1.25">{b.title}</h3>
-                      <div class="mt-2 max-w-[34rem] space-y-2 text-[0.9375rem] leading-[1.7] text-ink-soft">
-                        {b.paragraphs.map((t) => <p>{t}</p>)}
-                      </div>
+                      <h3 class="font-display text-xl" style="line-height:1.25">{b.title}</h3>
+                      <p class="mt-3 text-[0.9375rem] leading-[1.7] text-ink-soft">{b.paragraphs[0]}</p>
                     </div>
-                    <figure class="w-full max-w-[12rem]">
-                      <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-paper" aria-label="Enlarge figure">
-                        <Image src={b.figure.src} alt={b.figure.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
-                      </button>
+                    <figure>
+                      <div class="grid grid-cols-2 gap-3">
+                        {[b.figure2, b.figure].filter(Boolean).map((f) => (
+                          <button type="button" data-lightbox={f!.big} data-alt={f!.alt} class="group block cursor-zoom-in border border-warm/70 bg-paper" aria-label="Enlarge figure">
+                            <Image src={f!.src} alt={f!.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
+                          </button>
+                        ))}
+                      </div>
                       <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{b.figure.caption} <button type="button" data-lightbox={b.figure.big} data-alt={b.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
                     </figure>
                   </div>
