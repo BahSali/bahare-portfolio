@@ -15,7 +15,7 @@ const years = [...new Set(byYear.map((p) => p.year))];
 const anchors = [
   ['Research Areas', '#focus'],
   ["Doctoral & Master's Research", '#academic'],
-  ['Event Gallery', '#events'],
+  ['Conferences & Project Events', '#events'],
   ['Publications', '#publications'],
 ] as const;
 const row = 'grid scroll-mt-28 gap-x-10 gap-y-4 border-t border-warm/70 py-8 lg:grid-cols-12';
@@ -53,7 +53,7 @@ const row = 'grid scroll-mt-28 gap-x-10 gap-y-4 border-t border-warm/70 py-8 lg:
     </section>
 
     <section id="events" class={row}>
-      <h2 class="eyebrow lg:col-span-2 lg:pt-1">Event Gallery</h2>
+      <h2 class="eyebrow lg:col-span-2 lg:pt-1">Conferences & Project Events</h2>
       <div class="lg:col-span-10"><EventGallery events={events} /></div>
     </section>
 
