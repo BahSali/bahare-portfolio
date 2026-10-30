@@ -58,6 +58,8 @@ const all: TimelineItem[] = [
   ...experience.map((e) => toItem(e, e.title, e.organization, e.role)),
 ];
 
+export const yearOf = (d: string) => Number(d.slice(0, 4));
+
 /** True when every entry has a start year, so overlapping periods can be drawn to scale. */
 export const isDated = all.every((i) => i.start !== null);
 
@@ -70,7 +72,6 @@ const fmt = (d: string) => {
   const [y, m] = d.split('-');
   return m ? `${months[Number(m) - 1]} ${y}` : y;
 };
-export const yearOf = (d: string) => Number(d.slice(0, 4));
 
 export function formatPeriod(i: Pick<TimelineBase, 'start' | 'end'>): string | null {
   if (i.start === null) return null;

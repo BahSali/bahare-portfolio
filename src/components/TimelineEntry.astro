@@ -14,7 +14,7 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
     <div id={item.anchor ?? item.id} class:list={['h-full scroll-mt-24 border-l-2 bg-paper-deep/60 px-3 py-2.5', laneBorder]}>
       {showPeriod && <p class="eyebrow">{period ?? 'Dates to be added'}</p>}
       <h3 class="font-display text-[1.0625rem]" style="line-height:1.25">{item.title}</h3>
-      <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org ?? <Placeholder>To be added</Placeholder>}</p>
+      {item.org && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org}</p>}
       {(item.summary ?? item.achievement) && <p class="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">{item.summary ?? item.achievement}</p>}
       {(item.related[0] || item.href) && (
         <p class="mt-1.5 text-[0.8125rem]"><a href={item.related[0] ? `/projects/${item.related[0].slug}` : item.href} class="link-line">View project →</a></p>
