@@ -57,12 +57,12 @@ const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b)
     <span></span>
     {lanes.map((l) => <p class="eyebrow" style={`grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}>{l.label}</p>)}
   </div>
-  <div class="grid gap-x-4 pt-2" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},minmax(3.75rem,auto))`}>
+  <div class="grid gap-x-4 pt-2" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},6.25rem)`}>
     {years.map((y, k) => (
       <p class="border-t border-warm/40 pt-2 text-sm tabular-nums text-ink-soft" style={`grid-row:${k + 1};grid-column:1`}>{y}</p>
     ))}
     {placed.map((p) => (
-      <div class="py-1.5" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
+      <div class="min-h-0 py-1.5" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
     ))}
   </div>
 </div>
