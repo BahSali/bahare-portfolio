@@ -12,7 +12,7 @@ import erpWorkOrderReport from '~/assets/erp/work-order-report.png';
 import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
 import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
 import erpProductionStandard from '~/assets/erp/production-standard.png';
-import erpCard from '~/assets/erp/erp-card.png';
+import erpCard from '~/assets/erp/erp-card.jpg';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
@@ -865,7 +865,7 @@ export const projects: Project[] = [
     },
     image: {
       src: erpCard,
-      alt: 'ERP system interface: a goods entry permit form with toolbar, fields and an item table',
+      alt: 'Illustration of an ERP system at the center, linked to modules for warehouse, manufacturing, documents, human resources, purchasing and finance',
       placeholderLabel: 'Project image',
     },
   },
