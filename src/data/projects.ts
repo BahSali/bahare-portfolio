@@ -10,6 +10,9 @@
 import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.png';
 import erpWorkOrderReport from '~/assets/erp/work-order-report.png';
 import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
+import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
+import erpProductionStandard from '~/assets/erp/production-standard.png';
+import erpCard from '~/assets/erp/erp-card.png';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
@@ -462,7 +465,6 @@ export const projects: Project[] = [
                 caption: 'ULB’s contribution: transforming raw mobility data into compressed, high-resolution data for traffic analytics.',
               },
             },
-            { kind: 'links' },
           ],
         },
         {
@@ -733,16 +735,15 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'enterprise-data-erp',
-    title: 'GALEX ERP — Enterprise System Customization & Process Integration',
+    title: 'Enterprise ERP Customization & Process Integration',
     category: 'industry',
     tier: 'standard',
     homeFeatured: false,
-    eyebrow: 'Industry · Farabord (Farassan group), Iran',
+    eyebrow: 'Industry · Farabord, Iran',
     subtitle: 'ERP Customization · SQL · Business Process Analysis',
     period: 'September 2019 – April 2022',
     role: 'ERP Systems Analyst',
     summary: 'Customizing an existing ERP system to fit operational processes: requirements, workflows, forms, SQL-based reports and user training.',
-    links: [{ label: 'GreenDataWare (GALEX ERP vendor)', href: 'https://greendataware.com' }],
     brief: {
       overview: [],
       contribution: [],
@@ -757,7 +758,7 @@ export const projects: Project[] = [
               kind: 'text',
               lead: 'Adapting an existing ERP system to company processes',
               paragraphs: [
-                'Farabord, a Farassan subsidiary, had purchased GALEX ERP, an Iranian ERP platform developed by GreenDataWare, and needed it adapted to its own processes. I worked as the link between the company and the vendor, turning operational needs into forms, workflows and reports.',
+                'Farabord had purchased an Iranian ERP platform and needed it adapted to its own processes. I worked as the link between the company and the vendor, turning operational needs into forms, workflows and reports.',
                 'The platform was the vendor’s product. The vendor reviewed my requests and deployed the changes to production; the analysis, specifications and process design behind them were my work.',
               ],
             },
@@ -824,6 +825,26 @@ export const projects: Project[] = [
                 caption: 'Printable work order report. Interface labels translated into English by the author; names, codes and other identifying details are removed.',
               },
             },
+            {
+              kind: 'text',
+              paragraphs: [],
+              wide: true,
+              figure: {
+                src: erpProductionStandard,
+                alt: 'Production process standard table listing the order of work, department activities, time in hours and department',
+                caption: 'Production process standard on an engineering document form. Column headers translated into English by the author; row contents are in Persian.',
+              },
+            },
+            {
+              kind: 'text',
+              paragraphs: [],
+              wide: true,
+              figure: {
+                src: erpGoodsPermit,
+                alt: 'Goods entry permit form with date, recipient, sender and an item table',
+                caption: 'Goods entry permit form, shown in the test environment. Labels translated into English by the author; the form is empty.',
+              },
+            },
           ],
         },
         {
@@ -834,7 +855,7 @@ export const projects: Project[] = [
               kind: 'rows',
               items: [
                 { label: 'Databases & SQL', text: 'Joins, subqueries, aggregations, CASE WHEN, temporary tables, views, cursors; XML for report layout; database structure analysis.' },
-                { label: 'ERP configuration', text: 'Forms, workflows, reports and display settings in GALEX ERP, using the vendor’s test application.' },
+                { label: 'ERP configuration', text: 'Forms, workflows, reports and display settings in the ERP platform, using the vendor’s test application.' },
                 { label: 'Analysis & communication', text: 'Requirements gathering, technical specifications, user documentation and training.' },
               ],
             },
@@ -843,8 +864,8 @@ export const projects: Project[] = [
       ],
     },
     image: {
-      src: null,
-      alt: 'GALEX ERP customization',
+      src: erpCard,
+      alt: 'ERP system interface: a goods entry permit form with toolbar, fields and an item table',
       placeholderLabel: 'Project image',
     },
   },
