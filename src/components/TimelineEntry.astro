@@ -11,7 +11,7 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
 ---
 {compact
   ? (
-    <div id={item.anchor ?? item.id} class:list={['h-full scroll-mt-24 border-l-2 pl-3', laneBorder]}>
+    <div id={item.anchor ?? item.id} class:list={['h-full min-h-[2rem] scroll-mt-24 border-l-2 pl-3', laneBorder]}>
       {showPeriod && <p class="eyebrow">{period ?? 'Dates to be added'}</p>}
       <h3 class="font-display text-[1.0625rem]" style="line-height:1.2">
         {(item.related[0] || item.href)

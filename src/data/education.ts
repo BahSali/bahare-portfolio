@@ -22,7 +22,7 @@ export const education: EducationEntry[] = [
     title: "Bachelor's studies",
     institution: 'Shiraz, Iran',
     thesis: 'Computer Software Engineering',
-    start: '2010',
+    start: '2010-10',
     end: '2014',
     summary: 'Computer Software Engineering.',
     topics: [],

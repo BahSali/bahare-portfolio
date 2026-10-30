@@ -1,50 +1,52 @@
 ---
 import type { TimelineItem } from '~/lib/timeline';
-import { lanes, yearOf } from '~/lib/timeline';
+import { lanes } from '~/lib/timeline';
 import TimelineEntry from './TimelineEntry.astro';
 
 /**
- * Reverse-chronological timeline drawn to scale: one row per year, latest year first, and every entry
- * spans the years it covers. Entries that overlap inside one lane are placed side by side.
- * Entries without a start date are listed underneath. (The earlier layout lives in TimelineClassic.astro.)
+ * Reverse-chronological timeline drawn to scale: latest year first, each entry's bar starts and ends at its
+ * real dates. Months are used where known; a year without a month is placed mid-year. Entries that overlap in
+ * time inside one lane sit side by side. Entries without a start date are listed underneath.
+ * (The earlier layout lives in TimelineClassic.astro.)
  */
 interface Props { items: TimelineItem[] }
 const { items } = Astro.props;
 
-const currentYear = new Date().getFullYear();
+const now = new Date();
+const nowT = now.getFullYear() + now.getMonth() / 12 + now.getDate() / 365;
+const parse = (d: string, edge: 'start' | 'end') => {
+  const [y, m] = d.split('-').map(Number);
+  if (!m) return y + 0.5;
+  return edge === 'start' ? y + (m - 1) / 12 : y + m / 12;
+};
 const dated = items.filter((i) => i.start !== null);
 const undated = items.filter((i) => i.start === null);
-const endYear = (i: TimelineItem) => (i.end === 'present' ? currentYear : yearOf(i.end ?? i.start!));
-const startYear = (i: TimelineItem) => yearOf(i.start!);
-const maxYear = Math.max(currentYear, ...dated.map(endYear));
-const minYear = Math.min(...dated.map(startYear));
-const years = Array.from({ length: maxYear - minYear + 1 }, (_, k) => maxYear - k);
+const t0 = (i: TimelineItem) => parse(i.start!, 'start');
+const t1 = (i: TimelineItem) => (i.end === 'present' ? nowT : parse(i.end ?? i.start!, 'end'));
 
-// Greedy packing of overlapping entries into sub-columns within each lane.
-const placed: { item: TimelineItem; sub: number }[] = [];
-const subCount: Record<string, number> = {};
+const topYear = Math.floor(Math.max(nowT, ...dated.map(t1)));
+const bottomYear = Math.floor(Math.min(...dated.map(t0)));
+const years = Array.from({ length: topYear - bottomYear + 1 }, (_, k) => topYear - k);
+const rem = 2.75; // height of one year
+const T = topYear + 1;
+const y = (t: number) => `${((T - t) * rem).toFixed(3)}rem`;
+const totalH = `${((T - bottomYear) * rem).toFixed(3)}rem`;
+
+// Place overlapping entries of a lane in separate sub-columns.
+const subs: Record<string, TimelineItem[][]> = {};
 for (const lane of lanes) {
-  const laneItems = dated.filter((i) => i.lane === lane.id).sort((a, b) => startYear(a) - startYear(b) || a.order - b.order);
-  const busyUntil: number[] = [];
+  const cols: TimelineItem[][] = [];
+  const laneItems = dated.filter((i) => i.lane === lane.id).sort((a, b) => t0(a) - t0(b) || a.order - b.order);
   for (const it of laneItems) {
-    let sub = busyUntil.findIndex((end) => end < startYear(it));
-    if (sub === -1) { sub = busyUntil.length; busyUntil.push(0); }
-    busyUntil[sub] = endYear(it);
-    placed.push({ item: it, sub });
+    const col = cols.find((c) => t1(c[c.length - 1]) <= t0(it) + 1e-6);
+    if (col) col.push(it); else cols.push([it]);
   }
-  subCount[lane.id] = Math.max(1, busyUntil.length);
+  subs[lane.id] = cols.length ? cols : [[]];
 }
-let col = 2;
-const laneCol: Record<string, number> = {};
-for (const lane of lanes) { laneCol[lane.id] = col; col += subCount[lane.id]; }
-const tracks = lanes.flatMap((l) => Array.from({ length: subCount[l.id] }, () => 'minmax(0, 1fr)'));
-const template = `3.5rem ${tracks.join(' ')}`;
-const rowOf = (y: number) => maxYear - y + 1;
-const cell = (p: { item: TimelineItem; sub: number }) =>
-  `grid-row:${rowOf(endYear(p.item))} / ${rowOf(startYear(p.item)) + 1};grid-column:${laneCol[p.item.lane] + p.sub}`;
+const template = `3.5rem ${lanes.map((l) => `minmax(0, ${subs[l.id].length}fr)`).join(' ')}`;
 const band: Record<string, string> = { education: 'bg-teal/[0.13]', industry: 'bg-clay/[0.11]', research: 'bg-warm/[0.38]' };
 const headBar: Record<string, string> = { education: 'border-teal', industry: 'border-clay', research: 'border-warm' };
-const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b) - startYear(a));
+const mobile = [...dated].sort((a, b) => t1(b) - t1(a) || t0(b) - t0(a));
 ---
 <!-- Small screens: a simple list, latest first -->
 <ol class="border-b border-warm/70 xl:hidden">
@@ -53,19 +55,30 @@ const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b)
   ))}
 </ol>
 
-<!-- md and up: lanes by year -->
+<!-- xl and up: lanes drawn to scale -->
 <div class="hidden xl:block">
-  <div class="grid gap-x-4 border-b border-ink pb-0" style={`grid-template-columns:${template}`}>
+  <div class="grid gap-x-4" style={`grid-template-columns:${template}`}>
     <span></span>
-    {lanes.map((l) => <p class:list={['eyebrow border-t-[3px] pt-2', headBar[l.id]]} style={`grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}>{l.label}</p>)}
+    {lanes.map((l) => <p class:list={['eyebrow border-t-[3px] pt-2 pb-2', headBar[l.id]]}>{l.label}</p>)}
   </div>
-  <div class="grid gap-x-4" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},2.75rem)`}>
-    {lanes.map((l) => <div aria-hidden="true" class={band[l.id]} style={`grid-row:1 / span ${years.length};grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}></div>)}
-    {years.map((y, k) => (
-      <p class="border-t border-warm/40 pt-2 text-sm tabular-nums text-ink-soft" style={`grid-row:${k + 1};grid-column:1`}>{y}</p>
-    ))}
-    {placed.map((p) => (
-      <div class="min-h-0 px-2 pt-1.5" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
+  <div class="grid gap-x-4 border-t border-ink" style={`grid-template-columns:${template}`}>
+    <div class="relative" style={`height:${totalH}`}>
+      {years.map((yr) => (
+        <p class="absolute inset-x-0 border-t border-warm/40 pt-1.5 text-sm tabular-nums text-ink-soft" style={`top:${y(yr + 1)}`}>{yr}</p>
+      ))}
+    </div>
+    {lanes.map((l) => (
+      <div class:list={['grid gap-x-3 px-2', band[l.id]]} style={`grid-template-columns:repeat(${subs[l.id].length}, minmax(0, 1fr));height:${totalH}`}>
+        {subs[l.id].map((col) => (
+          <div class="relative">
+            {col.map((it) => (
+              <div class="absolute inset-x-0" style={`top:${y(t1(it))};height:${((t1(it) - t0(it)) * rem).toFixed(3)}rem`}>
+                <TimelineEntry item={it} compact />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     ))}
   </div>
 </div>
