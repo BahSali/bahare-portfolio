@@ -11,7 +11,7 @@
  * `photos`: the first is the lead image; up to two more are shown beside it.
  */
 import mdmGroup from '~/assets/events/mdm-2024-group.jpg';
-import mdmBanner from '~/assets/events/mdm-2024-emeralds-banner.jpg';
+import plenary from '~/assets/events/emeralds-plenary-delft-2023.jpg';
 import ebdvfPresenting from '~/assets/events/ebdvf-2025-presenting.jpg';
 import ebdvfGroup from '~/assets/events/ebdvf-2025-group.jpg';
 import ebdvfPoster from '~/assets/events/ebdvf-2025-poster.jpg';
@@ -54,28 +54,39 @@ export const events: ResearchEvent[] = [
     link: { label: 'EBDVF 2025', href: 'https://ebdvf.eu' },
   },
   {
-    title: 'IEEE International Conference on Mobile Data Management (MDM 2024)',
-    kind: 'Organization',
-    year: 2024,
+    title: 'Future-Ready: On-Demand Solutions with AI, Data, and Robotics',
+    subtitle: 'Birds of a Feather Workshops: AI, Data & Robotics at Work',
+    kind: 'Presentation',
+    year: 2025,
     location: 'Brussels, Belgium',
     involvement:
-      'Part of the organizing team of MDM 2024, hosted in Brussels.',
-    photos: [
-      { src: mdmGroup, alt: 'Group photo of the MDM 2024 participants on the Grand Place in Brussels' },
-      { src: mdmBanner, alt: 'EMERALDS project roll-up banner and information table at the venue' },
-    ],
-    link: { label: 'MDM 2024 website', href: 'https://mdm2024.github.io' },
-  },
-  {
-    title: 'Future-Ready: On-Demand Solutions with AI, Data, and Robotics',
-    subtitle: 'From Extreme Data to AI Insights: The DataNexus Approach Across the Compute Continuum',
-    kind: 'Presentation',
-    involvement:
-      'Presented the EMERALDS project in a joint session with the EXTRACT, Graph-Massivizer, NEARDATA and SYCLOPS projects, organized by AI on Demand and the Adra association.',
+      'Speaker for the EMERALDS project in a joint session with the EXTRACT, Graph-Massivizer, NEARDATA and SYCLOPS projects, organized by AI on Demand and the Adra association (18–19 February, Sparks Meeting).',
     photos: [
       { src: presenting, alt: 'Presenting the EMERALDS project goals at the lectern, with the other panelists seated behind' },
       { src: group, alt: 'The session speakers standing together on stage in front of the Future-Ready title slide' },
       { src: panel, alt: 'Panel on stage during the NEARDATA use cases slide' },
+    ],
+  },
+  {
+    title: 'IEEE International Conference on Mobile Data Management (MDM 2024)',
+    kind: 'Organization',
+    year: 2024,
+    location: 'Brussels, Belgium',
+    involvement: 'Part of the organizing team of MDM 2024, hosted in Brussels.',
+    photos: [
+      { src: mdmGroup, alt: 'Group photo of the MDM 2024 participants on the Grand Place in Brussels' },
+    ],
+    link: { label: 'MDM 2024 website', href: 'https://mdm2024.github.io' },
+  },
+  {
+    title: 'EMERALDS 2nd Plenary Meeting',
+    kind: 'Participation',
+    year: 2023,
+    location: 'Delft, Netherlands',
+    involvement:
+      'Took part in the consortium’s second physical plenary meeting, held on 12 December, on the toolset, platform and use-case validation. Photo: INLECOM.',
+    photos: [
+      { src: plenary, alt: 'EMERALDS consortium members on a staircase next to the project roll-up banner at the second plenary meeting in Delft' },
     ],
   },
 ];
