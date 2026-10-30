@@ -30,7 +30,16 @@ Images: put files in `src/assets/`, import them in the data file, and set `image
 `Header`, `Footer`, `Container`, `SectionHeading`, `ProjectFeature`, `ImagePlaceholder`,
 `ContactLinks`, `Placeholder`, `PlaceholderPage`.
 
-## Cloudflare Pages (not deployed yet)
+## Deployment (GitHub Pages)
 
-Build command `npm run build`, output directory `dist`. Before launch:
-set `reviewMode: false` in `site.ts`, replace `public/robots.txt`, and add `site:` in `astro.config.mjs`.
+The site is built and published by `.github/workflows/deploy.yml` on every push to `main`.
+It is served at https://bahsali.github.io/bahare-portfolio/.
+
+- `astro.config.mjs` sets `site` and `base` (`/bahare-portfolio`) only for the GitHub Actions build, so
+  `npm run dev` and a plain `npm run build` still use `/`.
+- Root-relative links (`/projects/...`, `/media/...`) are prefixed with the base path after the build.
+- To check the production build locally: `GITHUB_ACTIONS=true npm run build && GITHUB_ACTIONS=true npm run preview`,
+  then open http://localhost:4321/bahare-portfolio/.
+
+Before a public launch: set `reviewMode: false` in `src/data/site.ts` (removes the `noindex` tag) and
+replace `public/robots.txt`. With a custom domain, set `site` to the domain and `base` to `/`.
