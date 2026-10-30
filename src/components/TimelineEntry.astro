@@ -11,14 +11,15 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
 ---
 {compact
   ? (
-    <div id={item.anchor ?? item.id} class:list={['h-full scroll-mt-24 border-l-2 bg-paper-deep/60 px-3 py-2.5', laneBorder]}>
+    <div id={item.anchor ?? item.id} class:list={['h-full scroll-mt-24 border-l-2 pl-3', laneBorder]}>
       {showPeriod && <p class="eyebrow">{period ?? 'Dates to be added'}</p>}
-      <h3 class="font-display text-[1.0625rem]" style="line-height:1.25">{item.title}</h3>
+      <h3 class="font-display text-[1.0625rem]" style="line-height:1.2">
+        {(item.related[0] || item.href)
+          ? <a href={item.related[0] ? `/projects/${item.related[0].slug}` : item.href} class="transition-colors hover:text-teal">{item.title}</a>
+          : item.title}
+      </h3>
       {item.org && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org}</p>}
-      {(item.summary ?? item.achievement) && <p class="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">{item.summary ?? item.achievement}</p>}
-      {(item.related[0] || item.href) && (
-        <p class="mt-1.5 text-[0.8125rem]"><a href={item.related[0] ? `/projects/${item.related[0].slug}` : item.href} class="link-line">View project →</a></p>
-      )}
+      {(item.summary ?? item.achievement) && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{item.summary ?? item.achievement}</p>}
     </div>
   )
   : (
