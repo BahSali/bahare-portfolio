@@ -72,7 +72,7 @@ export const events: ResearchEvent[] = [
     kind: 'Organization',
     year: 2024,
     location: 'Brussels, Belgium',
-    involvement: 'Part of the organizing team of MDM 2024, hosted in Brussels.',
+    involvement: 'Local and Financial Organization Chair of MDM 2024, hosted in Brussels.',
     photos: [
       { src: mdmGroup, alt: 'Group photo of the MDM 2024 participants on the Grand Place in Brussels' },
     ],
