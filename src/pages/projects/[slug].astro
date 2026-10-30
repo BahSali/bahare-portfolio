@@ -106,7 +106,7 @@ const toggle =
         <h1 class="font-display-tight text-[clamp(1.5rem,2.9vw,2.25rem)] font-light" style="line-height:1.1">{project.headline ?? project.title}</h1>
       </div>
       {project.subtitle
-        ? <p class="text-sm text-ink-soft lg:col-span-12 lg:-mt-2"><span class="eyebrow mr-3">Research areas</span>{project.subtitle}</p>
+        ? <p class="text-sm text-ink-soft lg:col-span-12 lg:-mt-2"><span class="eyebrow mr-3">{project.category === 'industry' ? 'Focus' : 'Research areas'}</span>{project.subtitle}</p>
         : !project.brief && <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.summary}</p>}
     </div>
 
@@ -310,6 +310,18 @@ const toggle =
                             </div>
                           </details>
                         )}
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
+              if (b.kind === 'placeholders') {
+                return (
+                  <div class="grid gap-3 sm:grid-cols-3">
+                    {b.items.map((it) => (
+                      <div role="img" aria-label={`${it.label} (placeholder)`} class="flex aspect-[4/3] flex-col justify-between border border-dashed border-warm bg-paper-deep p-3 text-ink-soft">
+                        <span class="eyebrow">{it.note}</span>
+                        <span class="font-display text-[0.9375rem] leading-snug text-ink">{it.label}</span>
                       </div>
                     ))}
                   </div>

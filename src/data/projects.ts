@@ -105,6 +105,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; items: { label: string; text: string }[] }
   | { kind: 'links' }
+  | { kind: 'placeholders'; items: { label: string; note: string }[] }
   | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
   | { kind: 'figures'; items: BriefFigure[]; /** Text box beside the figures. */ aside?: { title: string; text: string } }
   | { kind: 'bullets'; items: string[] }
@@ -729,28 +730,93 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'enterprise-data-erp',
-    title: 'Enterprise Databases and ERP Systems',
+    title: 'GALEX ERP — Enterprise System Customization & Process Integration',
     category: 'industry',
     tier: 'standard',
     homeFeatured: false,
-    eyebrow: 'Professional experience · Industry',
-    subtitle: 'Enterprise Databases · SQL · ERP Systems',
+    eyebrow: 'Industry · Farabord, Iran',
+    subtitle: 'ERP Customization · SQL · Business Process Analysis',
     period: 'September 2019 – April 2022',
-    role: 'ERP Support and Customization Specialist',
-    summary: 'Professional experience with enterprise databases, SQL and ERP systems, business data and business processes.',
+    role: 'ERP Systems Analyst',
+    summary: 'Customizing an existing ERP system to fit operational processes: requirements, workflows, forms, SQL-based reports and user training.',
+    links: [{ label: 'GreenDataWare (GALEX ERP vendor)', href: 'https://greendataware.com' }],
     brief: {
-      overview: [
-        'Professional experience with enterprise databases, SQL and ERP systems, working with business data and business processes.',
-        'Full-time role at Farabard Sakht Dalin Co. (a Farassan subsidiary), Iran.',
-        '[Systems, projects and responsibilities to be added]',
-      ],
+      overview: [],
       contribution: [],
-      areaTitle: 'Technical Skills',
-      areas: ['Enterprise Databases', 'SQL', 'ERP Systems', 'Business Processes', 'Business Data'],
+      areaTitle: '',
+      areas: [],
+      sections: [
+        {
+          id: 'overview',
+          title: 'Overview',
+          blocks: [
+            {
+              kind: 'text',
+              lead: 'Adapting an existing ERP system to company processes',
+              paragraphs: [
+                'At Farabord, I worked on customizing GALEX ERP, a platform developed by GreenDataWare, to support the company’s operational processes. The platform itself was the vendor’s product; my work was the analysis, configuration, reporting and documentation built on top of it.',
+              ],
+            },
+            { kind: 'links' },
+          ],
+        },
+        {
+          id: 'role',
+          title: 'My Role & Responsibilities',
+          blocks: [
+            {
+              kind: 'rows',
+              items: [
+                { label: 'Process analysis', text: 'Analyzed business processes and gathered requirements from employees across departments.' },
+                { label: 'Workflow and form design', text: 'Designed new workflows, forms and reports based on operational needs, and developed and configured forms in the ERP test environment.' },
+                { label: 'SQL and data investigation', text: 'Wrote SQL queries with joins, subqueries, aggregations, conditional logic, temporary tables and views, and investigated database structures to troubleshoot data and workflow issues.' },
+                { label: 'Vendor collaboration', text: 'Prepared technical specifications for the proposed changes. The ERP vendor reviewed them and handled production deployment.' },
+                { label: 'Documentation and training', text: 'Prepared user documentation and trained employees.' },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'technical',
+          title: 'Technical Work',
+          blocks: [
+            {
+              kind: 'rows',
+              items: [
+                { label: 'Knowledge Management Workflow', text: 'Independently designed a workflow covering knowledge submission, initial and expert evaluation, feedback, revision and approval. I defined the process logic, user roles, form specifications and workflow transitions. Final production deployment was not confirmed.' },
+                { label: 'ERP Reporting & SQL Customization', text: 'Developed and modified reports for engineering and production activities. Used SQL and ERP configuration tools to retrieve and consolidate information from related records, improve report readability and support departmental reporting.' },
+                { label: 'Work Order Reporting', text: 'Created a work order report and its printable version. Worked around a system lookup limitation by modifying record display configurations, making engineering drawing references easier to identify and filter.' },
+              ],
+            },
+            {
+              kind: 'placeholders',
+              items: [
+                { label: 'Knowledge management workflow diagram', note: 'Diagram to be added' },
+                { label: 'Report screenshot', note: 'Screenshot to be added' },
+                { label: 'Work order report screenshot', note: 'Screenshot to be added' },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'skills',
+          title: 'Technologies & Skills',
+          blocks: [
+            {
+              kind: 'rows',
+              items: [
+                { label: 'Databases & SQL', text: 'SQL queries, views, temporary tables, database structure analysis.' },
+                { label: 'ERP configuration', text: 'Forms, workflows, reports and display settings in GALEX ERP.' },
+                { label: 'Analysis & communication', text: 'Requirements gathering, technical specifications, user documentation and training.' },
+              ],
+            },
+          ],
+        },
+      ],
     },
     image: {
       src: null,
-      alt: 'Enterprise data and ERP work',
+      alt: 'GALEX ERP customization',
       placeholderLabel: 'Project image',
     },
   },
