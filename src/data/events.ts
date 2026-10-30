@@ -6,9 +6,12 @@
  *  - 'Presentation'  a talk or presentation I gave
  *  - 'Demonstration' a project demonstration or workshop session
  *  - 'Participation' attended or took part without presenting
+ *  - 'Organization'  helped organize the event (committee member)
  *
  * `photos`: the first is the lead image; up to two more are shown beside it.
  */
+import mdmGroup from '~/assets/events/mdm-2024-group.jpg';
+import mdmBanner from '~/assets/events/mdm-2024-emeralds-banner.jpg';
 import ebdvfPresenting from '~/assets/events/ebdvf-2025-presenting.jpg';
 import ebdvfGroup from '~/assets/events/ebdvf-2025-group.jpg';
 import ebdvfPoster from '~/assets/events/ebdvf-2025-poster.jpg';
@@ -16,7 +19,7 @@ import presenting from '~/assets/events/future-ready-presenting.jpg';
 import group from '~/assets/events/future-ready-group.jpg';
 import panel from '~/assets/events/future-ready-panel.jpg';
 
-export type EventKind = 'Presentation' | 'Demonstration' | 'Participation';
+export type EventKind = 'Presentation' | 'Demonstration' | 'Participation' | 'Organization';
 
 export interface EventPhoto { src: ImageMetadata; alt: string }
 
@@ -49,6 +52,19 @@ export const events: ResearchEvent[] = [
       { src: ebdvfPoster, alt: 'Session poster listing the speakers of the EMERALDS session at EBDVF 2025' },
     ],
     link: { label: 'EBDVF 2025', href: 'https://ebdvf.eu' },
+  },
+  {
+    title: 'IEEE International Conference on Mobile Data Management (MDM 2024)',
+    kind: 'Organization',
+    year: 2024,
+    location: 'Brussels, Belgium',
+    involvement:
+      'Part of the organizing team of MDM 2024, hosted in Brussels.',
+    photos: [
+      { src: mdmGroup, alt: 'Group photo of the MDM 2024 participants on the Grand Place in Brussels' },
+      { src: mdmBanner, alt: 'EMERALDS project roll-up banner and information table at the venue' },
+    ],
+    link: { label: 'MDM 2024 website', href: 'https://mdm2024.github.io' },
   },
   {
     title: 'Future-Ready: On-Demand Solutions with AI, Data, and Robotics',
