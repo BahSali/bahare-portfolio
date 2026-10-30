@@ -45,19 +45,19 @@ const cell = (p: { item: TimelineItem; sub: number }) =>
 const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b) - startYear(a));
 ---
 <!-- Small screens: a simple list, latest first -->
-<ol class="border-b border-warm/70 lg:hidden">
+<ol class="border-b border-warm/70 xl:hidden">
   {[...mobile, ...undated].map((it) => (
     <li class="border-t border-warm/70 py-5"><TimelineEntry item={it} compact showPeriod /></li>
   ))}
 </ol>
 
 <!-- md and up: lanes by year -->
-<div class="hidden lg:block">
+<div class="hidden xl:block">
   <div class="grid gap-x-4 border-b border-ink pb-3" style={`grid-template-columns:${template}`}>
     <span></span>
     {lanes.map((l) => <p class="eyebrow" style={`grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}>{l.label}</p>)}
   </div>
-  <div class="grid gap-x-4 pt-2" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},3.25rem)`}>
+  <div class="grid gap-x-4 pt-2" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},2.75rem)`}>
     {years.map((y, k) => (
       <p class="border-t border-warm/40 pt-2 text-sm tabular-nums text-ink-soft" style={`grid-row:${k + 1};grid-column:1`}>{y}</p>
     ))}
@@ -68,7 +68,7 @@ const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b)
 </div>
 
 {undated.length > 0 && (
-  <div class="mt-8 hidden lg:block">
+  <div class="mt-8 hidden xl:block">
     <p class="eyebrow mb-3">Dates to be added</p>
     <ul class="grid gap-x-5 md:grid-cols-3">
       {undated.map((it) => <li><TimelineEntry item={it} compact /></li>)}
