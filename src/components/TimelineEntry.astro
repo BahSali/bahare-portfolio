@@ -19,6 +19,7 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
       </h3>
       <p class="mt-0.5 text-xs tabular-nums text-ink-soft">{period ?? 'Dates to be added'}</p>
       {item.org && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org}</p>}
+      {item.field && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{item.field}</p>}
       {item.summary && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{item.summary}</p>}
       {item.achievement && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.achievement}</p>}
     </div>

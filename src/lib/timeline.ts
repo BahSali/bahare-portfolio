@@ -22,6 +22,8 @@ export interface TimelineBase {
   start: string | null;
   end: string | 'present' | null;
   summary: string | null;
+  /** Field of study, shown under the institution. */
+  field?: string;
   /** Short academic or professional distinction, shown under the organization. */
   achievement?: string;
   topics: string[];

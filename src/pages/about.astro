@@ -41,6 +41,7 @@ const row = 'grid scroll-mt-24 gap-x-10 gap-y-4 lg:grid-cols-12';
               <div>
                 <p class="font-display text-xl" style="line-height:1.25">{e.title}</p>
                 <p class="mt-0.5 text-sm text-ink-soft">{e.institution}</p>
+                {e.field && <p class="mt-0.5 text-sm text-ink-soft">{e.field}</p>}
                 {e.achievement && <p class="mt-0.5 text-sm text-ink-soft">{e.achievement}</p>}
                 {e.thesis && <p class="mt-0.5 text-sm text-ink-soft">{e.thesis}</p>}
               </div>
