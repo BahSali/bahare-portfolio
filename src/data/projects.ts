@@ -8,6 +8,8 @@
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
 import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.png';
+import erpWorkOrderReport from '~/assets/erp/work-order-report.png';
+import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
@@ -770,8 +772,10 @@ export const projects: Project[] = [
               kind: 'rows',
               items: [
                 { label: 'Process analysis', text: 'Talked with employees across departments to understand their processes and gather requirements.' },
-                { label: 'Workflow and form design', text: 'Designed the processes and forms each department needed. In the vendor’s test application, I built forms and pages myself and sent them to the vendor.' },
-                { label: 'SQL and data investigation', text: 'Read the software and its SQL database to find the cause of process problems. Behind each form was a page where SQL defined which tables to read and how, using joins, subqueries, aggregations, CASE logic, temporary tables, views and cursors.' },
+                { label: 'Workflow and form design', text: 'Designed the processes and forms each department needed. In the vendor’s test application, I built forms and pages myself and sent them to the vendor. Behind each form was a page where SQL defined which tables to read and how.' },
+                { label: 'SQL and data investigation', text: 'Read the software and its SQL database to find the cause of process problems, using joins, subqueries, aggregations, CASE logic, temporary tables, views and cursors.' },
+                { label: 'Reports', text: 'Built many reports for departments such as planning and engineering, using SQL and XML for data and layout.' },
+                { label: 'Module coverage', text: 'Most modules were part of the system from the start, and we completed the processes inside them. The ICT, maintenance and manufacturing engineering modules were added at our request, and I worked out their processes and forms with the vendor.' },
                 { label: 'Vendor collaboration', text: 'Sent requests and technical specifications to the vendor, who reviewed them and brought up the updated system in production.' },
                 { label: 'Documentation and training', text: 'Trained employees on the system and wrote user guides.' },
               ],
@@ -785,8 +789,8 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Knowledge Management Workflow', text: 'Independently designed a workflow covering knowledge submission, initial and expert evaluation, feedback, revision and approval. I defined the process logic, user roles, form specifications and workflow transitions. Final production deployment was not confirmed.' },
-                { label: 'ERP Reporting & SQL Customization', text: 'Reworked an existing engineering report whose time data was split across three separate columns, which made each record hard to read. Using XML, I merged department, department activities and time into one column, so each record shows the time spent on one drawing item by activity. When a project is selected, the first row also shows total time and total time per department.' },
+                { label: 'Knowledge Management Workflow', text: 'Independently designed a workflow covering knowledge submission, initial and expert evaluation, feedback, revision and approval, built as three linked forms. I defined the process logic, user roles, form specifications and workflow transitions, including a separate primary-evaluation form that keeps secondary evaluators’ input apart from the submitter, version tracking of revised attachments, and a weighted final score.' },
+                { label: 'ERP Reporting & SQL Customization', text: 'Reworked an existing engineering report whose time data was split across three separate columns, which made each record hard to read. Using XML, I merged department, department activities and time into one column, so each record shows the time spent on one drawing item by activity. When a project is selected, the first row also shows total time and total time per department. Other reports I built include a department timesheet summary (regular, overtime, rework and downtime hours) and a per-project comparison of price-analysis, material take-off (MTO) and consumed quantities.' },
                 { label: 'Work Order Reporting', text: 'Created a work order report for the planning department, with a printable version that can be printed on the back of the drawing. The system could only look up records by ID, which made filtering by drawing number error-prone or slow. I added the drawing number to the form’s record display, so quick search shows it next to the ID and project, and enabled filtering by drawing number.' },
               ],
             },
@@ -797,15 +801,28 @@ export const projects: Project[] = [
               figure: {
                 src: erpKnowledgeWorkflow,
                 alt: 'Swimlane diagram of the knowledge management workflow for three roles: the primary user, the senior knowledge manager acting as primary evaluator, and the secondary evaluator',
-                caption: 'Knowledge management workflow: primary user, senior knowledge manager (primary evaluator) and secondary evaluator. Original diagram, in Persian.',
+                caption: 'Knowledge management workflow: primary user, senior knowledge manager (primary evaluator) and secondary evaluator. Labels translated into English by the author from the original Persian diagram.',
               },
             },
             {
-              kind: 'placeholders',
-              items: [
-                { label: 'Report screenshot', note: 'Screenshot to be added' },
-                { label: 'Work order report screenshot', note: 'Screenshot to be added' },
-              ],
+              kind: 'text',
+              paragraphs: [],
+              wide: true,
+              figure: {
+                src: erpTimesheetReport,
+                alt: 'Engineering documents report with department, time and department activities merged into one column',
+                caption: 'Engineering documents report after the rework: one column per record. Column headers translated into English by the author; row contents are in Persian.',
+              },
+            },
+            {
+              kind: 'text',
+              paragraphs: [],
+              wide: true,
+              figure: {
+                src: erpWorkOrderReport,
+                alt: 'Printable work order report with item number, type, quantity, drawing match and sequence of operations, plus a blank part transfer table',
+                caption: 'Printable work order report. Interface labels translated into English by the author; names, codes and other identifying details are removed.',
+              },
             },
           ],
         },
@@ -816,7 +833,7 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Databases & SQL', text: 'Joins, subqueries, aggregations, CASE WHEN, temporary tables, views, cursors; database structure analysis.' },
+                { label: 'Databases & SQL', text: 'Joins, subqueries, aggregations, CASE WHEN, temporary tables, views, cursors; XML for report layout; database structure analysis.' },
                 { label: 'ERP configuration', text: 'Forms, workflows, reports and display settings in GALEX ERP, using the vendor’s test application.' },
                 { label: 'Analysis & communication', text: 'Requirements gathering, technical specifications, user documentation and training.' },
               ],
