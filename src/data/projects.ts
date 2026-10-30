@@ -12,7 +12,7 @@ import erpWorkOrderReport from '~/assets/erp/work-order-report.png';
 import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
 import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
 import erpProductionStandard from '~/assets/erp/production-standard.png';
-import erpCard from '~/assets/erp/erp-card.png';
+import erpCard from '~/assets/erp/erp-card-v2.png';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
