@@ -12,12 +12,12 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
 {compact
   ? (
     <div id={item.anchor ?? item.id} class:list={['h-full min-h-[2rem] scroll-mt-24 border-l-2 pl-3', laneBorder]}>
-      {showPeriod && <p class="eyebrow">{period ?? 'Dates to be added'}</p>}
       <h3 class="font-display text-[1.0625rem]" style="line-height:1.2">
         {(item.related[0] || item.href)
           ? <a href={item.related[0] ? `/projects/${item.related[0].slug}` : item.href} class="transition-colors hover:text-teal">{item.title}</a>
           : item.title}
       </h3>
+      <p class="mt-0.5 text-xs tabular-nums text-ink-soft">{period ?? 'Dates to be added'}</p>
       {item.org && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org}</p>}
       {item.summary && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{item.summary}</p>}
       {item.achievement && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.achievement}</p>}

@@ -56,7 +56,7 @@ const mobile = [...dated].sort((a, b) => t1(b) - t1(a) || t0(b) - t0(a));
 
 <!-- xl and up: lanes drawn to scale -->
 <div class="hidden xl:block">
-  <div class="grid gap-x-4" style={`grid-template-columns:${template}`}>
+  <div class="sticky top-[60px] z-20 grid gap-x-4 bg-paper" style={`grid-template-columns:${template}`}>
     <span></span>
     {lanes.map((l) => <p class:list={['eyebrow border-t-[3px] pt-2 pb-2', headBar[l.id]]}>{l.label}</p>)}
   </div>
