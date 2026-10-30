@@ -9,6 +9,9 @@
  *
  * `photos`: the first is the lead image; up to two more are shown beside it.
  */
+import ebdvfPresenting from '~/assets/events/ebdvf-2025-presenting.jpg';
+import ebdvfGroup from '~/assets/events/ebdvf-2025-group.jpg';
+import ebdvfPoster from '~/assets/events/ebdvf-2025-poster.jpg';
 import presenting from '~/assets/events/future-ready-presenting.jpg';
 import group from '~/assets/events/future-ready-group.jpg';
 import panel from '~/assets/events/future-ready-panel.jpg';
@@ -32,6 +35,21 @@ export interface ResearchEvent {
 }
 
 export const events: ResearchEvent[] = [
+  {
+    title: 'European Big Data Value Forum 2025 (EBDVF)',
+    subtitle: 'Shaping the Future of Extreme-scale Urban Mobility Data Analytics as a Service: The EMERALDS approach',
+    kind: 'Presentation',
+    year: 2025,
+    location: 'Copenhagen, Denmark',
+    involvement:
+      'Speaker in the EMERALDS final-event session on 13 November, presenting ULB’s traffic estimation work to the project partners and the forum audience.',
+    photos: [
+      { src: ebdvfPresenting, alt: 'Presenting ULB’s York traffic estimation case to the session audience' },
+      { src: ebdvfGroup, alt: 'The EMERALDS session speakers and partners in front of the title slide of the final event' },
+      { src: ebdvfPoster, alt: 'Session poster listing the speakers of the EMERALDS session at EBDVF 2025' },
+    ],
+    link: { label: 'EBDVF 2025', href: 'https://ebdvf.eu' },
+  },
   {
     title: 'Future-Ready: On-Demand Solutions with AI, Data, and Robotics',
     subtitle: 'From Extreme Data to AI Insights: The DataNexus Approach Across the Compute Continuum',
