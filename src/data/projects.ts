@@ -7,6 +7,7 @@
  * - `publications` lists publication slugs (see publications.ts) for cross-linking.
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
+import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.png';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
 import archAttention from '~/assets/phd/arch-attention.png';
@@ -785,14 +786,23 @@ export const projects: Project[] = [
               kind: 'rows',
               items: [
                 { label: 'Knowledge Management Workflow', text: 'Independently designed a workflow covering knowledge submission, initial and expert evaluation, feedback, revision and approval. I defined the process logic, user roles, form specifications and workflow transitions. Final production deployment was not confirmed.' },
-                { label: 'ERP Reporting & SQL Customization', text: 'Developed and modified reports for engineering and production activities. Used SQL and ERP configuration tools to retrieve and consolidate information from related records, improve report readability and support departmental reporting.' },
-                { label: 'Work Order Reporting', text: 'Created a work order report and its printable version. Worked around a system lookup limitation by modifying record display configurations, making engineering drawing references easier to identify and filter.' },
+                { label: 'ERP Reporting & SQL Customization', text: 'Reworked an existing engineering report whose time data was split across three separate columns, which made each record hard to read. Using XML, I merged department, department activities and time into one column, so each record shows the time spent on one drawing item by activity. When a project is selected, the first row also shows total time and total time per department.' },
+                { label: 'Work Order Reporting', text: 'Created a work order report for the planning department, with a printable version that can be printed on the back of the drawing. The system could only look up records by ID, which made filtering by drawing number error-prone or slow. I added the drawing number to the form’s record display, so quick search shows it next to the ID and project, and enabled filtering by drawing number.' },
               ],
+            },
+            {
+              kind: 'text',
+              paragraphs: [],
+              wide: true,
+              figure: {
+                src: erpKnowledgeWorkflow,
+                alt: 'Swimlane diagram of the knowledge management workflow for three roles: the primary user, the senior knowledge manager acting as primary evaluator, and the secondary evaluator',
+                caption: 'Knowledge management workflow: primary user, senior knowledge manager (primary evaluator) and secondary evaluator. Original diagram, in Persian.',
+              },
             },
             {
               kind: 'placeholders',
               items: [
-                { label: 'Knowledge management workflow diagram', note: 'Diagram to be added' },
                 { label: 'Report screenshot', note: 'Screenshot to be added' },
                 { label: 'Work order report screenshot', note: 'Screenshot to be added' },
               ],

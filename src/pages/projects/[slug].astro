@@ -317,9 +317,9 @@ const toggle =
               }
               if (b.kind === 'placeholders') {
                 return (
-                  <div class="grid gap-3 sm:grid-cols-3">
+                  <div class="grid gap-3 sm:grid-cols-2">
                     {b.items.map((it) => (
-                      <div role="img" aria-label={`${it.label} (placeholder)`} class="flex aspect-[4/3] flex-col justify-between border border-dashed border-warm bg-paper-deep p-3 text-ink-soft">
+                      <div role="img" aria-label={`${it.label} (placeholder)`} class="flex aspect-[16/9] flex-col justify-between border border-dashed border-warm bg-paper-deep p-3 text-ink-soft">
                         <span class="eyebrow">{it.note}</span>
                         <span class="font-display text-[0.9375rem] leading-snug text-ink">{it.label}</span>
                       </div>
