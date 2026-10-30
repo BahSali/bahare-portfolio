@@ -734,7 +734,7 @@ export const projects: Project[] = [
     category: 'industry',
     tier: 'standard',
     homeFeatured: false,
-    eyebrow: 'Industry · Farabord, Iran',
+    eyebrow: 'Industry · Farabord (Farassan group), Iran',
     subtitle: 'ERP Customization · SQL · Business Process Analysis',
     period: 'September 2019 – April 2022',
     role: 'ERP Systems Analyst',
@@ -754,7 +754,8 @@ export const projects: Project[] = [
               kind: 'text',
               lead: 'Adapting an existing ERP system to company processes',
               paragraphs: [
-                'At Farabord, I worked on customizing GALEX ERP, a platform developed by GreenDataWare, to support the company’s operational processes. The platform itself was the vendor’s product; my work was the analysis, configuration, reporting and documentation built on top of it.',
+                'Farabord, a Farassan subsidiary, had purchased GALEX ERP, an Iranian ERP platform developed by GreenDataWare, and needed it adapted to its own processes. I worked as the link between the company and the vendor, turning operational needs into forms, workflows and reports.',
+                'The platform was the vendor’s product. The vendor reviewed my requests and deployed the changes to production; the analysis, specifications and process design behind them were my work.',
               ],
             },
             { kind: 'links' },
@@ -767,11 +768,11 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Process analysis', text: 'Analyzed business processes and gathered requirements from employees across departments.' },
-                { label: 'Workflow and form design', text: 'Designed new workflows, forms and reports based on operational needs, and developed and configured forms in the ERP test environment.' },
-                { label: 'SQL and data investigation', text: 'Wrote SQL queries with joins, subqueries, aggregations, conditional logic, temporary tables and views, and investigated database structures to troubleshoot data and workflow issues.' },
-                { label: 'Vendor collaboration', text: 'Prepared technical specifications for the proposed changes. The ERP vendor reviewed them and handled production deployment.' },
-                { label: 'Documentation and training', text: 'Prepared user documentation and trained employees.' },
+                { label: 'Process analysis', text: 'Talked with employees across departments to understand their processes and gather requirements.' },
+                { label: 'Workflow and form design', text: 'Designed the processes and forms each department needed. In the vendor’s test application, I built forms and pages myself and sent them to the vendor.' },
+                { label: 'SQL and data investigation', text: 'Read the software and its SQL database to find the cause of process problems. Behind each form was a page where SQL defined which tables to read and how, using joins, subqueries, aggregations, CASE logic, temporary tables, views and cursors.' },
+                { label: 'Vendor collaboration', text: 'Sent requests and technical specifications to the vendor, who reviewed them and brought up the updated system in production.' },
+                { label: 'Documentation and training', text: 'Trained employees on the system and wrote user guides.' },
               ],
             },
           ],
@@ -805,8 +806,8 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Databases & SQL', text: 'SQL queries, views, temporary tables, database structure analysis.' },
-                { label: 'ERP configuration', text: 'Forms, workflows, reports and display settings in GALEX ERP.' },
+                { label: 'Databases & SQL', text: 'Joins, subqueries, aggregations, CASE WHEN, temporary tables, views, cursors; database structure analysis.' },
+                { label: 'ERP configuration', text: 'Forms, workflows, reports and display settings in GALEX ERP, using the vendor’s test application.' },
                 { label: 'Analysis & communication', text: 'Requirements gathering, technical specifications, user documentation and training.' },
               ],
             },
