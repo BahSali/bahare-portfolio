@@ -429,7 +429,7 @@ export const projects: Project[] = [
     hasDemo: true,
     role: 'ULB Researcher',
     summary: 'A Horizon Europe project on reusable urban mobility data services, where I worked on ULB’s traffic estimation and handled much of its day-to-day coordination.',
-    publications: ['model-cards-2025'],
+    publications: ['model-cards-2026'],
     links: [
       { label: 'Project website →', href: 'https://emeralds-horizon.eu' },
       { label: 'Explore the PhD Research Behind Traffic Estimation →', href: '/projects/traffic-speed-estimation' },
