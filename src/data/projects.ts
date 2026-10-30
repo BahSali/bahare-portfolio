@@ -735,12 +735,12 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'enterprise-data-erp',
-    title: 'Enterprise ERP Customization & Process Integration',
+    title: 'ERP Customization & Business Process Development',
     category: 'industry',
     tier: 'standard',
     homeFeatured: false,
     eyebrow: 'Industry · Farabord, Iran',
-    subtitle: 'ERP Customization · SQL · Business Process Analysis',
+    subtitle: 'Business Process Analysis · SQL Development · ERP Customization',
     period: 'September 2019 – April 2022',
     role: 'ERP Systems Analyst',
     summary: 'Customizing an existing ERP system to fit operational processes: requirements, workflows, forms, SQL-based reports and user training.',
@@ -756,13 +756,13 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
-              lead: 'Adapting an existing ERP system to company processes',
+              lead: 'Customizing ERP Workflows for Business Operations',
               paragraphs: [
-                'Farabord had purchased an Iranian ERP platform and needed it adapted to its own processes. I worked as the link between the company and the vendor, turning operational needs into forms, workflows and reports.',
-                'The platform was the vendor’s product. The vendor reviewed my requests and deployed the changes to production; the analysis, specifications and process design behind them were my work.',
+                'At Farabord, an industrial manufacturing company, I worked as an ERP Systems Analyst, helping adapt GALEX ERP to the company’s operational needs across engineering, production, inventory, procurement, and other departments.',
+                'My role combined business process analysis with hands-on technical development. I worked closely with different departments to understand their workflows, identify system limitations, and translate operational requirements into technical solutions. This involved designing and configuring ERP forms and workflows, developing SQL queries and reports, troubleshooting system issues, and collaborating with the software vendor on implementing changes.',
+                'The platform was the vendor’s product. The vendor reviewed my requests and deployed the changes to production.',
               ],
             },
-            { kind: 'links' },
           ],
         },
         {
