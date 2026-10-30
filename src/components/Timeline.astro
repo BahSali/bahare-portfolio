@@ -42,6 +42,8 @@ const template = `3.5rem ${tracks.join(' ')}`;
 const rowOf = (y: number) => maxYear - y + 1;
 const cell = (p: { item: TimelineItem; sub: number }) =>
   `grid-row:${rowOf(endYear(p.item))} / ${rowOf(startYear(p.item)) + 1};grid-column:${laneCol[p.item.lane] + p.sub}`;
+const band: Record<string, string> = { education: 'bg-teal/[0.13]', industry: 'bg-clay/[0.11]', research: 'bg-warm/[0.38]' };
+const headBar: Record<string, string> = { education: 'border-teal', industry: 'border-clay', research: 'border-warm' };
 const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b) - startYear(a));
 ---
 <!-- Small screens: a simple list, latest first -->
@@ -53,16 +55,17 @@ const mobile = [...dated].sort((a, b) => endYear(b) - endYear(a) || startYear(b)
 
 <!-- md and up: lanes by year -->
 <div class="hidden xl:block">
-  <div class="grid gap-x-4 border-b border-ink pb-3" style={`grid-template-columns:${template}`}>
+  <div class="grid gap-x-4 border-b border-ink pb-0" style={`grid-template-columns:${template}`}>
     <span></span>
-    {lanes.map((l) => <p class="eyebrow" style={`grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}>{l.label}</p>)}
+    {lanes.map((l) => <p class:list={['eyebrow border-t-[3px] pt-2', headBar[l.id]]} style={`grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}>{l.label}</p>)}
   </div>
-  <div class="grid gap-x-4 pt-2" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},2.75rem)`}>
+  <div class="grid gap-x-4" style={`grid-template-columns:${template};grid-template-rows:repeat(${years.length},2.75rem)`}>
+    {lanes.map((l) => <div aria-hidden="true" class={band[l.id]} style={`grid-row:1 / span ${years.length};grid-column:${laneCol[l.id]} / span ${subCount[l.id]}`}></div>)}
     {years.map((y, k) => (
       <p class="border-t border-warm/40 pt-2 text-sm tabular-nums text-ink-soft" style={`grid-row:${k + 1};grid-column:1`}>{y}</p>
     ))}
     {placed.map((p) => (
-      <div class="min-h-0 pt-1.5" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
+      <div class="min-h-0 px-2 pt-1.5" style={cell(p)}><TimelineEntry item={p.item} compact /></div>
     ))}
   </div>
 </div>

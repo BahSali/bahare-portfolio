@@ -7,7 +7,7 @@ interface Props { item: TimelineItem; showLane?: boolean; compact?: boolean; sho
 const { item, showLane = false, compact = false, showPeriod = false } = Astro.props;
 const period = formatPeriod(item);
 const laneLabel = lanes.find((l) => l.id === item.lane)?.label;
-const laneBorder = { education: 'border-teal', industry: 'border-clay', research: 'border-sage-deep' }[item.lane];
+const laneBorder = { education: 'border-teal', industry: 'border-clay', research: 'border-ink-soft' }[item.lane];
 ---
 {compact
   ? (
