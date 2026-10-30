@@ -44,7 +44,6 @@ for (const lane of lanes) {
   subs[lane.id] = cols.length ? cols : [[]];
 }
 const template = `3.5rem ${lanes.map((l) => `minmax(0, ${subs[l.id].length}fr)`).join(' ')}`;
-const band: Record<string, string> = { education: 'bg-teal/[0.13]', industry: 'bg-clay/[0.11]', research: 'bg-warm/[0.38]' };
 const headBar: Record<string, string> = { education: 'border-teal', industry: 'border-clay', research: 'border-warm' };
 const mobile = [...dated].sort((a, b) => t1(b) - t1(a) || t0(b) - t0(a));
 ---
@@ -68,7 +67,7 @@ const mobile = [...dated].sort((a, b) => t1(b) - t1(a) || t0(b) - t0(a));
       ))}
     </div>
     {lanes.map((l) => (
-      <div class:list={['grid gap-x-3 px-2', band[l.id]]} style={`grid-template-columns:repeat(${subs[l.id].length}, minmax(0, 1fr));height:${totalH}`}>
+      <div class="grid gap-x-3 px-2" style={`grid-template-columns:repeat(${subs[l.id].length}, minmax(0, 1fr));height:${totalH}`}>
         {subs[l.id].map((col) => (
           <div class="relative">
             {col.map((it) => (

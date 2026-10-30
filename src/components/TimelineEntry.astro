@@ -19,7 +19,8 @@ const laneBorder = { education: 'border-teal', industry: 'border-clay', research
           : item.title}
       </h3>
       {item.org && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.org}</p>}
-      {(item.summary ?? item.achievement) && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{item.summary ?? item.achievement}</p>}
+      {item.summary && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{item.summary}</p>}
+      {item.achievement && <p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{item.achievement}</p>}
     </div>
   )
   : (
