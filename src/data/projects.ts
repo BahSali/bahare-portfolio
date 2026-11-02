@@ -810,7 +810,7 @@ export const projects: Project[] = [
                     {
                       src: erpKnowledgeWorkflow,
                       alt: 'Swimlane diagram of the knowledge management workflow for three roles: knowledge contributor, senior knowledge manager as first-level reviewer, and subject-matter expert as second-level reviewer',
-                      caption: 'Knowledge management workflow: knowledge contributor, senior knowledge manager (first-level reviewer) and subject-matter expert (second-level reviewer).',
+                      caption: 'Knowledge management workflow',
                     },
                   ],
                 },
@@ -822,7 +822,7 @@ export const projects: Project[] = [
                     {
                       src: erpEngineeringReport,
                       alt: 'Engineering documents report with department, time and department activities merged into one column',
-                      caption: 'Engineering documents report after the rework: one row per record. Translated into English by the author; identifying details blurred.',
+                      caption: 'Engineering report, translated by the author; details blurred',
                     },
                   ],
                 },
@@ -834,7 +834,7 @@ export const projects: Project[] = [
                     {
                       src: erpGoodsPermit,
                       alt: 'Goods entry permit form with date, recipient, sender and an item table',
-                      caption: 'Goods entry permit form, shown in the test environment. Labels translated into English by the author; the form is empty.',
+                      caption: 'Goods entry permit form, translated by the author',
                     },
                   ],
                 },
