@@ -10,7 +10,6 @@
 import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.jpg';
 import erpEngineeringReport from '~/assets/erp/engineering-report.jpg';
 import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
-import erpProductionStandard from '~/assets/erp/production-standard.png';
 import erpCard from '~/assets/erp/erp-card-v2.png';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
@@ -824,11 +823,6 @@ export const projects: Project[] = [
                       src: erpEngineeringReport,
                       alt: 'Engineering documents report with department, time and department activities merged into one column',
                       caption: 'Engineering documents report after the rework: one row per record. Translated into English by the author; identifying details blurred.',
-                    },
-                    {
-                      src: erpProductionStandard,
-                      alt: 'Production process standard table listing the order of work, department activities, time in hours and department',
-                      caption: 'Production process standard on an engineering document form. Column headers translated into English by the author; row contents are in Persian.',
                     },
                   ],
                 },

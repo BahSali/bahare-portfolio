@@ -343,7 +343,7 @@ const toggle =
                       const [num, ...rest] = it.eyebrow.split(' / ');
                       return (
                         <article class="grid items-center gap-x-10 gap-y-5 md:grid-cols-12">
-                          <div class="md:col-span-6">
+                          <div class="md:col-span-7">
                             <p class="flex items-baseline gap-2 border-b border-warm/70 pb-2 text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-clay">
                               <span class="font-display text-2xl font-normal tracking-normal">{num}</span>
                               <span>{rest.join(' / ')}</span>
@@ -351,9 +351,9 @@ const toggle =
                             <h3 class="font-display mt-4 text-[1.0625rem]" style="line-height:1.3">{it.title}</h3>
                             <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-soft">{it.text}</p>
                           </div>
-                          <div class="space-y-4 bg-paper-deep p-4 md:col-span-6 sm:p-5">
+                          <div class="flex flex-col justify-center gap-4 bg-paper-deep p-4 md:col-span-5 md:min-h-[19rem] sm:p-5">
                             {it.figures.map((f) => (
-                              <figure class="mx-auto w-full max-w-[15rem]">
+                              <figure class="mx-auto w-full max-w-[13rem]">
                                 <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge figure">
                                   <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
                                 </button>
