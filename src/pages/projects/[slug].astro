@@ -353,7 +353,7 @@ const toggle =
                           </div>
                           <div class="space-y-4 bg-paper-deep p-4 md:col-span-6 sm:p-5">
                             {it.figures.map((f) => (
-                              <figure class="mx-auto w-full max-w-[22rem]">
+                              <figure class="mx-auto w-full max-w-[15rem]">
                                 <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge figure">
                                   <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
                                 </button>

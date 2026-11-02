@@ -8,7 +8,7 @@
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
 import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.jpg';
-import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
+import erpEngineeringReport from '~/assets/erp/engineering-report.jpg';
 import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
 import erpProductionStandard from '~/assets/erp/production-standard.png';
 import erpCard from '~/assets/erp/erp-card-v2.png';
@@ -821,9 +821,9 @@ export const projects: Project[] = [
                   text: 'Developed a report to track each department’s contribution to manufacturing projects. The report shows the time spent by each department and the total time required for each project.',
                   figures: [
                     {
-                      src: erpTimesheetReport,
+                      src: erpEngineeringReport,
                       alt: 'Engineering documents report with department, time and department activities merged into one column',
-                      caption: 'Engineering documents report after the rework: one column per record. Column headers translated into English by the author; row contents are in Persian.',
+                      caption: 'Engineering documents report after the rework: one row per record. Translated into English by the author; identifying details blurred.',
                     },
                     {
                       src: erpProductionStandard,
