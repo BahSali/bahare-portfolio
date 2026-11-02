@@ -343,7 +343,10 @@ const toggle =
                           <span class="font-display text-sm text-clay">0{i + 1}</span>
                           <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
                         </div>
-                        <p class="text-justify text-[0.9rem] leading-relaxed hyphens-auto md:col-span-7">{it.text}</p>
+                        <div class="md:col-span-7">
+                          <p class="text-justify text-[0.9rem] leading-relaxed hyphens-auto">{it.text}</p>
+                          {it.tags && <p class="mt-2 text-xs tracking-wide text-ink-soft">{it.tags}</p>}
+                        </div>
                       </li>
                     ))}
                   </ol>
