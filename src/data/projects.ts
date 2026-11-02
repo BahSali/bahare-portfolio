@@ -743,6 +743,10 @@ export const projects: Project[] = [
     subtitle: 'Business Process Analysis · SQL Development · ERP Customization',
     period: 'September 2019 – April 2022',
     role: 'ERP Systems Analyst',
+    links: [
+      { label: 'GALEX ERP', href: 'https://greendataware.com' },
+      { label: 'GreenDataWare', href: 'https://greendataware.com' },
+    ],
     summary: 'Customizing an existing ERP system to fit operational processes: requirements, workflows, forms, SQL-based reports and user training.',
     brief: {
       overview: [],
@@ -760,9 +764,9 @@ export const projects: Project[] = [
               paragraphs: [
                 'At Farabord, an industrial manufacturing company, I worked as an ERP Systems Analyst, helping adapt GALEX ERP to the company’s operational needs across engineering, production, inventory, procurement, and other departments.',
                 'My role combined business process analysis with hands-on technical development. I worked closely with different departments to understand their workflows, identify system limitations, and translate operational requirements into technical solutions. This involved designing and configuring ERP forms and workflows, developing SQL queries and reports, troubleshooting system issues, and collaborating with the software vendor on implementing changes.',
-                'The platform was the vendor’s product. The vendor reviewed my requests and deployed the changes to production.',
               ],
             },
+            { kind: 'links' },
           ],
         },
         {
