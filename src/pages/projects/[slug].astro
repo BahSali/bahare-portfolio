@@ -336,7 +336,7 @@ const toggle =
               }
               if (b.kind === 'rows') {
                 return (
-                  <ol class="border-t border-ink">
+                  <ol class:list={[!b.noTopRule && 'border-t border-ink']}>
                     {b.items.map((it, i) => (
                       <li class="grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
                         <div class="flex items-baseline gap-3 md:col-span-5">

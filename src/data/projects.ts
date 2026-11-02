@@ -110,7 +110,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 export type BriefBlock =
   | { kind: 'text'; /** Second figure stacked under the first. */ figure2?: BriefFigure; /** Larger figure beside the text. */ large?: boolean; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
-  | { kind: 'rows'; items: { label: string; text: string }[] }
+  | { kind: 'rows'; /** Omits the rule above the first row. */ noTopRule?: boolean; items: { label: string; text: string }[] }
   | { kind: 'links' }
   | { kind: 'placeholders'; items: { label: string; note: string }[] }
   | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
@@ -771,6 +771,7 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'rows',
+              noTopRule: true,
               items: [
                 { label: 'Business Process Analysis', text: 'Analyzed departmental workflows, gathered requirements, and identified gaps between business needs and ERP functionality.' },
                 { label: 'ERP Customization & Development', text: 'Designed workflows and developed forms using the ERP development tools and SQL. Contributed to customizing existing modules and defining new ones.' },
