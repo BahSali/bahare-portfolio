@@ -9,7 +9,7 @@
  */
 import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.jpg';
 import erpEngineeringReport from '~/assets/erp/engineering-report.jpg';
-import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
+import erpGoodsPermit from '~/assets/erp/goods-permit-form-en.jpg';
 import erpCard from '~/assets/erp/erp-card-v2.png';
 import citywideNetwork from '~/assets/phd/citywide-network.jpg';
 import archBaseline from '~/assets/phd/arch-baseline.png';
@@ -822,7 +822,7 @@ export const projects: Project[] = [
                     {
                       src: erpEngineeringReport,
                       alt: 'Engineering documents report with department, time and department activities merged into one column',
-                      caption: 'Engineering report, translated by the author; details blurred',
+                      caption: 'Engineering report, translated from Persian',
                     },
                   ],
                 },
@@ -834,7 +834,7 @@ export const projects: Project[] = [
                     {
                       src: erpGoodsPermit,
                       alt: 'Goods entry permit form with date, recipient, sender and an item table',
-                      caption: 'Goods entry permit form, translated by the author',
+                      caption: 'Goods entry permit form, translated from Persian',
                     },
                   ],
                 },

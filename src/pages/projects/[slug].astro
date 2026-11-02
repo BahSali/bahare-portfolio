@@ -338,29 +338,25 @@ const toggle =
               }
               if (b.kind === 'selected') {
                 return (
-                  <div class="space-y-8">
+                  <div class="grid gap-x-8 gap-y-10 md:grid-cols-3">
                     {b.items.map((it) => {
                       const [num, ...rest] = it.eyebrow.split(' / ');
                       return (
-                        <article class="grid items-start gap-x-10 gap-y-4 md:grid-cols-12">
-                          <div class="md:col-span-7">
-                            <p class="flex items-baseline gap-2 border-b border-warm/70 pb-2 text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-clay">
-                              <span class="font-display text-2xl font-normal tracking-normal">{num}</span>
-                              <span>{rest.join(' / ')}</span>
-                            </p>
-                            <h3 class="font-display mt-4 text-[1.0625rem]" style="line-height:1.3">{it.title}</h3>
-                            <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-soft">{it.text}</p>
-                          </div>
-                          <div class="flex flex-col gap-3 bg-paper-deep p-3 md:col-span-5">
-                            {it.figures.map((f) => (
-                              <figure class="mx-auto w-full max-w-[12rem]">
-                                <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge figure">
-                                  <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" />
-                                </button>
-                                <figcaption class="mt-1 text-[0.625rem] leading-snug text-ink-soft">{f.caption} · <button type="button" data-lightbox={f.big} data-alt={f.alt} class="underline underline-offset-2 hover:text-clay">Enlarge</button></figcaption>
-                              </figure>
-                            ))}
-                          </div>
+                        <article class="flex flex-col">
+                          {it.figures.map((f) => (
+                            <figure>
+                              <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group flex aspect-[16/10] w-full cursor-zoom-in items-center justify-center bg-paper-deep p-3" aria-label="Enlarge figure">
+                                <Image src={f.src} alt={f.alt} format="png" quality="high" width={640} class="max-h-full w-auto max-w-full border border-warm/70 bg-paper object-contain transition-opacity group-hover:opacity-90" loading="lazy" />
+                              </button>
+                              <figcaption class="mt-1.5 text-[0.625rem] leading-snug text-ink-soft">{f.caption} · <button type="button" data-lightbox={f.big} data-alt={f.alt} class="underline underline-offset-2 hover:text-clay">Enlarge</button></figcaption>
+                            </figure>
+                          ))}
+                          <p class="mt-5 flex items-baseline gap-2 border-t-2 border-teal pt-3 text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-clay">
+                            <span class="font-display text-2xl font-normal tracking-normal">{num}</span>
+                            <span>{rest.join(' / ')}</span>
+                          </p>
+                          <h3 class="font-display mt-2 text-[1.0625rem]" style="line-height:1.3">{it.title}</h3>
+                          <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-soft">{it.text}</p>
                         </article>
                       );
                     })}
