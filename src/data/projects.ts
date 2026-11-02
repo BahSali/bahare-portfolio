@@ -110,7 +110,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 export type BriefBlock =
   | { kind: 'text'; /** Second figure stacked under the first. */ figure2?: BriefFigure; /** Larger figure beside the text. */ large?: boolean; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
-  | { kind: 'rows'; /** Omits the rule above the first row. */ noTopRule?: boolean; items: { label: string; text: string; /** Short line of tools or keywords under the text. */ tags?: string }[] }
+  | { kind: 'rows'; /** Omits the rule above the first row. */ noTopRule?: boolean; /** Shows the items as a row of cards instead of a ruled list. */ cards?: boolean; items: { label: string; text: string; /** Short line of tools or keywords under the text. */ tags?: string }[] }
   | { kind: 'links' }
   | { kind: 'placeholders'; items: { label: string; note: string }[] }
   | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
@@ -788,6 +788,7 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'rows',
+              cards: true,
               items: [
                 { label: 'Business Process & Workflow Design', text: 'Analyzed departmental operations and designed ERP workflows, including process stages, approval logic, validation rules, and interactions between related forms.', tags: 'Process Modeling · Requirements Analysis · Workflow Configuration' },
                 { label: 'ERP Configuration & Development', text: 'Developed and customized forms, reports, and system functionality using the ERP development environment, including data relationships and form-level logic.', tags: 'ERP Development Tools · Form Configuration · XML' },
