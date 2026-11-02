@@ -110,7 +110,7 @@ export interface BriefFigure { src: ImageMetadata; alt: string; caption: string;
 export type BriefBlock =
   | { kind: 'text'; /** Second figure stacked under the first. */ figure2?: BriefFigure; /** Larger figure beside the text. */ large?: boolean; /** Small supporting note. */ muted?: boolean; /** Highlighted statement. */ emphasis?: boolean; /** Full-width figure under the text (for wide diagrams). */ wide?: boolean; video?: { src: string; poster: string; caption?: string }; lead?: string; paragraphs: string[]; /** Compact figure size. */ small?: boolean; /** Explanatory row under the text and figure, with its own figure. */ notes?: { title?: string; paragraphs: string[]; figure?: BriefFigure }; figure?: BriefFigure; figureFirst?: boolean }
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
-  | { kind: 'rows'; /** Omits the rule above the first row. */ noTopRule?: boolean; items: { label: string; text: string }[] }
+  | { kind: 'rows'; /** Omits the rule above the first row. */ noTopRule?: boolean; items: { label: string; text: string; /** Small sample image shown at the right of the row. */ figure?: BriefFigure }[] }
   | { kind: 'links' }
   | { kind: 'placeholders'; items: { label: string; note: string }[] }
   | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
@@ -789,45 +789,38 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Knowledge Management Workflow', text: 'Independently designed a workflow covering knowledge submission, initial and expert evaluation, feedback, revision and approval, built as three linked forms. I defined the process logic, user roles, form specifications and workflow transitions, including a separate primary-evaluation form that keeps secondary evaluators’ input apart from the submitter, version tracking of revised attachments, and a weighted final score.' },
-                { label: 'ERP Reporting & SQL Customization', text: 'Reworked an existing engineering report whose time data was split across three separate columns, which made each record hard to read. Using XML, I merged department, department activities and time into one column, so each record shows the time spent on one drawing item by activity. When a project is selected, the first row also shows total time and total time per department. Other reports I built include a department timesheet summary (regular, overtime, rework and downtime hours) and a per-project comparison of price-analysis, material take-off (MTO) and consumed quantities.' },
-                { label: 'Work Order Reporting', text: 'Created a work order report for the planning department, with a printable version that can be printed on the back of the drawing. The system could only look up records by ID, which made filtering by drawing number error-prone or slow. I added the drawing number to the form’s record display, so quick search shows it next to the ID and project, and enabled filtering by drawing number.' },
+                {
+                  label: 'Knowledge Management Workflow',
+                  text: 'Independently designed a knowledge management workflow covering submission, multi-stage evaluation, feedback, revision, and approval. Defined the process logic, user roles, and three interconnected forms.',
+                  figure: {
+                    src: erpKnowledgeWorkflow,
+                    alt: 'Swimlane diagram of the knowledge management workflow for three roles: knowledge contributor, senior knowledge manager as first-level reviewer, and subject-matter expert as second-level reviewer',
+                    caption: 'Workflow diagram',
+                  },
+                },
+                {
+                  label: 'ERP Reporting & SQL Customization',
+                  text: 'Developed and customized engineering and production reports using SQL and XML. Improved the presentation of departmental activity data and designed reports for working hours, material requirements, and project consumption.',
+                  figure: {
+                    src: erpTimesheetReport,
+                    alt: 'Engineering documents report with department, time and department activities merged into one column',
+                    caption: 'Engineering report',
+                  },
+                },
+                {
+                  label: 'Work Order Reporting',
+                  text: 'Developed a work order report and its printable version for production planning. Addressed an ERP lookup limitation by improving how engineering drawings could be identified and filtered.',
+                  figure: {
+                    src: erpWorkOrderReport,
+                    alt: 'Printable work order report with item number, type, quantity, drawing match and sequence of operations, plus a blank part transfer table',
+                    caption: 'Work order report',
+                  },
+                },
               ],
             },
             {
               kind: 'text',
-              lead: 'Workflow Design: Knowledge Management Diagram',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpKnowledgeWorkflow,
-                alt: 'Swimlane diagram of the knowledge management workflow for three roles: knowledge contributor, senior knowledge manager as first-level reviewer, and subject-matter expert as second-level reviewer',
-                caption: 'Knowledge management workflow: knowledge contributor, senior knowledge manager (first-level reviewer) and subject-matter expert (second-level reviewer).',
-              },
-            },
-            {
-              kind: 'text',
               lead: 'Sample reports designed from existing system processes: work order report and engineering and production reports',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpTimesheetReport,
-                alt: 'Engineering documents report with department, time and department activities merged into one column',
-                caption: 'Engineering documents report after the rework: one column per record. Column headers translated into English by the author; row contents are in Persian.',
-              },
-            },
-            {
-              kind: 'text',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpWorkOrderReport,
-                alt: 'Printable work order report with item number, type, quantity, drawing match and sequence of operations, plus a blank part transfer table',
-                caption: 'Printable work order report. Interface labels translated into English by the author; names, codes and other identifying details are removed.',
-              },
-            },
-            {
-              kind: 'text',
               paragraphs: [],
               wide: true,
               figure: {

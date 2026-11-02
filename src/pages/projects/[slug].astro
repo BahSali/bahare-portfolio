@@ -44,6 +44,8 @@ const thesisSections = await Promise.all(
               figure2: b.figure2 && { ...b.figure2, big: (await getImage({ src: b.figure2.src, width: Math.min(b.figure2.src.width, 2000), format: 'png' })).src },
               notes: b.notes && { ...b.notes, figure: b.notes.figure && { ...b.notes.figure, big: (await getImage({ src: b.notes.figure.src, width: Math.min(b.notes.figure.src.width, 2000), format: 'png' })).src } },
             }
+          : b.kind === 'rows' && b.items.some((it) => it.figure)
+          ? { ...b, items: await Promise.all(b.items.map(async (it) => (it.figure ? { ...it, figure: { ...it.figure, big: (await getImage({ src: it.figure.src, width: Math.min(it.figure.src.width, 2000), format: 'png' })).src } } : it))) }
           : b.kind === 'columns'
             ? {
                 ...b,
@@ -339,11 +341,19 @@ const toggle =
                   <ol class:list={[!b.noTopRule && 'border-t border-ink']}>
                     {b.items.map((it, i) => (
                       <li class="grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
-                        <div class="flex items-baseline gap-3 md:col-span-5">
+                        <div class:list={['flex items-baseline gap-3', it.figure ? 'md:col-span-4' : 'md:col-span-5']}>
                           <span class="font-display text-sm text-clay">0{i + 1}</span>
                           <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
                         </div>
-                        <p class="text-justify text-[0.9rem] leading-relaxed hyphens-auto md:col-span-7">{it.text}</p>
+                        <p class:list={['text-justify text-[0.9rem] leading-relaxed hyphens-auto', it.figure ? 'md:col-span-5' : 'md:col-span-7']}>{it.text}</p>
+                        {it.figure && (
+                          <figure class="mt-2 w-full max-w-[12rem] md:col-span-3 md:mt-0 md:justify-self-end">
+                            <button type="button" data-lightbox={it.figure.big} data-alt={it.figure.alt} class="group flex w-full cursor-zoom-in items-center justify-center border border-warm/70 bg-paper" aria-label="Enlarge example">
+                              <Image src={it.figure.src} alt={it.figure.alt} format="png" quality="high" width={480} class="max-h-full w-full object-contain p-1 transition-opacity group-hover:opacity-90" loading="lazy" />
+                            </button>
+                            <figcaption class="mt-1 text-[0.6875rem] leading-snug text-ink-soft">{it.figure.caption} · <button type="button" data-lightbox={it.figure.big} data-alt={it.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge</button></figcaption>
+                          </figure>
+                        )}
                       </li>
                     ))}
                   </ol>
