@@ -761,10 +761,10 @@ export const projects: Project[] = [
           blocks: [
             {
               kind: 'text',
-              lead: 'Customizing ERP Workflows for Business Operations',
+              lead: 'Adapting ERP to Industrial Operations',
               paragraphs: [
-                'At Farabord, an industrial manufacturing company, I worked as an ERP Systems Analyst, helping adapt GALEX ERP to the company’s operational needs across engineering, production, inventory, procurement, and other departments.',
-                'My role combined business process analysis with hands-on technical development. I worked closely with different departments to understand their workflows, identify system limitations, and translate operational requirements into technical solutions. This involved designing and configuring ERP forms and workflows, developing SQL queries and reports, troubleshooting system issues, and collaborating with the software vendor on implementing changes.',
+                'An ERP system connects different areas of a business, from sales and procurement to engineering, production, inventory, and finance. At Farabord, a manufacturing company, an established ERP system had been adopted, requiring further customization to align with the company’s internal processes.',
+                'As an ERP Systems Analyst, I worked on both the business and technical sides of this customization. I analyzed departmental processes, assessed how they were supported by the ERP system, and identified where changes were needed. I then designed and developed customized forms, reports, and workflows using SQL and the ERP’s development tools. My responsibilities also included troubleshooting, testing, and collaboration with the software vendor on implementation.',
               ],
             },
             { kind: 'links' },
