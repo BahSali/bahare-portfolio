@@ -772,13 +772,11 @@ export const projects: Project[] = [
             {
               kind: 'rows',
               items: [
-                { label: 'Process analysis', text: 'Talked with employees across departments to understand their processes and gather requirements.' },
-                { label: 'Workflow and form design', text: 'Designed the processes and forms each department needed. In the vendor’s test application, I built forms and pages myself and sent them to the vendor. Behind each form was a page where SQL defined which tables to read and how.' },
-                { label: 'SQL and data investigation', text: 'Read the software and its SQL database to find the cause of process problems, using joins, subqueries, aggregations, CASE logic, temporary tables, views and cursors.' },
-                { label: 'Reports', text: 'Built many reports for departments such as planning and engineering, using SQL and XML for data and layout.' },
-                { label: 'Module coverage', text: 'Most modules were part of the system from the start, and we completed the processes inside them. The ICT, maintenance and manufacturing engineering modules were added at our request, and I worked out their processes and forms with the vendor.' },
-                { label: 'Vendor collaboration', text: 'Sent requests and technical specifications to the vendor, who reviewed them and brought up the updated system in production.' },
-                { label: 'Documentation and training', text: 'Trained employees on the system and wrote user guides.' },
+                { label: 'Business Process Analysis', text: 'Analyzed departmental workflows, gathered requirements, and identified gaps between business needs and ERP functionality.' },
+                { label: 'ERP Customization & Development', text: 'Designed workflows and developed forms using the ERP development tools and SQL. Contributed to customizing existing modules and defining new ones.' },
+                { label: 'SQL & Reporting', text: 'Investigated database structures, troubleshot system issues, and developed SQL-based reports for engineering, production planning, and other departments.' },
+                { label: 'Vendor Collaboration & Implementation', text: 'Prepared technical specifications and tested proposed changes, working with the software vendor responsible for reviewing and deploying them.' },
+                { label: 'Documentation & Training', text: 'Prepared user guides and trained employees across departments on ERP processes and functionality.' },
               ],
             },
           ],
