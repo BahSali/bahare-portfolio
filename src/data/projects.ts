@@ -7,7 +7,8 @@
  * - `publications` lists publication slugs (see publications.ts) for cross-linking.
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
-import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.png';
+import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.jpg';
+import erpCustomerSales from '~/assets/erp/customer-sales-form.png';
 import erpWorkOrderReport from '~/assets/erp/work-order-report.png';
 import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
 import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
@@ -801,16 +802,18 @@ export const projects: Project[] = [
             },
             {
               kind: 'text',
+              lead: 'Workflow Design: Knowledge Management Diagram',
               paragraphs: [],
               wide: true,
               figure: {
                 src: erpKnowledgeWorkflow,
-                alt: 'Swimlane diagram of the knowledge management workflow for three roles: the primary user, the senior knowledge manager acting as primary evaluator, and the secondary evaluator',
-                caption: 'Knowledge management workflow: primary user, senior knowledge manager (primary evaluator) and secondary evaluator. Labels translated into English by the author from the original Persian diagram.',
+                alt: 'Swimlane diagram of the knowledge management workflow for three roles: knowledge contributor, senior knowledge manager as first-level reviewer, and subject-matter expert as second-level reviewer',
+                caption: 'Knowledge management workflow: knowledge contributor, senior knowledge manager (first-level reviewer) and subject-matter expert (second-level reviewer).',
               },
             },
             {
               kind: 'text',
+              lead: 'Sample reports designed from existing system processes: work order report and engineering and production reports',
               paragraphs: [],
               wide: true,
               figure: {
@@ -837,6 +840,17 @@ export const projects: Project[] = [
                 src: erpProductionStandard,
                 alt: 'Production process standard table listing the order of work, department activities, time in hours and department',
                 caption: 'Production process standard on an engineering document form. Column headers translated into English by the author; row contents are in Persian.',
+              },
+            },
+            {
+              kind: 'text',
+              lead: 'Form design after finalizing the process: Customer Sales Information form',
+              paragraphs: [],
+              wide: true,
+              figure: {
+                src: erpCustomerSales,
+                alt: 'Customer sales information form with a customer selector and columns for work order, project, salesperson and received and invoiced amounts',
+                caption: 'Customer sales information form. Labels translated into English by the author; customer and amount values are removed.',
               },
             },
             {
