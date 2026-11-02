@@ -828,8 +828,8 @@ export const projects: Project[] = [
                 },
                 {
                   eyebrow: '03 / ERP Customization',
-                  title: 'Work Order Reporting & Customization',
-                  text: 'Developed a work order report and its printable version for production planning. Addressed an ERP lookup limitation by improving how engineering drawings could be identified and filtered.',
+                  title: 'Goods Entry Permit Form',
+                  text: 'Developed a custom ERP form to record goods entering the company, using the ERP development tools and SQL.',
                   figures: [
                     {
                       src: erpGoodsPermit,
