@@ -8,8 +8,6 @@
  * - `application` adds an "Interactive Application" section (screenshots + demo link) to the detail page.
  */
 import erpKnowledgeWorkflow from '~/assets/erp/knowledge-workflow.jpg';
-import erpCustomerSales from '~/assets/erp/customer-sales-form.png';
-import erpWorkOrderReport from '~/assets/erp/work-order-report.png';
 import erpTimesheetReport from '~/assets/erp/timesheet-merged-report.png';
 import erpGoodsPermit from '~/assets/erp/goods-permit-form.png';
 import erpProductionStandard from '~/assets/erp/production-standard.png';
@@ -807,8 +805,8 @@ export const projects: Project[] = [
               items: [
                 {
                   eyebrow: '01 / Process Design',
-                  title: 'Knowledge Management Workflow',
-                  text: 'Independently designed a knowledge management process covering knowledge submission, multi-stage evaluation, feedback, revision, and approval. Defined user roles, decision logic, and three interconnected ERP forms.',
+                  title: 'Knowledge Management & Innovation',
+                  text: 'Designed a workflow for employees to share practical knowledge and innovative ideas, with experts responsible for reviewing and scoring each submission.',
                   figures: [
                     {
                       src: erpKnowledgeWorkflow,
@@ -820,7 +818,7 @@ export const projects: Project[] = [
                 {
                   eyebrow: '02 / SQL & Reporting',
                   title: 'Engineering & Production Reporting',
-                  text: 'Developed and customized reports combining engineering, departmental activity, and project data. Improved report structure and readability using SQL-based data processing and XML formatting.',
+                  text: 'Developed a report to track each department’s contribution to manufacturing projects. The report shows the time spent by each department and the total time required for each project.',
                   figures: [
                     {
                       src: erpTimesheetReport,
@@ -839,16 +837,6 @@ export const projects: Project[] = [
                   title: 'Work Order Reporting & Customization',
                   text: 'Developed a work order report and its printable version for production planning. Addressed an ERP lookup limitation by improving how engineering drawings could be identified and filtered.',
                   figures: [
-                    {
-                      src: erpWorkOrderReport,
-                      alt: 'Printable work order report with item number, type, quantity, drawing match and sequence of operations, plus a blank part transfer table',
-                      caption: 'Printable work order report. Interface labels translated into English by the author; names, codes and other identifying details are removed.',
-                    },
-                    {
-                      src: erpCustomerSales,
-                      alt: 'Customer sales information form with a customer selector and columns for work order, project, salesperson and received and invoiced amounts',
-                      caption: 'Customer sales information form, designed after the process was finalized. Labels translated into English by the author; customer and amount values are removed.',
-                    },
                     {
                       src: erpGoodsPermit,
                       alt: 'Goods entry permit form with date, recipient, sender and an item table',
