@@ -112,6 +112,7 @@ export type BriefBlock =
   | { kind: 'columns'; items: { label: string; text: string; /** Text with inline links; replaces `text` when set. */ parts?: (string | { text: string; href?: string; /** Title of the explanation item the info icon opens. */ info?: string })[]; /** Expandable explanation under the text. */ details?: { summary: string; items: { title: string; text: string; /** Second paragraph. */ more?: string; figure?: BriefFigure }[]; figure?: BriefFigure } }[] }
   | { kind: 'rows'; /** Omits the rule above the first row. */ noTopRule?: boolean; /** Shows the items as a row of cards instead of a ruled list. */ cards?: boolean; items: { label: string; text: string; /** Short line of tools or keywords under the text. */ tags?: string }[] }
   | { kind: 'links' }
+  | { kind: 'selected'; items: { eyebrow: string; title: string; text: string; figures: BriefFigure[] }[] }
   | { kind: 'placeholders'; items: { label: string; note: string }[] }
   | { kind: 'feature'; title: string; paragraphs: string[]; figure: BriefFigure; figure2?: BriefFigure }
   | { kind: 'figures'; items: BriefFigure[]; /** Text box beside the figures. */ aside?: { title: string; text: string } }
@@ -791,86 +792,71 @@ export const projects: Project[] = [
               cards: true,
               items: [
                 { label: 'Business Process & Workflow Design', text: 'Analyzed departmental operations and designed ERP workflows, including process stages, approval logic, validation rules, and interactions between related forms.', tags: 'Process Modeling · Requirements Analysis · Workflow Configuration' },
+                { label: 'Database Analysis & SQL Development', text: 'Investigated ERP database structures and developed SQL queries to retrieve, transform, and consolidate data across interconnected business records.', tags: 'SQL · Query Optimization · Views · Temporary Tables' },
                 { label: 'ERP Configuration & Development', text: 'Developed and customized forms, reports, and system functionality using the ERP development environment, including data relationships and form-level logic.', tags: 'ERP Development Tools · Form Configuration · XML' },
-                { label: 'Database Analysis & SQL Development', text: 'Investigated ERP database structures and developed SQL queries to retrieve, transform, and consolidate data across interconnected business records.', tags: 'SQL · Complex Queries · Views · Temporary Tables' },
               ],
             },
           ],
         },
         {
-          id: 'technical',
-          title: 'Technical Work',
+          id: 'selected',
+          title: 'Selected Work',
           blocks: [
             {
-              kind: 'rows',
+              kind: 'selected',
               items: [
-                { label: 'Knowledge Management Workflow', text: 'Independently designed a workflow covering knowledge submission, initial and expert evaluation, feedback, revision and approval, built as three linked forms. I defined the process logic, user roles, form specifications and workflow transitions, including a separate primary-evaluation form that keeps secondary evaluators’ input apart from the submitter, version tracking of revised attachments, and a weighted final score.' },
-                { label: 'ERP Reporting & SQL Customization', text: 'Reworked an existing engineering report whose time data was split across three separate columns, which made each record hard to read. Using XML, I merged department, department activities and time into one column, so each record shows the time spent on one drawing item by activity. When a project is selected, the first row also shows total time and total time per department. Other reports I built include a department timesheet summary (regular, overtime, rework and downtime hours) and a per-project comparison of price-analysis, material take-off (MTO) and consumed quantities.' },
-                { label: 'Work Order Reporting', text: 'Created a work order report for the planning department, with a printable version that can be printed on the back of the drawing. The system could only look up records by ID, which made filtering by drawing number error-prone or slow. I added the drawing number to the form’s record display, so quick search shows it next to the ID and project, and enabled filtering by drawing number.' },
+                {
+                  eyebrow: '01 / Process Design',
+                  title: 'Knowledge Management Workflow',
+                  text: 'Independently designed a knowledge management process covering knowledge submission, multi-stage evaluation, feedback, revision, and approval. Defined user roles, decision logic, and three interconnected ERP forms.',
+                  figures: [
+                    {
+                      src: erpKnowledgeWorkflow,
+                      alt: 'Swimlane diagram of the knowledge management workflow for three roles: knowledge contributor, senior knowledge manager as first-level reviewer, and subject-matter expert as second-level reviewer',
+                      caption: 'Knowledge management workflow: knowledge contributor, senior knowledge manager (first-level reviewer) and subject-matter expert (second-level reviewer).',
+                    },
+                  ],
+                },
+                {
+                  eyebrow: '02 / SQL & Reporting',
+                  title: 'Engineering & Production Reporting',
+                  text: 'Developed and customized reports combining engineering, departmental activity, and project data. Improved report structure and readability using SQL-based data processing and XML formatting.',
+                  figures: [
+                    {
+                      src: erpTimesheetReport,
+                      alt: 'Engineering documents report with department, time and department activities merged into one column',
+                      caption: 'Engineering documents report after the rework: one column per record. Column headers translated into English by the author; row contents are in Persian.',
+                    },
+                    {
+                      src: erpProductionStandard,
+                      alt: 'Production process standard table listing the order of work, department activities, time in hours and department',
+                      caption: 'Production process standard on an engineering document form. Column headers translated into English by the author; row contents are in Persian.',
+                    },
+                  ],
+                },
+                {
+                  eyebrow: '03 / ERP Customization',
+                  title: 'Work Order Reporting & Customization',
+                  text: 'Developed a work order report and its printable version for production planning. Addressed an ERP lookup limitation by improving how engineering drawings could be identified and filtered.',
+                  figures: [
+                    {
+                      src: erpWorkOrderReport,
+                      alt: 'Printable work order report with item number, type, quantity, drawing match and sequence of operations, plus a blank part transfer table',
+                      caption: 'Printable work order report. Interface labels translated into English by the author; names, codes and other identifying details are removed.',
+                    },
+                    {
+                      src: erpCustomerSales,
+                      alt: 'Customer sales information form with a customer selector and columns for work order, project, salesperson and received and invoiced amounts',
+                      caption: 'Customer sales information form, designed after the process was finalized. Labels translated into English by the author; customer and amount values are removed.',
+                    },
+                    {
+                      src: erpGoodsPermit,
+                      alt: 'Goods entry permit form with date, recipient, sender and an item table',
+                      caption: 'Goods entry permit form, shown in the test environment. Labels translated into English by the author; the form is empty.',
+                    },
+                  ],
+                },
               ],
-            },
-            {
-              kind: 'text',
-              lead: 'Workflow Design: Knowledge Management Diagram',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpKnowledgeWorkflow,
-                alt: 'Swimlane diagram of the knowledge management workflow for three roles: knowledge contributor, senior knowledge manager as first-level reviewer, and subject-matter expert as second-level reviewer',
-                caption: 'Knowledge management workflow: knowledge contributor, senior knowledge manager (first-level reviewer) and subject-matter expert (second-level reviewer).',
-              },
-            },
-            {
-              kind: 'text',
-              lead: 'Sample reports designed from existing system processes: work order report and engineering and production reports',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpTimesheetReport,
-                alt: 'Engineering documents report with department, time and department activities merged into one column',
-                caption: 'Engineering documents report after the rework: one column per record. Column headers translated into English by the author; row contents are in Persian.',
-              },
-            },
-            {
-              kind: 'text',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpWorkOrderReport,
-                alt: 'Printable work order report with item number, type, quantity, drawing match and sequence of operations, plus a blank part transfer table',
-                caption: 'Printable work order report. Interface labels translated into English by the author; names, codes and other identifying details are removed.',
-              },
-            },
-            {
-              kind: 'text',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpProductionStandard,
-                alt: 'Production process standard table listing the order of work, department activities, time in hours and department',
-                caption: 'Production process standard on an engineering document form. Column headers translated into English by the author; row contents are in Persian.',
-              },
-            },
-            {
-              kind: 'text',
-              lead: 'Form design after finalizing the process: Customer Sales Information form',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpCustomerSales,
-                alt: 'Customer sales information form with a customer selector and columns for work order, project, salesperson and received and invoiced amounts',
-                caption: 'Customer sales information form. Labels translated into English by the author; customer and amount values are removed.',
-              },
-            },
-            {
-              kind: 'text',
-              paragraphs: [],
-              wide: true,
-              figure: {
-                src: erpGoodsPermit,
-                alt: 'Goods entry permit form with date, recipient, sender and an item table',
-                caption: 'Goods entry permit form, shown in the test environment. Labels translated into English by the author; the form is empty.',
-              },
             },
           ],
         },
