@@ -10,6 +10,8 @@ const leadSlug = projects.find((p) => p.tier === 'lead')!.slug;
 const leadCard = projectCards.find((c) => c.slug === leadSlug)!;
 const otherCards = projectCards.filter((c) => c.slug !== leadSlug);
 const tones = ['warm', 'sage', 'warm'] as const;
+// With a remainder of two cards, the last row's cards share it and sit image-beside-text.
+const wideFrom = otherCards.length % 3 === 2 ? otherCards.length - 2 : Infinity;
 ---
 <BaseLayout tightFooter title="Projects" description="Projects in machine learning, spatiotemporal modeling and optimization.">
   <Container class="pt-8 sm:pt-10">
@@ -27,8 +29,12 @@ const tones = ['warm', 'sage', 'warm'] as const;
 
   <Container class="pt-8 pb-12 sm:pt-10 sm:pb-16">
     <p class="eyebrow mb-5 border-t border-warm/70 pt-4">More projects</p>
-    <div class="grid gap-6 md:grid-cols-3 md:gap-6">
-      {otherCards.map((item, i) => <ProjectCard item={item} tone={tones[i % tones.length]} compactMobile />)}
+    <div class="grid gap-6 md:grid-cols-6 md:gap-x-6 md:gap-y-8">
+      {otherCards.map((item, i) => (
+        <div class:list={[i >= wideFrom ? 'md:col-span-3' : 'md:col-span-2']}>
+          <ProjectCard item={item} tone={tones[i % tones.length]} compactMobile wide={i >= wideFrom} />
+        </div>
+      ))}
     </div>
   </Container>
 </BaseLayout>
