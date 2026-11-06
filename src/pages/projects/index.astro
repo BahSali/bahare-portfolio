@@ -11,7 +11,7 @@ const leadCard = projectCards.find((c) => c.slug === leadSlug)!;
 const otherCards = projectCards.filter((c) => c.slug !== leadSlug);
 const tones = ['warm', 'sage', 'warm'] as const;
 ---
-<BaseLayout title="Projects" description="Projects in machine learning, spatiotemporal modeling and optimization.">
+<BaseLayout tightFooter title="Projects" description="Projects in machine learning, spatiotemporal modeling and optimization.">
   <Container class="pt-8 sm:pt-10">
     <div>
       <div>
@@ -25,7 +25,7 @@ const tones = ['warm', 'sage', 'warm'] as const;
     <ProjectCard item={leadCard} variant="lead" tone="sage" />
   </Container>
 
-  <Container class="pt-8 sm:pt-10">
+  <Container class="pt-8 pb-12 sm:pt-10 sm:pb-16">
     <p class="eyebrow mb-5 border-t border-warm/70 pt-4">More projects</p>
     <div class="grid gap-6 md:grid-cols-3 md:gap-6">
       {otherCards.map((item, i) => <ProjectCard item={item} tone={tones[i % tones.length]} compactMobile />)}
