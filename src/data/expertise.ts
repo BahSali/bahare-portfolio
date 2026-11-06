@@ -9,19 +9,19 @@ export const expertise: ExpertiseArea[] = [
   {
     title: 'Machine Learning & Predictive Modeling',
     description:
-      'Developing and evaluating machine learning and deep learning models, with experience in spatiotemporal prediction and graph neural networks.',
-    keywords: ['Python', 'PyTorch', 'TensorFlow', 'GNNs', 'Time-Series Modeling'],
+      'Developing and evaluating machine learning models, from classical approaches to deep learning, with a focus on spatiotemporal prediction.',
+    keywords: ['Python', 'scikit-learn', 'PyTorch', 'TensorFlow', 'Graph Neural Networks'],
   },
   {
-    title: 'Data Processing & Integration',
+    title: 'Data Processing & Feature Engineering',
     description:
-      'Preparing, transforming, and integrating data from heterogeneous sources, including databases, APIs, and geospatial datasets.',
-    keywords: ['Python', 'SQL', 'Pandas', 'Data Integration', 'APIs'],
+      'Cleaning, integrating, and transforming data from databases, APIs, and geospatial sources into model-ready datasets.',
+    keywords: ['SQL', 'Pandas', 'Feature Engineering', 'Geospatial Data'],
   },
   {
-    title: 'Experimentation & Applied Development',
+    title: 'Statistical Analysis & Model Evaluation',
     description:
-      'Designing experiments, benchmarking models, and developing interactive tools to evaluate and communicate data-driven solutions.',
-    keywords: ['Model Evaluation', 'Benchmarking', 'Streamlit', 'Git'],
+      'Applying statistical methods, hypothesis testing, and error analysis to investigate data patterns, compare models, and assess predictive performance.',
+    keywords: ['Correlation', 'Regression', 'Hypothesis Testing', 'Time-Series Analysis'],
   },
 ];
