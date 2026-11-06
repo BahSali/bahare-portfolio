@@ -36,13 +36,15 @@ const archBig = await Promise.all(story.architectures.map(async (a) => ({
 })));
 
 // Same section structure as the other project pages: small heading on the left, content on the right.
-const band = 'scroll-mt-28 border-t border-warm/70 first:border-t-0';
-const shell = 'grid gap-x-10 gap-y-4 py-7 lg:grid-cols-12';
+// Consecutive sections alternate between the page colour and a slightly darker tint, as on the other project pages.
+const order = ['overview', 'methods', ...(app ? ['application'] : []), 'journey', 'data', ...(refs.length ? ['publications'] : []), 'funding'];
+const band = (id: string) => ['scroll-mt-28', order.indexOf(id) % 2 === 1 && 'bg-paper-deep'];
+const shell = 'grid gap-x-10 gap-y-4 py-8 lg:grid-cols-12';
 const h2 = 'eyebrow lg:col-span-2 lg:pt-1';
 const h3 = 'font-display text-lg';
 ---
 <!-- Overview -->
-<section id="overview" class={band}>
+<section id="overview" class:list={band('overview')}>
   <Container class={shell}>
     <h2 class={h2}>Overview</h2>
     <div class="min-w-0 lg:col-span-10">
@@ -81,7 +83,7 @@ const h3 = 'font-display text-lg';
 </section>
 
 <!-- Technical work & expertise -->
-<section id="methods" class={band}>
+<section id="methods" class:list={band('methods')}>
   <Container class={shell}>
     <h2 class={h2}>Technical Experience</h2>
     <div class="min-w-0 lg:col-span-10">
@@ -139,7 +141,7 @@ const h3 = 'font-display text-lg';
 
 <!-- Application demo -->
 {app && (
-  <section id="application" class={band}>
+  <section id="application" class:list={band('application')}>
     <Container class={shell}>
     <h2 class={h2}>Application Demo</h2>
     <div class="min-w-0 lg:col-span-10">
@@ -187,7 +189,7 @@ const h3 = 'font-display text-lg';
 )}
 
 <!-- Research journey -->
-<section id="journey" class={band}>
+<section id="journey" class:list={band('journey')}>
   <Container class={shell}>
     <h2 class={h2}>Research Journey</h2>
     <div class="min-w-0 lg:col-span-10">
@@ -228,7 +230,7 @@ const h3 = 'font-display text-lg';
 </section>
 
 <!-- Data -->
-<section id="data" class={band}>
+<section id="data" class:list={band('data')}>
   <Container class={shell}>
     <h2 class={h2}>Data</h2>
     <div class="min-w-0 lg:col-span-10">
@@ -414,7 +416,7 @@ const h3 = 'font-display text-lg';
 </section>
 
 <!-- Publications -->
-<section id="publications" class={band}>
+<section id="publications" class:list={band('publications')}>
   <Container class={shell}>
     <h2 class={h2}>Publications</h2>
     <div class="min-w-0 lg:col-span-10">
@@ -435,7 +437,7 @@ const h3 = 'font-display text-lg';
 </section>
 
 <!-- Funding -->
-<section id="funding" class={band}>
+<section id="funding" class:list={band('funding')}>
   <Container class={shell}>
     <h2 class={h2}>Funding</h2>
     <div class="grid items-start gap-x-10 gap-y-3 lg:col-span-10 lg:grid-cols-10">
