@@ -21,11 +21,11 @@ const withBig = await Promise.all(
 {events.length === 0
   ? <PlaceholderBlock>Event photographs, titles, locations and short descriptions to be added in src/data/events.ts</PlaceholderBlock>
   : (
-    <ol class="divide-y divide-warm/50">
+    <ol class="space-y-10">
       {withBig.map((e) => {
         const n = e.photos.length;
         return (
-          <li class="grid gap-x-10 gap-y-4 py-8 first:pt-0 last:pb-0 md:grid-cols-[8.5rem_1fr]">
+          <li class="grid gap-x-8 gap-y-4 md:grid-cols-[7rem_1fr]">
             <div>
               {e.year && <p class="font-display text-2xl text-clay" style="line-height:1">{e.year}</p>}
               <p class="eyebrow mt-2">{e.kind}</p>
