@@ -1,36 +1,27 @@
 export interface ExpertiseArea {
   title: string;
   description: string;
-  /** Topics named in the brief; extend as content develops. */
-  topics: string[];
-  /** Where to read more. */
-  href: string;
-  hrefLabel: string;
+  /** Tools and methods shown as a quiet line under the description. */
+  keywords: string[];
 }
 
 export const expertise: ExpertiseArea[] = [
   {
-    title: 'Machine Learning & Research',
+    title: 'Machine Learning & Predictive Modeling',
     description:
-      'Learning methods for spatiotemporal data, together with optimization and graph-based approaches.',
-    topics: ['Machine learning', 'Spatiotemporal modeling', 'Optimization'],
-    href: '/research',
-    hrefLabel: 'Research',
+      'Developing and evaluating machine learning and deep learning models, with experience in spatiotemporal prediction and graph neural networks.',
+    keywords: ['Python', 'PyTorch', 'TensorFlow', 'GNNs', 'Time-Series Modeling'],
   },
   {
-    title: 'Data Engineering & Enterprise Systems',
+    title: 'Data Processing & Integration',
     description:
-      'Industrial experience with enterprise databases and ERP systems.',
-    topics: ['Enterprise databases', 'ERP systems'],
-    href: '/projects/enterprise-data-erp',
-    hrefLabel: 'Project',
+      'Preparing, transforming, and integrating data from heterogeneous sources, including databases, APIs, and geospatial datasets.',
+    keywords: ['Python', 'SQL', 'Pandas', 'Data Integration', 'APIs'],
   },
   {
-    title: 'Applied Data Science & Analytics',
+    title: 'Experimentation & Applied Development',
     description:
-      'Turning data into analysis and tools that serve real-world applications.',
-    topics: ['Data science', 'Analytics'],
-    href: '/projects',
-    hrefLabel: 'Projects',
+      'Designing experiments, benchmarking models, and developing interactive tools to evaluate and communicate data-driven solutions.',
+    keywords: ['Model Evaluation', 'Benchmarking', 'Streamlit', 'Git'],
   },
 ];

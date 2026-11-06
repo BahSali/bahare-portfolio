@@ -2,30 +2,32 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/Container.astro';
 import ImagePlaceholder from '~/components/ImagePlaceholder.astro';
-import SectionHeading from '~/components/SectionHeading.astro';
-import ProjectTile from '~/components/ProjectTile.astro';
 import ContactLinks from '~/components/ContactLinks.astro';
 import { site } from '~/data/site';
 import { projects, projectCard } from '~/data/projects';
 import { expertise } from '~/data/expertise';
 import { publications } from '~/data/publications';
+import { homeIntro, homeWork } from '~/data/home';
 
-const workItems = projects.filter((p) => p.homeFeatured).slice(0, 3).map(projectCard);
+const tones = ['sage', 'warm', 'sage'] as const;
+const workItems = homeWork.map((w, i) => {
+  const card = projectCard(projects.find((p) => p.slug === w.slug)!);
+  return { ...card, label: w.label, title: w.title, summary: w.summary, tone: tones[i] };
+});
 const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
 ---
 <BaseLayout tightFooter title="Home">
   <!-- Hero -->
-  <Container class="pt-8 sm:pt-12 lg:pt-14">
-    <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-10">
-      <div class="lg:col-span-7">
+  <Container class="pt-8 sm:pt-10 lg:pt-12">
+    <div class="grid gap-8 md:grid-cols-12 md:items-center md:gap-8 lg:gap-10">
+      <div class="md:col-span-8">
         <p class="text-sm text-ink-soft">{site.affiliation}</p>
-        <h1 class="font-display-tight mt-5 text-[clamp(2.75rem,8.2vw,6.5rem)] font-light">
+        <h1 class="font-display-tight mt-4 text-[clamp(2.5rem,6.2vw,4.75rem)] font-light">
           Bahare <span class="italic text-teal">Salehi</span>
         </h1>
-        <p class="mt-5 font-display text-xl text-ink sm:text-2xl">{site.role}</p>
-        <p class="mt-1.5 text-balance text-base text-ink-soft">{site.subtitle}</p>
-        <p class="mt-6 max-w-[34rem] text-[1.05rem] leading-[1.6] text-ink-soft">{site.intro}</p>
-        <ul class="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+        <p class="mt-3 font-display text-xl text-ink sm:text-2xl">{site.role}</p>
+        <p class="mt-4 max-w-[34rem] text-[1.0625rem] leading-[1.6] text-ink-soft">{homeIntro}</p>
+        <ul class="mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
           <li>
             <a href="/projects" class="inline-block border border-teal bg-teal px-6 py-3 text-[0.9375rem] text-paper transition-colors hover:border-teal-deep hover:bg-teal-deep">Explore my work</a>
           </li>
@@ -34,7 +36,7 @@ const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
           </li>
         </ul>
       </div>
-      <div class="lg:col-span-4 lg:col-start-9">
+      <div class="md:col-span-4 lg:col-span-3 lg:col-start-10">
         <ImagePlaceholder
           src={site.portrait.src}
           alt={site.portrait.alt}
@@ -43,39 +45,52 @@ const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
           tone="sage"
           eager
           position="center 20%"
-          class="max-w-[17rem] rounded-[3px] sm:max-w-[20rem] lg:ml-auto lg:max-w-[22rem]"
+          class="max-w-[11rem] rounded-[3px] sm:max-w-[13rem] md:ml-auto md:max-w-[14rem] lg:max-w-[16rem]"
         />
       </div>
     </div>
   </Container>
 
   <!-- Selected work -->
-  <section id="work" aria-labelledby="work-h" class="pt-section-sm">
+  <section id="work" aria-labelledby="work-h" class="pt-12 sm:pt-14 lg:pt-16">
     <Container>
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p class="eyebrow mb-3">From research to real-world applications</p>
-          <h2 id="work-h" class="font-display-tight text-2xl font-light sm:text-[1.9rem]">Selected Work</h2>
-        </div>
+      <div class="flex items-end justify-between gap-4 border-b border-ink pb-3">
+        <h2 id="work-h" class="font-display-tight text-2xl font-light sm:text-[1.9rem]">Selected Work</h2>
         <a href="/projects" class="link-line shrink-0 text-sm">All projects →</a>
       </div>
-      <div class="mt-8 grid gap-6 md:grid-cols-3 md:gap-8 lg:mt-10">
-        {workItems.map((item, i) => <ProjectTile item={item} minimal tone={(['sage', 'warm', 'teal'] as const)[i % 3]} />)}
+      <div class="mt-6 grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
+        {workItems.map((item) => (
+          <a href={item.href} class="group flex flex-col">
+            <div class="overflow-hidden">
+              <div class="transition-transform duration-500 ease-out group-hover:scale-[1.03] [&_span.font-display]:text-base">
+                <ImagePlaceholder src={item.image.src} alt={item.image.alt} label={item.image.placeholderLabel} tone={item.tone} ratio="aspect-[16/10]" />
+              </div>
+            </div>
+            <p class="eyebrow mt-4">{item.label}</p>
+            <h3 class="font-display mt-1.5 text-xl leading-snug transition-colors group-hover:text-teal">{item.title}</h3>
+            <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-soft">{item.summary}</p>
+            <p class="mt-3 text-sm text-ink-soft transition-colors group-hover:text-clay">
+              View project <span aria-hidden="true" class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </p>
+          </a>
+        ))}
       </div>
     </Container>
   </section>
 
   <!-- Expertise -->
-  <section aria-labelledby="expertise-h" class="mt-section-sm bg-paper-deep py-section-sm">
+  <section aria-labelledby="expertise-h" class="mt-12 bg-paper-deep py-10 sm:mt-14 lg:mt-16 lg:py-12">
     <Container>
-      <SectionHeading eyebrow="Expertise" title="Three areas of professional strength" />
-      <h2 id="expertise-h" class="sr-only">Expertise</h2>
-      <ol class="mt-8 grid border-t border-ink md:grid-cols-3 md:gap-10">
+      <div class="border-b border-ink pb-3">
+        <h2 id="expertise-h" class="font-display-tight text-2xl font-light sm:text-[1.9rem]">Expertise</h2>
+      </div>
+      <ol class="mt-6 grid md:grid-cols-3">
         {expertise.map((e, i) => (
-          <li class="border-b border-warm/70 py-6 md:border-b-0">
+          <li class="border-b border-warm/70 py-5 last:border-b-0 md:border-b-0 md:border-l md:py-0 md:pl-6 md:pr-6 md:first:border-l-0 md:first:pl-0 md:last:pr-0">
             <p class="font-display text-sm text-clay" aria-hidden="true">0{i + 1}</p>
-            <h3 class="font-display-tight mt-3 text-xl font-normal" style="line-height:1.15">{e.title}</h3>
-            <p class="mt-3 text-ink-soft">{e.description}</p>
+            <h3 class="font-display-tight mt-1.5 text-lg font-normal leading-snug">{e.title}</h3>
+            <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-soft">{e.description}</p>
+            <p class="mt-3 border-t border-warm/60 pt-3 text-xs leading-relaxed tracking-wide text-ink-soft/80">{e.keywords.join(' · ')}</p>
           </li>
         ))}
       </ol>
@@ -83,20 +98,20 @@ const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
   </section>
 
   <!-- Publications -->
-  <section aria-labelledby="pubs-h" class="pt-section-sm">
+  <section aria-labelledby="pubs-h" class="pt-12 sm:pt-14 lg:pt-16">
     <Container>
-      <div class="flex items-end justify-between gap-4">
+      <div class="flex items-end justify-between gap-4 border-b border-ink pb-3">
         <h2 id="pubs-h" class="font-display-tight text-2xl font-light sm:text-[1.9rem]">Selected publications</h2>
         <a href="/research#publications" class="link-line shrink-0 text-sm">All publications →</a>
       </div>
-      <ol class="mt-8 divide-y divide-warm/70 border-y border-warm/70">
+      <ol class="divide-y divide-warm/70">
         {featuredPubs.map((p) => (
           <li>
-            <a href={`/research#pub-${p.slug}`} class="group grid gap-x-8 gap-y-1 py-4 sm:grid-cols-[4rem_1fr]">
+            <a href={`/research#pub-${p.slug}`} class="group grid gap-x-6 gap-y-0.5 py-3.5 sm:grid-cols-[3.5rem_1fr]">
               <span class="font-display text-clay">{p.year}</span>
               <span>
-                <span class="font-display block text-lg leading-snug transition-colors group-hover:text-teal">{p.title}</span>
-                <span class="mt-0.5 block text-sm text-ink-soft">{p.shortVenue ?? p.venue.split(',')[0]}</span>
+                <span class="font-display block text-[1.0625rem] leading-snug transition-colors group-hover:text-teal">{p.title}</span>
+                <span class="mt-0.5 block text-[0.8125rem] text-ink-soft">{p.shortVenue ?? p.venue.split(',')[0]}</span>
               </span>
             </a>
           </li>
@@ -106,15 +121,15 @@ const featuredPubs = publications.filter((p) => p.featured).slice(0, 3);
   </section>
 
   <!-- Contact -->
-  <section id="contact" aria-labelledby="contact-h" class="mt-section-sm bg-teal py-section-sm text-paper [&_.eyebrow]:!text-sage [&_.link-line]:!text-paper [&_.link-line:hover]:!text-sage [&_dl]:!divide-paper/20 [&_dl]:!border-paper/20">
-    <Container class="grid gap-10 lg:grid-cols-12">
+  <section id="contact" aria-labelledby="contact-h" class="mt-12 bg-teal py-10 text-paper sm:mt-14 lg:mt-16 lg:py-12 [&_.eyebrow]:!text-sage [&_.link-line]:!text-paper [&_.link-line:hover]:!text-sage [&_dl]:!divide-paper/20 [&_dl]:!border-paper/20">
+    <Container class="grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-10">
       <div class="lg:col-span-5">
-        <SectionHeading eyebrow="Contact" title="Get in touch" />
-        <h2 id="contact-h" class="sr-only">Contact</h2>
-        <p class="mt-6 text-sm"><a href="/about#contact" class="link-line">All contact details and CV →</a></p>
+        <h2 id="contact-h" class="font-display-tight text-2xl font-light sm:text-[1.9rem]">Get in touch</h2>
+        <p class="mt-3 max-w-[26rem] text-[0.95rem] leading-relaxed text-paper/85">For collaborations, opportunities, or questions about my work, feel free to reach out.</p>
+        <p class="mt-4 text-sm"><a href="/about#contact" class="link-line">All contact details and CV →</a></p>
       </div>
       <div class="lg:col-span-6 lg:col-start-7">
-        <ContactLinks compact />
+        <ContactLinks compact essential />
       </div>
     </Container>
   </section>

@@ -2,8 +2,8 @@
 import { site } from '~/data/site';
 import Placeholder from './Placeholder.astro';
 
-interface Props { compact?: boolean }
-const { compact = false } = Astro.props;
+interface Props { compact?: boolean; /** Only email and LinkedIn, for short closing blocks. */ essential?: boolean }
+const { compact = false, essential = false } = Astro.props;
 const c = site.contact;
 const emailRows = c.emails.map((e) => ({ label: 'Email', href: null as string | null, text: null as string | null, email: e }));
 const links = [
@@ -17,7 +17,7 @@ const links = [
 ---
 {/* compact: hide entries that have no link yet */}
 <dl class="divide-y divide-warm/70 border-y border-warm/70">
-  {links.filter((l) => !compact || l.href || ('email' in l && l.email)).map((l, i, arr) => (
+  {links.filter((l) => (!compact || l.href || ('email' in l && l.email)) && (!essential || l.label === 'Email' || l.label === 'LinkedIn')).map((l, i, arr) => (
     <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 py-3.5 sm:grid-cols-[11rem_1fr]">
       <dt class="eyebrow">{i > 0 && l.label === arr[i - 1].label ? '' : l.label}</dt>
       <dd>
