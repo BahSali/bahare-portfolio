@@ -13,28 +13,26 @@ interface Props {
   variant?: 'tile' | 'lead';
   /** Small image beside the text on phones (tiles only). */
   compactMobile?: boolean;
-  /** Image beside the text on wider screens, for cards that span two grid columns. */
-  wide?: boolean;
 }
-const { item, tone = 'sage', variant = 'tile', compactMobile = false, wide = false } = Astro.props;
+const { item, tone = 'sage', variant = 'tile', compactMobile = false } = Astro.props;
 const lead = variant === 'lead';
 ---
 <article
   class:list={[
     'group relative flex h-full',
-    lead ? 'flex-col gap-5 bg-paper-deep p-4 sm:p-5 md:flex-row md:items-center md:gap-8' : wide ? 'gap-4 md:flex-row md:items-stretch md:gap-6' : compactMobile ? 'gap-4 md:flex-col md:gap-0' : 'flex-col',
+    lead ? 'flex-col gap-5 bg-paper-deep p-4 sm:p-5 md:flex-row md:items-center md:gap-8' : compactMobile ? 'gap-4 md:flex-col md:gap-0' : 'flex-col',
   ]}
 >
-  <div class:list={['overflow-hidden', lead ? 'md:w-1/3 md:shrink-0' : wide ? 'w-[40%] shrink-0 md:w-[46%]' : compactMobile ? 'w-[40%] shrink-0 md:w-full' : 'w-full']}>
+  <div class:list={['overflow-hidden', lead ? 'md:w-1/3 md:shrink-0' : compactMobile ? 'w-[40%] shrink-0 md:w-full' : 'w-full']}>
     <div class="transition-transform duration-500 ease-out group-hover:scale-[1.03] [&_span.font-display]:text-base max-md:[&_span.font-display]:hidden">
       <ImagePlaceholder src={item.image.src} alt={item.image.alt} label={item.image.placeholderLabel} tone={tone} ratio="aspect-[16/10]" />
     </div>
   </div>
-  <div class:list={['flex min-w-0 flex-1 flex-col', lead ? 'md:py-1' : wide ? 'self-center md:self-stretch' : compactMobile ? 'self-center md:mt-4 md:self-auto' : 'mt-4']}>
+  <div class:list={['flex min-w-0 flex-1 flex-col', lead ? 'md:py-1' : compactMobile ? 'self-center md:mt-4 md:self-auto' : 'mt-4']}>
     <p class="eyebrow">{item.label}</p>
     <h3 class:list={['font-display mt-1.5 leading-snug transition-colors group-hover:text-teal', lead ? 'text-2xl' : 'text-lg sm:text-xl']}>{item.title}</h3>
-    <p class:list={['mt-2 pb-4 leading-relaxed text-ink-soft', lead ? 'max-w-xl text-[0.9375rem]' : 'text-[0.9rem]']}>{item.summary}</p>
-    <p class="mt-auto flex min-h-[2.5rem] flex-wrap items-end gap-x-4 gap-y-2 border-t border-warm/70 pt-3 text-sm">
+    <p class:list={['mt-2 leading-relaxed text-ink-soft', lead ? 'max-w-xl text-[0.9375rem]' : 'text-[0.9rem]']}>{item.summary}</p>
+    <p class="mt-auto flex min-h-[1.75rem] flex-wrap items-end gap-x-4 gap-y-2 pt-3 text-sm">
       <a
         href={item.href}
         aria-label={`View project: ${item.title}`}
