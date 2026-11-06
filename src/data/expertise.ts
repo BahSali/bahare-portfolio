@@ -9,14 +9,14 @@ export const expertise: ExpertiseArea[] = [
   {
     title: 'Machine Learning & Predictive Modeling',
     description:
-      'Developing and evaluating classical and deep learning models, including for spatiotemporal prediction.',
+      'Developing and evaluating classical and deep learning models for spatiotemporal and real-world prediction tasks.',
     keywords: ['Python', 'scikit-learn', 'PyTorch', 'TensorFlow'],
   },
   {
     title: 'Data Processing & Feature Engineering',
     description:
       'Cleaning and integrating data from databases, APIs, and geospatial sources to prepare model-ready datasets.',
-    keywords: ['SQL', 'Pandas', 'Feature Engineering', 'Geospatial Data'],
+    keywords: ['SQL', 'Pandas', 'QGIS', 'Geospatial Data'],
   },
   {
     title: 'Statistical Analysis & Model Evaluation',
