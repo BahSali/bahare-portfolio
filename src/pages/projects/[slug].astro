@@ -119,7 +119,7 @@ const toggle =
         : !project.brief && <p class="max-w-md text-ink-soft lg:col-span-4 lg:col-start-9">{project.summary}</p>}
     </div>
 
-    <dl class:list={["mt-6 grid gap-x-10 gap-y-3 border-y border-warm/70 py-4 text-sm", story || project.brief ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
+    <dl class:list={["mt-5 grid gap-x-10 gap-y-3 text-sm", story || project.brief ? "sm:grid-cols-2" : "sm:grid-cols-3"]}>
       <div><dt class="eyebrow mb-1">Period</dt><dd>{project.period ?? <Placeholder>Period to be added</Placeholder>}</dd></div>
       <div><dt class="eyebrow mb-1">Role</dt><dd>{project.role ?? <Placeholder>Role to be added</Placeholder>}</dd></div>
       {!story && !project.brief && <div>
@@ -135,7 +135,7 @@ const toggle =
     {!story && !project.brief && <ImagePlaceholder src={project.image.src} alt={project.image.alt} label={project.image.placeholderLabel} tone="sage" ratio="aspect-[16/7]" eager class="mt-6" />}
   </Container>
 
-  {!project.brief && <nav aria-label="Sections" class="sticky top-[60px] z-30 mt-8 border-y border-warm/70 bg-paper/95 backdrop-blur-sm">
+  {!project.brief && <nav aria-label="Sections" class="sticky top-[60px] z-30 mt-6 border-b border-warm/70 bg-paper/95 backdrop-blur-sm">
     <Container>
       <ul id="section-nav" class="flex gap-6 overflow-x-auto py-3 text-sm whitespace-nowrap">
         {sections.map((s) => (
@@ -215,14 +215,14 @@ const toggle =
               }
               if (b.kind === 'bullets') {
                 return (
-                  <ul class="divide-y divide-warm/70 border-y border-warm/70">
-                    {b.items.map((t) => <li class="py-2.5 text-[0.9375rem] leading-[1.6]">{t}</li>)}
+                  <ul class="space-y-1.5">
+                    {b.items.map((t) => <li class="text-[0.9375rem] leading-[1.6]">{t}</li>)}
                   </ul>
                 );
               }
               if (b.kind === 'feature') {
                 return (
-                  <div class="grid items-center gap-x-10 gap-y-5 border-t border-warm/70 pt-6 md:grid-cols-2">
+                  <div class="grid items-center gap-x-10 gap-y-5 pt-2 md:grid-cols-2">
                     <div>
                       <h3 class="font-display text-xl" style="line-height:1.25">{b.title}</h3>
                       <p class="mt-3 text-[0.9375rem] leading-[1.7] text-ink-soft">{b.paragraphs[0]}</p>
@@ -264,9 +264,9 @@ const toggle =
               }
               if (b.kind === 'references') {
                 return (
-                  <ul class="divide-y divide-warm/70 border-b border-warm/70 text-sm">
+                  <ul class="space-y-1.5 text-sm">
                     {b.items.map((r) => (
-                      <li class="grid gap-x-4 py-2.5 sm:grid-cols-[9rem_1fr]">
+                      <li class="grid gap-x-4 sm:grid-cols-[9rem_1fr]">
                         <span class="eyebrow pt-0.5">{r.label}</span>
                         <a href={r.href} target="_blank" rel="noopener noreferrer" class="link-line justify-self-start">{r.text}</a>
                       </li>
@@ -285,11 +285,11 @@ const toggle =
                 return (
                   <div class:list={['grid gap-x-8 gap-y-5', b.items.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2']}>
                     {b.items.map((it) => (
-                      <div class="border-t border-warm/70 pt-3">
+                      <div data-column>
                         <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
                         <p class="mt-2 text-justify text-[0.9375rem] leading-[1.65] text-ink-soft hyphens-auto">{it.parts ? it.parts.map((x) => typeof x === 'string' ? x : <>{x.href ? <a href={x.href} class="link-line" {...(x.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{x.text}</a> : x.text}{x.info && <button type="button" data-info={x.info} aria-label={`More about ${x.text}`} class="ml-1 inline-block align-[-1px] text-ink-soft transition-colors hover:text-clay"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.5" /><path d="M8 7.2v4M8 4.9v.1" stroke-linecap="round" /></svg></button>}</>) : it.text}</p>
                         {it.details && (
-                          <details class="group/d mt-3 border-t border-warm/70 pt-2 [&>summary]:flex [&>summary]:cursor-pointer [&>summary]:list-none [&>summary]:items-center [&>summary]:justify-between [&>summary::-webkit-details-marker]:hidden">
+                          <details class="group/d mt-3 [&>summary]:flex [&>summary]:cursor-pointer [&>summary]:list-none [&>summary]:items-center [&>summary]:justify-between [&>summary::-webkit-details-marker]:hidden">
                             <summary class="text-sm text-ink-soft transition-colors hover:text-clay"><span>{it.details.summary}</span><span aria-hidden="true" class="transition-transform group-open/d:rotate-45">+</span></summary>
                             <div class="mt-3 space-y-3">
                               {it.details.items.map((d) => (
@@ -383,9 +383,9 @@ const toggle =
               }
               if (b.kind === 'rows') {
                 return (
-                  <ol class:list={[!b.noTopRule && 'border-t border-ink']}>
+                  <ol>
                     {b.items.map((it, i) => (
-                      <li class="grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
+                      <li class="grid gap-x-8 gap-y-1.5 py-3 md:grid-cols-12">
                         <div class="flex items-baseline gap-3 md:col-span-5">
                           <span class="font-display text-sm text-clay">0{i + 1}</span>
                           <h3 class="font-display text-lg" style="line-height:1.25">{it.label}</h3>
@@ -450,7 +450,7 @@ const toggle =
         {related.length > 0 && (
           <section id="publications">
             <h2 class="eyebrow mb-3">Publications</h2>
-            <ul class="divide-y divide-warm/70 border-y border-warm/70 text-sm">
+            <ul class="space-y-2 text-sm">
               {related.map((pb) => (
                 <li class="py-2.5">
                   <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[6rem_1fr]">
@@ -607,7 +607,7 @@ const toggle =
 <script>
   document.querySelectorAll<HTMLButtonElement>('[data-info]').forEach((btn) =>
     btn.addEventListener('click', () => {
-      const col = btn.closest('div.border-t');
+      const col = btn.closest('[data-column]');
       const details = col?.querySelector('details');
       if (!details) return;
       details.open = true;

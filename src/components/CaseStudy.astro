@@ -35,7 +35,7 @@ const archBig = await Promise.all(story.architectures.map(async (a) => ({
   big: (await getImage({ src: a.src, width: Math.min(a.src.width, 2000), format: 'png' })).src,
 })));
 
-const band = 'scroll-mt-28 border-t border-ink/25';
+const band = 'scroll-mt-28';
 const tint = 'bg-[#dbe2d3]';
 const pad = 'py-8 sm:py-12';
 const h2 = 'font-display-tight mb-4 text-2xl font-light sm:text-[1.9rem]';
@@ -67,7 +67,7 @@ const h3 = 'font-display text-lg';
         </figure>
       )}
     </div>
-    <dl class="mt-6 grid gap-4 border-y border-warm/70 py-4 sm:grid-cols-3 sm:gap-8">
+    <dl class="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-8">
       {story.facts.map((f) => (
         <div>
           <dt class="font-display text-lg text-teal sm:text-xl">{f.value}</dt>
@@ -82,9 +82,9 @@ const h3 = 'font-display text-lg';
 <section id="methods" class:list={[band, tint]}>
   <Container class={pad}>
     <h2 class={h2}>Technical Experience</h2>
-    <ol class="border-t border-ink">
+    <ol>
       {story.workflow.map((w, i) => (
-        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 border-b border-warm/70 py-4 last:border-b-0 md:grid-cols-12">
+        <li id={w.title.startsWith('Model Transfer') ? 'current-research' : undefined} class="scroll-mt-28 grid gap-x-8 gap-y-1.5 py-3 md:grid-cols-12">
           <div class="flex items-baseline gap-3 md:col-span-4">
             <span class="font-display text-sm text-clay">0{i + 1}</span>
             <h3 class="font-display text-lg" style="line-height:1.25">{w.title}</h3>
@@ -98,7 +98,7 @@ const h3 = 'font-display text-lg';
       ))}
     </ol>
 
-    <div id="model-development" class="mt-10 scroll-mt-28 border-t border-ink/30 pt-5">
+    <div id="model-development" class="mt-10 scroll-mt-28">
       <h3 class={`${h3} mb-1`}>Model Evolution</h3>
       <p class="mb-3 max-w-[44rem] text-sm leading-snug text-ink-soft">A progression of spatiotemporal architectures developed to address missing traffic data, bus-based traffic estimation, and the challenges of citywide modeling.</p>
       <div role="tablist" aria-label="Model architectures" class="mb-4 flex gap-1.5 overflow-x-auto pb-1">
@@ -163,9 +163,9 @@ const h3 = 'font-display text-lg';
         <div class="lg:col-span-6 lg:col-start-6">
           <p class="eyebrow mb-2">Traffic Analytics Platform</p>
           <p class="text-[0.9375rem] leading-relaxed">An interactive Streamlit application for estimating and comparing urban traffic speeds using real-time bus observations.</p>
-          <ul class="mt-4 divide-y divide-warm/70 border-y border-warm/70">
+          <ul class="mt-4 space-y-3">
             {app.features.map((f) => (
-              <li class="py-2.5"><p class="font-display text-base">{f.title}</p><p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{f.text}</p></li>
+              <li><p class="font-display text-base">{f.title}</p><p class="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{f.text}</p></li>
             ))}
           </ul>
           {(app.video ? shots : shots.slice(1)).map((sh) => (
@@ -280,7 +280,7 @@ const h3 = 'font-display text-lg';
                   </dl>
                 )
                 : (
-                  <dl class="divide-y divide-warm/60 border-y border-warm/60 text-[0.8125rem]">
+                  <dl class="text-[0.8125rem]">
                     {d.overview.map((o) => (
                       <div class="grid grid-cols-[6.5rem_1fr] gap-3 py-2">
                         <dt class="eyebrow !text-[0.6875rem] pt-0.5">{o.label}</dt>
@@ -407,7 +407,7 @@ const h3 = 'font-display text-lg';
 <section id="publications" class:list={[band, tint]}>
   <Container class={pad}>
     <h2 class={h2}>Publications</h2>
-    <ul class="divide-y divide-warm/70 border-y border-warm/70">
+    <ul class="space-y-1">
       {refs.map((p) => (
         <li>
           <a href={`/research#pub-${p.slug}`} class="group grid items-baseline gap-x-5 gap-y-0.5 py-3 transition-colors hover:text-teal sm:grid-cols-[3rem_9.5rem_1fr]">
