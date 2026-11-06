@@ -83,6 +83,15 @@ const inline = (t: string) =>
 const related = publications.filter(
   (p) => project.publications.includes(p.slug) || p.projects?.includes(project.slug),
 );
+
+// Section menu and row style for the single-page layout (no `sections`), matching the other project pages.
+const simpleNav: (readonly [string, string])[] = [
+  ['Overview', '#overview'],
+  ...(project.brief?.contribution.length ? [['My Contribution', '#contribution'] as const] : []),
+  ...(project.brief ? [[project.brief.areaTitle, '#technical-areas'] as const] : []),
+  ...(related.length ? [['Publications', '#publications'] as const] : []),
+];
+const simpleRow = 'grid scroll-mt-28 gap-x-10 gap-y-4 border-t border-warm/70 py-7 lg:grid-cols-12';
 const context = timelineItems.filter((i) => i.projects.includes(project.slug));
 
 const sections = story
@@ -106,7 +115,7 @@ const row = 'grid scroll-mt-28 gap-3 border-t border-warm/70 py-8 lg:grid-cols-1
 const toggle =
   'group/d border-t border-warm/70 py-3 [&>summary]:flex [&>summary]:cursor-pointer [&>summary]:list-none [&>summary]:items-center [&>summary]:justify-between [&>summary::-webkit-details-marker]:hidden';
 ---
-<BaseLayout tightFooter={!!story} title={project.headline ?? project.title} description={project.subtitle ? `${project.headline}. ${project.subtitle}.` : project.summary}>
+<BaseLayout tightFooter={!!story || !!project.brief} title={project.headline ?? project.title} description={project.subtitle ? `${project.headline}. ${project.subtitle}.` : project.summary}>
   <Container class="pt-8 sm:pt-10">
     <p class="text-sm"><a href="/projects" class="link-line">← All projects</a></p>
     <div class="mt-6 grid gap-4 lg:grid-cols-12 lg:gap-10">
@@ -419,52 +428,21 @@ const toggle =
   )}
 
   {project.brief && !project.brief.sections && (
-    <Container class="pb-10 pt-2">
-      <div class="grid gap-x-12 gap-y-8 pt-8 lg:grid-cols-12">
-      <div class="max-w-[42rem] space-y-8 lg:col-span-7">
-        <section id="overview">
-          <h2 class="eyebrow mb-3">Overview</h2>
-          <div class="space-y-3 text-base leading-[1.7]">{project.brief.overview.length ? project.brief.overview.map((t) => <p>{t}</p>) : <p class="text-ink-soft"><Placeholder>Overview to be added</Placeholder></p>}</div>
-        </section>
-        {project.brief.contribution.length > 0 && (
-          <section id="contribution">
-            <h2 class="eyebrow mb-3">My Contribution</h2>
-            <div class="space-y-3 text-base leading-[1.7]">{project.brief.contribution.map((t) => <p>{t}</p>)}</div>
-          </section>
-        )}
-        {project.brief.extra?.map((ex) => (
-          <section>
-            <h2 class="eyebrow mb-3">{ex.title}</h2>
-            <ul class="space-y-2.5 text-base leading-[1.65]">
-              {ex.lines.map((l) => <li>{l.label && <span class="font-display mr-1.5">{l.label}:</span>}{l.text}</li>)}
-            </ul>
-          </section>
-        ))}
-        {project.links.length > 0 && (
-          <p class="text-sm">{project.links.map((l) => <a href={l.href} class="link-line">{l.label}</a>)}</p>
-        )}
-        <section id="technical-areas">
-          <h2 class="eyebrow mb-3">{project.brief.areaTitle}</h2>
-          <p class="text-sm text-ink-soft">{project.brief.areas.length ? project.brief.areas.join(' · ') : <Placeholder>Skills to be added</Placeholder>}</p>
-        </section>
-        {related.length > 0 && (
-          <section id="publications">
-            <h2 class="eyebrow mb-3">Publications</h2>
-            <ul class="divide-y divide-warm/50 text-sm">
-              {related.map((pb) => (
-                <li class="py-2.5">
-                  <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[6rem_1fr]">
-                    <span class="eyebrow whitespace-nowrap pt-0.5">{pb.shortVenue ?? pb.venue.split(',')[0]}</span>
-                    <span class="font-display leading-snug transition-colors group-hover:text-teal">{pb.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-      </div>
+    <>
+      <SectionNav items={simpleNav} />
+      <Container class="pb-10 pt-2">
+        <section id="overview" class="grid scroll-mt-28 gap-x-10 gap-y-4 py-7 first:mt-2 lg:grid-cols-12">
+          <h2 class="eyebrow lg:col-span-2 lg:pt-1">Overview</h2>
+          <div class="grid gap-x-10 gap-y-6 lg:col-span-10 lg:grid-cols-10">
+            <div class="max-w-[42rem] space-y-3 text-base leading-[1.7] lg:col-span-6">
+              {project.brief.overview.length ? project.brief.overview.map((t) => <p>{t}</p>) : <p class="text-ink-soft"><Placeholder>Overview to be added</Placeholder></p>}
+              {project.links.length > 0 && (
+                <p class="text-sm">{project.links.map((l) => <a href={l.href} class="link-line">{l.label}</a>)}</p>
+              )}
+            </div>
+            <div class="space-y-4 lg:col-span-4">
       {briefFigs.length > 0 && (
-        <div class="space-y-4 lg:col-span-5">
+        <div class="space-y-4">
           {briefFigs.map((f) => (
             <figure>
               <button type="button" data-lightbox={f.big} data-alt={f.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-paper" aria-label="Enlarge figure">
@@ -476,15 +454,51 @@ const toggle =
         </div>
       )}
       {project.brief.figure && (
-        <figure class="lg:col-span-5">
+        <figure>
           {project.brief.figure.src
             ? <button type="button" data-lightbox={briefBig} data-alt={project.brief.figure.alt} class="group block w-full cursor-zoom-in border border-warm/70 bg-white" aria-label="Enlarge figure"><Image src={project.brief.figure.src} alt={project.brief.figure.alt} format="png" quality="high" width={640} class="h-auto w-full p-1.5 transition-opacity group-hover:opacity-90" loading="lazy" /></button>
             : <ImagePlaceholder src={null} alt={project.brief.figure.alt} label={project.brief.figure.placeholderLabel} tone="sage" ratio="aspect-[4/3]" />}
           <figcaption class="mt-2 text-xs leading-snug text-ink-soft">{project.brief.figure.caption} <button type="button" data-lightbox={briefBig} data-alt={project.brief.figure.alt} class="underline underline-offset-4 hover:text-clay">Enlarge figure</button></figcaption>
         </figure>
       )}
-      </div>
-    </Container>
+            </div>
+          </div>
+        </section>
+        {project.brief.contribution.length > 0 && (
+          <section id="contribution" class={simpleRow}>
+            <h2 class="eyebrow lg:col-span-2 lg:pt-1">My Contribution</h2>
+            <div class="max-w-[42rem] space-y-3 text-base leading-[1.7] lg:col-span-10">{project.brief.contribution.map((t) => <p>{t}</p>)}</div>
+          </section>
+        )}
+        {project.brief.extra?.map((ex) => (
+          <section class={simpleRow}>
+            <h2 class="eyebrow lg:col-span-2 lg:pt-1">{ex.title}</h2>
+            <ul class="max-w-[42rem] space-y-2.5 text-base leading-[1.65] lg:col-span-10">
+              {ex.lines.map((l) => <li>{l.label && <span class="font-display mr-1.5">{l.label}:</span>}{l.text}</li>)}
+            </ul>
+          </section>
+        ))}
+        <section id="technical-areas" class={simpleRow}>
+          <h2 class="eyebrow lg:col-span-2 lg:pt-1">{project.brief.areaTitle}</h2>
+          <p class="text-sm text-ink-soft lg:col-span-10">{project.brief.areas.length ? project.brief.areas.join(' · ') : <Placeholder>Skills to be added</Placeholder>}</p>
+        </section>
+        {related.length > 0 && (
+          <section id="publications" class={simpleRow}>
+            <h2 class="eyebrow lg:col-span-2 lg:pt-1">Publications</h2>
+            <ul class="divide-y divide-warm/50 text-sm lg:col-span-10">
+              {related.map((pb) => (
+                <li class="py-2.5 first:pt-0">
+                  <a href={`/research#pub-${pb.slug}`} class="group grid gap-x-4 sm:grid-cols-[6rem_1fr]">
+                    <span class="eyebrow whitespace-nowrap pt-0.5">{pb.shortVenue ?? pb.venue.split(',')[0]}</span>
+                    <span class="font-display leading-snug transition-colors group-hover:text-teal">{pb.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </Container>
+    </>
   )}
 
   {story && <CaseStudy project={project} story={story} />}
