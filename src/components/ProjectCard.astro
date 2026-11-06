@@ -30,9 +30,9 @@ const lead = variant === 'lead';
   </div>
   <div class:list={['flex min-w-0 flex-1 flex-col', lead ? 'md:py-1' : compactMobile ? 'self-center md:mt-4 md:self-auto' : 'mt-4']}>
     <p class="eyebrow">{item.label}</p>
-    <h3 class:list={['font-display mt-1.5 leading-snug transition-colors group-hover:text-teal', lead ? 'text-2xl' : 'text-lg sm:text-xl md:min-h-[3.25rem]']}>{item.title}</h3>
-    <p class:list={['mt-2 pb-4 leading-relaxed text-ink-soft', lead ? 'max-w-xl text-[0.9375rem]' : 'text-[0.9rem]']}>{item.summary}</p>
-    <p class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-4 text-sm">
+    <h3 class:list={['font-display mt-1.5 leading-snug transition-colors group-hover:text-teal', lead ? 'text-2xl' : 'text-lg sm:text-xl']}>{item.title}</h3>
+    <p class:list={['mt-2 leading-relaxed text-ink-soft', lead ? 'max-w-xl text-[0.9375rem]' : 'text-[0.9rem]']}>{item.summary}</p>
+    <p class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-3 text-sm">
       <a
         href={item.href}
         aria-label={`View project: ${item.title}`}
