@@ -31,7 +31,7 @@ const withBig = await Promise.all(
               <p class="eyebrow mt-2">{e.kind}</p>
               {e.location && <p class="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{e.location}</p>}
             </div>
-            <div class="grid gap-x-8 gap-y-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-start">
+            <div class="grid gap-x-8 gap-y-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,16rem)] lg:items-start">
               <div>
                 <h3 class="font-display text-xl" style="line-height:1.25">{e.title}</h3>
                 {e.subtitle && <p class="mt-1 text-sm italic leading-snug text-ink-soft">{e.subtitle}</p>}
@@ -41,7 +41,7 @@ const withBig = await Promise.all(
               <ul class:list={['grid gap-1.5', n === 1 ? 'grid-cols-1' : 'grid-cols-3 grid-rows-2']}>
                 {e.photos.slice(0, 3).map((p, i) => (
                   <li class:list={[n >= 3 && i === 0 && 'col-span-2 row-span-2', n === 2 && 'col-span-3 row-span-1 first:col-span-2']}>
-                    <button type="button" data-lightbox={p.big} data-alt={p.alt} class:list={['group relative block w-full cursor-zoom-in overflow-hidden bg-paper-deep', n === 1 ? 'aspect-[3/2]' : n >= 3 ? 'aspect-auto h-full min-h-[5.5rem]' : 'aspect-[4/3]']} aria-label={`Enlarge photo: ${p.alt}`}>
+                    <button type="button" data-lightbox={p.big} data-alt={p.alt} class:list={['group relative block w-full cursor-zoom-in overflow-hidden bg-paper-deep', n === 1 ? 'aspect-[3/2]' : n >= 3 ? 'aspect-auto h-full min-h-[4.25rem]' : 'aspect-[4/3]']} aria-label={`Enlarge photo: ${p.alt}`}>
                       <Image src={p.src} alt={p.alt} width={n >= 3 && i === 0 ? 700 : 420} height={n >= 3 && i === 0 ? 525 : 315} class="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.04]" loading="lazy" />
                       <span aria-hidden="true" class="absolute inset-0 bg-ink/0 transition-colors duration-300 group-hover:bg-ink/10"></span>
                     </button>

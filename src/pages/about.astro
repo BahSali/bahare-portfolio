@@ -3,6 +3,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/Container.astro';
 import ImagePlaceholder from '~/components/ImagePlaceholder.astro';
 import ContactLinks from '~/components/ContactLinks.astro';
+import CvButton from '~/components/CvButton.astro';
 import { site } from '~/data/site';
 import { about } from '~/data/about';
 import { education } from '~/data/education';
@@ -22,6 +23,7 @@ const heading = 'font-display-tight text-xl font-light lg:col-span-2 lg:text-2xl
     <div class="grid gap-8 md:grid-cols-12 md:items-start md:gap-10">
       <div class="space-y-4 text-[1.0625rem] leading-[1.7] md:col-span-8 lg:col-span-7">
         {about.intro.map((p) => <p>{p}</p>)}
+        <p class="!mt-6"><CvButton /></p>
       </div>
       <div class="md:col-span-4 md:col-start-9 lg:col-span-3 lg:col-start-10">
         <ImagePlaceholder src={site.portrait.src} alt={site.portrait.alt} label={site.portrait.placeholderLabel} ratio="aspect-[4/5]" position="center 20%" class="max-w-[11rem] rounded-[3px] sm:max-w-[13rem] md:ml-auto md:max-w-[15rem]" />
@@ -36,12 +38,13 @@ const heading = 'font-display-tight text-xl font-light lg:col-span-2 lg:text-2xl
           <h2 id="education-h" class={heading}>Education</h2>
           <ul class="grid gap-x-8 gap-y-6 sm:grid-cols-3 lg:col-span-10">
             {studies.map((e) => (
-              <li>
+              <li class="flex flex-col">
                 <p class="text-sm tabular-nums text-clay">{formatPeriod(e)}</p>
                 <p class="font-display mt-1 text-lg" style="line-height:1.25">{e.title}</p>
                 <p class="mt-1 text-sm text-ink-soft">{e.institution}</p>
                 {e.field && <p class="text-sm text-ink-soft">{e.field}</p>}
                 {(e.thesis || e.achievement) && <p class="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">{[e.thesis, e.achievement].filter(Boolean).join(' · ')}</p>}
+                {e.projects[0] && <p class="mt-auto pt-2 text-sm"><a href={`/projects/${e.projects[0]}`} class="link-line">View project →</a></p>}
               </li>
             ))}
           </ul>
