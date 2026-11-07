@@ -26,7 +26,7 @@ export const site = {
       { label: 'ULB', code: 'ZWIuYmx1QGVyYWhhYi5paGVsYXM=' },
       { label: 'Personal', code: 'bW9jLmxpYW1nQHJhYWhhYi5paGVsYXM=' },
     ] as { label: string; code: string }[],
-    cvUrl: null as string | null, // e.g. '/cv/bahare-salehi-cv.pdf' (place the file in /public/cv/)
+    cvUrl: '/cv/bahare-salehi-cv.pdf' as string | null, // file in /public/cv/
     linkedin: 'https://www.linkedin.com/in/bahare-salehi-b5765ab0/' as string | null,
     github: null as string | null,
     scholar: 'https://scholar.google.com/citations?user=nGRGWH8AAAAJ&hl=en&oi=ao' as string | null,
