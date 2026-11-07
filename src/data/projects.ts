@@ -734,7 +734,7 @@ export const projects: Project[] = [
   {
     ...empty,
     slug: 'enterprise-data-erp',
-    title: 'ERP Customization & Business Process Development',
+    title: 'ERP Process Analysis & Customization',
     category: 'industry',
     tier: 'standard',
     homeFeatured: false,
