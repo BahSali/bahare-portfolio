@@ -19,7 +19,7 @@ import presenting from '~/assets/events/future-ready-presenting.jpg';
 import group from '~/assets/events/future-ready-group.jpg';
 import panel from '~/assets/events/future-ready-panel.jpg';
 
-export type EventKind = 'Presentation' | 'Demonstration' | 'Participation' | 'Organization';
+export type EventKind = 'Presentation' | 'Demonstration' | 'Participation' | 'Organization' | 'Conference Organization' | 'Project Meetings';
 
 export interface EventPhoto { src: ImageMetadata; alt: string }
 
@@ -39,13 +39,12 @@ export interface ResearchEvent {
 
 export const events: ResearchEvent[] = [
   {
-    title: 'European Big Data Value Forum 2025 (EBDVF)',
-    subtitle: 'Shaping the Future of Extreme-scale Urban Mobility Data Analytics as a Service: The EMERALDS approach',
+    title: 'European Big Data Value Forum 2025',
     kind: 'Presentation',
     year: 2025,
-    location: 'Copenhagen, Denmark',
+    location: 'Copenhagen',
     involvement:
-      'Speaker in the EMERALDS final-event session on 13 November, presenting ULB’s traffic estimation work to the project partners and the forum audience.',
+      'Presented ULB’s work on data fusion, compression, and traffic estimation during the EMERALDS final-event session at EBDVF 2025.',
     photos: [
       { src: ebdvfPresenting, alt: 'Presenting ULB’s York traffic estimation case to the session audience' },
       { src: ebdvfGroup, alt: 'The EMERALDS session speakers and partners in front of the title slide of the final event' },
@@ -54,13 +53,12 @@ export const events: ResearchEvent[] = [
     link: { label: 'EBDVF 2025', href: 'https://ebdvf.eu' },
   },
   {
-    title: 'Future-Ready: On-Demand Solutions with AI, Data, and Robotics',
-    subtitle: 'Birds of a Feather Workshops: AI, Data & Robotics at Work',
+    title: 'Future-Ready: AI, Data and Robotics',
     kind: 'Presentation',
     year: 2025,
-    location: 'Brussels, Belgium',
+    location: 'Brussels',
     involvement:
-      'Speaker for the EMERALDS project in a joint session with the EXTRACT, Graph-Massivizer, NEARDATA and SYCLOPS projects, organized by AI on Demand and the Adra association (18–19 February, Sparks Meeting).',
+      'Presented the EMERALDS project in a joint session on AI, data, and robotics alongside other European research projects.',
     photos: [
       { src: presenting, alt: 'Presenting the EMERALDS project goals at the lectern, with the other panelists seated behind' },
       { src: group, alt: 'The session speakers standing together on stage in front of the Future-Ready title slide' },
@@ -68,23 +66,22 @@ export const events: ResearchEvent[] = [
     ],
   },
   {
-    title: 'IEEE International Conference on Mobile Data Management (MDM 2024)',
-    kind: 'Organization',
+    title: 'IEEE MDM 2024',
+    kind: 'Conference Organization',
     year: 2024,
-    location: 'Brussels, Belgium',
-    involvement: 'Local and Financial Organization Chair of MDM 2024, hosted in Brussels.',
+    location: 'Brussels',
+    involvement: 'Served as Local and Financial Organization Chair for IEEE MDM 2024 in Brussels.',
     photos: [
       { src: mdmGroup, alt: 'Group photo of the MDM 2024 participants on the Grand Place in Brussels' },
     ],
     link: { label: 'MDM 2024 website', href: 'https://mdm2024.github.io' },
   },
   {
-    title: 'EMERALDS 2nd Plenary Meeting',
-    kind: 'Participation',
-    year: 2023,
-    location: 'Delft, Netherlands',
+    title: 'EMERALDS General Assembly Meetings',
+    kind: 'Project Meetings',
+    location: 'Europe',
     involvement:
-      'Took part in the consortium’s second physical plenary meeting, held on 12 December, on the toolset, platform and use-case validation. Photo: INLECOM.',
+      'Participated in EMERALDS General Assembly meetings, presenting ULB’s work and discussing project progress with consortium partners.',
     photos: [
       { src: plenary, alt: 'EMERALDS consortium members on a staircase next to the project roll-up banner at the second plenary meeting in Delft' },
     ],
