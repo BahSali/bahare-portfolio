@@ -17,7 +17,7 @@ const anchors = [
 // Each section is a full-width band; alternating tints separate them instead of rules.
 const band = (tint: boolean) => ['scroll-mt-28 py-10 sm:py-12', tint && 'bg-paper-deep'];
 const grid = 'grid gap-x-10 gap-y-5 lg:grid-cols-12';
-const heading = 'font-display-tight text-xl font-light lg:col-span-3 lg:text-2xl';
+const heading = 'font-display-tight text-xl font-light lg:col-span-2 lg:text-2xl';
 ---
 <BaseLayout tightFooter title="Papers & Talks" description="Event highlights and publications.">
   <Container class="pt-8 sm:pt-10">
@@ -29,20 +29,20 @@ const heading = 'font-display-tight text-xl font-light lg:col-span-3 lg:text-2xl
   <section id="events" class:list={band(false)}>
     <Container class={grid}>
       <h2 class={heading}>Event Highlights</h2>
-      <div class="lg:col-span-9"><EventGallery events={events} /></div>
+      <div class="lg:col-span-10"><EventGallery events={events} /></div>
     </Container>
   </section>
 
   <section id="publications" class:list={[...band(true), '']}>
     <Container class={grid}>
       <h2 class={heading}>Publications</h2>
-      <div class="space-y-8 lg:col-span-9">
+      <div class="space-y-5 lg:col-span-10">
         {publications.length === 0
           ? <PlaceholderBlock>Publication list to be added in src/data/publications.ts</PlaceholderBlock>
           : years.map((y) => (
-              <div class="grid gap-x-6 gap-y-2 sm:grid-cols-[3.5rem_1fr]">
+              <div class="grid gap-x-6 gap-y-2 border-t border-ink/10 pt-5 first:border-t-0 first:pt-0 sm:grid-cols-[3.5rem_1fr]">
                 <h3 class="font-display text-xl text-clay" style="line-height:1.2">{y}</h3>
-                <ol class="space-y-6">
+                <ol class="divide-y divide-ink/10">
                   {byYear.filter((p) => p.year === y).map((p) => <PublicationRow publication={p} showType hideYear />)}
                 </ol>
               </div>
