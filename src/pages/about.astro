@@ -36,12 +36,13 @@ const heading = 'font-display-tight text-xl font-light lg:col-span-2 lg:text-2xl
           <h2 id="education-h" class={heading}>Education</h2>
           <ul class="grid gap-x-8 gap-y-6 sm:grid-cols-3 lg:col-span-10">
             {studies.map((e) => (
-              <li>
+              <li class="flex flex-col">
                 <p class="text-sm tabular-nums text-clay">{formatPeriod(e)}</p>
                 <p class="font-display mt-1 text-lg" style="line-height:1.25">{e.title}</p>
                 <p class="mt-1 text-sm text-ink-soft">{e.institution}</p>
                 {e.field && <p class="text-sm text-ink-soft">{e.field}</p>}
                 {(e.thesis || e.achievement) && <p class="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">{[e.thesis, e.achievement].filter(Boolean).join(' · ')}</p>}
+                {e.projects[0] && <p class="mt-auto pt-2 text-sm"><a href={`/projects/${e.projects[0]}`} class="link-line">View project →</a></p>}
               </li>
             ))}
           </ul>
