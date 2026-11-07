@@ -1,0 +1,12 @@
+---
+import { site } from '~/data/site';
+
+/** "Download CV" button. Stays visibly inactive until `site.contact.cvUrl` points to a file in /public. */
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+const url = site.contact.cvUrl;
+const base = 'inline-block border border-teal px-6 py-3 text-[0.9375rem] transition-colors';
+---
+{url
+  ? <a href={url} download class:list={[base, 'bg-teal text-paper hover:border-teal-deep hover:bg-teal-deep', className]}>Download CV</a>
+  : <span role="link" aria-disabled="true" title="CV coming soon" class:list={[base, 'cursor-not-allowed border-teal/40 bg-teal/10 text-teal/60', className]}>Download CV</span>}
