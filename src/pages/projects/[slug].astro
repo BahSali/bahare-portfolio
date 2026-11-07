@@ -144,21 +144,7 @@ const toggle =
     {!story && !project.brief && <ImagePlaceholder src={project.image.src} alt={project.image.alt} label={project.image.placeholderLabel} tone="sage" ratio="aspect-[16/7]" eager class="mt-6" />}
   </Container>
 
-  {!project.brief && <nav aria-label="Sections" class="sticky top-[60px] z-30 mt-6 border-b border-warm/70 bg-paper/95 backdrop-blur-sm">
-    <Container>
-      <ul id="section-nav" class="flex gap-6 overflow-x-auto py-3 text-sm whitespace-nowrap">
-        {sections.map((s) => (
-          <li>
-            <a
-              href={`#${s.id}`}
-              data-text={s.label}
-              class="inline-flex flex-col text-ink-soft transition-colors after:invisible after:h-0 after:overflow-hidden after:font-semibold after:content-[attr(data-text)] hover:text-clay aria-[current=true]:font-semibold aria-[current=true]:text-ink"
-            >{s.label}</a>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </nav>}
+  {!project.brief && <SectionNav items={sections.map((x) => [x.label, `#${x.id}`] as const)} />}
 
   {project.brief?.sections && <SectionNav items={project.brief.sections.map((sec) => [sec.title, `#${sec.id}`] as const)} />}
 

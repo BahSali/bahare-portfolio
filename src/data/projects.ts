@@ -173,7 +173,7 @@ export const projects: Project[] = [
     ...empty,
     slug: 'traffic-speed-estimation',
     title: 'Citywide Traffic Speed Estimation',
-    eyebrow: 'PhD Research | Université libre de Bruxelles',
+    eyebrow: 'PhD Research · Université libre de Bruxelles',
     funding: 'Funded under EMERALDS · Horizon Europe',
     headline: 'From Incomplete Traffic Data to Citywide Traffic Estimation',
     subtitle: 'Machine Learning · Spatiotemporal Modeling · Real-World Data',
