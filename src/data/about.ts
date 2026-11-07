@@ -1,9 +1,8 @@
 /** About page copy. Edit freely; paragraphs render in order. */
 export const about = {
   intro: [
-    'I’m a PhD researcher in Computer Engineering at Université libre de Bruxelles. My work focuses on machine learning with real-world data, particularly estimating urban traffic conditions from incomplete observations.',
-    'My research involves working across data integration, model development, evaluation, and visualization, including building interactive tools to explore the results. My background combines academic research with industrial experience in enterprise databases and ERP systems.',
-    'Before my PhD, I worked on mathematical and multi-objective optimization, algorithm development and computational experimentation. That foundation shapes my current machine learning and spatiotemporal data work: framing problems carefully, building methods step by step and evaluating them rigorously.',
+    'I’m a final-year PhD researcher in Computer Engineering at Université libre de Bruxelles. My work focuses on making sense of complex, real-world data through machine learning, time-series analysis, and spatiotemporal modeling. In my current research, I use observations from public buses to estimate traffic speeds across a city, combining data integration, predictive modeling, and signal processing.',
+    'My background also includes optimization research and hands-on experience with enterprise data systems. Working across these areas has taught me to look at problems from different angles, question assumptions, and explore alternative approaches. I enjoy figuring out why something works, where it falls short, and how to make it better.',
   ],
   /** Longer biography; shown as a placeholder while null. */
   biography: null as string | null,

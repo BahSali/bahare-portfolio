@@ -11,6 +11,7 @@ import { formatPeriod } from '~/lib/timeline';
 // Entries without an institution or dates are left out until they are filled in.
 const studies = [...education].reverse().filter((e) => e.institution || e.start);
 const row = 'grid scroll-mt-24 gap-x-10 gap-y-4 lg:grid-cols-12';
+const heading = 'font-display-tight text-xl font-light lg:col-span-2 lg:text-2xl';
 ---
 <BaseLayout tightFooter title="About" description="A short introduction, education and contact details.">
   <Container class="pt-8 sm:pt-10">
@@ -30,9 +31,9 @@ const row = 'grid scroll-mt-24 gap-x-10 gap-y-4 lg:grid-cols-12';
 
   <section id="education" aria-labelledby="education-h" class="mt-12 sm:mt-14">
     <Container>
-      <div class="border-t border-warm/70 pt-8">
+      <div class="border-t border-warm/70 pt-10">
         <div class={row}>
-          <h2 id="education-h" class="eyebrow lg:col-span-2 lg:pt-1">Education</h2>
+          <h2 id="education-h" class={heading}>Education</h2>
           <ul class="grid gap-x-8 gap-y-6 sm:grid-cols-3 lg:col-span-10">
             {studies.map((e) => (
               <li>
@@ -50,11 +51,11 @@ const row = 'grid scroll-mt-24 gap-x-10 gap-y-4 lg:grid-cols-12';
     </Container>
   </section>
 
-  <section id="contact" aria-labelledby="contact-h" class="mt-12 bg-teal py-10 text-paper sm:mt-14 lg:py-12 [&_.eyebrow]:!text-sage [&_.link-line]:!text-paper [&_.link-line:hover]:!text-sage [&_dl]:!divide-paper/20 [&_dl]:!border-paper/20">
+  <section id="contact" aria-labelledby="contact-h" class="mt-12 bg-teal py-10 text-paper sm:mt-14 lg:py-12 [&_.eyebrow]:!text-sage [&_.link-line]:!text-paper [&_.link-line:hover]:!text-sage [&_dl]:!divide-paper/20 [&_dl]:!border-y-0">
     <Container>
       <div class={row}>
-        <h2 id="contact-h" class="eyebrow lg:col-span-2 lg:pt-1">Contact</h2>
-        <div class="lg:col-span-10 lg:max-w-[40rem]"><ContactLinks compact /></div>
+        <h2 id="contact-h" class={heading}>Contact</h2>
+        <div class="lg:col-span-10"><ContactLinks compact /></div>
       </div>
     </Container>
   </section>
